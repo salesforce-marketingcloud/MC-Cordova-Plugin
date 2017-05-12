@@ -1,0 +1,27 @@
+allprojects {
+    repositories {
+        maven { url "http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/repository" }
+    }
+}
+
+dependencies {
+    /* SDK */
+    compile('com.exacttarget.etpushsdk:etsdk:4.8.5@aar') {
+        exclude module: 'android-beacon-library'
+        transitive = true;
+    }
+    compile "com.google.android.gms:play-services-gcm:9.2.0"
+    // 3rd Party Libraries Required for SDK integration of Beacons
+    // compile 'org.altbeacon:android-beacon-library:2.7@aar' // Uncomment ONLY if your organization has been selected for the Beacon Beta Test AND you're using Beacons in your code
+}
+
+
+ext.postBuildExtras = {
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+        }
+    }
+}
+
