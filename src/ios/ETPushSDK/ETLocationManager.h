@@ -20,10 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef NS_ENUM(NSInteger, LocationUpdateAppState)
 {
+	/** First enum value */
+    firstLocationUpdateAppStateIndex = 0,
     /** LocationUpdateAppStateBackground */
-    LocationUpdateAppStateBackground,
+    LocationUpdateAppStateBackground = firstLocationUpdateAppStateIndex,
     /** LocationUpdateAppStateForeground */
-    LocationUpdateAppStateForeground
+    LocationUpdateAppStateForeground,
+    /** lastLocationUpdateAppStateIndex */
+    lastLocationUpdateAppStateIndex = LocationUpdateAppStateForeground
 };
 
 /*!
@@ -43,18 +47,21 @@ typedef NS_ENUM(NSInteger, LocationUpdateAppState)
 
 /**
  Keeps track of if we are currently in the middle of updating Geofences. That should only work one at a time.
+  
  */
-@property (nonatomic, getter = isUpdatingGeofences) BOOL updatingGeofences;
+@property (nonatomic, getter = isUpdatingGeofences) BOOL updatingGeofences ;
 
 /**
  Returns a reference to the shared loc manager.
  This method is deprecated. Please use sharedInstance instead.
-*/
+  
+ */
 +(ETLocationManager *)locationManager DEPRECATED_MSG_ATTRIBUTE("The locationManager method is deprecated. Please use sharedInstance instead.");
 
 /**
   + Returns a reference to the shared ETLocationManager
-  */
+   
+ */
 
 +(instancetype)sharedInstance;
 
@@ -62,25 +69,30 @@ typedef NS_ENUM(NSInteger, LocationUpdateAppState)
    
 /**
  Determines the state of Location Services based on developer setting and OS-level permission. This is the preferred method for checking for location state.
+  
  */
 -(BOOL)locationEnabled;
 
 /**
  Use this method to initiate Location Services through the MobilePush SDK. 
+  
  */
 -(void)startWatchingLocation;
     
 /** 
  Use this method to disable Location Services through the MobilePush SDK.
+  
  */
 -(void)stopWatchingLocation;
 
 /**
  Calls various handlers that should fire when the app enters the foreground. 
+  
  */
 -(void)appInForeground;
 
 /** Calls various handlers that should fire when the app enters the background.
+  
  */
 -(void)appInBackground;
 
@@ -89,7 +101,7 @@ typedef NS_ENUM(NSInteger, LocationUpdateAppState)
  
  @param loc a CLLocation value.
  @param state a LocationUpdateAppState value.
- @return no value returned.
+  
  */
 -(void)updateLocationAndRetrieveMessages:(CLLocation *)loc forAppState:(LocationUpdateAppState)state;
 
@@ -100,12 +112,13 @@ typedef NS_ENUM(NSInteger, LocationUpdateAppState)
  @param fences The set to monitor. 
  @param requestType ETRegionRequestType NS_ENUM value
  
- @return void no return value.
+  
  */
 -(void)monitorRegions:(NSSet<__kindof CLRegion *> *)fences ofRequestType:(ETRegionRequestType)requestType;
 
 /**
  Instructs the CLLocationManager to stop monitoring all regions. 
+  
  */
 -(void)stopMonitoringRegions;
 
@@ -113,11 +126,13 @@ typedef NS_ENUM(NSInteger, LocationUpdateAppState)
 /**
  Returns the currently monitored regions. 
  @return An NSSet of monitored regions.
+  
  */
 -(NSSet<__kindof CLRegion *> *)monitoredRegions;
 
 /**
  A dictionary version of the Last Known Location. The dictionary will contain two keys, latitude and longitude, which are NSNumber wrappers around doubles. Use doubleValue to retrieve.
+  
  */
 -(NSDictionary<NSString *, NSString *> *)lastKnownLocation;
 
@@ -125,8 +140,9 @@ typedef NS_ENUM(NSInteger, LocationUpdateAppState)
 /**
  Returns if we are currently watching location. 
  @return T/F if locations are being watched.
+  
  */
-- (BOOL) getWatchingLocation;
+- (BOOL) getWatchingLocation;; 
 
 @end
 NS_ASSUME_NONNULL_END
