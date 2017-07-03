@@ -62,13 +62,13 @@
 
         <source-file src="src/ios/AppDelegate+ETPush.m" />
         <source-file src="src/ios/CDVETPush.m" />
-        <source-file src="src/ios/CDVETPush_ExactTargetEnhancedPushDataSource.m" />
-        <!-- <source-file src="src/ios/CDVETConstants.m" /> -->
+        <!-- <source-file src="src/ios/CDVETPush_ExactTargetEnhancedPushDataSource.m" /> -->
+        <source-file src="src/ios/CDVETConstants.m" />
 
         <header-file src="src/ios/AppDelegate+ETPush.h" />
         <header-file src="src/ios/CDVETPush.h" />
-        <header-file src="src/ios/CDVETPush_ExactTargetEnhancedPushDataSource.h" />
-        <!-- <header-file src="src/ios/CDVETConstants.h" /> -->
+        <!-- <header-file src="src/ios/CDVETPush_ExactTargetEnhancedPushDataSource.h" /> -->
+        <header-file src="src/ios/CDVETConstants.h" />
 
         <header-file src="src/ios/ETPushSDK/ETAnalytics.h" />
         <header-file src="src/ios/ETPushSDK/ETCloudPage.h" />
@@ -88,7 +88,7 @@
         <header-file src="src/ios/ETPushSDK/PIOrder.h" />
         <header-file src="src/ios/ETPushSDK/PushConstants.h" />
 
-        <source-file src="src/ios/ETPushSDK/libJB4ASDK-4.5.0.160500001.a" framework="true" />
+        <source-file src="src/ios/ETPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
         <framework src="libsqlite3.dylib" />
         <framework src="CoreLocation.framework/" />
         <framework src="WebKit.framework/" />

@@ -125,6 +125,9 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+	NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
+    //DLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
+
 	[[ETPush pushManager] registerDeviceToken:deviceToken];
 }
 
@@ -162,18 +165,6 @@
 	return YES;
 }
 
-- (void)didReceiveOpenDirectMessageWithContents:(NSString *)payload
-{
-	[self handleOpenDirectPayload:payload];
-}
-
-- (void)handleOpenDirectPayload:(NSString *)payload
-{
-	CDVETPush *pushHandler = [self.viewController getCommandInstance:@"ETPush"];
-	pushHandler.notificationMessage = [NSDictionary dictionaryWithObjectsAndKeys:payload, @"webPageUrl", nil];
-	[pushHandler sendOpenDirect];
-}
-
 #pragma mark - Custom message handlers
 
 - (void)notificationReceivedWithUserInfo:(NSDictionary *)userInfo messageType:(NSString *)messageType alertText:(NSString *)alertText
@@ -181,36 +172,10 @@
 	NSLog(@"### USERINFO: %@", userInfo);
 	NSLog(@"### alertText: %@", alertText);
 
-	BOOL hasDiscountCodeCustomKey = ([userInfo objectForKey:@"discount_code"] != nil);
-	BOOL hasOpenDirectPayload = ([userInfo objectForKey:@"_od"] != nil);
-	BOOL hasCloudPagePayload = ([userInfo objectForKey:@"_x"] != nil);
-	BOOL isLocationMessage = ([messageType isEqualToString:@"Location"]);
-
-	// get the cordova plugin instance
-	CDVETPush *pushHandler = [self.viewController getCommandInstance:@"ETPush"];
-
-	// based on what's in the payload, call the appropriate plugin method
-	// open direct pages are handled by the open direct delegate above
-	if (hasCloudPagePayload) {
-		NSLog(@"hit cloud page");
-		pushHandler.notificationMessage = userInfo;
-		[pushHandler sendCloudPage];
-	} else if ([userInfo objectForKey:@"fenceIdentifier"]) {
-		// Build a message in the same structure as a typical message so the client can handle it in a
-		// standardized manner
-		NSDictionary *alert = [[NSDictionary alloc] initWithObjectsAndKeys:alertText, @"alert", nil];
-		NSDictionary *message = [[NSDictionary alloc] initWithObjectsAndKeys:alert, @"aps", nil];
-		pushHandler.notificationMessage = message;
-		[pushHandler sendNotification];
-	} else if (!hasOpenDirectPayload) {
-		pushHandler.notificationMessage = userInfo;
-		[pushHandler sendNotification];
-	}
 	// Posting "Push Received Notification" notification to refresh views (CDVMessageReceivedTableViewController)
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"kCDVPushReceivedNotification"
 	 object:self
 	 userInfo:nil];
-
 }
 
 
