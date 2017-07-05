@@ -158,12 +158,12 @@ Example:
     }
 ```
 
-### getSdkVersionName (android only)
+### getSDKVersionName (android only)
 
 Get the version name of the ET Push SDK
 
 ```javascript
-ETPush.getSdkVersionName(successCallback, errorCallback);
+ETPush.getSDKVersionName(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"versionName"`
