@@ -126,8 +126,6 @@
         <source-file src="src/android/CONSTS.java" target-dir="src/com/salesforce/etpush" />
         <source-file src="src/android/ETPushCordovaApplication.java" target-dir="src/com/salesforce/etpush" />
         <source-file src="src/android/ETPushCordovaPlugin.java" target-dir="src/com/salesforce/etpush" />
-        <source-file src="src/android/ETPushCordovaLandingPagePassthrough.java" target-dir="src/com/salesforce/etpush" />
-        <source-file src="src/android/ETNotificationsCordova.java" target-dir="src/com/salesforce/etpush" />
      </platform>
 
 </plugin>

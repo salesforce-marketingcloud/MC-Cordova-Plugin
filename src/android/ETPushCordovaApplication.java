@@ -17,49 +17,33 @@ import android.os.Bundle;
 import org.json.JSONException;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.exacttarget.etpushsdk.ETException;
-import com.exacttarget.etpushsdk.ETLogListener;
-import com.exacttarget.etpushsdk.ETPush;
-import com.exacttarget.etpushsdk.ETPushConfig;
-import com.exacttarget.etpushsdk.ETPushConfigureSdkListener;
-import com.exacttarget.etpushsdk.ETRequestStatus;
-import com.exacttarget.etpushsdk.data.Attribute;
-import com.exacttarget.etpushsdk.event.*;
-import com.exacttarget.etpushsdk.util.EventBus;
-import com.exacttarget.etpushsdk.adapter.CloudPageListAdapter;
-import com.exacttarget.etpushsdk.ETNotifications;
+//import com.salesforce.marketingcloud.ETException;
+import com.salesforce.marketingcloud.MCLogListener;
+import com.salesforce.marketingcloud.MarketingCloudConfig;
+import com.salesforce.marketingcloud.MarketingCloudSdk;
+import com.salesforce.marketingcloud.InitializationStatus;
+//import com.exacttarget.etpushsdk.ETPushConfig;
+//import com.exacttarget.etpushsdk.ETPushConfigureSdkListener;
+//import com.exacttarget.etpushsdk.ETRequestStatus;
+//import com.exacttarget.etpushsdk.data.Attribute;
+//import com.exacttarget.etpushsdk.event.*;
+//import com.exacttarget.etpushsdk.util.EventBus;
+//import com.exacttarget.etpushsdk.adapter.CloudPageListAdapter;
+//import com.exacttarget.etpushsdk.ETNotifications;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.Locale;
 
-
-public class ETPushCordovaApplication extends Application implements ETLogListener, ETPushConfigureSdkListener {
+public class ETPushCordovaApplication extends Application implements MCLogListener {
 
 	private static final String TAG = CONSTS.LOG_TAG;
 
-	public static CDVCloudPageListAdapter cloudPageListAdapter;
+	//public static CDVCloudPageListAdapter cloudPageListAdapter;
 	public static boolean isNotificationEnabledStatus;
-	private static final LinkedHashSet<EtPushListener> listeners = new LinkedHashSet<>();
-	private static ETPush etPush;
 	private String devEtAppId, devAccessToken, devGcmSenderId, prodEtAppId, prodAccessToken, prodGcmSenderId;
 	private Boolean analyticsEnabled, piAnalyticsEnabled, locationEnabled, proximityEnabled, cloudPagesEnabled, overrideNotifications;
 	private static Context context;
-
-
-
-	/**
-	 * If ETPush is null then hold on to a reference of the listener so we can notify them when push
-	 * is ready.
-	 *
-	 * @param etPushListener our object that cares about ETPush
-	 * @return ETPush or null
-	 */
-	public static ETPush getEtPush(@NonNull final EtPushListener etPushListener) {
-		if (etPush == null) {
-			listeners.add(etPushListener);
-		}
-		return etPush;
-	}
 
 	/**
 	 * The onCreate() method initialize your app.
@@ -98,12 +82,12 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
 		 * Register the application to listen for events posted to a private communication bus
 		 * by the SDK.
 		 */
-		EventBus.getInstance().register(this);
+		//EventBus.getInstance().register(this);
 
 		
 
 
-		ETPushConfig pushConfig = null;
+		//ETPushConfig pushConfig = null;
 		try {
 
 			//Get ETSDK configuration from secrets.xml resource
@@ -139,7 +123,7 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
 			String gcmSenderId;
 			boolean isDebuggable = (0 != (this.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 			if (isDebuggable) {
-				ETPush.setLogLevel(Log.DEBUG);
+				//ETPush.setLogLevel(Log.DEBUG);
 				etAppId = devEtAppId;
 				accessToken = devAccessToken;
 				gcmSenderId = devGcmSenderId;
@@ -150,7 +134,7 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
 			}
 
 			//Build ETPushConfig with Options
-			pushConfig = new ETPushConfig.Builder(this)
+			/*pushConfig = new ETPushConfig.Builder(this)
 			.setEtAppId(etAppId)
 			.setAccessToken(accessToken)
 			.setGcmSenderId(gcmSenderId)
@@ -160,76 +144,45 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
 			.setProximityEnabled(proximityEnabled)
 			.setCloudPagesEnabled(cloudPagesEnabled)
 			.setLogLevel(Log.DEBUG)
-			.build();
+			.build();*/
 
 			//isNotificationEnabledStatus = NotificationManagerCompat.from(this).areNotificationsEnabled();
 
+			
+			//if (pushConfig != null) {
+				MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
+		        .setApplicationId(etAppId)
+		        .setAccessToken(accessToken)
+		        .setGcmSenderId(gcmSenderId)
+		        //Enable any other feature desired.
+		        .build(), new MarketingCloudSdk.InitializationListener() {
+			      @Override public void complete(InitializationStatus status) {
+			        if (status.isUsable()) {
+			          if (status.status() == InitializationStatus.Status.COMPLETED_WITH_DEGRADED_FUNCTIONALITY) {
+			            // While the SDK is usable, something happened during init that you should address.
+			            // This could include:
+			            if (status.locationsError()) {
+			                final GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+			                Log.i(TAG, String.format(Locale.ENGLISH, "Google Play Services Availability: %s", googleApiAvailability.getErrorString(status.locationPlayServicesStatus())));
+			                if (googleApiAvailability.isUserResolvableError(status.locationPlayServicesStatus())) {
+			                    googleApiAvailability.showErrorNotification(ETPushCordovaApplication.this, status.locationPlayServicesStatus());
+			                }
+			            }
+			          }
+			        } else {
+			          //Something went wrong with init that makes the SDK unusable.
+
+			        }
+			      }
+			    });
+			/*} else {
+				Log.e(TAG, "ETPushConfig is null");
+			}*/
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);
 		}
 
-		try {
-			//Init ETSDK with ETPush.readyAimFire
-			if (pushConfig != null) {
-				ETPush.configureSdk(pushConfig, this);
-			} else {
-				Log.e(TAG, "ETPushConfig is null");
-			}
-		} catch (ETException e) {
-			Log.e(TAG, e.getMessage(), e);
-		}
-
-		cloudPageListAdapter = new CDVCloudPageListAdapter(getApplicationContext());
-	}
-
-	/**
-	 * Called when configureSdk() has successfully completed.
-	 * <p/>
-	 * When the readyAimFire() initialization is completed, start watching at beacon messages.
-	 *
-	 * @param etPush          a ready-to-use instance of ETPush.
-	 * @param etRequestStatus an additional status field regarding SDK readiness.
-	 */
-	@Override
-	public void onETPushConfigurationSuccess(final ETPush etPush, final ETRequestStatus etRequestStatus) {
-		ETPushCordovaApplication.etPush = etPush;
-
-		// If there was an user recoverable issue with Google Play Services then show a notification to the user
-		int googlePlayServicesStatus = etRequestStatus.getGooglePlayServiceStatusCode();
-		if (googlePlayServicesStatus != ConnectionResult.SUCCESS && GoogleApiAvailability.getInstance().isUserResolvableError(googlePlayServicesStatus)) {
-			GoogleApiAvailability.getInstance().showErrorNotification(this, googlePlayServicesStatus);
-		}
-
-		//Overriding default notification handler if set to true
-		if(overrideNotifications)
-			ETNotifications.setNotificationBuilder(new ETNotificationsCordova());
-
-		String sdkState;
-		try {
-			sdkState = ETPush.getInstance().getSDKState();
-		} catch (ETException e) {
-			sdkState = e.getMessage();
-		}
-		Log.v(TAG, sdkState); // Write the current SDK State to the Logs.
-
-		if (!listeners.isEmpty()) { // Tell our listeners that the SDK is ready for use
-			for (EtPushListener listener : listeners) {
-				if (listener != null) {
-					listener.onReadyForPush(etPush);
-				}
-			}
-			listeners.clear();
-		}
-	}
-
-	/**
-	   * Called when the SDK failed to initialized.
-	   *
-	   * @param etException an exception containing the reason/message regarding the failure.
-	   */
-	@Override
-	public void onETPushConfigurationFailed(ETException etException) {
-		Log.e(TAG, etException.getMessage(), etException);
+		//cloudPageListAdapter = new CDVCloudPageListAdapter(getApplicationContext());
 	}
 
 	/**
@@ -246,23 +199,23 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
 	 *
 	 * @param event contains attributes which identify the type of event and are logged.
 	 */
-	@SuppressWarnings({"unused", "unchecked"})
+	/*@SuppressWarnings({"unused", "unchecked"})
 	public void onEvent(final RegistrationEvent event) {
 		if (ETPush.getLogLevel() <= Log.DEBUG) {
 			Log.d(TAG, "Marketing Cloud update occurred.");
 			Log.d(TAG, "Device ID:" + event.getDeviceId());
 			Log.d(TAG, "Device Token:" + event.getSystemToken());
 			Log.d(TAG, "Subscriber key:" + event.getSubscriberKey());
-			for (Object attribute : event.getAttributes()) {
+	*/		/*for (Object attribute : event.getAttributes()) {
 				Log.d(TAG, "Attribute " + ((Attribute) attribute).getKey() + ": [" + ((Attribute) attribute).getValue() + "]");
-			}
-			Log.d(TAG, "Tags: " + event.getTags());
+			}*/
+	/*		Log.d(TAG, "Tags: " + event.getTags());
 			Log.d(TAG, "Language: " + event.getLocale());
 			Log.d(TAG, String.format("Last sent: %1$d", System.currentTimeMillis()));
 		}
-	}
+	}*/
 
-	@SuppressWarnings({"unused", "unchecked"})
+	/*@SuppressWarnings({"unused", "unchecked"})
 	public void onEvent(final PushReceivedEvent event) {
 		if (ETPush.getLogLevel() <= Log.DEBUG) {
 			Log.d(TAG, "Marketing Cloud push received.");
@@ -288,7 +241,7 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
       	spEditor.commit();
 
 		ETPushCordovaPlugin.notificationReceived(json);
-	}
+	}*/
 
 	@Override
 	public void out(int severity, String tag, String message, @Nullable Throwable throwable) {
@@ -321,36 +274,16 @@ public class ETPushCordovaApplication extends Application implements ETLogListen
 			// Crashlytics.log(severity, tag, message);
 			try {
 				// If we're logging a failed ASSERT, also grab the getSDKState() data and log that as well
-				Log.v("SDKState Information", ETPush.getInstance().getSDKState());
+				/*MarketingCloudSdk cloudSdk = MarketingCloudSdk.getInstance();
+				Log.v("SDKState Information", cloudSdk.getSdkState());*/
 				// Crashlytics.log(ETPush.getInstance().getSDKState());
-			} catch (ETException etException) {
-				Log.v("ErrorGettingSDKState", etException.getMessage());
+			} catch (Exception e) {
+				//Log.v("ErrorGettingSDKState", etException.getMessage());
 				// Crashlytics.log(String.format(Locale.ENGLISH, "Error Getting SDK State: %s", etException.getMessage()));
 			}
 			break;
 		default:
 			Log.v(tag, message);
-		}
-	}
-
-	/*
-	 * Public interface for the main activity to implement
-	 */
-	public interface EtPushListener {
-		void onReadyForPush(ETPush etPush);
-	}
-
-	/**
-	 * Instantiate this class to get a handle on the CloudPageListAdapter
-	 */
-	private class CDVCloudPageListAdapter extends CloudPageListAdapter {
-		public CDVCloudPageListAdapter(Context appContext) {
-			super(appContext);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			return null;
 		}
 	}
 
