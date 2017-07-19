@@ -22,6 +22,8 @@ import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.InitializationStatus;
+import com.salesforce.marketingcloud.registration.Registration;
+import com.salesforce.marketingcloud.registration.RegistrationManager;
 //import com.exacttarget.etpushsdk.ETPushConfig;
 //import com.exacttarget.etpushsdk.ETPushConfigureSdkListener;
 //import com.exacttarget.etpushsdk.ETRequestStatus;
@@ -35,7 +37,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.Locale;
 
-public class ETPushCordovaApplication extends Application implements MCLogListener {
+public class ETPushCordovaApplication extends Application implements MCLogListener,RegistrationManager.RegistrationEventListener {
 
 	private static final String TAG = CONSTS.LOG_TAG;
 
@@ -148,7 +150,8 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 
 			//isNotificationEnabledStatus = NotificationManagerCompat.from(this).areNotificationsEnabled();
 
-			
+			MarketingCloudSdk.setLogLevel(MCLogListener.VERBOSE);
+			MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
 			//if (pushConfig != null) {
 				MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
 		        .setApplicationId(etAppId)
@@ -173,6 +176,13 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 			          //Something went wrong with init that makes the SDK unusable.
 
 			        }
+
+					MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+						@Override
+						public void ready(MarketingCloudSdk sdk) {
+						  sdk.getRegistrationManager().registerForRegistrationEvents(ETPushCordovaApplication.this);
+						}
+					});
 			      }
 			    });
 			/*} else {
@@ -183,6 +193,27 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 		}
 
 		//cloudPageListAdapter = new CDVCloudPageListAdapter(getApplicationContext());
+	}
+
+	/**
+	 * Listens for Registrations
+	 * <p/>
+	 * This method is one of several methods to log notifications when an event occurs in the SDK.
+	 * Different attributes indicate which event has occurred.
+	 * <p/>
+	 * RegistrationEvent will be triggered when the SDK receives the response from the
+	 * registration as triggered by the com.google.android.c2dm.intent.REGISTRATION intent.
+	 */
+	@Override
+	public void onRegistrationReceived(@NonNull Registration registration) {
+		MarketingCloudSdk.getInstance().getAnalyticsManager().trackPageView("data://RegistrationEvent", "Registration Event Completed");
+		if (MarketingCloudSdk.getLogLevel() <= Log.DEBUG) {
+			Log.d(TAG, "Marketing Cloud update occurred.");
+			Log.d(TAG, "Device ID:" + registration.deviceId());
+			Log.d(TAG, "Device Token:" + registration.systemToken());
+			Log.d(TAG, "Language: " + registration.locale());
+			Log.d(TAG, String.format("Last sent: %1$d", System.currentTimeMillis()));
+		}
 	}
 
 	/**
