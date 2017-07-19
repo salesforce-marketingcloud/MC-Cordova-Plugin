@@ -9,7 +9,6 @@ dependencies {
     compile('com.salesforce.marketingcloud:marketingcloudsdk:5.0.+') {
         exclude module: 'android-beacon-library'
         exclude module: 'play-services-location' //remove to use Geofence or Proximity messaging
-        //transitive = true;
     }
     compile "com.google.android.gms:play-services-gcm:9.2.0"
     // 3rd Party Libraries Required for SDK integration of Beacons

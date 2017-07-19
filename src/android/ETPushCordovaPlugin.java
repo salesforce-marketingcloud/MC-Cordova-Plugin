@@ -6,20 +6,6 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-
-
-//import com.exacttarget.etpushsdk.ETException;
-//import com.salesforce.marketingcloud.messages.push;
-//import com.exacttarget.etpushsdk.ETPush;
-//import com.exacttarget.etpushsdk.ETPushConfig;
-//import com.exacttarget.etpushsdk.data.Attribute;
-//import com.exacttarget.etpushsdk.data.Message;
-//import com.exacttarget.etpushsdk.event.ReadyAimFireInitCompletedEvent;
-//import com.exacttarget.etpushsdk.event.RegistrationEvent;
-//import com.salesforce.marketingcloud.registration;
-//import com.exacttarget.etpushsdk.util.EventBus;
-//import com.exacttarget.etpushsdk.ETLocationManager;
-//import com.exacttarget.etpushsdk.adapter.CloudPageListAdapter;
 import com.salesforce.marketingcloud.messages.push.PushMessageManager;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
@@ -43,49 +29,15 @@ public class ETPushCordovaPlugin extends CordovaPlugin {
 	private static final String TAG = CONSTS.LOG_TAG;
 
 	public static final String ACTION_GET_SDK_VERSION_NAME = "getSdkVersionName";
-	//public static final String ACTION_GET_SDK_VERSION_CODE = "getSdkVersionCode";
-
-	/*public static final String ACTION_SET_SUBSCRIBER_KEY = "setSubscriberKey";
-	public static final String ACTION_GET_SUBSCRIBER_KEY = "getSubscriberKey";*/
 	public static final String ACTION_GET_SYSTEM_TOKEN = "getSystemToken";
 
 	public static final String ACTION_ENABLE_PUSH = "enablePush";
 	public static final String ACTION_DISABLE_PUSH = "disablePush";
 	public static final String ACTION_IS_PUSH_ENABLED = "isPushEnabled";
 	public static final String ACTION_IS_NOTIFICATION_ENABLED = "isNotificationEnabled";
-
-	/*public static final String ACTION_ADD_ATTRIBUTE = "addAttribute";
-	public static final String ACTION_REMOVE_ATTRIBUTE = "removeAttribute";
-	public static final String ACTION_GET_ATTRIBUTES = "getAttributes";
-
-	public static final String ACTION_ADD_TAG = "addTag";
-	public static final String ACTION_REMOVE_TAG = "removeTag";
-	public static final String ACTION_GET_TAGS = "getTags";
-
-	public static final String ACTION_SET_OPEN_DIRECT_HANDLER = "setOpenDirectHandler";
-	public static final String ACTION_SET_CLOUD_PAGE_HANDLER = "setCloudPageHandler";*/
 	public static final String ACTION_SET_NOTIFICATION_HANDLER = "setNotificationHandler";
 
-	/*public static final String ACTION_GET_INBOX_MESSAGES = "getInboxMessages";
-	public static final String ACTION_MARK_AS_READ = "markAsRead";
-	public static final String ACTION_MARK_AS_DELETED = "markAsDeleted";
-
-	public static final String ACTION_START_WATCHING_LOCATION = "startWatchingLocation";
-	public static final String ACTION_STOP_WATCHING_LOCATION = "stopWatchingLocation";
-	public static final String ACTION_IS_WATCHING_LOCATION = "isWatchingLocation";
-
-	public static final String ACTION_START_WATCHING_PROXIMITY = "startWatchingProximity";
-	public static final String ACTION_STOP_WATCHING_PROXIMITY = "stopWatchingProximity";
-	public static final String ACTION_IS_WATCHING_PROXIMITY = "isWatchingProximity";*/
-
-	/*public static final String ACTION_GET_MC_PAYLOAD = "getMCPayload";
-	public static final String ACTION_REMOVE_MC_PAYLOAD = "removeMCPayload";*/
-
-  /*private static CallbackContext cloudPageCallback;
-  private static CallbackContext openDirectCallback;*/
-  private static CallbackContext notificationCallback;
-  //private static CallbackContext inboxCallback;
-  //private static CallbackContext notificationStatusCallback;
+	private static CallbackContext notificationCallback;
 
   /**
    * Main CordovaPlugin execute function

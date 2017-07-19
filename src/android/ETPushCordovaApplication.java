@@ -17,21 +17,12 @@ import android.os.Bundle;
 import org.json.JSONException;
 import android.support.v4.app.NotificationManagerCompat;
 
-//import com.salesforce.marketingcloud.ETException;
 import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.InitializationStatus;
 import com.salesforce.marketingcloud.registration.Registration;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
-//import com.exacttarget.etpushsdk.ETPushConfig;
-//import com.exacttarget.etpushsdk.ETPushConfigureSdkListener;
-//import com.exacttarget.etpushsdk.ETRequestStatus;
-//import com.exacttarget.etpushsdk.data.Attribute;
-//import com.exacttarget.etpushsdk.event.*;
-//import com.exacttarget.etpushsdk.util.EventBus;
-//import com.exacttarget.etpushsdk.adapter.CloudPageListAdapter;
-//import com.exacttarget.etpushsdk.ETNotifications;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -41,7 +32,6 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 
 	private static final String TAG = CONSTS.LOG_TAG;
 
-	//public static CDVCloudPageListAdapter cloudPageListAdapter;
 	public static boolean isNotificationEnabledStatus;
 	private String devEtAppId, devAccessToken, devGcmSenderId, prodEtAppId, prodAccessToken, prodGcmSenderId;
 	private Boolean analyticsEnabled, piAnalyticsEnabled, locationEnabled, proximityEnabled, cloudPagesEnabled, overrideNotifications;
@@ -84,12 +74,7 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 		 * Register the application to listen for events posted to a private communication bus
 		 * by the SDK.
 		 */
-		//EventBus.getInstance().register(this);
 
-		
-
-
-		//ETPushConfig pushConfig = null;
 		try {
 
 			//Get ETSDK configuration from secrets.xml resource
@@ -134,21 +119,6 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 				accessToken = prodAccessToken;
 				gcmSenderId = prodGcmSenderId;
 			}
-
-			//Build ETPushConfig with Options
-			/*pushConfig = new ETPushConfig.Builder(this)
-			.setEtAppId(etAppId)
-			.setAccessToken(accessToken)
-			.setGcmSenderId(gcmSenderId)
-			.setAnalyticsEnabled(analyticsEnabled)
-			.setPiAnalyticsEnabled(piAnalyticsEnabled)
-			.setLocationEnabled(locationEnabled)
-			.setProximityEnabled(proximityEnabled)
-			.setCloudPagesEnabled(cloudPagesEnabled)
-			.setLogLevel(Log.DEBUG)
-			.build();*/
-
-			//isNotificationEnabledStatus = NotificationManagerCompat.from(this).areNotificationsEnabled();
 
 			MarketingCloudSdk.setLogLevel(MCLogListener.VERBOSE);
 			MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
@@ -215,64 +185,6 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 			Log.d(TAG, String.format("Last sent: %1$d", System.currentTimeMillis()));
 		}
 	}
-
-	/**
-	 * Listens for a RegistrationEvent on EventBus callback.
-	 * <p/>
-	 * This method is one of several methods to log notifications when an event occurs in the SDK.
-	 * Different attributes indicate which event has occurred.
-	 * <p/>
-	 * RegistrationEvent will be triggered when the SDK receives the response from the
-	 * registration as triggered by the com.google.android.c2dm.intent.REGISTRATION intent.
-	 * <p/>
-	 * These events are only called if EventBus.getInstance().register() is called.
-	 * <p/>
-	 *
-	 * @param event contains attributes which identify the type of event and are logged.
-	 */
-	/*@SuppressWarnings({"unused", "unchecked"})
-	public void onEvent(final RegistrationEvent event) {
-		if (ETPush.getLogLevel() <= Log.DEBUG) {
-			Log.d(TAG, "Marketing Cloud update occurred.");
-			Log.d(TAG, "Device ID:" + event.getDeviceId());
-			Log.d(TAG, "Device Token:" + event.getSystemToken());
-			Log.d(TAG, "Subscriber key:" + event.getSubscriberKey());
-	*/		/*for (Object attribute : event.getAttributes()) {
-				Log.d(TAG, "Attribute " + ((Attribute) attribute).getKey() + ": [" + ((Attribute) attribute).getValue() + "]");
-			}*/
-	/*		Log.d(TAG, "Tags: " + event.getTags());
-			Log.d(TAG, "Language: " + event.getLocale());
-			Log.d(TAG, String.format("Last sent: %1$d", System.currentTimeMillis()));
-		}
-	}*/
-
-	/*@SuppressWarnings({"unused", "unchecked"})
-	public void onEvent(final PushReceivedEvent event) {
-		if (ETPush.getLogLevel() <= Log.DEBUG) {
-			Log.d(TAG, "Marketing Cloud push received.");
-			Log.d(TAG, "Payload:" + event.getPayload());
-			
-		}
-		Bundle bundle = event.getPayload();
-		JSONObject json = new JSONObject();
-		Set<String> keys = bundle.keySet();
-		for (String key : keys) {
-    		try {
-        		// json.put(key, bundle.get(key)); see edit below
-        		json.put(key, JSONObject.wrap(bundle.get(key)));
-    		} catch(JSONException e) {
-        //Handle exception here
-    			Log.d(TAG, "JSONException:" + e.getMessage());
-    		}
-		}
-		//Set the json into the SharedPreference
-	  	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ETPushCordovaApplication.getAppContext());
-      	SharedPreferences.Editor spEditor = sp.edit();
-      	spEditor.putString(CONSTS.KEY_MC_PAYLOAD, json.toString());
-      	spEditor.commit();
-
-		ETPushCordovaPlugin.notificationReceived(json);
-	}*/
 
 	@Override
 	public void out(int severity, String tag, String message, @Nullable Throwable throwable) {
