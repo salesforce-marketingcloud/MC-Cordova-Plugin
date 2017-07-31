@@ -28,7 +28,7 @@ Once provisioning and your AppCenter app(s) are setup, install the plugin into y
 ***Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs***
 
 ```Bash
-cordova plugin add https://github.com/tharrington/cordova-etpush
+cordova plugin add https://github.com/tharrington/cordova-mcpush
     --variable DEV_APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
     --variable DEV_ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
     --variable DEV_GCMSENDERID=1234567890
@@ -64,16 +64,16 @@ The following variables should be used in the `cordova plugin add` command:
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the JB4A SDK within your javascript in your Cordova app. 
 
-### ETPush
+### MCPush
 
-Use the `ETPush` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the ETPush object that is automatically provided by the plugin. The JB4A configuration and registration calls will complete behind the scenes. You can just start using ETPush.methodname() within your app.
+Use the `MCPush` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MCPush object that is automatically provided by the plugin. The JB4A configuration and registration calls will complete behind the scenes. You can just start using MCPush.methodname() within your app.
 
 ### setOpenDirectHandler
 
 Sets javascript callbacks to handle when Open Direct alerts are received. This can be used to display Open Direct urls within your app (e.g. show in an in-app browser).
 
 ```javascript
-ETPush.setOpenDirectHandler(openDirectHandlerCallback, errorCallback);
+MCPush.setOpenDirectHandler(openDirectHandlerCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -85,7 +85,7 @@ The successCallback will include a result parameter in the following format:
 
 Example:
 ```javascript
-    ETPush.setOpenDirectHandler(openDirectReceived, function(){ console.log('### open direct failed'); });
+    MCPush.setOpenDirectHandler(openDirectReceived, function(){ console.log('### open direct failed'); });
 
     function openDirectReceived(data) {
       console.log('### openDirectReceived: ' + JSON.stringify(data));
@@ -101,7 +101,7 @@ Example:
 Sets javascript callbacks to handle when Cloud Page alerts are received. This can be used to display Cloud Pages within your app (e.g. show the Cloud Page in an in-app browser).
 
 ```javascript
-ETPush.setCloudPageHandler(cloudPageHandlerCallback, errorCallback);
+MCPush.setCloudPageHandler(cloudPageHandlerCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -113,7 +113,7 @@ The successCallback will include a result parameter in the following format:
 
 Example:
 ```javascript
-    ETPush.setCloudPageHandler(cloudPageReceived, function(){ console.log('### open direct failed'); });
+    MCPush.setCloudPageHandler(cloudPageReceived, function(){ console.log('### open direct failed'); });
 
     function cloudPageReceived(data) {
       console.log('### cloudPageReceived: ' + JSON.stringify(data));
@@ -128,7 +128,7 @@ Example:
 Sets javascript callbacks to handle when push notifications are received. This can be used to handle push notifications when your app is open, as well as actions based on Custom Keys sent from the Marketing Cloud. 
 
 ```javascript
-ETPush.setNotificationHandler(notificationHandlerCallback, errorCallback);
+MCPush.setNotificationHandler(notificationHandlerCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -142,7 +142,7 @@ The successCallback will include a result parameter in the following format:
 
 Example:
 ```javascript
-    ETPush.setNotificationHandler(notificationReceived, function(){ console.log('### notification handler failed'); });
+    MCPush.setNotificationHandler(notificationReceived, function(){ console.log('### notification handler failed'); });
 
     function notificationReceived(data) {
       console.log('### notificationReceived: ' + JSON.stringify(data));
@@ -163,7 +163,7 @@ Example:
 Get the version name of the ET Push SDK
 
 ```javascript
-ETPush.getSDKVersionName(successCallback, errorCallback);
+MCPush.getSDKVersionName(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"versionName"`
@@ -173,7 +173,7 @@ The successCallback will include a result parameter in the following format: `"v
 Get the version code of the ET Push SDK
 
 ```javascript
-ETPush.getSdkVersionCode(successCallback, errorCallback);
+MCPush.getSdkVersionCode(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"versionCode"`
@@ -183,7 +183,7 @@ The successCallback will include a result parameter in the following format: `"v
 Sets the Subscriber Key for this device.
 
 ```javascript
-ETPush.setSubscriberKey(successCallback, errorCallback, subscriberKey);
+MCPush.setSubscriberKey(successCallback, errorCallback, subscriberKey);
 ```
 
 ### getSubscriberKey (ios only)
@@ -191,7 +191,7 @@ ETPush.setSubscriberKey(successCallback, errorCallback, subscriberKey);
 Gets the Subscriber Key for this device.
 
 ```javascript
-ETPush.getSubscriberKey(successCallback, errorCallback);
+MCPush.getSubscriberKey(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"subscriberKey"`
@@ -201,7 +201,7 @@ The successCallback will include a result parameter in the following format: `"s
 Adds a tag to the current user's Contact model.
 
 ```javascript
-ETPush.addTag(successCallback, errorCallback, tagName);
+MCPush.addTag(successCallback, errorCallback, tagName);
 ```
 
 ### removeTag
@@ -209,7 +209,7 @@ ETPush.addTag(successCallback, errorCallback, tagName);
 Removes a tag to the current user's Contact model.
 
 ```javascript
-ETPush.removeTag(successCallback, errorCallback, tagName);
+MCPush.removeTag(successCallback, errorCallback, tagName);
 ```
 
 ### getTags
@@ -217,7 +217,7 @@ ETPush.removeTag(successCallback, errorCallback, tagName);
 Gets a list of tags from the current user's Contact model.
 
 ```javascript
-ETPush.getTags(successCallback, errorCallback);
+MCPush.getTags(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -234,7 +234,7 @@ The successCallback will include a result parameter in the following format:
 Adds an attribute to current user's Contact model.
 
 ```javascript
-ETPush.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
+MCPush.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
 ```
 
 ### removeAttribute
@@ -242,7 +242,7 @@ ETPush.addAttribute(successCallback, errorCallback, attributeName, attributeValu
 Removes an attribute from current user's Contact model.
 
 ```javascript
-ETPush.removeAttribute(successCallback, errorCallback, attributeName);
+MCPush.removeAttribute(successCallback, errorCallback, attributeName);
 ```
 
 ### getAttributes
@@ -250,7 +250,7 @@ ETPush.removeAttribute(successCallback, errorCallback, attributeName);
 Gets the list of attributes from the current user's data.
 
 ```javascript
-ETPush.getAttributes(successCallback, errorCallback);
+MCPush.getAttributes(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -267,7 +267,7 @@ The successCallback will include a result parameter in the following format:
 Gets CloudPage Inbox messages object.
 
 ```javascript
-ETPush.getInboxMessages(successCallback, errorCallback);
+MCPush.getInboxMessages(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -297,7 +297,7 @@ The successCallback will include a result parameter in the following format:
 Sets a message to read status.
 
 ```javascript
-ETPush.markAsRead(successCallback, errorCallback, messageId);
+MCPush.markAsRead(successCallback, errorCallback, messageId);
 ```
 
 The successCallback will include a result parameter that represents the inbox state after this call in the following format:
@@ -327,7 +327,7 @@ The successCallback will include a result parameter that represents the inbox st
 Sets a message to deleted, so when new messages are downloaded, it won't be re-added.
 
 ```javascript
-ETPush.markAsDeleted(successCallback, errorCallback, messageId);
+MCPush.markAsDeleted(successCallback, errorCallback, messageId);
 ```
 
 The successCallback will include a result parameter that represents the inbox state after this call in the following format:
@@ -357,7 +357,7 @@ The successCallback will include a result parameter that represents the inbox st
 Enables push and push accessories in the SDK.
 
 ```javascript
-ETPush.enablePush(successCallback, errorCallback);
+MCPush.enablePush(successCallback, errorCallback);
 ```
 
 ### disablePush (android only)
@@ -365,7 +365,7 @@ ETPush.enablePush(successCallback, errorCallback);
 Disables push and push accessories in the SDK.
 
 ```javascript
-ETPush.disablePush(successCallback, errorCallback);
+MCPush.disablePush(successCallback, errorCallback);
 ```
 
 ### isPushEnabled
@@ -373,7 +373,7 @@ ETPush.disablePush(successCallback, errorCallback);
 Checks persistent preferences for the state of Push.
 
 ```javascript
-ETPush.isPushEnabled(successCallback, errorCallback);
+MCPush.isPushEnabled(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`
@@ -383,7 +383,7 @@ The successCallback will include a result parameter in the following format: `tr
 Start monitoring geofences.
 
 ```javascript
-ETPush.startWatchingLocation(successCallback, errorCallback);
+MCPush.startWatchingLocation(successCallback, errorCallback);
 ```
 
 ### stopWatchingLocation
@@ -391,7 +391,7 @@ ETPush.startWatchingLocation(successCallback, errorCallback);
 Stop monitoring geofences.
 
 ```javascript
-ETPush.stopWatchingLocation(successCallback, errorCallback);
+MCPush.stopWatchingLocation(successCallback, errorCallback);
 ```
 
 ### isWatchingLocation
@@ -399,7 +399,7 @@ ETPush.stopWatchingLocation(successCallback, errorCallback);
 Gets the current status for geofence monitoring
 
 ```javascript
-ETPush.isWatchingLocation(successCallback, errorCallback);
+MCPush.isWatchingLocation(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`
@@ -409,7 +409,7 @@ The successCallback will include a result parameter in the following format: `tr
 Start monitoring proximity and beacons.
 
 ```javascript
-ETPush.startWatchingProximity(successCallback, errorCallback);
+MCPush.startWatchingProximity(successCallback, errorCallback);
 ```
 
 ### stopWatchingProximity (android only)
@@ -417,7 +417,7 @@ ETPush.startWatchingProximity(successCallback, errorCallback);
 Stop monitoring proximity and beacons.
 
 ```javascript
-ETPush.stopWatchingProximity(successCallback, errorCallback);
+MCPush.stopWatchingProximity(successCallback, errorCallback);
 ```
 
 ### isWatchingProximity (android only)
@@ -425,7 +425,7 @@ ETPush.stopWatchingProximity(successCallback, errorCallback);
 Gets the current status for monitoring proximity and beacons.
 
 ```javascript
-ETPush.isWatchingProximity(successCallback, errorCallback);
+MCPush.isWatchingProximity(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`

@@ -1,0 +1,26 @@
+{
+  "name": "cordova-push",
+  "version": "2.0.0",
+  "description": "A Cordova Plugin to access the Exact Target native SDKs",
+  "cordova": {
+    "id": "com.salesforce.mcpush",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.exacttarget.com/Mobile/cordova-push.git"
+  },
+  "keywords": [
+    "cordova",
+    "MarketingCloud",
+    "MCPush",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "Apache 2.0"
+}

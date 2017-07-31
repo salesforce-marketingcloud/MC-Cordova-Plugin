@@ -1,4 +1,4 @@
-#import "CDVETConstants.h"
+#import "CDVMCConstants.h"
 
 #pragma mark - App Defaults
 CGFloat const kCDVAppCustomTextSize = 15.0;

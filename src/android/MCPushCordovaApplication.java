@@ -1,4 +1,4 @@
-package com.salesforce.etpush;
+package com.salesforce.mcpush;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
@@ -28,7 +28,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.Locale;
 
-public class ETPushCordovaApplication extends Application implements MCLogListener,RegistrationManager.RegistrationEventListener {
+public class MCPushCordovaApplication extends Application implements MCLogListener,RegistrationManager.RegistrationEventListener {
 
 	private static final String TAG = CONSTS.LOG_TAG;
 
@@ -41,13 +41,13 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 	 * The onCreate() method initialize your app.
 	 * <p/>
 	 * It registers the application to listen for events posted to a private communication bus
-	 * by the SDK and calls `ETPush.readyAimFire` to configures the SDK to point to the correct code
-	 * application and to initialize the ETPush, according to the constants defined before.
+	 * by the SDK and calls `MCPush.readyAimFire` to configures the SDK to point to the correct code
+	 * application and to initialize the MCPush, according to the constants defined before.
 	 * <p/>
 	 * When ReadyAimFire() is called for the first time for a device, it will get a device token
 	 * from Google and send to the MarketingCloud.
 	 * <p/>
-	 * In ETPush.readyAimFire() you must set several parameters:
+	 * In MCPush.readyAimFire() you must set several parameters:
 	 * <ul>
 	 * <li>
 	 * AppId and AccessToken: these values are taken from the Marketing Cloud definition for your app.
@@ -68,7 +68,7 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		ETPushCordovaApplication.context = getApplicationContext();
+		MCPushCordovaApplication.context = getApplicationContext();
 
 		/**
 		 * Register the application to listen for events posted to a private communication bus
@@ -110,7 +110,7 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 			String gcmSenderId;
 			boolean isDebuggable = (0 != (this.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 			if (isDebuggable) {
-				//ETPush.setLogLevel(Log.DEBUG);
+				//MCPush.setLogLevel(Log.DEBUG);
 				etAppId = devEtAppId;
 				accessToken = devAccessToken;
 				gcmSenderId = devGcmSenderId;
@@ -138,7 +138,7 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 			                final GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
 			                Log.i(TAG, String.format(Locale.ENGLISH, "Google Play Services Availability: %s", googleApiAvailability.getErrorString(status.locationPlayServicesStatus())));
 			                if (googleApiAvailability.isUserResolvableError(status.locationPlayServicesStatus())) {
-			                    googleApiAvailability.showErrorNotification(ETPushCordovaApplication.this, status.locationPlayServicesStatus());
+			                    googleApiAvailability.showErrorNotification(MCPushCordovaApplication.this, status.locationPlayServicesStatus());
 			                }
 			            }
 			          }
@@ -150,13 +150,13 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 					MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
 						@Override
 						public void ready(MarketingCloudSdk sdk) {
-						  sdk.getRegistrationManager().registerForRegistrationEvents(ETPushCordovaApplication.this);
+						  sdk.getRegistrationManager().registerForRegistrationEvents(MCPushCordovaApplication.this);
 						}
 					});
 			      }
 			    });
 			/*} else {
-				Log.e(TAG, "ETPushConfig is null");
+				Log.e(TAG, "MCPushConfig is null");
 			}*/
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);
@@ -219,7 +219,7 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 				// If we're logging a failed ASSERT, also grab the getSDKState() data and log that as well
 				/*MarketingCloudSdk cloudSdk = MarketingCloudSdk.getInstance();
 				Log.v("SDKState Information", cloudSdk.getSdkState());*/
-				// Crashlytics.log(ETPush.getInstance().getSDKState());
+				// Crashlytics.log(MCPush.getInstance().getSDKState());
 			} catch (Exception e) {
 				//Log.v("ErrorGettingSDKState", etException.getMessage());
 				// Crashlytics.log(String.format(Locale.ENGLISH, "Error Getting SDK State: %s", etException.getMessage()));
@@ -231,6 +231,6 @@ public class ETPushCordovaApplication extends Application implements MCLogListen
 	}
 
 	public static Context getAppContext() {
-        return ETPushCordovaApplication.context;
+        return MCPushCordovaApplication.context;
     }
 }

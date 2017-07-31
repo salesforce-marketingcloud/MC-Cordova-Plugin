@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.salesforce.etpush" version="2.0.0">
+        id="com.salesforce.mcpush" version="2.0.0">
     <name>Cordova Exact Target Plugin</name>
     <description>A Cordova Plugin to access the Exact Target native SDKs</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,MarketingCloud,ETPush</keywords>
-    <js-module src="www/etpush.js" name="ETPush">
-        <clobbers target="ETPush" />
+    <keywords>cordova,MarketingCloud,MCPush</keywords>
+    <js-module src="www/mcpush.js" name="MCPush">
+        <clobbers target="MCPush" />
     </js-module>
 
     <preference name="DEV_APPID" />
@@ -32,7 +32,7 @@
             </dict>
         </config-file>
 
-        <config-file target="*-Info.plist" parent="ETPushSettings">
+        <config-file target="*-Info.plist" parent="MCPushSettings">
             <dict>
                 <key>ETPUSH_DEV_APPID</key>
                 <string>$DEV_APPID</string>
@@ -55,40 +55,40 @@
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
-            <feature name="ETPush">
-                <param name="ios-package" value="CDVETPush"/>
+            <feature name="MCPush">
+                <param name="ios-package" value="CDVMCPush"/>
             </feature>
         </config-file>
 
         <source-file src="src/ios/AppDelegate+ETPush.m" />
-        <source-file src="src/ios/CDVETPush.m" />
-        <!-- <source-file src="src/ios/CDVETPush_ExactTargetEnhancedPushDataSource.m" /> -->
-        <source-file src="src/ios/CDVETConstants.m" />
+        <source-file src="src/ios/CDVMCPush.m" />
+        <!-- <source-file src="src/ios/CDVMCPush_ExactTargetEnhancedPushDataSource.m" /> -->
+        <source-file src="src/ios/CDVMCConstants.m" />
 
         <header-file src="src/ios/AppDelegate+ETPush.h" />
-        <header-file src="src/ios/CDVETPush.h" />
-        <!-- <header-file src="src/ios/CDVETPush_ExactTargetEnhancedPushDataSource.h" /> -->
-        <header-file src="src/ios/CDVETConstants.h" />
+        <header-file src="src/ios/CDVMCPush.h" />
+        <!-- <header-file src="src/ios/CDVMCPush_ExactTargetEnhancedPushDataSource.h" /> -->
+        <header-file src="src/ios/CDVMCConstants.h" />
 
-        <header-file src="src/ios/ETPushSDK/ETAnalytics.h" />
-        <header-file src="src/ios/ETPushSDK/ETCloudPage.h" />
-        <header-file src="src/ios/ETPushSDK/ETCloudPageDataSource.h" />
-        <header-file src="src/ios/ETPushSDK/ETEventMessage.h" />
-        <header-file src="src/ios/ETPushSDK/ETEventRegion.h" />
-        <header-file src="src/ios/ETPushSDK/ETGenericUpdate.h" />
-        <header-file src="src/ios/ETPushSDK/ETLandingPagePresenter.h" />
-        <header-file src="src/ios/ETPushSDK/ETLocationManager.h" />
-        <header-file src="src/ios/ETPushSDK/ETMessage.h" />
-        <header-file src="src/ios/ETPushSDK/ETPush.h" />
-        <header-file src="src/ios/ETPushSDK/ETRegion.h" />
-        <header-file src="src/ios/ETPushSDK/ETWKLandingPagePresenter.h" />
-        <header-file src="src/ios/ETPushSDK/ExactTargetEnhancedPushDataSource.h" />
-        <header-file src="src/ios/ETPushSDK/PICart.h" />
-        <header-file src="src/ios/ETPushSDK/PICartItem.h" />
-        <header-file src="src/ios/ETPushSDK/PIOrder.h" />
-        <header-file src="src/ios/ETPushSDK/PushConstants.h" />
+        <header-file src="src/ios/MCPushSDK/ETAnalytics.h" />
+        <header-file src="src/ios/MCPushSDK/ETCloudPage.h" />
+        <header-file src="src/ios/MCPushSDK/ETCloudPageDataSource.h" />
+        <header-file src="src/ios/MCPushSDK/ETEventMessage.h" />
+        <header-file src="src/ios/MCPushSDK/ETEventRegion.h" />
+        <header-file src="src/ios/MCPushSDK/ETGenericUpdate.h" />
+        <header-file src="src/ios/MCPushSDK/ETLandingPagePresenter.h" />
+        <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
+        <header-file src="src/ios/MCPushSDK/ETMessage.h" />
+        <header-file src="src/ios/MCPushSDK/ETPush.h" />
+        <header-file src="src/ios/MCPushSDK/ETRegion.h" />
+        <header-file src="src/ios/MCPushSDK/ETWKLandingPagePresenter.h" />
+        <header-file src="src/ios/MCPushSDK/ExactTargetEnhancedPushDataSource.h" />
+        <header-file src="src/ios/MCPushSDK/PICart.h" />
+        <header-file src="src/ios/MCPushSDK/PICartItem.h" />
+        <header-file src="src/ios/MCPushSDK/PIOrder.h" />
+        <header-file src="src/ios/MCPushSDK/PushConstants.h" />
 
-        <source-file src="src/ios/ETPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
+        <source-file src="src/ios/MCPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
         <framework src="libsqlite3.dylib" />
         <framework src="CoreLocation.framework/" />
         <framework src="WebKit.framework/" />
@@ -98,12 +98,12 @@
         <preference name="DEV_GCMSENDERID" />
         <preference name="PROD_GCMSENDERID" />
 
-        <framework src="src/android/ETPush.gradle" custom="true" type="gradleReference" />
+        <framework src="src/android/MCPush.gradle" custom="true" type="gradleReference" />
 
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="ETPush">
-                <param name="android-package" value="com.salesforce.etpush.ETPushCordovaPlugin"/>
+            <feature name="MCPush">
+                <param name="android-package" value="com.salesforce.mcpush.MCPushCordovaPlugin"/>
             </feature>
         </config-file>
 
@@ -123,9 +123,9 @@
           <bool name="ETPUSH_OVERRIDE_NTFN_ENABLED">$OVERRIDE_NTFN_ENABLED</bool>
         </config-file>
 
-        <source-file src="src/android/CONSTS.java" target-dir="src/com/salesforce/etpush" />
-        <source-file src="src/android/ETPushCordovaApplication.java" target-dir="src/com/salesforce/etpush" />
-        <source-file src="src/android/ETPushCordovaPlugin.java" target-dir="src/com/salesforce/etpush" />
+        <source-file src="src/android/CONSTS.java" target-dir="src/com/salesforce/mcpush" />
+        <source-file src="src/android/MCPushCordovaApplication.java" target-dir="src/com/salesforce/mcpush" />
+        <source-file src="src/android/MCPushCordovaPlugin.java" target-dir="src/com/salesforce/mcpush" />
      </platform>
 
 </plugin>

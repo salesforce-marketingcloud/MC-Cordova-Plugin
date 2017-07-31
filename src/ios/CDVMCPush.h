@@ -2,9 +2,9 @@
 #import <UIKit/UIKit.h>
 #import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
-/*#import "CDVETPush_ExactTargetEnhancedPushDataSource.h"*/
+/*#import "CDVMCPush_ExactTargetEnhancedPushDataSource.h"*/
 
-@interface CDVETPush : CDVPlugin {
+@interface CDVMCPush : CDVPlugin {
     NSDictionary *notificationMessage;
     BOOL ready;
 }

@@ -1,4 +1,4 @@
-package com.salesforce.etpush;
+package com.salesforce.mcpush;
  
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.ArrayList;
 
-public class ETPushCordovaPlugin extends CordovaPlugin {
+public class MCPushCordovaPlugin extends CordovaPlugin {
 	
 	private static final String TAG = CONSTS.LOG_TAG;
 
@@ -78,10 +78,10 @@ public class ETPushCordovaPlugin extends CordovaPlugin {
 		    } else if(ACTION_IS_NOTIFICATION_ENABLED.equals(action)){
 		  		boolean notificationStatus;
 		  		try {
-		  			Context ctx = ETPushCordovaApplication.getAppContext();
+		  			Context ctx = MCPushCordovaApplication.getAppContext();
 
 		  			//isNotificationEnabledStatus = NotificationManagerCompat.from(ctx).areNotificationsEnabled();
-		  			//notificationStatus = ETPushCordovaApplication.isNotificationEnabledStatus;
+		  			//notificationStatus = MCPushCordovaApplication.isNotificationEnabledStatus;
 		  			notificationStatus = NotificationManagerCompat.from(ctx).areNotificationsEnabled();
 		  		}catch(Exception e){
 		  			Log.e(TAG, e.getMessage(), e);

@@ -2,7 +2,7 @@
 #import <objc/runtime.h>
 #import "AppDelegate+ETPush.h"
 #import "ETPush.h"
-#import "CDVETPush.h"
+#import "CDVMCPush.h"
 
 
 @implementation AppDelegate (ETPush)
@@ -43,7 +43,7 @@
 	NSError *error = nil;
 
 	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"ETPushSettings"];
+	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MCPushSettings"];
 
 	NSLog(@"LOCATION ENABLED: %d", [[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]);
 #ifdef DEBUG
@@ -60,7 +60,7 @@
 								error:&error];
 #else
 	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"ETPUSH_PROD_APPID"]
+	successful = [[MCPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"ETPUSH_PROD_APPID"]
 								andAccessToken:[ETSettings objectForKey:@"ETPUSH_PROD_ACCESSTOKEN"]
 								withAnalytics:[[ETSettings objectForKey:@"ETPUSH_ANALYTICS_ENABLED"] boolValue]
 								andLocationServices:[[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]

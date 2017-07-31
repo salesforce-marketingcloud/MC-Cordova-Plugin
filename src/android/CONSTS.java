@@ -1,8 +1,8 @@
-package com.salesforce.etpush;
+package com.salesforce.mcpush;
 
 public class CONSTS {
 
-    public static final String LOG_TAG = "~!ETPushCordova"; //consistent TAG for logcat
+    public static final String LOG_TAG = "~!MCPushCordova"; //consistent TAG for logcat
 
     public static final String KEY_PAYLOAD_ALERT = "alert";
     public static final String KEY_OPEN_DIRECT = "_od";
