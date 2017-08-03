@@ -6,7 +6,7 @@
     <license>Apache 2.0</license>
     <keywords>cordova,MarketingCloud,MCPush</keywords>
     <js-module src="www/mcpush.js" name="MCPush">
-        <clobbers target="MCPush" />
+        <clobbers target="ETPush" />
     </js-module>
 
     <preference name="DEV_APPID" />
