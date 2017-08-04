@@ -33,7 +33,7 @@ public class MCPushCordovaApplication extends Application implements MCLogListen
 	private static final String TAG = CONSTS.LOG_TAG;
 
 	public static boolean isNotificationEnabledStatus;
-	private String devEtAppId, devAccessToken, devGcmSenderId, prodEtAppId, prodAccessToken, prodGcmSenderId;
+	private String devMCAppId, devAccessToken, devGcmSenderId, prodMCAppId, prodAccessToken, prodGcmSenderId;
 	private Boolean analyticsEnabled, piAnalyticsEnabled, locationEnabled, proximityEnabled, cloudPagesEnabled, overrideNotifications;
 	private static Context context;
 
@@ -77,45 +77,45 @@ public class MCPushCordovaApplication extends Application implements MCLogListen
 
 		try {
 
-			//Get ETSDK configuration from secrets.xml resource
-			devEtAppId = this.getResources().getString(this.getResources().getIdentifier("ETPUSH_DEV_APPID", "string", this.getPackageName()));
-			if (devEtAppId == null || devEtAppId.isEmpty()) throw new RuntimeException("Unable to find ETPUSH_DEV_APPID in secrets.xml");
-			devAccessToken = this.getResources().getString(this.getResources().getIdentifier("ETPUSH_DEV_ACCESSTOKEN", "string", this.getPackageName()));
-			if (devAccessToken == null || devAccessToken.isEmpty()) throw new RuntimeException("Unable to find ETPUSH_DEV_ACCESSTOKEN in secrets.xml");
-			devGcmSenderId = this.getResources().getString(this.getResources().getIdentifier("ETPUSH_DEV_GCMSENDERID", "string", this.getPackageName()));
-			if (devGcmSenderId == null || devGcmSenderId.isEmpty()) throw new RuntimeException("Unable to find ETPUSH_DEV_GCMSENDERID in secrets.xml");
-			prodEtAppId = this.getResources().getString(this.getResources().getIdentifier("ETPUSH_PROD_APPID", "string", this.getPackageName()));
-			if (prodEtAppId == null || prodEtAppId.isEmpty()) throw new RuntimeException("Unable to find ETPUSH_PROD_APPID in secrets.xml");
-			prodAccessToken = this.getResources().getString(this.getResources().getIdentifier("ETPUSH_PROD_ACCESSTOKEN", "string", this.getPackageName()));
-			if (prodAccessToken == null || prodAccessToken.isEmpty()) throw new RuntimeException("Unable to find ETPUSH_PROD_ACCESSTOKEN in secrets.xml");
-			prodGcmSenderId = this.getResources().getString(this.getResources().getIdentifier("ETPUSH_PROD_GCMSENDERID", "string", this.getPackageName()));
-			if (prodGcmSenderId == null || prodGcmSenderId.isEmpty()) throw new RuntimeException("Unable to find ETPUSH_PROD_GCMSENDERID in secrets.xml");
-			analyticsEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("ETPUSH_ANALYTICS_ENABLED", "bool", this.getPackageName()));
-			if (analyticsEnabled == null) throw new RuntimeException("Unable to find ETPUSH_ANALYTICS_ENABLED in secrets.xml");
-			piAnalyticsEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("ETPUSH_WAMA_ENABLED", "bool", this.getPackageName()));
-			if (piAnalyticsEnabled == null) throw new RuntimeException("Unable to find ETPUSH_WAMA_ENABLED in secrets.xml");
-			locationEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("ETPUSH_LOCATION_ENABLED", "bool", this.getPackageName()));
-			if (locationEnabled == null) throw new RuntimeException("Unable to find ETPUSH_LOCATION_ENABLED in secrets.xml");
-			proximityEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("ETPUSH_PROXIMITY_ENABLED", "bool", this.getPackageName()));
-			if (proximityEnabled == null) throw new RuntimeException("Unable to find ETPUSH_PROXIMITY_ENABLED in secrets.xml");
-			cloudPagesEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("ETPUSH_CLOUDPAGES_ENABLED", "bool", this.getPackageName()));
-			if (cloudPagesEnabled == null) throw new RuntimeException("Unable to find ETPUSH_CLOUDPAGES_ENABLED in secrets.xml");
-			overrideNotifications = this.getResources().getBoolean(this.getResources().getIdentifier("ETPUSH_OVERRIDE_NTFN_ENABLED", "bool", this.getPackageName()));
-			if (overrideNotifications == null) throw new RuntimeException("Unable to find ETPUSH_OVERRIDE_NTFN_ENABLED in secrets.xml");
+			//Get MCSDK configuration from secrets.xml resource
+			devMCAppId = this.getResources().getString(this.getResources().getIdentifier("MCPUSH_DEV_APPID", "string", this.getPackageName()));
+			if (devMCAppId == null || devMCAppId.isEmpty()) throw new RuntimeException("Unable to find MCPUSH_DEV_APPID in secrets.xml");
+			devAccessToken = this.getResources().getString(this.getResources().getIdentifier("MCPUSH_DEV_ACCESSTOKEN", "string", this.getPackageName()));
+			if (devAccessToken == null || devAccessToken.isEmpty()) throw new RuntimeException("Unable to find MCPUSH_DEV_ACCESSTOKEN in secrets.xml");
+			devGcmSenderId = this.getResources().getString(this.getResources().getIdentifier("MCPUSH_DEV_GCMSENDERID", "string", this.getPackageName()));
+			if (devGcmSenderId == null || devGcmSenderId.isEmpty()) throw new RuntimeException("Unable to find MCPUSH_DEV_GCMSENDERID in secrets.xml");
+			prodMCAppId = this.getResources().getString(this.getResources().getIdentifier("MCPUSH_PROD_APPID", "string", this.getPackageName()));
+			if (prodMCAppId == null || prodMCAppId.isEmpty()) throw new RuntimeException("Unable to find MCPUSH_PROD_APPID in secrets.xml");
+			prodAccessToken = this.getResources().getString(this.getResources().getIdentifier("MCPUSH_PROD_ACCESSTOKEN", "string", this.getPackageName()));
+			if (prodAccessToken == null || prodAccessToken.isEmpty()) throw new RuntimeException("Unable to find MCPUSH_PROD_ACCESSTOKEN in secrets.xml");
+			prodGcmSenderId = this.getResources().getString(this.getResources().getIdentifier("MCPUSH_PROD_GCMSENDERID", "string", this.getPackageName()));
+			if (prodGcmSenderId == null || prodGcmSenderId.isEmpty()) throw new RuntimeException("Unable to find MCPUSH_PROD_GCMSENDERID in secrets.xml");
+			analyticsEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("MCPUSH_ANALYTICS_ENABLED", "bool", this.getPackageName()));
+			if (analyticsEnabled == null) throw new RuntimeException("Unable to find MCPUSH_ANALYTICS_ENABLED in secrets.xml");
+			piAnalyticsEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("MCPUSH_WAMA_ENABLED", "bool", this.getPackageName()));
+			if (piAnalyticsEnabled == null) throw new RuntimeException("Unable to find MCPUSH_WAMA_ENABLED in secrets.xml");
+			locationEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("MCPUSH_LOCATION_ENABLED", "bool", this.getPackageName()));
+			if (locationEnabled == null) throw new RuntimeException("Unable to find MCPUSH_LOCATION_ENABLED in secrets.xml");
+			proximityEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("MCPUSH_PROXIMITY_ENABLED", "bool", this.getPackageName()));
+			if (proximityEnabled == null) throw new RuntimeException("Unable to find MCPUSH_PROXIMITY_ENABLED in secrets.xml");
+			cloudPagesEnabled = this.getResources().getBoolean(this.getResources().getIdentifier("MCPUSH_CLOUDPAGES_ENABLED", "bool", this.getPackageName()));
+			if (cloudPagesEnabled == null) throw new RuntimeException("Unable to find MCPUSH_CLOUDPAGES_ENABLED in secrets.xml");
+			overrideNotifications = this.getResources().getBoolean(this.getResources().getIdentifier("MCPUSH_OVERRIDE_NTFN_ENABLED", "bool", this.getPackageName()));
+			if (overrideNotifications == null) throw new RuntimeException("Unable to find MCPUSH_OVERRIDE_NTFN_ENABLED in secrets.xml");
 
 
 
-			String etAppId;
+			String mcAppId;
 			String accessToken;
 			String gcmSenderId;
 			boolean isDebuggable = (0 != (this.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 			if (isDebuggable) {
 				//MCPush.setLogLevel(Log.DEBUG);
-				etAppId = devEtAppId;
+				mcAppId = devMCAppId;
 				accessToken = devAccessToken;
 				gcmSenderId = devGcmSenderId;
 			} else {
-				etAppId = prodEtAppId;
+				mcAppId = prodMCAppId;
 				accessToken = prodAccessToken;
 				gcmSenderId = prodGcmSenderId;
 			}
@@ -124,7 +124,7 @@ public class MCPushCordovaApplication extends Application implements MCLogListen
 			MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
 			//if (pushConfig != null) {
 				MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
-		        .setApplicationId(etAppId)
+		        .setApplicationId(mcAppId)
 		        .setAccessToken(accessToken)
 		        .setGcmSenderId(gcmSenderId)
 		        //Enable any other feature desired.

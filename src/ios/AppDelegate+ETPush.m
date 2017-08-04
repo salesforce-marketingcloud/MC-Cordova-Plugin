@@ -50,23 +50,23 @@
 	// Set to YES to enable logging while debugging
 	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"ETPUSH_DEV_APPID"]
-								andAccessToken:[ETSettings objectForKey:@"ETPUSH_DEV_ACCESSTOKEN"]
-								withAnalytics:[[ETSettings objectForKey:@"ETPUSH_ANALYTICS_ENABLED"] boolValue]
-								andLocationServices:[[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]
+	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"MCPUSH_DEV_APPID"]
+								andAccessToken:[ETSettings objectForKey:@"MCPUSH_DEV_ACCESSTOKEN"]
+								withAnalytics:[[ETSettings objectForKey:@"MCPUSH_ANALYTICS_ENABLED"] boolValue]
+								andLocationServices:[[ETSettings objectForKey:@"MCPUSH_LOCATION_ENABLED"] boolValue]
 								andProximityServices:[[ETSettings objectForKey:@"PROXIMITY_ENABLED"] boolValue]
-								andCloudPages:[[ETSettings objectForKey:@"ETPUSH_CLOUDPAGES_ENABLED"] boolValue]
-								withPIAnalytics:[[ETSettings objectForKey:@"ETPUSH_WAMA_ENABLED"] boolValue]
+								andCloudPages:[[ETSettings objectForKey:@"MCPUSH_CLOUDPAGES_ENABLED"] boolValue]
+								withPIAnalytics:[[ETSettings objectForKey:@"MCPUSH_WAMA_ENABLED"] boolValue]
 								error:&error];
 #else
 	// configure and set initial settings of the JB4ASDK
-	successful = [[MCPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"ETPUSH_PROD_APPID"]
-								andAccessToken:[ETSettings objectForKey:@"ETPUSH_PROD_ACCESSTOKEN"]
-								withAnalytics:[[ETSettings objectForKey:@"ETPUSH_ANALYTICS_ENABLED"] boolValue]
-								andLocationServices:[[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]
+	successful = [[MCPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"MCPUSH_PROD_APPID"]
+								andAccessToken:[ETSettings objectForKey:@"MCPUSH_PROD_ACCESSTOKEN"]
+								withAnalytics:[[ETSettings objectForKey:@"MCPUSH_ANALYTICS_ENABLED"] boolValue]
+								andLocationServices:[[ETSettings objectForKey:@"MCPUSH_LOCATION_ENABLED"] boolValue]
 								andProximityServices:[[ETSettings objectForKey:@"PROXIMITY_ENABLED"] boolValue]
-								andCloudPages:[[ETSettings objectForKey:@"ETPUSH_CLOUDPAGES_ENABLED"] boolValue]
-								withPIAnalytics:[[ETSettings objectForKey:@"ETPUSH_WAMA_ENABLED"] boolValue]
+								andCloudPages:[[ETSettings objectForKey:@"MCPUSH_CLOUDPAGES_ENABLED"] boolValue]
+								withPIAnalytics:[[ETSettings objectForKey:@"MCPUSH_WAMA_ENABLED"] boolValue]
 								error:&error];
 #endif
 	//

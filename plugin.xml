@@ -34,23 +34,23 @@
 
         <config-file target="*-Info.plist" parent="MCPushSettings">
             <dict>
-                <key>ETPUSH_DEV_APPID</key>
+                <key>MCPUSH_DEV_APPID</key>
                 <string>$DEV_APPID</string>
-                <key>ETPUSH_DEV_ACCESSTOKEN</key>
+                <key>MCPUSH_DEV_ACCESSTOKEN</key>
                 <string>$DEV_ACCESSTOKEN</string>
-                <key>ETPUSH_PROD_APPID</key>
+                <key>MCPUSH_PROD_APPID</key>
                 <string>$PROD_APPID</string>
-                <key>ETPUSH_PROD_ACCESSTOKEN</key>
+                <key>MCPUSH_PROD_ACCESSTOKEN</key>
                 <string>$PROD_ACCESSTOKEN</string>
-                <key>ETPUSH_ANALYTICS_ENABLED</key>
+                <key>MCPUSH_ANALYTICS_ENABLED</key>
                 <string>$ANALYTICS_ENABLED</string>
-                <key>ETPUSH_WAMA_ENABLED</key>
+                <key>MCPUSH_WAMA_ENABLED</key>
                 <string>$WAMA_ENABLED</string>
-                <key>ETPUSH_LOCATION_ENABLED</key>
+                <key>MCPUSH_LOCATION_ENABLED</key>
                 <string>$LOCATION_ENABLED</string>
-                <key>ETPUSH_PROXIMITY_ENABLED</key>
+                <key>MCPUSH_PROXIMITY_ENABLED</key>
                 <string>$PROXIMITY_ENABLED</string>
-                <key>ETPUSH_CLOUDPAGES_ENABLED</key>
+                <key>MCPUSH_CLOUDPAGES_ENABLED</key>
                 <string>$CLOUDPAGES_ENABLED</string>    
             </dict>
         </config-file>
@@ -109,18 +109,18 @@
 
         <source-file src="src/android/res/values/secrets.xml" target-dir="res/values/" />
         <config-file target="res/values/secrets.xml" parent="/resources">
-          <string name="ETPUSH_DEV_APPID">$DEV_APPID</string>
-          <string name="ETPUSH_DEV_ACCESSTOKEN">$DEV_ACCESSTOKEN</string>
-          <string name="ETPUSH_DEV_GCMSENDERID">$DEV_GCMSENDERID</string>
-          <string name="ETPUSH_PROD_APPID">$PROD_APPID</string>
-          <string name="ETPUSH_PROD_ACCESSTOKEN">$PROD_ACCESSTOKEN</string>
-          <string name="ETPUSH_PROD_GCMSENDERID">$PROD_GCMSENDERID</string>
-          <bool name="ETPUSH_ANALYTICS_ENABLED">$ANALYTICS_ENABLED</bool>
-          <bool name="ETPUSH_WAMA_ENABLED">$WAMA_ENABLED</bool>
-          <bool name="ETPUSH_LOCATION_ENABLED">$LOCATION_ENABLED</bool>
-          <bool name="ETPUSH_PROXIMITY_ENABLED">$PROXIMITY_ENABLED</bool>
-          <bool name="ETPUSH_CLOUDPAGES_ENABLED">$CLOUDPAGES_ENABLED</bool>
-          <bool name="ETPUSH_OVERRIDE_NTFN_ENABLED">$OVERRIDE_NTFN_ENABLED</bool>
+          <string name="MCPUSH_DEV_APPID">$DEV_APPID</string>
+          <string name="MCPUSH_DEV_ACCESSTOKEN">$DEV_ACCESSTOKEN</string>
+          <string name="MCPUSH_DEV_GCMSENDERID">$DEV_GCMSENDERID</string>
+          <string name="MCPUSH_PROD_APPID">$PROD_APPID</string>
+          <string name="MCPUSH_PROD_ACCESSTOKEN">$PROD_ACCESSTOKEN</string>
+          <string name="MCPUSH_PROD_GCMSENDERID">$PROD_GCMSENDERID</string>
+          <bool name="MCPUSH_ANALYTICS_ENABLED">$ANALYTICS_ENABLED</bool>
+          <bool name="MCPUSH_WAMA_ENABLED">$WAMA_ENABLED</bool>
+          <bool name="MCPUSH_LOCATION_ENABLED">$LOCATION_ENABLED</bool>
+          <bool name="MCPUSH_PROXIMITY_ENABLED">$PROXIMITY_ENABLED</bool>
+          <bool name="MCPUSH_CLOUDPAGES_ENABLED">$CLOUDPAGES_ENABLED</bool>
+          <bool name="MCPUSH_OVERRIDE_NTFN_ENABLED">$OVERRIDE_NTFN_ENABLED</bool>
         </config-file>
 
         <source-file src="src/android/CONSTS.java" target-dir="src/com/salesforce/mcpush" />
