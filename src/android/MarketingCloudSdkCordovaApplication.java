@@ -25,9 +25,9 @@ public class MarketingCloudSdkCordovaApplication extends Application {
         context = getApplicationContext();
 
         MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
-                .setApplicationId(getString(R.string.MarketingCloudSdk_PROD_APPID))
-                .setAccessToken(getString(R.string.MarketingCloudSdk_PROD_ACCESSTOKEN))
-                .setGcmSenderId(getString(R.string.MarketingCloudSdk_PROD_GCMSENDERID))
+                .setApplicationId(getString(R.string.APPID))
+                .setAccessToken(getString(R.string.ACCESSTOKEN))
+                .setGcmSenderId(getString(R.string.GCMSENDERID))
                 .build(), new MarketingCloudSdk.InitializationListener() {
             @Override
             public void complete(InitializationStatus status) {

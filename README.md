@@ -29,36 +29,18 @@ Once provisioning and your AppCenter app(s) are setup, install the plugin into y
 
 ```Bash
 cordova plugin add https://github.com/tharrington/cordova-MarketingCloudSdk
-    --variable DEV_APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
-    --variable DEV_ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
-    --variable DEV_GCMSENDERID=1234567890
-    --variable PROD_APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
-    --variable PROD_ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
-    --variable PROD_GCMSENDERID=1234567890
-    --variable LOCATION_ENABLED=true
-    --variable PROXIMITY_ENABLED=true
-    --variable ANALYTICS_ENABLED=true
-    --variable WAMA_ENABLED=true
-    --variable CLOUDPAGES_ENABLED=true
-    --variable OVERRIDE_NTFN_ENABLED=false (Android only)
+    --variable APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
+    --variable ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
+    --variable GCMSENDERID=1234567890
 ```
 
 The following variables should be used in the `cordova plugin add` command:
 
 | Name | Description |
 | ---- | ----------- |
-| DEV_APPID | The `Application ID` for your Salesforce Marketing Cloud AppCenter development (non-production) App |
-| DEV_ACCESSTOKEN | The `Access Token` for your Salesforce Marketing Cloud AppCenter development (non-production) App |
-| DEV_GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter development (non-production) App |
-| PROD_APPID | The `Application ID` for your Salesforce Marketing Cloud AppCenter production App |
-| PROD_ACCESSTOKEN | The `Access Token` for your Salesforce Marketing Cloud AppCenter production App |
-| PROD_GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter production App |
-| LOCATION_ENABLED | Set to `true` to enable Location Manager and Geofencing (if you have subscribed to this feature) |
-| PROXIMITY_ENABLED | Set to `true` to enable Proximity and Beacon monitoring (if you have subscribed to this feature) |
-| ANALYTICS_ENABLED | Set to `true` to enable Salesforce Marketing Cloud Analytics (if you have subscribed to this feature) |
-| WAMA_ENABLED | Set to `true` to enable Web and Mobile Analytics (if you have subscribed to this feature) |
-| CLOUDPAGES_ENABLED | Set to `true` to enable CloudPage Inbox (if you have subscribed to this feature) |
-| OVERRIDE_NTFN_ENABLED | Set to `true` only if you want to override the default notification handler (Android only) |
+| APPID | The `Application ID` for your Salesforce Marketing Cloud AppCenter App |
+| ACCESSTOKEN | The `Access Token` for your Salesforce Marketing Cloud AppCenter App |
+| GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter App |
 
 ## Using the Plugin
 

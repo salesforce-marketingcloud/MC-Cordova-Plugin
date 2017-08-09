@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="com.salesforce.MarketingCloudSdk" version="2.0.0">
-    <name>Cordova Exact Target Plugin</name>
-    <description>A Cordova Plugin to access the Exact Target native SDKs</description>
+    <name>Cordova MarketingCloudSdk Plugin</name>
+    <description>A Cordova Plugin to access the MarketingCloudSdk native SDKs</description>
     <license>Apache 2.0</license>
     <keywords>cordova,MarketingCloud,MarketingCloudSdk</keywords>
     <js-module src="www/MarketingCloudSdk.js" name="MarketingCloudSdk">
         <clobbers target="MarketingCloudSdk" />
     </js-module>
 
-    <preference name="PROD_APPID" />
-    <preference name="PROD_ACCESSTOKEN" />
+    <preference name="APPID" />
+    <preference name="ACCESSTOKEN" />
 
     <platform name="ios">
         <config-file target="*-Info.plist" parent="/*">
             <dict>
                 <key>NSLocationAlwaysUsageDescription</key>
-                <string>Exact Target uses location in the background.</string>
+                <string>MarketingCloudSdk uses location in the background.</string>
             </dict>
             <dict>
                 <key>NSAllowsArbitraryLoads</key>
@@ -26,10 +26,10 @@
 
         <config-file target="*-Info.plist" parent="MarketingCloudSdkSettings">
             <dict>
-                <key>MarketingCloudSdk_PROD_APPID</key>
-                <string>$PROD_APPID</string>
-                <key>MarketingCloudSdk_PROD_ACCESSTOKEN</key>
-                <string>$PROD_ACCESSTOKEN</string>  
+                <key>APPID</key>
+                <string>$APPID</string>
+                <key>ACCESSTOKEN</key>
+                <string>$ACCESSTOKEN</string>  
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
@@ -71,7 +71,7 @@
     </platform>
 
     <platform name="android">
-        <preference name="PROD_GCMSENDERID" />
+        <preference name="GCMSENDERID" />
 
         <framework src="src/android/MarketingCloudSdk.gradle" custom="true" type="gradleReference" />
 
@@ -84,9 +84,9 @@
 
         <source-file src="src/android/res/values/secrets.xml" target-dir="res/values/" />
         <config-file target="res/values/secrets.xml" parent="/resources">
-          <string name="MarketingCloudSdk_PROD_APPID">$PROD_APPID</string>
-          <string name="MarketingCloudSdk_PROD_ACCESSTOKEN">$PROD_ACCESSTOKEN</string>
-          <string name="MarketingCloudSdk_PROD_GCMSENDERID">$PROD_GCMSENDERID</string>
+          <string name="APPID">$APPID</string>
+          <string name="ACCESSTOKEN">$ACCESSTOKEN</string>
+          <string name="GCMSENDERID">$GCMSENDERID</string>
         </config-file>
 
         <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/MarketingCloudSdk" />

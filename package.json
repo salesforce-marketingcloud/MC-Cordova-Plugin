@@ -1,7 +1,7 @@
 {
   "name": "cordova-push",
   "version": "2.0.0",
-  "description": "A Cordova Plugin to access the Exact Target native SDKs",
+  "description": "A Cordova Plugin to access the MarketingCloudSdk native SDKs",
   "cordova": {
     "id": "com.salesforce.MarketingCloudSdk",
     "platforms": [

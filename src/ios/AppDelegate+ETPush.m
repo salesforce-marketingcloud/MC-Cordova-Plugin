@@ -46,29 +46,14 @@
 	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MCPushSettings"];
 
 	NSLog(@"LOCATION ENABLED: %d", [[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]);
-#ifdef DEBUG
+
 	// Set to YES to enable logging while debugging
 	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"MCPUSH_DEV_APPID"]
-								andAccessToken:[ETSettings objectForKey:@"MCPUSH_DEV_ACCESSTOKEN"]
-								withAnalytics:[[ETSettings objectForKey:@"MCPUSH_ANALYTICS_ENABLED"] boolValue]
-								andLocationServices:[[ETSettings objectForKey:@"MCPUSH_LOCATION_ENABLED"] boolValue]
-								andProximityServices:[[ETSettings objectForKey:@"PROXIMITY_ENABLED"] boolValue]
-								andCloudPages:[[ETSettings objectForKey:@"MCPUSH_CLOUDPAGES_ENABLED"] boolValue]
-								withPIAnalytics:[[ETSettings objectForKey:@"MCPUSH_WAMA_ENABLED"] boolValue]
+	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"APPID"]
+								andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"]
 								error:&error];
-#else
-	// configure and set initial settings of the JB4ASDK
-	successful = [[MCPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"MCPUSH_PROD_APPID"]
-								andAccessToken:[ETSettings objectForKey:@"MCPUSH_PROD_ACCESSTOKEN"]
-								withAnalytics:[[ETSettings objectForKey:@"MCPUSH_ANALYTICS_ENABLED"] boolValue]
-								andLocationServices:[[ETSettings objectForKey:@"MCPUSH_LOCATION_ENABLED"] boolValue]
-								andProximityServices:[[ETSettings objectForKey:@"PROXIMITY_ENABLED"] boolValue]
-								andCloudPages:[[ETSettings objectForKey:@"MCPUSH_CLOUDPAGES_ENABLED"] boolValue]
-								withPIAnalytics:[[ETSettings objectForKey:@"MCPUSH_WAMA_ENABLED"] boolValue]
-								error:&error];
-#endif
+
 	//
 	// if configureSDKWithAppID returns NO, check the error object for detailed failure info. See PushConstants.h for codes.
 	// the features of the JB4ASDK will NOT be useable unless configureSDKWithAppID returns YES.
