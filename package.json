@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "A Cordova Plugin to access the Exact Target native SDKs",
   "cordova": {
-    "id": "com.salesforce.mcpush",
+    "id": "com.salesforce.MarketingCloudSdk",
     "platforms": [
       "ios",
       "android"
@@ -16,7 +16,7 @@
   "keywords": [
     "cordova",
     "MarketingCloud",
-    "MCPush",
+    "MarketingCloudSdk",
     "ecosystem:cordova",
     "cordova-ios",
     "cordova-android"

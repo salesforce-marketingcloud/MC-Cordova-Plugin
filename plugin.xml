@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.salesforce.mcpush" version="2.0.0">
+        id="com.salesforce.MarketingCloudSdk" version="2.0.0">
     <name>Cordova Exact Target Plugin</name>
     <description>A Cordova Plugin to access the Exact Target native SDKs</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,MarketingCloud,MCPush</keywords>
-    <js-module src="www/mcpush.js" name="MCPush">
-        <clobbers target="MCPush" />
+    <keywords>cordova,MarketingCloud,MarketingCloudSdk</keywords>
+    <js-module src="www/MarketingCloudSdk.js" name="MarketingCloudSdk">
+        <clobbers target="MarketingCloudSdk" />
     </js-module>
 
     <preference name="PROD_APPID" />
@@ -24,47 +24,47 @@
             </dict>
         </config-file>
 
-        <config-file target="*-Info.plist" parent="MCPushSettings">
+        <config-file target="*-Info.plist" parent="MarketingCloudSdkSettings">
             <dict>
-                <key>MCPUSH_PROD_APPID</key>
+                <key>MarketingCloudSdk_PROD_APPID</key>
                 <string>$PROD_APPID</string>
-                <key>MCPUSH_PROD_ACCESSTOKEN</key>
+                <key>MarketingCloudSdk_PROD_ACCESSTOKEN</key>
                 <string>$PROD_ACCESSTOKEN</string>  
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
-            <feature name="MCPush">
-                <param name="ios-package" value="CDVMCPush"/>
+            <feature name="MarketingCloudSdk">
+                <param name="ios-package" value="CDVMarketingCloudSdk"/>
             </feature>
         </config-file>
 
         <source-file src="src/ios/AppDelegate+ETPush.m" />
-        <source-file src="src/ios/CDVMCPush.m" />
+        <source-file src="src/ios/CDVMarketingCloudSdk.m" />
         <source-file src="src/ios/CDVMCConstants.m" />
 
         <header-file src="src/ios/AppDelegate+ETPush.h" />
-        <header-file src="src/ios/CDVMCPush.h" />
+        <header-file src="src/ios/CDVMarketingCloudSdk.h" />
         <header-file src="src/ios/CDVMCConstants.h" />
 
-        <header-file src="src/ios/MCPushSDK/ETAnalytics.h" />
-        <header-file src="src/ios/MCPushSDK/ETCloudPage.h" />
-        <header-file src="src/ios/MCPushSDK/ETCloudPageDataSource.h" />
-        <header-file src="src/ios/MCPushSDK/ETEventMessage.h" />
-        <header-file src="src/ios/MCPushSDK/ETEventRegion.h" />
-        <header-file src="src/ios/MCPushSDK/ETGenericUpdate.h" />
-        <header-file src="src/ios/MCPushSDK/ETLandingPagePresenter.h" />
-        <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
-        <header-file src="src/ios/MCPushSDK/ETMessage.h" />
-        <header-file src="src/ios/MCPushSDK/ETPush.h" />
-        <header-file src="src/ios/MCPushSDK/ETRegion.h" />
-        <header-file src="src/ios/MCPushSDK/ETWKLandingPagePresenter.h" />
-        <header-file src="src/ios/MCPushSDK/ExactTargetEnhancedPushDataSource.h" />
-        <header-file src="src/ios/MCPushSDK/PICart.h" />
-        <header-file src="src/ios/MCPushSDK/PICartItem.h" />
-        <header-file src="src/ios/MCPushSDK/PIOrder.h" />
-        <header-file src="src/ios/MCPushSDK/PushConstants.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETAnalytics.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETCloudPage.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETCloudPageDataSource.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETEventMessage.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETEventRegion.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETGenericUpdate.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETLandingPagePresenter.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETLocationManager.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETMessage.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETPush.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETRegion.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ETWKLandingPagePresenter.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/ExactTargetEnhancedPushDataSource.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/PICart.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/PICartItem.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/PIOrder.h" />
+        <header-file src="src/ios/MarketingCloudSdkSDK/PushConstants.h" />
 
-        <source-file src="src/ios/MCPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
+        <source-file src="src/ios/MarketingCloudSdkSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
         <framework src="libsqlite3.dylib" />
         <framework src="CoreLocation.framework/" />
         <framework src="WebKit.framework/" />
@@ -73,25 +73,24 @@
     <platform name="android">
         <preference name="PROD_GCMSENDERID" />
 
-        <framework src="src/android/MCPush.gradle" custom="true" type="gradleReference" />
+        <framework src="src/android/MarketingCloudSdk.gradle" custom="true" type="gradleReference" />
 
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="MCPush">
-                <param name="android-package" value="com.salesforce.mcpush.MCPushCordovaPlugin"/>
+            <feature name="MarketingCloudSdk">
+                <param name="android-package" value="com.salesforce.MarketingCloudSdk.MarketingCloudSdkCordovaPlugin"/>
             </feature>
         </config-file>
 
         <source-file src="src/android/res/values/secrets.xml" target-dir="res/values/" />
         <config-file target="res/values/secrets.xml" parent="/resources">
-          <string name="MCPUSH_PROD_APPID">$PROD_APPID</string>
-          <string name="MCPUSH_PROD_ACCESSTOKEN">$PROD_ACCESSTOKEN</string>
-          <string name="MCPUSH_PROD_GCMSENDERID">$PROD_GCMSENDERID</string>
+          <string name="MarketingCloudSdk_PROD_APPID">$PROD_APPID</string>
+          <string name="MarketingCloudSdk_PROD_ACCESSTOKEN">$PROD_ACCESSTOKEN</string>
+          <string name="MarketingCloudSdk_PROD_GCMSENDERID">$PROD_GCMSENDERID</string>
         </config-file>
 
-        <source-file src="src/android/CONSTS.java" target-dir="src/com/salesforce/mcpush" />
-        <source-file src="src/android/MCPushCordovaApplication.java" target-dir="src/com/salesforce/mcpush" />
-        <source-file src="src/android/MCPushCordovaPlugin.java" target-dir="src/com/salesforce/mcpush" />
+        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/MarketingCloudSdk" />
+        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/MarketingCloudSdk" />
      </platform>
 
 </plugin>

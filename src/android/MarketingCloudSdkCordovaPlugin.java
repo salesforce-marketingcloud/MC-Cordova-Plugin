@@ -1,4 +1,4 @@
-package com.salesforce.mcpush;
+package com.salesforce.MarketingCloudSdk;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
@@ -9,8 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.Locale;
 
-public class MCPushCordovaPlugin extends CordovaPlugin {
-    private static final String TAG = "~#MCPushCordovaPlugin";
+public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
+    private static final String TAG = "~#MarketingCloudSdkCordovaPlugin";
     private static final String ACTION_GET_SDK_VERSION_NAME = "getSdkVersionName";
     private static final String ACTION_GET_SYSTEM_TOKEN = "getSystemToken";
     private static final String ACTION_ENABLE_PUSH = "enablePush";
@@ -92,7 +92,7 @@ public class MCPushCordovaPlugin extends CordovaPlugin {
     private boolean handleIsNotificationEnabled(CallbackContext callbackContext) {
         boolean notificationStatus;
         try {
-            notificationStatus = NotificationManagerCompat.from(MCPushCordovaApplication.getAppContext()).areNotificationsEnabled();
+            notificationStatus = NotificationManagerCompat.from(MarketingCloudSdkCordovaApplication.getAppContext()).areNotificationsEnabled();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }

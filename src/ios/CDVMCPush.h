@@ -2,9 +2,9 @@
 #import <UIKit/UIKit.h>
 #import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
-/*#import "CDVMCPush_ExactTargetEnhancedPushDataSource.h"*/
+/*#import "CDVMarketingCloudSdk_ExactTargetEnhancedPushDataSource.h"*/
 
-@interface CDVMCPush : CDVPlugin {
+@interface CDVMarketingCloudSdk : CDVPlugin {
     NSDictionary *notificationMessage;
     BOOL ready;
 }

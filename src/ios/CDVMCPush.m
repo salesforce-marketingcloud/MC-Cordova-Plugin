@@ -1,12 +1,12 @@
-#import "CDVMCPush.h"
+#import "CDVMarketingCloudSdk.h"
 #import "ETPush.h"
 #import "ETMessage.h"
 
 
-@interface CDVMCPush () {}
+@interface CDVMarketingCloudSdk () {}
 @end
 
-@implementation CDVMCPush
+@implementation CDVMarketingCloudSdk
 
 @synthesize notificationMessage;
 @synthesize pushMethod;

@@ -28,7 +28,7 @@ Once provisioning and your AppCenter app(s) are setup, install the plugin into y
 ***Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs***
 
 ```Bash
-cordova plugin add https://github.com/tharrington/cordova-mcpush
+cordova plugin add https://github.com/tharrington/cordova-MarketingCloudSdk
     --variable DEV_APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
     --variable DEV_ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
     --variable DEV_GCMSENDERID=1234567890
@@ -64,16 +64,16 @@ The following variables should be used in the `cordova plugin add` command:
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the JB4A SDK within your javascript in your Cordova app. 
 
-### MCPush
+### MarketingCloudSdk
 
-Use the `MCPush` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MCPush object that is automatically provided by the plugin. The JB4A configuration and registration calls will complete behind the scenes. You can just start using MCPush.methodname() within your app.
+Use the `MarketingCloudSdk` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MarketingCloudSdk object that is automatically provided by the plugin. The JB4A configuration and registration calls will complete behind the scenes. You can just start using MarketingCloudSdk.methodname() within your app.
 
 ### setOpenDirectHandler
 
 Sets javascript callbacks to handle when Open Direct alerts are received. This can be used to display Open Direct urls within your app (e.g. show in an in-app browser).
 
 ```javascript
-MCPush.setOpenDirectHandler(openDirectHandlerCallback, errorCallback);
+MarketingCloudSdk.setOpenDirectHandler(openDirectHandlerCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -85,7 +85,7 @@ The successCallback will include a result parameter in the following format:
 
 Example:
 ```javascript
-    MCPush.setOpenDirectHandler(openDirectReceived, function(){ console.log('### open direct failed'); });
+    MarketingCloudSdk.setOpenDirectHandler(openDirectReceived, function(){ console.log('### open direct failed'); });
 
     function openDirectReceived(data) {
       console.log('### openDirectReceived: ' + JSON.stringify(data));
@@ -101,7 +101,7 @@ Example:
 Sets javascript callbacks to handle when Cloud Page alerts are received. This can be used to display Cloud Pages within your app (e.g. show the Cloud Page in an in-app browser).
 
 ```javascript
-MCPush.setCloudPageHandler(cloudPageHandlerCallback, errorCallback);
+MarketingCloudSdk.setCloudPageHandler(cloudPageHandlerCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -113,7 +113,7 @@ The successCallback will include a result parameter in the following format:
 
 Example:
 ```javascript
-    MCPush.setCloudPageHandler(cloudPageReceived, function(){ console.log('### open direct failed'); });
+    MarketingCloudSdk.setCloudPageHandler(cloudPageReceived, function(){ console.log('### open direct failed'); });
 
     function cloudPageReceived(data) {
       console.log('### cloudPageReceived: ' + JSON.stringify(data));
@@ -128,7 +128,7 @@ Example:
 Sets javascript callbacks to handle when push notifications are received. This can be used to handle push notifications when your app is open, as well as actions based on Custom Keys sent from the Marketing Cloud. 
 
 ```javascript
-MCPush.setNotificationHandler(notificationHandlerCallback, errorCallback);
+MarketingCloudSdk.setNotificationHandler(notificationHandlerCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -142,7 +142,7 @@ The successCallback will include a result parameter in the following format:
 
 Example:
 ```javascript
-    MCPush.setNotificationHandler(notificationReceived, function(){ console.log('### notification handler failed'); });
+    MarketingCloudSdk.setNotificationHandler(notificationReceived, function(){ console.log('### notification handler failed'); });
 
     function notificationReceived(data) {
       console.log('### notificationReceived: ' + JSON.stringify(data));
@@ -163,7 +163,7 @@ Example:
 Get the version name of the ET Push SDK
 
 ```javascript
-MCPush.getSDKVersionName(successCallback, errorCallback);
+MarketingCloudSdk.getSDKVersionName(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"versionName"`
@@ -173,7 +173,7 @@ The successCallback will include a result parameter in the following format: `"v
 Get the version code of the ET Push SDK
 
 ```javascript
-MCPush.getSdkVersionCode(successCallback, errorCallback);
+MarketingCloudSdk.getSdkVersionCode(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"versionCode"`
@@ -183,7 +183,7 @@ The successCallback will include a result parameter in the following format: `"v
 Sets the Subscriber Key for this device.
 
 ```javascript
-MCPush.setSubscriberKey(successCallback, errorCallback, subscriberKey);
+MarketingCloudSdk.setSubscriberKey(successCallback, errorCallback, subscriberKey);
 ```
 
 ### getSubscriberKey (ios only)
@@ -191,7 +191,7 @@ MCPush.setSubscriberKey(successCallback, errorCallback, subscriberKey);
 Gets the Subscriber Key for this device.
 
 ```javascript
-MCPush.getSubscriberKey(successCallback, errorCallback);
+MarketingCloudSdk.getSubscriberKey(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"subscriberKey"`
@@ -201,7 +201,7 @@ The successCallback will include a result parameter in the following format: `"s
 Adds a tag to the current user's Contact model.
 
 ```javascript
-MCPush.addTag(successCallback, errorCallback, tagName);
+MarketingCloudSdk.addTag(successCallback, errorCallback, tagName);
 ```
 
 ### removeTag
@@ -209,7 +209,7 @@ MCPush.addTag(successCallback, errorCallback, tagName);
 Removes a tag to the current user's Contact model.
 
 ```javascript
-MCPush.removeTag(successCallback, errorCallback, tagName);
+MarketingCloudSdk.removeTag(successCallback, errorCallback, tagName);
 ```
 
 ### getTags
@@ -217,7 +217,7 @@ MCPush.removeTag(successCallback, errorCallback, tagName);
 Gets a list of tags from the current user's Contact model.
 
 ```javascript
-MCPush.getTags(successCallback, errorCallback);
+MarketingCloudSdk.getTags(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -234,7 +234,7 @@ The successCallback will include a result parameter in the following format:
 Adds an attribute to current user's Contact model.
 
 ```javascript
-MCPush.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
+MarketingCloudSdk.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
 ```
 
 ### removeAttribute
@@ -242,7 +242,7 @@ MCPush.addAttribute(successCallback, errorCallback, attributeName, attributeValu
 Removes an attribute from current user's Contact model.
 
 ```javascript
-MCPush.removeAttribute(successCallback, errorCallback, attributeName);
+MarketingCloudSdk.removeAttribute(successCallback, errorCallback, attributeName);
 ```
 
 ### getAttributes
@@ -250,7 +250,7 @@ MCPush.removeAttribute(successCallback, errorCallback, attributeName);
 Gets the list of attributes from the current user's data.
 
 ```javascript
-MCPush.getAttributes(successCallback, errorCallback);
+MarketingCloudSdk.getAttributes(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -267,7 +267,7 @@ The successCallback will include a result parameter in the following format:
 Gets CloudPage Inbox messages object.
 
 ```javascript
-MCPush.getInboxMessages(successCallback, errorCallback);
+MarketingCloudSdk.getInboxMessages(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -297,7 +297,7 @@ The successCallback will include a result parameter in the following format:
 Sets a message to read status.
 
 ```javascript
-MCPush.markAsRead(successCallback, errorCallback, messageId);
+MarketingCloudSdk.markAsRead(successCallback, errorCallback, messageId);
 ```
 
 The successCallback will include a result parameter that represents the inbox state after this call in the following format:
@@ -327,7 +327,7 @@ The successCallback will include a result parameter that represents the inbox st
 Sets a message to deleted, so when new messages are downloaded, it won't be re-added.
 
 ```javascript
-MCPush.markAsDeleted(successCallback, errorCallback, messageId);
+MarketingCloudSdk.markAsDeleted(successCallback, errorCallback, messageId);
 ```
 
 The successCallback will include a result parameter that represents the inbox state after this call in the following format:
@@ -357,7 +357,7 @@ The successCallback will include a result parameter that represents the inbox st
 Enables push and push accessories in the SDK.
 
 ```javascript
-MCPush.enablePush(successCallback, errorCallback);
+MarketingCloudSdk.enablePush(successCallback, errorCallback);
 ```
 
 ### disablePush (android only)
@@ -365,7 +365,7 @@ MCPush.enablePush(successCallback, errorCallback);
 Disables push and push accessories in the SDK.
 
 ```javascript
-MCPush.disablePush(successCallback, errorCallback);
+MarketingCloudSdk.disablePush(successCallback, errorCallback);
 ```
 
 ### isPushEnabled
@@ -373,7 +373,7 @@ MCPush.disablePush(successCallback, errorCallback);
 Checks persistent preferences for the state of Push.
 
 ```javascript
-MCPush.isPushEnabled(successCallback, errorCallback);
+MarketingCloudSdk.isPushEnabled(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`
@@ -383,7 +383,7 @@ The successCallback will include a result parameter in the following format: `tr
 Start monitoring geofences.
 
 ```javascript
-MCPush.startWatchingLocation(successCallback, errorCallback);
+MarketingCloudSdk.startWatchingLocation(successCallback, errorCallback);
 ```
 
 ### stopWatchingLocation
@@ -391,7 +391,7 @@ MCPush.startWatchingLocation(successCallback, errorCallback);
 Stop monitoring geofences.
 
 ```javascript
-MCPush.stopWatchingLocation(successCallback, errorCallback);
+MarketingCloudSdk.stopWatchingLocation(successCallback, errorCallback);
 ```
 
 ### isWatchingLocation
@@ -399,7 +399,7 @@ MCPush.stopWatchingLocation(successCallback, errorCallback);
 Gets the current status for geofence monitoring
 
 ```javascript
-MCPush.isWatchingLocation(successCallback, errorCallback);
+MarketingCloudSdk.isWatchingLocation(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`
@@ -409,7 +409,7 @@ The successCallback will include a result parameter in the following format: `tr
 Start monitoring proximity and beacons.
 
 ```javascript
-MCPush.startWatchingProximity(successCallback, errorCallback);
+MarketingCloudSdk.startWatchingProximity(successCallback, errorCallback);
 ```
 
 ### stopWatchingProximity (android only)
@@ -417,7 +417,7 @@ MCPush.startWatchingProximity(successCallback, errorCallback);
 Stop monitoring proximity and beacons.
 
 ```javascript
-MCPush.stopWatchingProximity(successCallback, errorCallback);
+MarketingCloudSdk.stopWatchingProximity(successCallback, errorCallback);
 ```
 
 ### isWatchingProximity (android only)
@@ -425,7 +425,7 @@ MCPush.stopWatchingProximity(successCallback, errorCallback);
 Gets the current status for monitoring proximity and beacons.
 
 ```javascript
-MCPush.isWatchingProximity(successCallback, errorCallback);
+MarketingCloudSdk.isWatchingProximity(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`

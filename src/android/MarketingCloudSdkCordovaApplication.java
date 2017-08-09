@@ -1,4 +1,4 @@
-package com.salesforce.mcpush;
+package com.salesforce.MarketingCloudSdk;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,9 +9,9 @@ import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 
-public class MCPushCordovaApplication extends Application {
+public class MarketingCloudSdkCordovaApplication extends Application {
 
-    private static final String TAG = "~#MCPushCordovaApp";
+    private static final String TAG = "~#MarketingCloudSdkCordovaApp";
 
     private static Context context;
 
@@ -25,9 +25,9 @@ public class MCPushCordovaApplication extends Application {
         context = getApplicationContext();
 
         MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
-                .setApplicationId(getString(R.string.MCPUSH_PROD_APPID))
-                .setAccessToken(getString(R.string.MCPUSH_PROD_ACCESSTOKEN))
-                .setGcmSenderId(getString(R.string.MCPUSH_PROD_GCMSENDERID))
+                .setApplicationId(getString(R.string.MarketingCloudSdk_PROD_APPID))
+                .setAccessToken(getString(R.string.MarketingCloudSdk_PROD_ACCESSTOKEN))
+                .setGcmSenderId(getString(R.string.MarketingCloudSdk_PROD_GCMSENDERID))
                 .build(), new MarketingCloudSdk.InitializationListener() {
             @Override
             public void complete(InitializationStatus status) {
