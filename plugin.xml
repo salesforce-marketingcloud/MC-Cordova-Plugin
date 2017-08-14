@@ -34,37 +34,37 @@
         </config-file>
         <config-file target="config.xml" parent="/*">
             <feature name="MarketingCloudSdk">
-                <param name="ios-package" value="CDVMarketingCloudSdk"/>
+                <param name="ios-package" value="CDVMCPush"/>
             </feature>
         </config-file>
 
         <source-file src="src/ios/AppDelegate+ETPush.m" />
-        <source-file src="src/ios/CDVMarketingCloudSdk.m" />
+        <source-file src="src/ios/CDVMCPush.m" />
         <source-file src="src/ios/CDVMCConstants.m" />
 
         <header-file src="src/ios/AppDelegate+ETPush.h" />
-        <header-file src="src/ios/CDVMarketingCloudSdk.h" />
+        <header-file src="src/ios/CDVMCPush.h" />
         <header-file src="src/ios/CDVMCConstants.h" />
 
-        <header-file src="src/ios/ETPushSDK/ETAnalytics.h" />
-        <header-file src="src/ios/ETPushSDK/ETCloudPage.h" />
-        <header-file src="src/ios/ETPushSDK/ETCloudPageDataSource.h" />
-        <header-file src="src/ios/ETPushSDK/ETEventMessage.h" />
-        <header-file src="src/ios/ETPushSDK/ETEventRegion.h" />
-        <header-file src="src/ios/ETPushSDK/ETGenericUpdate.h" />
-        <header-file src="src/ios/ETPushSDK/ETLandingPagePresenter.h" />
-        <header-file src="src/ios/ETPushSDK/ETLocationManager.h" />
-        <header-file src="src/ios/ETPushSDK/ETMessage.h" />
-        <header-file src="src/ios/ETPushSDK/ETPush.h" />
-        <header-file src="src/ios/ETPushSDK/ETRegion.h" />
-        <header-file src="src/ios/ETPushSDK/ETWKLandingPagePresenter.h" />
-        <header-file src="src/ios/ETPushSDK/ExactTargetEnhancedPushDataSource.h" />
-        <header-file src="src/ios/ETPushSDK/PICart.h" />
-        <header-file src="src/ios/ETPushSDK/PICartItem.h" />
-        <header-file src="src/ios/ETPushSDK/PIOrder.h" />
-        <header-file src="src/ios/ETPushSDK/PushConstants.h" />
+        <header-file src="src/ios/MCPushSDK/ETAnalytics.h" />
+        <header-file src="src/ios/MCPushSDK/ETCloudPage.h" />
+        <header-file src="src/ios/MCPushSDK/ETCloudPageDataSource.h" />
+        <header-file src="src/ios/MCPushSDK/ETEventMessage.h" />
+        <header-file src="src/ios/MCPushSDK/ETEventRegion.h" />
+        <header-file src="src/ios/MCPushSDK/ETGenericUpdate.h" />
+        <header-file src="src/ios/MCPushSDK/ETLandingPagePresenter.h" />
+        <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
+        <header-file src="src/ios/MCPushSDK/ETMessage.h" />
+        <header-file src="src/ios/MCPushSDK/ETPush.h" />
+        <header-file src="src/ios/MCPushSDK/ETRegion.h" />
+        <header-file src="src/ios/MCPushSDK/ETWKLandingPagePresenter.h" />
+        <header-file src="src/ios/MCPushSDK/ExactTargetEnhancedPushDataSource.h" />
+        <header-file src="src/ios/MCPushSDK/PICart.h" />
+        <header-file src="src/ios/MCPushSDK/PICartItem.h" />
+        <header-file src="src/ios/MCPushSDK/PIOrder.h" />
+        <header-file src="src/ios/MCPushSDK/PushConstants.h" />
 
-        <source-file src="src/ios/ETPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
+        <source-file src="src/ios/MCPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
         <framework src="libsqlite3.dylib" />
         <framework src="CoreLocation.framework/" />
         <framework src="WebKit.framework/" />

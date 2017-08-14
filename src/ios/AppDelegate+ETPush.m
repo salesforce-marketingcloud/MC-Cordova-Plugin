@@ -43,16 +43,22 @@
 	NSError *error = nil;
 
 	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MCPushSettings"];
+	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
 
 	NSLog(@"LOCATION ENABLED: %d", [[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]);
 
 	// Set to YES to enable logging while debugging
 	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"APPID"]
-								andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"]
-								error:&error];
+	successful = [[ETPush pushManager] 
+		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"] 
+		andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"] 
+		withAnalytics:NO 
+		andLocationServices:NO 
+		andProximityServices:NO 
+		andCloudPages:NO 
+		withPIAnalytics:NO 
+		error:&error ];
 
 	//
 	// if configureSDKWithAppID returns NO, check the error object for detailed failure info. See PushConstants.h for codes.
