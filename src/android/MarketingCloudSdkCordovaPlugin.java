@@ -1,4 +1,4 @@
-package com.salesforce.MarketingCloudSdk;
+package com.salesforce.marketingcloudsdk;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import com.salesforce.marketingcloud.MarketingCloudSdk;

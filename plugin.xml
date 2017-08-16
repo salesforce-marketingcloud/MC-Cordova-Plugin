@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.salesforce.MarketingCloudSdk" version="2.0.0">
+        id="com.salesforce.marketingcloudsdk" version="2.0.0">
     <name>Cordova MarketingCloudSdk Plugin</name>
     <description>A Cordova Plugin to access the MarketingCloudSdk native SDKs</description>
     <license>Apache 2.0</license>
@@ -78,7 +78,7 @@
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MarketingCloudSdk">
-                <param name="android-package" value="com.salesforce.MarketingCloudSdk.MarketingCloudSdkCordovaPlugin"/>
+                <param name="android-package" value="com.salesforce.marketingcloudsdk.MarketingCloudSdkCordovaPlugin"/>
             </feature>
         </config-file>
 
@@ -89,8 +89,8 @@
           <string name="GCMSENDERID">$GCMSENDERID</string>
         </config-file>
 
-        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/MarketingCloudSdk" />
-        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/MarketingCloudSdk" />
+        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/marketingcloudsdk" />
+        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloudsdk" />
      </platform>
 
 </plugin>

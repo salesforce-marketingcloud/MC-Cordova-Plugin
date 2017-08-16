@@ -1,4 +1,4 @@
-package com.salesforce.MarketingCloudSdk;
+package com.salesforce.marketingcloudsdk;
 
 import android.app.Application;
 import android.content.Context;
