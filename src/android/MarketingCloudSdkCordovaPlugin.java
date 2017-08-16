@@ -10,7 +10,7 @@ import org.json.JSONException;
 import java.util.Locale;
 
 public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
-    private static final String TAG = "~#MarketingCloudSdkCordovaPlugin";
+    private static final String TAG = "~#MCSdkCordovaPlugin";
     private static final String ACTION_GET_SDK_VERSION_NAME = "getSdkVersionName";
     private static final String ACTION_GET_SYSTEM_TOKEN = "getSystemToken";
     private static final String ACTION_ENABLE_PUSH = "enablePush";
