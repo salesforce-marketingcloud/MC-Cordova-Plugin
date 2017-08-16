@@ -1,6 +1,6 @@
-# Salesforce Marketing Cloud <br/>Journey Builder for Apps SDK (JB4A) <br/>Cordova/PhoneGap Plugin
+# Salesforce Marketing Cloud <br/>Salesforce Marketing Cloud SDK <br/>Cordova/PhoneGap Plugin
 
-This Cordova plugin implements the Salesforce Marketing Cloud Journey Builder for Apps SDK (JB4A) for your Phonegap/Cordova applications build for iOS and Android. This plugin is not *NOT* an official product release, hence comes with limited support.
+This Cordova plugin implements the Salesforce Marketing Cloud SDK for your Phonegap/Cordova applications build for iOS and Android. This plugin is not *NOT* an official product release, hence comes with limited support.
 
 ## Release History
 
@@ -50,61 +50,7 @@ After successful installation of your Cordova platform(s) and the plugin, you ca
 
 Use the `MarketingCloudSdk` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MarketingCloudSdk object that is automatically provided by the plugin. The JB4A configuration and registration calls will complete behind the scenes. You can just start using MarketingCloudSdk.methodname() within your app.
 
-### setOpenDirectHandler
 
-Sets javascript callbacks to handle when Open Direct alerts are received. This can be used to display Open Direct urls within your app (e.g. show in an in-app browser).
-
-```javascript
-MarketingCloudSdk.setOpenDirectHandler(openDirectHandlerCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format:
-```bash
-{
-	"webPageUrl": "http://opendirecturl.com"
-}
-```
-
-Example:
-```javascript
-    MarketingCloudSdk.setOpenDirectHandler(openDirectReceived, function(){ console.log('### open direct failed'); });
-
-    function openDirectReceived(data) {
-      console.log('### openDirectReceived: ' + JSON.stringify(data));
-
-      if (data) {
-        $cordovaInAppBrowser.open(data.webPageUrl, '_blank');
-      }
-    }
-```
-
-### setCloudPageHandler
-
-Sets javascript callbacks to handle when Cloud Page alerts are received. This can be used to display Cloud Pages within your app (e.g. show the Cloud Page in an in-app browser).
-
-```javascript
-MarketingCloudSdk.setCloudPageHandler(cloudPageHandlerCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format:
-```json
-{
-	"webPageUrl": "http://cloudpageurl.com"
-}
-```
-
-Example:
-```javascript
-    MarketingCloudSdk.setCloudPageHandler(cloudPageReceived, function(){ console.log('### open direct failed'); });
-
-    function cloudPageReceived(data) {
-      console.log('### cloudPageReceived: ' + JSON.stringify(data));
-
-      if (data) {
-        $cordovaInAppBrowser.open(data.webPageUrl, '_blank');
-      }
-    }
-```
 ### setNotificationHandler
 
 Sets javascript callbacks to handle when push notifications are received. This can be used to handle push notifications when your app is open, as well as actions based on Custom Keys sent from the Marketing Cloud. 
@@ -159,7 +105,7 @@ Sets the Subscriber Key for this device.
 MarketingCloudSdk.setSubscriberKey(successCallback, errorCallback, subscriberKey);
 ```
 
-### getSubscriberKey (ios only)
+### getSubscriberKey
 
 Gets the Subscriber Key for this device.
 
