@@ -32,7 +32,7 @@ public class MarketingCloudSdkCordovaApplication extends Application {
             @Override
             public void complete(InitializationStatus status) {
                 if (!status.isUsable()) {
-                    // failed log
+                    Log.d(TAG, "EXECUTING ACTION_SET_NOTIFICATION_HANDLER");
                 }
             }
         });

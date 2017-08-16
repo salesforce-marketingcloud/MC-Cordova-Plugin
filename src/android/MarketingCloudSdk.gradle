@@ -5,13 +5,10 @@ allprojects {
 }
 
 dependencies {
-    /* SDK */
     compile('com.salesforce.marketingcloud:marketingcloudsdk:5.0.+') {
         exclude module: 'android-beacon-library'
         exclude module: 'play-services-location'
     }
-    // 3rd Party Libraries Required for SDK integration of Beacons
-    // compile 'org.altbeacon:android-beacon-library:2.7@aar' // Uncomment ONLY if your organization has been selected for the Beacon Beta Test AND you're using Beacons in your code
 }
 
 

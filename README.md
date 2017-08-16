@@ -28,7 +28,7 @@ Once provisioning and your AppCenter app(s) are setup, install the plugin into y
 ***Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs***
 
 ```Bash
-cordova plugin add https://github.com/tharrington/cordova-MarketingCloudSdk
+cordova plugin add https://github.exacttarget.com/Mobile/cordova-push.git
     --variable APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
     --variable ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
     --variable GCMSENDERID=1234567890
@@ -150,15 +150,6 @@ MarketingCloudSdk.getSDKVersionName(successCallback, errorCallback);
 
 The successCallback will include a result parameter in the following format: `"versionName"`
 
-### getSdkVersionCode (android only)
-
-Get the version code of the ET Push SDK
-
-```javascript
-MarketingCloudSdk.getSdkVersionCode(successCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format: `"versionCode"`
 
 ### setSubscriberKey
 
@@ -244,96 +235,6 @@ The successCallback will include a result parameter in the following format:
 }
 ```
 
-### getInboxMessages
-
-Gets CloudPage Inbox messages object.
-
-```javascript
-MarketingCloudSdk.getInboxMessages(successCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format:
-```json
-{
-	"count": 2,
-	"unread": 1,		
-	"messages": [
-		{
-			"id": "1a2bc34d5e",
-			"isRead": false,
-			"subject": "CloudPage Subject Line 1",
-			"url": "http://cloudpageurl1"
-		},
-		{
-			"id": "6f7g8h9j0k",
-			"isRead": true,
-			"subject": "CloudPage Subject Line 2",
-			"url": "http://cloudpageurl2"
-		}
-	]
-}
-```
-
-### markAsRead
-
-Sets a message to read status.
-
-```javascript
-MarketingCloudSdk.markAsRead(successCallback, errorCallback, messageId);
-```
-
-The successCallback will include a result parameter that represents the inbox state after this call in the following format:
-```json
-{
-	"count": 2,
-	"unread": 0,		
-	"messages": [
-		{
-			"id": "1a2bc34d5e",
-			"isRead": true,
-			"subject": "CloudPage Subject Line 1",
-			"url": "http://cloudpageurl1"
-		},
-		{
-			"id": "6f7g8h9j0k",
-			"isRead": true,
-			"subject": "CloudPage Subject Line 2",
-			"url": "http://cloudpageurl2"
-		}
-	]
-}
-```
-
-### markAsDeleted
-
-Sets a message to deleted, so when new messages are downloaded, it won't be re-added.
-
-```javascript
-MarketingCloudSdk.markAsDeleted(successCallback, errorCallback, messageId);
-```
-
-The successCallback will include a result parameter that represents the inbox state after this call in the following format:
-```json
-{
-	"count": 2,
-	"unread": 1,		
-	"messages": [
-		{
-			"id": "1a2bc34d5e",
-			"isRead": false,
-			"subject": "CloudPage Subject Line 1",
-			"url": "http://cloudpageurl1"
-		},
-		{
-			"id": "6f7g8h9j0k",
-			"isRead": true,
-			"subject": "CloudPage Subject Line 2",
-			"url": "http://cloudpageurl2"
-		}
-	]
-}
-```
-
 ### enablePush (android only)
 
 Enables push and push accessories in the SDK.
@@ -360,58 +261,7 @@ MarketingCloudSdk.isPushEnabled(successCallback, errorCallback);
 
 The successCallback will include a result parameter in the following format: `true/false`
 
-### startWatchingLocation
-
-Start monitoring geofences.
-
-```javascript
-MarketingCloudSdk.startWatchingLocation(successCallback, errorCallback);
-```
-
-### stopWatchingLocation
-
-Stop monitoring geofences.
-
-```javascript
-MarketingCloudSdk.stopWatchingLocation(successCallback, errorCallback);
-```
-
-### isWatchingLocation
-
-Gets the current status for geofence monitoring
-
-```javascript
-MarketingCloudSdk.isWatchingLocation(successCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format: `true/false`
-
-### startWatchingProximity (android only)
-
-Start monitoring proximity and beacons.
-
-```javascript
-MarketingCloudSdk.startWatchingProximity(successCallback, errorCallback);
-```
-
-### stopWatchingProximity (android only)
-
-Stop monitoring proximity and beacons.
-
-```javascript
-MarketingCloudSdk.stopWatchingProximity(successCallback, errorCallback);
-```
-
-### isWatchingProximity (android only)
-
-Gets the current status for monitoring proximity and beacons.
-
-```javascript
-MarketingCloudSdk.isWatchingProximity(successCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format: `true/false`
 
 ## Sample Application
 
-A sample AngularJS/Ionic application can be found [here](https://github.com/tharrington/daily-deals) that demonstrates the full lifecycle use of this plugin.
+A sample AngularJS/Ionic application can be found [here](https://github.exacttarget.com/Mobile/cordova-push-tester.git) that demonstrates the full lifecycle use of this plugin.
