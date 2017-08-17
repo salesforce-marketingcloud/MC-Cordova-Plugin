@@ -2,10 +2,6 @@
 #import "ETPush.h"
 #import "ETMessage.h"
 
-
-@interface MCPushSDKPush () {}
-@end
-
 @implementation MCPushSDKPush
 
 @synthesize notificationMessage;
