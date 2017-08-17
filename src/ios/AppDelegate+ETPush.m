@@ -2,7 +2,7 @@
 #import <objc/runtime.h>
 #import "AppDelegate+ETPush.h"
 #import "ETPush.h"
-#import "CDVMCPush.h"
+#import "MCPushSDKPush.h"
 
 
 @implementation AppDelegate (ETPush)

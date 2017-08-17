@@ -1,4 +1,4 @@
-#import "CDVMCConstants.h"
+#import "MCPushSDKConstants.h"
 
 #pragma mark - App Defaults
 CGFloat const kCDVAppCustomTextSize = 15.0;
