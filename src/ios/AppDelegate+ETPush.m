@@ -2,7 +2,7 @@
 #import <objc/runtime.h>
 #import "AppDelegate+ETPush.h"
 #import "ETPush.h"
-#import "CDVETPush.h"
+#import "CDVMCPush.h"
 
 
 @implementation AppDelegate (ETPush)
@@ -43,32 +43,23 @@
 	NSError *error = nil;
 
 	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"ETPushSettings"];
+	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
 
 	NSLog(@"LOCATION ENABLED: %d", [[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]);
-#ifdef DEBUG
+
 	// Set to YES to enable logging while debugging
 	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"ETPUSH_DEV_APPID"]
-								andAccessToken:[ETSettings objectForKey:@"ETPUSH_DEV_ACCESSTOKEN"]
-								withAnalytics:[[ETSettings objectForKey:@"ETPUSH_ANALYTICS_ENABLED"] boolValue]
-								andLocationServices:[[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]
-								andProximityServices:[[ETSettings objectForKey:@"PROXIMITY_ENABLED"] boolValue]
-								andCloudPages:[[ETSettings objectForKey:@"ETPUSH_CLOUDPAGES_ENABLED"] boolValue]
-								withPIAnalytics:[[ETSettings objectForKey:@"ETPUSH_WAMA_ENABLED"] boolValue]
-								error:&error];
-#else
-	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] configureSDKWithAppID:[ETSettings objectForKey:@"ETPUSH_PROD_APPID"]
-								andAccessToken:[ETSettings objectForKey:@"ETPUSH_PROD_ACCESSTOKEN"]
-								withAnalytics:[[ETSettings objectForKey:@"ETPUSH_ANALYTICS_ENABLED"] boolValue]
-								andLocationServices:[[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]
-								andProximityServices:[[ETSettings objectForKey:@"PROXIMITY_ENABLED"] boolValue]
-								andCloudPages:[[ETSettings objectForKey:@"ETPUSH_CLOUDPAGES_ENABLED"] boolValue]
-								withPIAnalytics:[[ETSettings objectForKey:@"ETPUSH_WAMA_ENABLED"] boolValue]
-								error:&error];
-#endif
+	successful = [[ETPush pushManager] 
+		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"] 
+		andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"] 
+		withAnalytics:NO 
+		andLocationServices:NO 
+		andProximityServices:NO 
+		andCloudPages:NO 
+		withPIAnalytics:NO 
+		error:&error ];
+
 	//
 	// if configureSDKWithAppID returns NO, check the error object for detailed failure info. See PushConstants.h for codes.
 	// the features of the JB4ASDK will NOT be useable unless configureSDKWithAppID returns YES.

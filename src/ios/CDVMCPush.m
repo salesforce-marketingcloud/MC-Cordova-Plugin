@@ -1,12 +1,12 @@
-#import "CDVETPush.h"
+#import "CDVMCPush.h"
 #import "ETPush.h"
 #import "ETMessage.h"
 
 
-@interface CDVETPush () {}
+@interface CDVMCPush () {}
 @end
 
-@implementation CDVETPush
+@implementation CDVMCPush
 
 @synthesize notificationMessage;
 @synthesize pushMethod;

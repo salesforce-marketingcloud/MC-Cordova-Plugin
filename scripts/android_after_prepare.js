@@ -17,7 +17,7 @@ module.exports = function(context) {
         throw new Error('Unable to find AndroidManifest.xml: ' + err);
       }
 
-      var appClass = 'com.salesforce.etpush.ETPushCordovaApplication';
+      var appClass = 'com.salesforce.marketingcloudsdk.MarketingCloudSdkCordovaApplication';
 
       if (data.indexOf(appClass) == -1) {
 
