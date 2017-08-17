@@ -171,4 +171,4 @@ The successCallback will include a result parameter in the following format: `tr
 
 ## Sample Application
 
-A sample AngularJS/Ionic application can be found [here](https://github.exacttarget.com/Mobile/MarketingCloudSdk-Cordova-Plugin-Tester.git) that demonstrates the full lifecycle use of this plugin.
+A sample application can be found [here](https://github.exacttarget.com/Mobile/MarketingCloudSdk-Cordova-Plugin-Tester.git) that demonstrates the full lifecycle use of this plugin.
