@@ -4,17 +4,11 @@ This Cordova plugin implements the Salesforce Marketing Cloud SDK for your Phone
 
 ## Release History
 
-### Version 2.0.0
-_Released March 16, 2017_
-
-* Initial Release (public)
-* Uses iOS SDK version 4.5.0 and Android version 4.8.5
-
 ### Version 1.0.0
-_Released November 3, 2015_
+_Released October 27, 2017_
 
 * Initial Release (public)
-* Uses iOS SDK version 4.0.2 and Android version 4.0.7
+* Uses iOS SDK version 5.0.0 and Android version 5.0.7
 
 ## Installing the Plugin
 
@@ -28,10 +22,12 @@ Once provisioning and your AppCenter app(s) are setup, install the plugin into y
 ***Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs***
 
 ```Bash
-cordova plugin add https://github.exacttarget.com/Mobile/cordova-push.git
-    --variable APPID=1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p 
-    --variable ACCESSTOKEN=1q2w3e4r5t6y7u8i9o0p
-    --variable GCMSENDERID=1234567890
+cordova plugin add ../MarketingCloudSdk-Cordova-Plugin 
+--variable APPID={YOUR_APP_ID} 
+--variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} 
+--variable GCMSENDERID={YOUR_GCM_SENDER_ID} 
+--nosave 
+--nofetch
 ```
 
 The following variables should be used in the `cordova plugin add` command:
@@ -44,57 +40,22 @@ The following variables should be used in the `cordova plugin add` command:
 
 ## Using the Plugin
 
-After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the JB4A SDK within your javascript in your Cordova app. 
+After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
 
 ### MarketingCloudSdk
 
-Use the `MarketingCloudSdk` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MarketingCloudSdk object that is automatically provided by the plugin. The JB4A configuration and registration calls will complete behind the scenes. You can just start using MarketingCloudSdk.methodname() within your app.
+Use the `MarketingCloudSdk` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MarketingCloudSdk object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MarketingCloudSdk.methodname() within your app.
 
 
-### setNotificationHandler
+### getSystemToken
 
-Sets javascript callbacks to handle when push notifications are received. This can be used to handle push notifications when your app is open, as well as actions based on Custom Keys sent from the Marketing Cloud. 
-
-```javascript
-MarketingCloudSdk.setNotificationHandler(notificationHandlerCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format:
-```json
-{
-	"alert": "This is an alert with a Custom Key defined",
-	"customKey1": "1234",
-	"customKey2": "vip"
-}
-```
-
-Example:
-```javascript
-    MarketingCloudSdk.setNotificationHandler(notificationReceived, function(){ console.log('### notification handler failed'); });
-
-    function notificationReceived(data) {
-      console.log('### notificationReceived: ' + JSON.stringify(data));
-
-      if (data && data.dealId) {
-      	//todo: automatically route to product detail page
-        $ionicPopup.show({
-          title: 'Custom Key(s)',
-          template: '<div style="width: 100%; text-align: center;">dealId: ' + data.dealId + '</div>',
-          buttons: [{ text: '<b>Do Something</b>', type: 'button-positive' }]
-        });
-      }
-    }
-```
-
-### getSDKVersionName (android only)
-
-Get the version name of the ET Push SDK
+Get the System Token of the Marketing Cloud SDK
 
 ```javascript
-MarketingCloudSdk.getSDKVersionName(successCallback, errorCallback);
+MarketingCloudSdk.getSystemToken(successCallback, errorCallback);
 ```
 
-The successCallback will include a result parameter in the following format: `"versionName"`
+The successCallback will include a result parameter in the following format: `"systemToken"`
 
 
 ### setSubscriberKey
