@@ -4,9 +4,6 @@
 
 @implementation MCPushSDKPush
 
-@synthesize notificationMessage;
-@synthesize pushMethod;
-
 #pragma mark - sdk
 
 - (void)getSystemToken:(CDVInvokedUrlCommand*)command {
