@@ -38,13 +38,11 @@
             </feature>
         </config-file>
 
-        <source-file src="src/ios/AppDelegate+ETPush.m" />
+        <source-file src="src/ios/AppDelegate+MCPushSDKPush.m" />
         <source-file src="src/ios/MCPushSDKPush.m" />
-        <source-file src="src/ios/MCPushSDKConstants.m" />
 
-        <header-file src="src/ios/AppDelegate+ETPush.h" />
+        <header-file src="src/ios/AppDelegate+MCPushSDKPush.h" />
         <header-file src="src/ios/MCPushSDKPush.h" />
-        <header-file src="src/ios/MCPushSDKConstants.h" />
 
         <header-file src="src/ios/MCPushSDK/ETAnalytics.h" />
         <header-file src="src/ios/MCPushSDK/ETCloudPage.h" />

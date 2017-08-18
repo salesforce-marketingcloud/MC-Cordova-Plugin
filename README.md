@@ -8,7 +8,7 @@ This Cordova plugin implements the Salesforce Marketing Cloud SDK for your Phone
 _Released October 27, 2017_
 
 * Initial Release (public)
-* Uses iOS SDK version 5.0.0 and Android version 5.0.7
+* Uses iOS SDK version 4.9.6 and Android version 5.x
 
 ## Installing the Plugin
 
