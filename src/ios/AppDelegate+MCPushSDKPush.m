@@ -1,11 +1,11 @@
 
 #import <objc/runtime.h>
-#import "AppDelegate+ETPush.h"
+#import "AppDelegate+MCPushSDKPush.h"
 #import "ETPush.h"
-#import "CDVMCPush.h"
+#import "MCPushSDKPush.h"
 
 
-@implementation AppDelegate (ETPush)
+@implementation AppDelegate (MCPushSDKPush)
 
 // its dangerous to override a method from within a category.
 // Instead, we will use method swizzling.
@@ -45,8 +45,6 @@
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
 
-	NSLog(@"LOCATION ENABLED: %d", [[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]);
-
 	// Set to YES to enable logging while debugging
 	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
@@ -74,11 +72,6 @@
 			otherButtonTitles:nil] show];
 		});
 	} else {
-
-		// start watching the location - used for iBeacons and location-based push notifications
-		if ([[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]) {
-			[[ETLocationManager locationManager] startWatchingLocation];
-		}
 		// register for push notifications - enable all notification types, no categories
 		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
 																						UIUserNotificationTypeBadge |
@@ -88,9 +81,6 @@
 
 		[[ETPush pushManager] registerUserNotificationSettings:settings];
 		[[ETPush pushManager] registerForRemoteNotifications];
-
-		// The OpenDirect Delegate must be set in order for OpenDirect to work with URL schemes other than http or https.
-		[[ETPush pushManager] setOpenDirectDelegate:self];
 
 		// inform the JB4ASDK of the launch options - possibly UIApplicationLaunchOptionsRemoteNotificationKey or UIApplicationLaunchOptionsLocalNotificationKey
 		[[ETPush pushManager] applicationLaunchedWithOptions:launchOptions];
@@ -117,7 +107,6 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
 	NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
-    //DLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
 
 	[[ETPush pushManager] registerDeviceToken:deviceToken];
 }
@@ -134,27 +123,12 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
-
-	// inform the JB4ASDK that the device received a remote notification
 	[self notificationReceivedWithUserInfo:userInfo messageType:@"Outbound" alertText:nil];
 	[[ETPush pushManager] handleNotification:userInfo forApplicationState:application.applicationState];
-
-	if (userInfo[@"aps"][@"content-available"]) {
-		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
-	} else {
-		[[ETPush pushManager] resetBadgeCount];
-	}
 
 	handler(UIBackgroundFetchResultNoData);
 }
 
-
-#pragma mark - OpenDirect delegate implementation
-
-- (BOOL)shouldDeliverOpenDirectMessageIfAppIsRunning
-{
-	return YES;
-}
 
 #pragma mark - Custom message handlers
 
@@ -163,7 +137,6 @@
 	NSLog(@"### USERINFO: %@", userInfo);
 	NSLog(@"### alertText: %@", alertText);
 
-	// Posting "Push Received Notification" notification to refresh views (CDVMessageReceivedTableViewController)
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"kCDVPushReceivedNotification"
 	 object:self
 	 userInfo:nil];

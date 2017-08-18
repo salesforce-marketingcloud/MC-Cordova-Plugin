@@ -1,15 +1,7 @@
-#import "CDVMCPush.h"
+#import "MCPushSDKPush.h"
 #import "ETPush.h"
-#import "ETMessage.h"
 
-
-@interface CDVMCPush () {}
-@end
-
-@implementation CDVMCPush
-
-@synthesize notificationMessage;
-@synthesize pushMethod;
+@implementation MCPushSDKPush
 
 #pragma mark - sdk
 
