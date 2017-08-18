@@ -45,8 +45,6 @@
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
 
-	NSLog(@"LOCATION ENABLED: %d", [[ETSettings objectForKey:@"ETPUSH_LOCATION_ENABLED"] boolValue]);
-
 	// Set to YES to enable logging while debugging
 	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
@@ -109,7 +107,6 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
 	NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
-    //DLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
 
 	[[ETPush pushManager] registerDeviceToken:deviceToken];
 }
