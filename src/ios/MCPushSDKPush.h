@@ -5,7 +5,6 @@
 
 @interface MCPushSDKPush : CDVPlugin 
 
-// sdk
 - (void)getSystemToken:(CDVInvokedUrlCommand*)command;
 - (void)isPushEnabled:(CDVInvokedUrlCommand*)command;
 
