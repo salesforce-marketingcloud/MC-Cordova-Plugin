@@ -5,7 +5,7 @@
 #import "MCPushSDKPush.h"
 
 
-@implementation AppDelegate (ETPush)
+@implementation AppDelegate (MCPushSDKPush)
 
 // its dangerous to override a method from within a category.
 // Instead, we will use method swizzling.

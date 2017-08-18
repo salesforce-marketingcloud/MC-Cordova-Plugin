@@ -1,6 +1,5 @@
 #import "MCPushSDKPush.h"
 #import "ETPush.h"
-#import "ETMessage.h"
 
 @implementation MCPushSDKPush
 

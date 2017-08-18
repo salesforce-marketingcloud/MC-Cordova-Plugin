@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 
-@interface AppDelegate (ETPush)
+@interface AppDelegate (MCPushSDKPush)
 
 	- (BOOL)application : (UIApplication *)application shouldInitETSDKWithOptions : (NSDictionary *)launchOptions;
 
