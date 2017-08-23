@@ -23,6 +23,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         Log.v(TAG, String.format(Locale.ENGLISH, "EXECUTING ACTION: %s", action));
+
         switch (action) {
             case ACTION_GET_SDK_VERSION_NAME:
                 return handleGetSdkVersionName(callbackContext);
@@ -44,7 +45,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         }
     }
 
-    private boolean handleSetNotificationHandler(CallbackContext callbackContext) {
+    private boolean handleSetNotificationHandler(final CallbackContext callbackContext) {
         if (notificationCallback != null) {
             callbackContext.error("Notification handler already running.");
             return true;
@@ -52,79 +53,111 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         notificationCallback = callbackContext;
         Log.d(TAG, "EXECUTING ACTION_SET_NOTIFICATION_HANDLER");
         // Don't return any result now, since status results will be sent when events come in from broadcast receiver
-        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        final PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
-        callbackContext.sendPluginResult(pluginResult);
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.sendPluginResult(pluginResult);
+            }
+        });
         return true;
     }
 
-    private boolean handleIsPushEnabled(CallbackContext callbackContext) {
-        Boolean isPushEnabled;
+    private boolean handleIsPushEnabled(final CallbackContext callbackContext) {
+        final Boolean isPushEnabled;
         try {
             isPushEnabled = MarketingCloudSdk.getInstance().getPushMessageManager().isPushEnabled();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, isPushEnabled));
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, isPushEnabled));
+            }
+        });
         return true;
     }
 
-    private boolean handleDisablePush(CallbackContext callbackContext) {
+    private boolean handleDisablePush(final CallbackContext callbackContext) {
         try {
             MarketingCloudSdk.getInstance().getPushMessageManager().disablePush();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        callbackContext.success();
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.success();
+            }
+        });
         return true;
     }
 
-    private boolean handleEnablePush(CallbackContext callbackContext) {
+    private boolean handleEnablePush(final CallbackContext callbackContext) {
         try {
             MarketingCloudSdk.getInstance().getPushMessageManager().enablePush();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        callbackContext.success();
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.success();
+            }
+        });
         return true;
     }
 
-    private boolean handleIsNotificationEnabled(CallbackContext callbackContext) {
-        boolean notificationStatus;
+    private boolean handleIsNotificationEnabled(final CallbackContext callbackContext) {
+        final boolean notificationStatus;
         try {
             notificationStatus = NotificationManagerCompat.from(MarketingCloudSdkCordovaApplication.getAppContext()).areNotificationsEnabled();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, notificationStatus));
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, notificationStatus));
+            }
+        });
         return true;
     }
 
-    private boolean handleGetSystemToken(CallbackContext callbackContext) {
-        String systemToken;
+    private boolean handleGetSystemToken(final CallbackContext callbackContext) {
+        final String systemToken;
         try {
             systemToken = MarketingCloudSdk.getInstance().getRegistrationManager().getSystemToken();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, systemToken));
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, systemToken));
+            }
+        });
         return true;
     }
 
-    private boolean handleGetSdkVersionName(CallbackContext callbackContext) {
-        String versionName;
+    private boolean handleGetSdkVersionName(final CallbackContext callbackContext) {
+        final String versionName;
         try {
             versionName = MarketingCloudSdk.getSdkVersionName();
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, versionName));
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, versionName));
+            }
+        });
         return true;
     }
 
-    private boolean caughtException(CallbackContext callbackContext, Exception e) {
+    private boolean caughtException(final CallbackContext callbackContext, final Exception e) {
         Log.e(TAG, e.getMessage(), e);
-        callbackContext.error(e.getMessage());
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                callbackContext.error(e.getMessage());
+            }
+        });
         return false;
     }
 }
