@@ -55,7 +55,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         // Don't return any result now, since status results will be sent when events come in from broadcast receiver
         final PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.sendPluginResult(pluginResult);
             }
@@ -70,7 +70,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, isPushEnabled));
             }
@@ -84,7 +84,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.success();
             }
@@ -98,7 +98,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.success();
             }
@@ -113,7 +113,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, notificationStatus));
             }
@@ -128,7 +128,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, systemToken));
             }
@@ -143,7 +143,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         } catch (Exception e) {
             return caughtException(callbackContext, e);
         }
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, versionName));
             }
@@ -153,7 +153,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
 
     private boolean caughtException(final CallbackContext callbackContext, final Exception e) {
         Log.e(TAG, e.getMessage(), e);
-        cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.error(e.getMessage());
             }
