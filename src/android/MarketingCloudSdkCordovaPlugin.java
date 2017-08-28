@@ -11,7 +11,6 @@ import java.util.Locale;
 
 public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     private static final String TAG = "~#MCSdkCordovaPlugin";
-    private static final String ACTION_GET_SDK_VERSION_NAME = "getSdkVersionName";
     private static final String ACTION_GET_SYSTEM_TOKEN = "getSystemToken";
     private static final String ACTION_ENABLE_PUSH = "enablePush";
     private static final String ACTION_DISABLE_PUSH = "disablePush";
@@ -23,8 +22,6 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         Log.v(TAG, String.format(Locale.ENGLISH, "EXECUTING ACTION: %s", action));
 
         switch (action) {
-            case ACTION_GET_SDK_VERSION_NAME:
-                return handleGetSdkVersionName(callbackContext);
             case ACTION_GET_SYSTEM_TOKEN:
                 return handleGetSystemToken(callbackContext);
             case ACTION_ENABLE_PUSH:
@@ -92,21 +89,6 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, systemToken));
-            }
-        });
-        return true;
-    }
-
-    private boolean handleGetSdkVersionName(final CallbackContext callbackContext) {
-        final String versionName;
-        try {
-            versionName = MarketingCloudSdk.getSdkVersionName();
-        } catch (Exception e) {
-            return caughtException(callbackContext, e);
-        }
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, versionName));
             }
         });
         return true;
