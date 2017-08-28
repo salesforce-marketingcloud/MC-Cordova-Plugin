@@ -16,8 +16,6 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     private static final String ACTION_ENABLE_PUSH = "enablePush";
     private static final String ACTION_DISABLE_PUSH = "disablePush";
     private static final String ACTION_IS_PUSH_ENABLED = "isPushEnabled";
-    private static final String ACTION_IS_NOTIFICATION_ENABLED = "isNotificationEnabled";
-    private static final String ACTION_SET_NOTIFICATION_HANDLER = "setNotificationHandler";
     private static CallbackContext notificationCallback;
 
     @Override
@@ -29,38 +27,16 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
                 return handleGetSdkVersionName(callbackContext);
             case ACTION_GET_SYSTEM_TOKEN:
                 return handleGetSystemToken(callbackContext);
-            case ACTION_IS_NOTIFICATION_ENABLED:
-                return handleIsNotificationEnabled(callbackContext);
             case ACTION_ENABLE_PUSH:
                 return handleEnablePush(callbackContext);
             case ACTION_DISABLE_PUSH:
                 return handleDisablePush(callbackContext);
             case ACTION_IS_PUSH_ENABLED:
                 return handleIsPushEnabled(callbackContext);
-            case ACTION_SET_NOTIFICATION_HANDLER:
-                return handleSetNotificationHandler(callbackContext);
             default:
                 callbackContext.error("Invalid action");
                 return false;
         }
-    }
-
-    private boolean handleSetNotificationHandler(final CallbackContext callbackContext) {
-        if (notificationCallback != null) {
-            callbackContext.error("Notification handler already running.");
-            return true;
-        }
-        notificationCallback = callbackContext;
-        Log.d(TAG, "EXECUTING ACTION_SET_NOTIFICATION_HANDLER");
-        // Don't return any result now, since status results will be sent when events come in from broadcast receiver
-        final PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
-        pluginResult.setKeepCallback(true);
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.sendPluginResult(pluginResult);
-            }
-        });
-        return true;
     }
 
     private boolean handleIsPushEnabled(final CallbackContext callbackContext) {
@@ -101,21 +77,6 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 callbackContext.success();
-            }
-        });
-        return true;
-    }
-
-    private boolean handleIsNotificationEnabled(final CallbackContext callbackContext) {
-        final boolean notificationStatus;
-        try {
-            notificationStatus = NotificationManagerCompat.from(MarketingCloudSdkCordovaApplication.getAppContext()).areNotificationsEnabled();
-        } catch (Exception e) {
-            return caughtException(callbackContext, e);
-        }
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, notificationStatus));
             }
         });
         return true;
