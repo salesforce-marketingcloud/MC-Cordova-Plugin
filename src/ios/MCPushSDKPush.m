@@ -35,4 +35,35 @@
     [[ETPush pushManager] updateET];
 }
 
+#pragma mark - Attributes
+
+- (void)addAttributes:(CDVInvokedUrlCommand*)command {
+    NSString *name = [command.arguments objectAtIndex:0];
+    NSString *value = [command.arguments objectAtIndex:1];
+    
+    [self.commandDelegate runInBackground:^{
+        BOOL success = [[ETPush pushManager] addAttributeNamed:name value:value];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)removeAttribute:(CDVInvokedUrlCommand*)command {
+    NSString *name = [command.arguments objectAtIndex:0];
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *result = [[ETPush pushManager] removeAttributeNamed:name];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)getAttributes:(CDVInvokedUrlCommand*)command {
+    [self.commandDelegate runInBackground:^{
+        NSDictionary* attributes = [[ETPush pushManager] getAttributes];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:attributes];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 @end

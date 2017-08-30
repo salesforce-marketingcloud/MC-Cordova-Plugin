@@ -10,4 +10,8 @@
 - (void)enablePush:(CDVInvokedUrlCommand*)command;
 - (void)disablePush:(CDVInvokedUrlCommand*)command;
 
+- (void)addAttribute:(CDVInvokedUrlCommand*)command;
+- (void)removeAttribute:(CDVInvokedUrlCommand*)command;
+- (void)getAttributes:(CDVInvokedUrlCommand*)command;
+
 @end
