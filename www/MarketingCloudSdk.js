@@ -13,7 +13,7 @@ module.exports = {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "isPushEnabled", []);
   },
 
-  //Get system token. iOS needs testing.
+  //Get system token.
   getSystemToken: function(successCallback, errorCallback) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getSystemToken", []);
   },
