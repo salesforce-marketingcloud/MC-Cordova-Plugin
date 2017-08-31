@@ -119,7 +119,7 @@ MarketingCloudSdk.addAttribute(successCallback, errorCallback, attributeName, at
 
 The successCallback will include a result parameter of "true" or "false":
 ```javascript
-true
+"true"
 ```
 
 ### removeAttribute
@@ -132,7 +132,7 @@ MarketingCloudSdk.removeAttribute(successCallback, errorCallback, attributeName)
 
 The successCallback will return the key value that has been removed:
 ```javascript
-First Name
+"First Name"
 ```
 
 ### getAttributes
