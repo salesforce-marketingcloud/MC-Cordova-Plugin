@@ -117,12 +117,23 @@ Adds an attribute to current user's Contact model.
 MarketingCloudSdk.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
 ```
 
+The successCallback will include a result parameter of "true" or "false":
+```javascript
+{
+true
+}
+
 ### removeAttribute
 
 Removes an attribute from current user's Contact model.
 
 ```javascript
 MarketingCloudSdk.removeAttribute(successCallback, errorCallback, attributeName);
+```
+
+The successCallback will return the key value that has been removed:
+```javascript
+First Name
 ```
 
 ### getAttributes
