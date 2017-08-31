@@ -119,9 +119,7 @@ MarketingCloudSdk.addAttribute(successCallback, errorCallback, attributeName, at
 
 The successCallback will include a result parameter of "true" or "false":
 ```javascript
-{
 true
-}
 ```
 
 ### removeAttribute
