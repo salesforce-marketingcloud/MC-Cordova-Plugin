@@ -122,6 +122,7 @@ The successCallback will include a result parameter of "true" or "false":
 {
 true
 }
+```
 
 ### removeAttribute
 
