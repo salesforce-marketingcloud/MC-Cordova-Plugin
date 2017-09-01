@@ -1,3 +1,4 @@
+cordova.define("com.salesforce.marketingcloudsdk.MarketingCloudSdk", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 module.exports = {
@@ -23,11 +24,13 @@ module.exports = {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getAttributes", []);
   },
                
-  addAttributes: function(successCallback, errorCallback, key, value) {
-      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "addAttributes", [key,value]);
+  setAttribute: function(successCallback, errorCallback, key, value) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setAttribute", [key,value]);
   },
                
-  removeAttribute: function(successCallback, errorCallback, key) {
-      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "removeAttribute", [key]);
+  clearAttribute: function(successCallback, errorCallback, key) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "clearAttribute", [key]);
   }
 }
+
+});
