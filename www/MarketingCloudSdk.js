@@ -1,4 +1,3 @@
-cordova.define("com.salesforce.marketingcloudsdk.MarketingCloudSdk", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 module.exports = {
@@ -32,5 +31,3 @@ module.exports = {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "clearAttribute", [key]);
   }
 }
-
-});
