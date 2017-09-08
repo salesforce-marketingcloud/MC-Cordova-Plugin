@@ -1,4 +1,4 @@
-package com.salesforce.marketingcloudsdk;
+package com.salesforce.cordova.dev;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;

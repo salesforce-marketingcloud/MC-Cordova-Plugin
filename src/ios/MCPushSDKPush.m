@@ -37,7 +37,7 @@
 
 #pragma mark - Attributes
 
-- (void)addAttributes:(CDVInvokedUrlCommand*)command {
+- (void)setAttribute:(CDVInvokedUrlCommand*)command {
     NSString *name = [command.arguments objectAtIndex:0];
     NSString *value = [command.arguments objectAtIndex:1];
     
