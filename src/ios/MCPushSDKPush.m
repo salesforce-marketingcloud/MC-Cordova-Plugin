@@ -48,7 +48,7 @@
     }];
 }
 
-- (void)removeAttribute:(CDVInvokedUrlCommand*)command {
+- (void)clearAttribute:(CDVInvokedUrlCommand*)command {
     NSString *name = [command.arguments objectAtIndex:0];
     
     [self.commandDelegate runInBackground:^{
