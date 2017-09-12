@@ -14,4 +14,7 @@
 - (void)removeAttribute:(CDVInvokedUrlCommand*)command;
 - (void)getAttributes:(CDVInvokedUrlCommand*)command;
 
+- (void)setContactKey:(CDVInvokedUrlCommand*)command;
+- (void)getContactKey:(CDVInvokedUrlCommand*)command;
+
 @end

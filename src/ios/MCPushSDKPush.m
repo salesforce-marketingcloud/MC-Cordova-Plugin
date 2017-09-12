@@ -56,4 +56,17 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)getContactKey:(CDVInvokedUrlCommand*)command {
+    NSString* contactKey = [[ETPush pushManager] getSubscriberKey];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:contactKey];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)setContactKey:(CDVInvokedUrlCommand*)command {
+    NSString *contactKey = [command.arguments objectAtIndex:0];
+    BOOL success = [[ETPush pushManager] setSubscriberKey:contactKey];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 @end
