@@ -1,4 +1,4 @@
-package com.salesforce.marketingcloudsdk;
+package com.salesforce.cordova.dev;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -119,7 +119,6 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
             return caughtException(callbackContext, "handleSetAttribute arguments may not be null and must contain at least 2 values.");
         }
 
-        // Ensure we have a key/value pair for the Attribute
         final String key = args.optString(0);
         final String value = args.optString(1);
         if (TextUtils.isEmpty(key) || value == null) {
@@ -145,7 +144,6 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
             return caughtException(callbackContext, "fix me"); //TODO
         }
 
-        // Ensure we have a key/value pair for the Attribute
         final String key = args.optString(0);
         if (TextUtils.isEmpty(key)) {
             return caughtException(callbackContext, "Attribute must have a valid key.");
