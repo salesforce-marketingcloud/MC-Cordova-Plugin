@@ -20,4 +20,8 @@
 - (void)setContactKey:(CDVInvokedUrlCommand*)command;
 - (void)getContactKey:(CDVInvokedUrlCommand*)command;
 
+- (void)addTag:(CDVInvokedUrlCommand*)command;
+- (void)removeTag:(CDVInvokedUrlCommand*)command;
+- (void)getTags:(CDVInvokedUrlCommand*)command;
+
 @end
