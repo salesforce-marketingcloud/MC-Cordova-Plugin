@@ -29,5 +29,15 @@ module.exports = {
                
   clearAttribute: function(successCallback, errorCallback, key) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "clearAttribute", [key]);
-  }
+  },
+    
+    
+    //Contact Key
+    setContactKey: function(successCallback, errorCallback, key) {
+        cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setContactKey", [key]);
+    },
+    getContactKey: function(successCallback, errorCallback, key) {
+        cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getContactKey", []);
+    }
+
 }
