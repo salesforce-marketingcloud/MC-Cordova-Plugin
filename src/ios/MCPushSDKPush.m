@@ -5,6 +5,14 @@
 
 #pragma mark - sdk
 
+- (void)enableVerboseLogging:(CDVInvokedUrlCommand*)command {
+    [ETPush setETLoggerToRequiredState:YES];
+}
+
+- (void)disableVerboseLogging:(CDVInvokedUrlCommand*)command {
+    [ETPush setETLoggerToRequiredState:NO];
+}
+
 - (void)getSystemToken:(CDVInvokedUrlCommand*)command {
     NSString *systemToken = [[ETPush pushManager] deviceToken];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:systemToken];

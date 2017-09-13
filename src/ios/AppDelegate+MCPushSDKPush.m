@@ -45,8 +45,6 @@
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
 
-	// Set to YES to enable logging while debugging
-	[ETPush setETLoggerToRequiredState:YES];
 	// configure and set initial settings of the JB4ASDK
 	successful = [[ETPush pushManager] 
 		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"] 

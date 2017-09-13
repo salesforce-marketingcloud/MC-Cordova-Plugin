@@ -46,10 +46,25 @@ After successful installation of your Cordova platform(s) and the plugin, you ca
 
 Use the `MarketingCloudSdk` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MarketingCloudSdk object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MarketingCloudSdk.methodname() within your app.
 
+### enableVerboseLogging
+
+Enable internal Marketing Cloud SDK logging
+
+```javascript
+MarketingCloudSdk.enableVerboseLogging(successCallback, errorCallback);
+```
+
+### disableVerboseLogging
+
+Disable internal Marketing Cloud SDK logging.
+
+```javascript
+MarketingCloudSdk.disableVerboseLogging(successCallback, errorCallback);
+```
 
 ### getSystemToken
 
-Get the System Token of the Marketing Cloud SDK
+Get the System Token of the Marketing Cloud SDK.
 
 ```javascript
 MarketingCloudSdk.getSystemToken(successCallback, errorCallback);
