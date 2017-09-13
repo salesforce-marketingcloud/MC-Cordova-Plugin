@@ -99,12 +99,12 @@ Adds a tag to the current user's Contact model.
 MarketingCloudSdk.addTag(successCallback, errorCallback, tagName);
 ```
 
-### clearTag
+### removeTag
 
 Removes a tag to the current user's Contact model.
 
 ```javascript
-MarketingCloudSdk.clearTag(successCallback, errorCallback, tagName);
+MarketingCloudSdk.removeTag(successCallback, errorCallback, tagName);
 ```
 
 ### getTags
