@@ -21,23 +21,19 @@ module.exports = {
   //Attributes
   getAttributes: function(successCallback, errorCallback) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getAttributes", []);
-  },
-               
+  },         
   setAttribute: function(successCallback, errorCallback, key, value) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setAttribute", [key,value]);
-  },
-               
+  },           
   clearAttribute: function(successCallback, errorCallback, key) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "clearAttribute", [key]);
   },
     
-    
-    //Contact Key
-    setContactKey: function(successCallback, errorCallback, key) {
-        cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setContactKey", [key]);
-    },
-    getContactKey: function(successCallback, errorCallback, key) {
-        cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getContactKey", []);
-    }
-
+  //ContactKey           
+  setContactKey: function(successCallback, errorCallback, contactKey) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setContactKey", [contactKey]);
+  }, 
+  getContactKey: function(successCallback, errorCallback) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getContactKey", []);
+  }
 }

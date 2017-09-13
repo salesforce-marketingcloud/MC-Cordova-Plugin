@@ -1,6 +1,5 @@
 package com.salesforce.cordova.dev;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,6 +28,8 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     private static final String ACTION_SET_ATTRIBUTE = "setAttribute";
     private static final String ACTION_CLEAR_ATTRIBUTE = "clearAttribute";
     private static final String ACTION_GET_ATTRIBUTES = "getAttributes";
+    private static final String ACTION_SET_CONTACTKEY = "setContactKey";
+    private static final String ACTION_GET_CONTACTKEY = "getContactKey";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -49,6 +50,10 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
                 return handleClearAttribute(callbackContext, args);
             case ACTION_GET_ATTRIBUTES:
                 return handleGetAttributes(callbackContext);
+            case ACTION_SET_CONTACTKEY:
+                return handleSetContactKey(callbackContext, args);
+            case ACTION_GET_CONTACTKEY:
+                return handleGetContactKey(callbackContext);
             default:
                 callbackContext.error("Invalid action");
                 return false;
@@ -113,7 +118,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean handleSetAttribute(final CallbackContext callbackContext, @NonNull final JSONArray args) throws JSONException {
+    private boolean handleSetAttribute(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
         // Ensure args are valid
         if (args == null || args.length() < 2) {
             return caughtException(callbackContext, "handleSetAttribute arguments may not be null and must contain at least 2 values.");
@@ -195,6 +200,44 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
+    private boolean handleSetContactKey(final CallbackContext callbackContext, JSONArray args) throws JSONException {
+        if (args == null || args.length() < 1) {
+            return caughtException(callbackContext, "ContactKey value must be passed to SDK.");
+        }
+
+        final String contactKey = args.optString(0);
+        if (TextUtils.isEmpty(contactKey.trim())) {
+            return caughtException(callbackContext, "ContactKey must not be null or empty.");
+        }
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    marketingCloudSdk.getRegistrationManager().edit()
+                            .setContactKey(contactKey.trim())
+                            .commit();
+                    callbackContext.success();
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
+        }
+        return true;
+    }
+
+    private boolean handleGetContactKey(final CallbackContext callbackContext) {
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, marketingCloudSdk.getRegistrationManager().getContactKey()));
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
+        }
+        return true;
+    }
 
     private boolean caughtException(final CallbackContext callbackContext, final String e) {
         callbackContext.error(e);
