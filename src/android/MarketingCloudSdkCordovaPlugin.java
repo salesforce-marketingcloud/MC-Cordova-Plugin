@@ -3,7 +3,9 @@ package com.salesforce.cordova.dev;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.salesforce.marketingcloud.MCLogListener.AndroidLogListener;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
+import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.registration.Attribute;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
 
@@ -30,6 +32,8 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     private static final String ACTION_GET_ATTRIBUTES = "getAttributes";
     private static final String ACTION_SET_CONTACTKEY = "setContactKey";
     private static final String ACTION_GET_CONTACTKEY = "getContactKey";
+    private static final String ACTION_ENABLE_VERBOSE_LOGGING = "enableVerboseLogging";
+    private static final String ACTION_DISABLE_VERBOSE_LOGGING = "disableVerboseLogging";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -54,6 +58,10 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
                 return handleSetContactKey(callbackContext, args);
             case ACTION_GET_CONTACTKEY:
                 return handleGetContactKey(callbackContext);
+            case ACTION_ENABLE_VERBOSE_LOGGING:
+                return handleEnableVerboseLogging(callbackContext);
+            case ACTION_DISABLE_VERBOSE_LOGGING:
+                return handleDisableVerboseLogging(callbackContext);
             default:
                 callbackContext.error("Invalid action");
                 return false;
@@ -231,6 +239,36 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
                 @Override
                 public void ready(MarketingCloudSdk marketingCloudSdk) {
                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, marketingCloudSdk.getRegistrationManager().getContactKey()));
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
+        }
+        return true;
+    }
+
+    private boolean handleEnableVerboseLogging(final CallbackContext callbackContext) {
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                      MarketingCloudSdk.setLogLevel(MCLogListener.VERBOSE);
+                      MarketingCloudSdk.setLogListener(new AndroidLogListener());
+                      callbackContext.success();
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
+        }
+        return true;
+    }
+
+    private boolean handleDisableVerboseLogging(final CallbackContext callbackContext) {
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    MarketingCloudSdk.setLogListener(null);
                 }
             });
         } catch (Exception e) {

@@ -2,6 +2,15 @@ var exec = require('cordova/exec');
 
 module.exports = {
 
+  //Logging
+  enableVerboseLogging(successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "enableVerboseLogging");
+  },
+
+  disableVerboseLogging(successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "disableVerboseLogging");
+  },
+
   //push
   enablePush: function(successCallback, errorCallback) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "enablePush", []);
