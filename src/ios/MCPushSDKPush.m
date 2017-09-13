@@ -64,6 +64,8 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+#pragma mark - Contact Key
+
 - (void)getContactKey:(CDVInvokedUrlCommand*)command {
     NSString* contactKey = [[ETPush pushManager] getSubscriberKey];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:contactKey];
@@ -74,6 +76,31 @@
     NSString *contactKey = [command.arguments objectAtIndex:0];
     BOOL success = [[ETPush pushManager] setSubscriberKey:contactKey];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+#pragma mark - Tags
+
+- (void)setTag:(CDVInvokedUrlCommand*)command {
+    NSString *tag = [command.arguments objectAtIndex:0];
+    
+    BOOL success = [[ETPush pushManager] addTag:tag];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)clearTag:(CDVInvokedUrlCommand*)command {
+    NSString *tag = [command.arguments objectAtIndex:0];
+    
+    NSString *result = [[ETPush pushManager] removeTag:tag];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)getTags:(CDVInvokedUrlCommand*)command {
+    NSSet * setTags = [[ETPush pushManager] getTags];
+    NSMutableArray *arrayTags = [NSMutableArray arrayWithArray:[setTags allObjects]];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:arrayTags];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 

@@ -44,5 +44,16 @@ module.exports = {
   }, 
   getContactKey: function(successCallback, errorCallback) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getContactKey", []);
+  },
+
+  //Tags           
+  setTag: function(successCallback, errorCallback, tag) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setTag", [tag]);
+  }, 
+  clearTag: function(successCallback, errorCallback, tag) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "clearTag", [tag]);
+  }, 
+  getTags: function(successCallback, errorCallback) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getTags", []);
   }
 }
