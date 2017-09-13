@@ -11,7 +11,7 @@
 - (void)disablePush:(CDVInvokedUrlCommand*)command;
 
 - (void)setAttribute:(CDVInvokedUrlCommand*)command;
-- (void)removeAttribute:(CDVInvokedUrlCommand*)command;
+- (void)clearAttribute:(CDVInvokedUrlCommand*)command;
 - (void)getAttributes:(CDVInvokedUrlCommand*)command;
 
 - (void)setContactKey:(CDVInvokedUrlCommand*)command;
