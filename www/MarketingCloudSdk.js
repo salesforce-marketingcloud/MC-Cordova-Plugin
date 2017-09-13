@@ -47,11 +47,11 @@ module.exports = {
   },
 
   //Tags           
-  setTag: function(successCallback, errorCallback, tag) {
-      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "setTag", [tag]);
+  addTag: function(successCallback, errorCallback, tag) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "addTag", [tag]);
   }, 
-  clearTag: function(successCallback, errorCallback, tag) {
-      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "clearTag", [tag]);
+  removeTag: function(successCallback, errorCallback, tag) {
+      cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "removeTag", [tag]);
   }, 
   getTags: function(successCallback, errorCallback) {
       cordova.exec(successCallback, errorCallback, "MarketingCloudSdk", "getTags", []);

@@ -81,7 +81,7 @@
 
 #pragma mark - Tags
 
-- (void)setTag:(CDVInvokedUrlCommand*)command {
+- (void)addTag:(CDVInvokedUrlCommand*)command {
     NSString *tag = [command.arguments objectAtIndex:0];
     
     BOOL success = [[ETPush pushManager] addTag:tag];
@@ -89,7 +89,7 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)clearTag:(CDVInvokedUrlCommand*)command {
+- (void)removeTag:(CDVInvokedUrlCommand*)command {
     NSString *tag = [command.arguments objectAtIndex:0];
     
     NSString *result = [[ETPush pushManager] removeTag:tag];
