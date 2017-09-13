@@ -58,23 +58,23 @@ MarketingCloudSdk.getSystemToken(successCallback, errorCallback);
 The successCallback will include a result parameter in the following format: `"systemToken"`
 
 
-### setSubscriberKey
+### setContactKey
 
-Sets the Subscriber Key for this device.
-
-```javascript
-MarketingCloudSdk.setSubscriberKey(successCallback, errorCallback, subscriberKey);
-```
-
-### getSubscriberKey
-
-Gets the Subscriber Key for this device.
+Sets the Contact Key for this device.
 
 ```javascript
-MarketingCloudSdk.getSubscriberKey(successCallback, errorCallback);
+MarketingCloudSdk.setContactKey(successCallback, errorCallback, contactKey);
 ```
 
-The successCallback will include a result parameter in the following format: `"subscriberKey"`
+### getContactKey
+
+Gets the Contact Key for this device.
+
+```javascript
+MarketingCloudSdk.getContactKey(successCallback, errorCallback);
+```
+
+The successCallback will include a result parameter in the following format: `"contactKey"`
 
 ### addTag
 
