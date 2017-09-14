@@ -1,6 +1,7 @@
 package com.salesforce.cordova.dev;
 
 import android.text.TextUtils;
+import android.support.v4.util.ArraySet;
 import android.util.Log;
 
 import com.salesforce.marketingcloud.MCLogListener.AndroidLogListener;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 @SuppressWarnings("ConstantConditions")
 public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
@@ -32,6 +34,9 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     private static final String ACTION_GET_ATTRIBUTES = "getAttributes";
     private static final String ACTION_SET_CONTACTKEY = "setContactKey";
     private static final String ACTION_GET_CONTACTKEY = "getContactKey";
+    private static final String ACTION_ADD_TAG = "addTag";
+    private static final String ACTION_REMOVE_TAG = "removeTag";
+    private static final String ACTION_GET_TAGS = "getTags";
     private static final String ACTION_ENABLE_VERBOSE_LOGGING = "enableVerboseLogging";
     private static final String ACTION_DISABLE_VERBOSE_LOGGING = "disableVerboseLogging";
 
@@ -58,6 +63,12 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
                 return handleSetContactKey(callbackContext, args);
             case ACTION_GET_CONTACTKEY:
                 return handleGetContactKey(callbackContext);
+            case ACTION_ADD_TAG:
+                return handleAddTag(callbackContext, args);
+            case ACTION_REMOVE_TAG:
+                return handleRemoveTag(callbackContext, args);
+            case ACTION_GET_TAGS:
+                return handleGetTags(callbackContext);
             case ACTION_ENABLE_VERBOSE_LOGGING:
                 return handleEnableVerboseLogging(callbackContext);
             case ACTION_DISABLE_VERBOSE_LOGGING:
@@ -129,7 +140,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
     private boolean handleSetAttribute(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
         // Ensure args are valid
         if (args == null || args.length() < 2) {
-            return caughtException(callbackContext, "handleSetAttribute arguments may not be null and must contain at least 2 values.");
+            return caughtException(callbackContext, "Attribute arguments may not be null and must contain at least 2 values.");
         }
 
         final String key = args.optString(0);
@@ -154,7 +165,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
 
     private boolean handleClearAttribute(final CallbackContext callbackContext, JSONArray args) throws JSONException {
         if (args == null || args.length() < 1) {
-            return caughtException(callbackContext, "fix me"); //TODO
+            return caughtException(callbackContext, "Attribute arguments may not be null and must contain a value."); //TODO
         }
 
         final String key = args.optString(0);
@@ -210,7 +221,7 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
 
     private boolean handleSetContactKey(final CallbackContext callbackContext, JSONArray args) throws JSONException {
         if (args == null || args.length() < 1) {
-            return caughtException(callbackContext, "ContactKey value must be passed to SDK.");
+            return caughtException(callbackContext, "ContactKey arguments may not be null and must contain a value.");
         }
 
         final String contactKey = args.optString(0);
@@ -239,6 +250,84 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
                 @Override
                 public void ready(MarketingCloudSdk marketingCloudSdk) {
                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, marketingCloudSdk.getRegistrationManager().getContactKey()));
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
+        }
+        return true;
+    }
+
+    private boolean handleAddTag(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
+        // Ensure args are valid
+        if (args == null || args.length() < 1) {
+            return caughtException(callbackContext, "Tag argument may not be null and must contain a value.");
+        }
+
+        final String tag = args.optString(0);
+        if (TextUtils.isEmpty(tag.trim())) {
+            return caughtException(callbackContext, "Tag must not be null or empty.");
+        }
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    marketingCloudSdk.getRegistrationManager().edit()
+                            .addTags(tag.trim())
+                            .commit();
+                    callbackContext.success();
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
+        }
+        return true;
+    }
+
+    private boolean handleRemoveTag(final CallbackContext callbackContext, JSONArray args) throws JSONException {
+        if (args == null || args.length() < 1) {
+            return caughtException(callbackContext, "Tag argument may not be null and must contain a value."); //TODO
+        }
+
+        final String tag = args.optString(0);
+        if (TextUtils.isEmpty(tag)) {
+            return caughtException(callbackContext, "Tag must not be null or empty.");
+        }
+
+        if (tag != null && !tag.isEmpty()) {
+            try {
+                MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                    @Override
+                    public void ready(MarketingCloudSdk marketingCloudSdk) {
+                        marketingCloudSdk.getRegistrationManager().edit()
+                                .removeTags(tag)
+                                .commit();
+                        callbackContext.success();
+                    }
+                });
+            } catch (Exception e) {
+                return caughtException(callbackContext, e);
+            }
+        }
+        return true;
+    }
+
+    private boolean handleGetTags(final CallbackContext callbackContext) {
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
+                    final Set<String> tags = new ArraySet<>(registrationManager.getTags());
+                    final JSONArray tagArray = new JSONArray();
+                    if (!tags.isEmpty()) {
+                        for (String tag : tags) {
+                            if (!TextUtils.isEmpty(tag)) {
+                                tagArray.put(tag);
+                            }
+                        }
+                    }
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tagArray));
                 }
             });
         } catch (Exception e) {
