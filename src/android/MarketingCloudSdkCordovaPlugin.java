@@ -169,24 +169,22 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         }
 
         final String key = args.optString(0);
-        if (TextUtils.isEmpty(key)) {
+        if (TextUtils.isEmpty(key.trim())) {
             return caughtException(callbackContext, "Attribute must have a valid key.");
         }
 
-        if (key != null && !key.isEmpty()) {
-            try {
-                MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
-                    @Override
-                    public void ready(MarketingCloudSdk marketingCloudSdk) {
-                        marketingCloudSdk.getRegistrationManager().edit()
-                                .clearAttributes(key)
-                                .commit();
-                        callbackContext.success();
-                    }
-                });
-            } catch (Exception e) {
-                return caughtException(callbackContext, e);
-            }
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    marketingCloudSdk.getRegistrationManager().edit()
+                            .clearAttributes(key)
+                            .commit();
+                    callbackContext.success();
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
         }
         return true;
     }
@@ -290,24 +288,22 @@ public class MarketingCloudSdkCordovaPlugin extends CordovaPlugin {
         }
 
         final String tag = args.optString(0);
-        if (TextUtils.isEmpty(tag)) {
+        if (TextUtils.isEmpty(tag.trim())) {
             return caughtException(callbackContext, "Tag must not be null or empty.");
         }
 
-        if (tag != null && !tag.isEmpty()) {
-            try {
-                MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
-                    @Override
-                    public void ready(MarketingCloudSdk marketingCloudSdk) {
-                        marketingCloudSdk.getRegistrationManager().edit()
-                                .removeTags(tag)
-                                .commit();
-                        callbackContext.success();
-                    }
-                });
-            } catch (Exception e) {
-                return caughtException(callbackContext, e);
-            }
+        try {
+            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+                @Override
+                public void ready(MarketingCloudSdk marketingCloudSdk) {
+                    marketingCloudSdk.getRegistrationManager().edit()
+                            .removeTags(tag)
+                            .commit();
+                    callbackContext.success();
+                }
+            });
+        } catch (Exception e) {
+            return caughtException(callbackContext, e);
         }
         return true;
     }
