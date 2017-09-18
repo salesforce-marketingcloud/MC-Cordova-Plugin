@@ -49,7 +49,7 @@
     NSString *analytics = [ETSettings objectForKey:@"MCANALYTICS"];
     if (analytics != nil) {
         analytics = [analytics lowercaseString];
-        if ([analytics isEqualToString:@"yes") {
+        if ([analytics isEqualToString:@"enabled"] == YES) {
             useAnalytics = YES;
         }
     }
