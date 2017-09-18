@@ -7,7 +7,6 @@
 
 @implementation AppDelegate (MCPushSDKPush)
 
-static NSString * const PREFIX_CORDOVA_VERSION_NAME = @"MC_Cordova_v";
 static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
 
 // its dangerous to override a method from within a category.
@@ -87,7 +86,7 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
         //Replace any older tags
         NSSet *tagsSet = [[ETPush pushManager] getTags];
         for(NSString* tag in tagsSet) {
-            NSRange range = [tag rangeOfString:PREFIX_CORDOVA_VERSION_NAME];
+            NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
             //Is this string at index 0 meaning its a valid Tag prefix.
             if (range.location != NSNotFound && range.location == 0)
             {
