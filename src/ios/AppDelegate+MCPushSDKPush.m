@@ -91,7 +91,6 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
             //Is this string at index 0 meaning its a valid Tag prefix.
             if (range.location != NSNotFound && range.location == 0)
             {
-                NSLog(@"%lu",(unsigned long)range.location);
                 bool success = [[ETPush pushManager] removeTag:tag]; //remove old tag version
                 if (!success){
                     NSLog(@"Removing Tag Failed%@, ", tag);
