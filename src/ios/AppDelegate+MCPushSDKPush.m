@@ -7,6 +7,9 @@
 
 @implementation AppDelegate (MCPushSDKPush)
 
+static NSString * const PREFIX_CORDOVA_VERSION_NAME = @"MC_Cordova_v";
+static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
+
 // its dangerous to override a method from within a category.
 // Instead, we will use method swizzling.
 + (void)load
@@ -79,9 +82,35 @@
 
 		[[ETPush pushManager] registerUserNotificationSettings:settings];
 		[[ETPush pushManager] registerForRemoteNotifications];
-
-		// inform the JB4ASDK of the launch options - possibly UIApplicationLaunchOptionsRemoteNotificationKey or UIApplicationLaunchOptionsLocalNotificationKey
-		[[ETPush pushManager] applicationLaunchedWithOptions:launchOptions];
+        
+        //MC_Cordova-vX.Y.Z
+        //Replace any older tags
+        NSSet *tagsSet = [[ETPush pushManager] getTags];
+        for(NSString* tag in tagsSet) {
+            NSRange range = [tag rangeOfString:PREFIX_CORDOVA_VERSION_NAME];
+            //Is this string at index 0 meaning its a valid Tag prefix.
+            if (range.location != NSNotFound && range.location == 0)
+            {
+                NSLog(@"%lu",(unsigned long)range.location);
+                bool success = [[ETPush pushManager] removeTag:tag]; //remove old tag version
+                if (!success){
+                    NSLog(@"Removing Tag Failed%@, ", tag);
+                }
+                else
+                {
+                    NSLog(@"Removing Tag: %@, ", tag);
+                }
+            }
+        }
+        
+        bool success = [[ETPush pushManager] addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
+        if (!success){
+            NSLog(@"Adding Tag Failed%@, ", CURRENT_CORDOVA_VERSION_NAME);
+        }
+        else
+        {
+            NSLog(@"Adding Tag: %@, ", CURRENT_CORDOVA_VERSION_NAME);
+        }
 	}
 
 	return YES;

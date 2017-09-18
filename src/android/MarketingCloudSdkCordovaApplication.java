@@ -8,16 +8,20 @@ import android.util.Log;
 import com.salesforce.marketingcloud.InitializationStatus;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
+import com.salesforce.marketingcloud.registration.RegistrationManager;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 public class MarketingCloudSdkCordovaApplication extends Application {
 
     private static final String TAG = "~#MCSdkCordovaApp";
-
     private static Context context;
 
     public static Context getAppContext() {
         return context;
     }
+    public static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.0.0";
 
     @Override
     public void onCreate() {
@@ -29,10 +33,20 @@ public class MarketingCloudSdkCordovaApplication extends Application {
                 .setAccessToken(getString(R.string.ACCESSTOKEN))
                 .setGcmSenderId(getString(R.string.GCMSENDERID))
                 .build(), new MarketingCloudSdk.InitializationListener() {
-            @Override
-            public void complete(InitializationStatus status) {
-                if (!status.isUsable()) {
-                    Log.d(TAG, "EXECUTING ACTION_SET_NOTIFICATION_HANDLER");
+            @Override public void complete(InitializationStatus status) {
+
+                if (status.isUsable()) {
+                    RegistrationManager registrationManager = MarketingCloudSdk.getInstance().getRegistrationManager();
+                    RegistrationManager.Editor registrationEditor = registrationManager.edit();
+                    Set<String> tags = new TreeSet<>(registrationManager.getTags());
+                    if (!tags.isEmpty()) {
+                        for (String tag : tags) {
+                            if (!tag.equals(CURRENT_CORDOVA_VERSION_NAME) && tag.startsWith("MC_Cordova_v")) {
+                                registrationEditor.removeTags(tag);
+                            }
+                        }
+                    }
+                    registrationEditor.addTags(CURRENT_CORDOVA_VERSION_NAME).commit();
                 }
             }
         });
