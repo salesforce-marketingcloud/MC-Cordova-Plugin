@@ -90,25 +90,11 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
             //Is this string at index 0 meaning its a valid Tag prefix.
             if (range.location != NSNotFound && range.location == 0)
             {
-                bool success = [[ETPush pushManager] removeTag:tag]; //remove old tag version
-                if (!success){
-                    NSLog(@"Removing Tag Failed%@, ", tag);
-                }
-                else
-                {
-                    NSLog(@"Removing Tag: %@, ", tag);
-                }
+                [[ETPush pushManager] removeTag:tag]; //remove old tag version
             }
         }
         
-        bool success = [[ETPush pushManager] addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
-        if (!success){
-            NSLog(@"Adding Tag Failed%@, ", CURRENT_CORDOVA_VERSION_NAME);
-        }
-        else
-        {
-            NSLog(@"Adding Tag: %@, ", CURRENT_CORDOVA_VERSION_NAME);
-        }
+        [[ETPush pushManager] addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
 	}
 
 	return YES;
