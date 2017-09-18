@@ -45,11 +45,20 @@
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
 
+    BOOL useAnalytics = NO;
+    NSString *analytics = [ETSettings objectForKey:@"MCANALYTICS"];
+    if (analytics != nil) {
+        analytics = [analytics lowercaseString];
+        if ([analytics isEqualToString:@"yes") {
+            useAnalytics = YES;
+        }
+    }
+             
 	// configure and set initial settings of the JB4ASDK
 	successful = [[ETPush pushManager] 
 		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"] 
 		andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"] 
-		withAnalytics:NO 
+		withAnalytics:useAnalytics
 		andLocationServices:NO 
 		andProximityServices:NO 
 		andCloudPages:NO 
