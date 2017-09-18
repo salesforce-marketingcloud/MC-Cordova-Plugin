@@ -88,7 +88,7 @@
           <string name="APPID">$APPID</string>
           <string name="ACCESSTOKEN">$ACCESSTOKEN</string>
           <string name="GCMSENDERID">$GCMSENDERID</string>
-          <string name="GCMSENDERID">$MCANALYTICS</string>
+          <string name="MCANALYTICS">$MCANALYTICS</string>
         </config-file>
 
         <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/cordova/dev" />
