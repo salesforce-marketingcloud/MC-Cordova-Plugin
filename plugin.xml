@@ -44,22 +44,8 @@
         <header-file src="src/ios/AppDelegate+MCPushSDKPush.h" />
         <header-file src="src/ios/MCPushSDKPush.h" />
 
-        <header-file src="src/ios/MCPushSDK/ETAnalytics.h" />
-        <header-file src="src/ios/MCPushSDK/ETCloudPage.h" />
-        <header-file src="src/ios/MCPushSDK/ETCloudPageDataSource.h" />
-        <header-file src="src/ios/MCPushSDK/ETEventMessage.h" />
-        <header-file src="src/ios/MCPushSDK/ETEventRegion.h" />
-        <header-file src="src/ios/MCPushSDK/ETGenericUpdate.h" />
-        <header-file src="src/ios/MCPushSDK/ETLandingPagePresenter.h" />
-        <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
-        <header-file src="src/ios/MCPushSDK/ETMessage.h" />
         <header-file src="src/ios/MCPushSDK/ETPush.h" />
-        <header-file src="src/ios/MCPushSDK/ETRegion.h" />
-        <header-file src="src/ios/MCPushSDK/ETWKLandingPagePresenter.h" />
-        <header-file src="src/ios/MCPushSDK/ExactTargetEnhancedPushDataSource.h" />
-        <header-file src="src/ios/MCPushSDK/PICart.h" />
-        <header-file src="src/ios/MCPushSDK/PICartItem.h" />
-        <header-file src="src/ios/MCPushSDK/PIOrder.h" />
+        <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
         <header-file src="src/ios/MCPushSDK/PushConstants.h" />
 
         <source-file src="src/ios/MCPushSDK/libJB4ASDK-4.9.0.20800000.a" framework="true" />
