@@ -28,10 +28,13 @@ public class MarketingCloudSdkCordovaApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
+        boolean mcAnalyticsEnabled = "enabled".equalsIgnoreCase(getString(R.string.MCANALYTICS));
+
         MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
                 .setApplicationId(getString(R.string.APPID))
                 .setAccessToken(getString(R.string.ACCESSTOKEN))
                 .setGcmSenderId(getString(R.string.GCMSENDERID))
+                .setAnalyticsEnabled(mcAnalyticsEnabled)
                 .build(), new MarketingCloudSdk.InitializationListener() {
             @Override public void complete(InitializationStatus status) {
 

@@ -11,6 +11,7 @@
 
     <preference name="APPID" />
     <preference name="ACCESSTOKEN" />
+    <preference name="MCANALYTICS" />
 
     <platform name="ios">
         <config-file target="*-Info.plist" parent="/*">
@@ -29,7 +30,9 @@
                 <key>APPID</key>
                 <string>$APPID</string>
                 <key>ACCESSTOKEN</key>
-                <string>$ACCESSTOKEN</string>  
+                <string>$ACCESSTOKEN</string>
+                <key>MCANALYTICS</key>
+                <string>$MCANALYTICS</string>
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
@@ -71,6 +74,7 @@
           <string name="APPID">$APPID</string>
           <string name="ACCESSTOKEN">$ACCESSTOKEN</string>
           <string name="GCMSENDERID">$GCMSENDERID</string>
+          <string name="MCANALYTICS">$MCANALYTICS</string>
         </config-file>
 
         <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/cordova/dev" />
