@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.salesforce.cordova.dev" version="2.0.0">
+        id="com.salesforce.marketingcloud.cordovaplugin" version="2.0.0">
     <name>Cordova MarketingCloudSdk Plugin</name>
     <description>A Cordova Plugin to access the MarketingCloudSdk native SDKs</description>
     <license>Apache 2.0</license>
@@ -65,7 +65,7 @@
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MarketingCloudSdk">
-                <param name="android-package" value="com.salesforce.cordova.dev.MarketingCloudSdkCordovaPlugin"/>
+                <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin.MarketingCloudSdkCordovaPlugin"/>
             </feature>
         </config-file>
 
@@ -77,8 +77,8 @@
           <string name="MCANALYTICS">$MCANALYTICS</string>
         </config-file>
 
-        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/cordova/dev" />
-        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/cordova/dev" />
+        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
+        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
      </platform>
 
 </plugin>

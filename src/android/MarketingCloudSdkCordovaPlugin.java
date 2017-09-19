@@ -1,4 +1,4 @@
-package com.salesforce.cordova.dev;
+package com.salesforce.marketingcloud.cordovaplugin;
 
 import android.text.TextUtils;
 import android.support.v4.util.ArraySet;

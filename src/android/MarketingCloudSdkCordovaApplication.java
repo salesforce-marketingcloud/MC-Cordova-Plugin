@@ -1,4 +1,4 @@
-package com.salesforce.cordova.dev;
+package com.salesforce.marketingcloud.cordovaplugin;
 
 import android.app.Application;
 import android.content.Context;
