@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 
-@interface AppDelegate (MCPushSDKPush)
+@interface AppDelegate (MCCordovaPlugin)
 
 	- (BOOL)application : (UIApplication *)application shouldInitETSDKWithOptions : (NSDictionary *)launchOptions;
 

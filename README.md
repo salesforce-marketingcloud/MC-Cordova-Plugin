@@ -44,16 +44,16 @@ The following variables should be used in the `cordova plugin add` command:
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
 
-### MarketingCloudSdk
+### MCCordovaPlugin
 
-Use the `MarketingCloudSdk` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MarketingCloudSdk object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MarketingCloudSdk.methodname() within your app.
+Use the `MCCordovaPlugin` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MCCordovaPlugin object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MCCordovaPlugin.methodname() within your app.
 
 ### enableVerboseLogging
 
 Enable internal Marketing Cloud SDK logging
 
 ```javascript
-MarketingCloudSdk.enableVerboseLogging(successCallback, errorCallback);
+MCCordovaPlugin.enableVerboseLogging(successCallback, errorCallback);
 ```
 
 ### disableVerboseLogging
@@ -61,7 +61,7 @@ MarketingCloudSdk.enableVerboseLogging(successCallback, errorCallback);
 Disable internal Marketing Cloud SDK logging.
 
 ```javascript
-MarketingCloudSdk.disableVerboseLogging(successCallback, errorCallback);
+MCCordovaPlugin.disableVerboseLogging(successCallback, errorCallback);
 ```
 
 ### getSystemToken
@@ -69,7 +69,7 @@ MarketingCloudSdk.disableVerboseLogging(successCallback, errorCallback);
 Get the System Token of the Marketing Cloud SDK.
 
 ```javascript
-MarketingCloudSdk.getSystemToken(successCallback, errorCallback);
+MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"systemToken"`
@@ -80,7 +80,7 @@ The successCallback will include a result parameter in the following format: `"s
 Sets the Contact Key for this device.
 
 ```javascript
-MarketingCloudSdk.setContactKey(successCallback, errorCallback, contactKey);
+MCCordovaPlugin.setContactKey(successCallback, errorCallback, contactKey);
 ```
 
 ### getContactKey
@@ -88,7 +88,7 @@ MarketingCloudSdk.setContactKey(successCallback, errorCallback, contactKey);
 Gets the Contact Key for this device.
 
 ```javascript
-MarketingCloudSdk.getContactKey(successCallback, errorCallback);
+MCCordovaPlugin.getContactKey(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"contactKey"`
@@ -98,7 +98,7 @@ The successCallback will include a result parameter in the following format: `"c
 Adds a tag to the current user's Contact model.
 
 ```javascript
-MarketingCloudSdk.addTag(successCallback, errorCallback, tagName);
+MCCordovaPlugin.addTag(successCallback, errorCallback, tagName);
 ```
 
 ### removeTag
@@ -106,7 +106,7 @@ MarketingCloudSdk.addTag(successCallback, errorCallback, tagName);
 Removes a tag to the current user's Contact model.
 
 ```javascript
-MarketingCloudSdk.removeTag(successCallback, errorCallback, tagName);
+MCCordovaPlugin.removeTag(successCallback, errorCallback, tagName);
 ```
 
 ### getTags
@@ -114,7 +114,7 @@ MarketingCloudSdk.removeTag(successCallback, errorCallback, tagName);
 Gets a list of tags from the current user's Contact model.
 
 ```javascript
-MarketingCloudSdk.getTags(successCallback, errorCallback);
+MCCordovaPlugin.getTags(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -131,7 +131,7 @@ The successCallback will include a result parameter in the following format:
 Adds an attribute to current user's Contact model.
 
 ```javascript
-MarketingCloudSdk.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
+MCCordovaPlugin.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
 ```
 
 The successCallback will include a result parameter of "true" or "false":
@@ -144,7 +144,7 @@ The successCallback will include a result parameter of "true" or "false":
 Removes an attribute from current user's Contact model.
 
 ```javascript
-MarketingCloudSdk.removeAttribute(successCallback, errorCallback, attributeName);
+MCCordovaPlugin.removeAttribute(successCallback, errorCallback, attributeName);
 ```
 
 The successCallback will return the key value that has been removed:
@@ -157,7 +157,7 @@ The successCallback will return the key value that has been removed:
 Gets the list of attributes from the current user's data.
 
 ```javascript
-MarketingCloudSdk.getAttributes(successCallback, errorCallback);
+MCCordovaPlugin.getAttributes(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format:
@@ -174,7 +174,7 @@ The successCallback will include a result parameter in the following format:
 Enables push and push accessories in the SDK.
 
 ```javascript
-MarketingCloudSdk.enablePush(successCallback, errorCallback);
+MCCordovaPlugin.enablePush(successCallback, errorCallback);
 ```
 
 ### disablePush (android only)
@@ -182,7 +182,7 @@ MarketingCloudSdk.enablePush(successCallback, errorCallback);
 Disables push and push accessories in the SDK.
 
 ```javascript
-MarketingCloudSdk.disablePush(successCallback, errorCallback);
+MCCordovaPlugin.disablePush(successCallback, errorCallback);
 ```
 
 ### isPushEnabled
@@ -190,7 +190,7 @@ MarketingCloudSdk.disablePush(successCallback, errorCallback);
 Checks persistent preferences for the state of Push.
 
 ```javascript
-MarketingCloudSdk.isPushEnabled(successCallback, errorCallback);
+MCCordovaPlugin.isPushEnabled(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `true/false`

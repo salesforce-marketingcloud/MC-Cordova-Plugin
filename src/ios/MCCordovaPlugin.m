@@ -1,7 +1,7 @@
-#import "MCPushSDKPush.h"
+#import "MCCordovaPlugin.h"
 #import "ETPush.h"
 
-@implementation MCPushSDKPush
+@implementation MCCordovaPlugin
 
 #pragma mark - sdk
 

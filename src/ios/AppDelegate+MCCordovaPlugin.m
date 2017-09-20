@@ -1,11 +1,11 @@
 
 #import <objc/runtime.h>
-#import "AppDelegate+MCPushSDKPush.h"
+#import "AppDelegate+MCCordovaPlugin.h"
 #import "ETPush.h"
-#import "MCPushSDKPush.h"
+#import "MCCordovaPlugin.h"
 
 
-@implementation AppDelegate (MCPushSDKPush)
+@implementation AppDelegate (MCCordovaPlugin)
 
 static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
 
@@ -45,7 +45,7 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
 	NSError *error = nil;
 
 	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MarketingCloudSdkSettings"];
+	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MCCordovaPluginSettings"];
 
     BOOL useAnalytics = NO;
     NSString *analytics = [ETSettings objectForKey:@"MCANALYTICS"];
