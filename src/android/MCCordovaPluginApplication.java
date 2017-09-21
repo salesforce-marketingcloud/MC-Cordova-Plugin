@@ -15,7 +15,7 @@ import java.util.TreeSet;
 
 public class MCCordovaPluginApplication extends Application {
 
-    private static final String TAG = "~#MCCordovaPluginApplication";
+    private static final String TAG = "~#MCSdkCordovaApp";
     private static Context context;
 
     public static Context getAppContext() {

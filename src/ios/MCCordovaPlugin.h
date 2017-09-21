@@ -3,7 +3,7 @@
 #import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
 
-@interface MCPushSDKPush : CDVPlugin 
+@interface MCCordovaPlugin : CDVPlugin 
 
 - (void)enableVerboseLogging:(CDVInvokedUrlCommand*)command;
 - (void)disableVerboseLogging:(CDVInvokedUrlCommand*)command;

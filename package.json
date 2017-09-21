@@ -1,9 +1,9 @@
 {
   "name": "cordova-push",
   "version": "2.0.0",
-  "description": "A Cordova Plugin to access the MarketingCloudSdk native SDKs",
+  "description": "A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs",
   "cordova": {
-    "id": "com.salesforce.cordova.dev",
+    "id": "com.salesforce.marketingcloud.cordovaplugin",
     "platforms": [
       "ios",
       "android"
@@ -17,6 +17,8 @@
     "cordova",
     "MarketingCloud",
     "MarketingCloudSdk",
+    "MobilePush",
+    "Salesforce",
     "ecosystem:cordova",
     "cordova-ios",
     "cordova-android"

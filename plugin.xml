@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.salesforce.cordova.dev" version="2.0.0">
-    <name>Cordova MarketingCloudSdk Plugin</name>
-    <description>A Cordova Plugin to access the MarketingCloudSdk native SDKs</description>
+        id="com.salesforce.marketingcloud.cordovaplugin" version="2.0.0">
+    <name>Salesforce Marketing Cloud MobilePush SDK Cordova Plugin</name>
+    <description>A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,MarketingCloud,MarketingCloudSdk</keywords>
-    <js-module src="www/MarketingCloudSdk.js" name="MarketingCloudSdk">
-        <clobbers target="MarketingCloudSdk" />
+    <keywords>cordova,MarketingCloud,MarketingCloudSdk,MobilePush,Salesforce</keywords>
+    <js-module src="www/MCCordovaPlugin.js" name="MCCordovaPlugin">
+        <clobbers target="MCCordovaPlugin" />
     </js-module>
 
     <preference name="APPID" />
@@ -17,7 +17,7 @@
         <config-file target="*-Info.plist" parent="/*">
             <dict>
                 <key>NSLocationAlwaysUsageDescription</key>
-                <string>MarketingCloudSdk uses location in the background.</string>
+                <string>MCCordovaPlugin uses location in the background.</string>
             </dict>
             <dict>
                 <key>NSAllowsArbitraryLoads</key>
@@ -25,7 +25,7 @@
             </dict>
         </config-file>
 
-        <config-file target="*-Info.plist" parent="MarketingCloudSdkSettings">
+        <config-file target="*-Info.plist" parent="MCCordovaPluginSettings">
             <dict>
                 <key>APPID</key>
                 <string>$APPID</string>
@@ -36,16 +36,16 @@
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
-            <feature name="MarketingCloudSdk">
-                <param name="ios-package" value="MCPushSDKPush"/>
+            <feature name="MCCordovaPlugin">
+                <param name="ios-package" value="MCCordovaPlugin"/>
             </feature>
         </config-file>
 
-        <source-file src="src/ios/AppDelegate+MCPushSDKPush.m" />
-        <source-file src="src/ios/MCPushSDKPush.m" />
+        <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
+        <source-file src="src/ios/MCCordovaPlugin.m" />
 
-        <header-file src="src/ios/AppDelegate+MCPushSDKPush.h" />
-        <header-file src="src/ios/MCPushSDKPush.h" />
+        <header-file src="src/ios/AppDelegate+MCCordovaPlugin.h" />
+        <header-file src="src/ios/MCCordovaPlugin.h" />
 
         <header-file src="src/ios/MCPushSDK/ETPush.h" />
         <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
@@ -64,8 +64,8 @@
 
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="MarketingCloudSdk">
-                <param name="android-package" value="com.salesforce.cordova.dev.MarketingCloudSdkCordovaPlugin"/>
+            <feature name="MCCordovaPlugin">
+                <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin.MCCordovaPlugin"/>
             </feature>
         </config-file>
 
@@ -77,8 +77,8 @@
           <string name="MCANALYTICS">$MCANALYTICS</string>
         </config-file>
 
-        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/cordova/dev" />
-        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/cordova/dev" />
+        <source-file src="src/android/MCCordovaPluginApplication.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
+        <source-file src="src/android/MCCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
      </platform>
 
 </plugin>
