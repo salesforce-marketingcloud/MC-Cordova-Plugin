@@ -65,7 +65,7 @@
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MCCordovaPlugin">
-                <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin"/>
+                <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin.MarketingCloudSdkCordovaPlugin"/>
             </feature>
         </config-file>
 
