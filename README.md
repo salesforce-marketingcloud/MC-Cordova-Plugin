@@ -1,13 +1,15 @@
-# Salesforce Marketing Cloud <br/>Salesforce Marketing Cloud SDK <br/>Cordova/PhoneGap Plugin
+# Salesforce Marketing Cloud Cordova Plugin
 
-This Cordova plugin implements the Salesforce Marketing Cloud SDK for your Phonegap/Cordova applications build for iOS and Android. This plugin is not *NOT* an official product release, hence comes with limited support.
+This plugin implements the Marketing Cloud Mobile Push SDK for your applications built for iOS and Android.
 
 ## Release History
 
 ### Version 1.0.0
 _Released October 27, 2017_
+> Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.6<br>
+> Depends on the Marketing Cloud Mobile Push Android SDK v5.0.6
 
-* Initial Release (public)
+* Initial Release
 * Uses iOS SDK version 4.9.6 and Android version 5.x
 
 ## Installing the Plugin
