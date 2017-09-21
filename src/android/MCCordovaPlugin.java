@@ -24,7 +24,7 @@ import java.util.Set;
 
 @SuppressWarnings("ConstantConditions")
 public class MCCordovaPlugin extends CordovaPlugin {
-    private static final String TAG = "~#MCCordovaPlugin";
+    private static final String TAG = "~#MCSdkCordovaPlugin";
     private static final String ACTION_GET_SYSTEM_TOKEN = "getSystemToken";
     private static final String ACTION_ENABLE_PUSH = "enablePush";
     private static final String ACTION_DISABLE_PUSH = "disablePush";
@@ -74,7 +74,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
             case ACTION_DISABLE_VERBOSE_LOGGING:
                 return handleDisableVerboseLogging(callbackContext);
             default:
-                callbackContext.error("ERROR: INVALID ACTION");
+                callbackContext.error("Invalid action");
                 return false;
         }
     }
@@ -99,7 +99,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
                 @Override
                 public void ready(MarketingCloudSdk marketingCloudSdk) {
                     marketingCloudSdk.getPushMessageManager().disablePush();
-                    callbackContext.success();
+                    callbackContext.success(); // TODO sendPluginResult w/isPushEnabled like handleIsPushEnabled() and update UI
                 }
             });
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
                 @Override
                 public void ready(MarketingCloudSdk marketingCloudSdk) {
                     marketingCloudSdk.getPushMessageManager().enablePush();
-                    callbackContext.success();
+                    callbackContext.success(); // TODO sendPluginResult w/isPushEnabled like handleIsPushEnabled() and update UI
                 }
             });
         } catch (Exception e) {
@@ -138,8 +138,9 @@ public class MCCordovaPlugin extends CordovaPlugin {
     }
 
     private boolean handleSetAttribute(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
+        // Ensure args are valid
         if (args == null || args.length() < 2) {
-            return caughtException(callbackContext, "Attribute arguments may not be null and must contain a key and a value pair.");
+            return caughtException(callbackContext, "Attribute arguments may not be null and must contain at least 2 values.");
         }
 
         final String key = args.optString(0);
@@ -164,7 +165,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
 
     private boolean handleClearAttribute(final CallbackContext callbackContext, JSONArray args) throws JSONException {
         if (args == null || args.length() < 1) {
-            return caughtException(callbackContext, "Attribute arguments may not be null and must contain a value.");
+            return caughtException(callbackContext, "Attribute arguments may not be null and must contain a value."); //TODO
         }
 
         final String key = args.optString(0);
@@ -256,6 +257,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
     }
 
     private boolean handleAddTag(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
+        // Ensure args are valid
         if (args == null || args.length() < 1) {
             return caughtException(callbackContext, "Tag argument may not be null and must contain a value.");
         }

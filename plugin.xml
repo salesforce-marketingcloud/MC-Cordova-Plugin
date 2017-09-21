@@ -65,7 +65,7 @@
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MCCordovaPlugin">
-                <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin.MarketingCloudSdkCordovaPlugin"/>
+                <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin.MCCordovaPlugin"/>
             </feature>
         </config-file>
 
@@ -77,8 +77,8 @@
           <string name="MCANALYTICS">$MCANALYTICS</string>
         </config-file>
 
-        <source-file src="src/android/MarketingCloudSdkCordovaApplication.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
-        <source-file src="src/android/MarketingCloudSdkCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
+        <source-file src="src/android/MCCordovaPluginApplication.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
+        <source-file src="src/android/MCCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />
      </platform>
 
 </plugin>
