@@ -30,7 +30,7 @@ cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
 --nosave 
 --nofetch
 ```
->Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs
+>Be sure to replace the values with your App's ID, Access Token and GCM Sender ID.  Also, you must explicitely choose enabled or disabled for `MCANALYTICS`.
 
 The following variables should be used in the `cordova plugin add` command:
 
