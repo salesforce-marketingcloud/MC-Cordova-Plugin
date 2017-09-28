@@ -9,7 +9,7 @@ _Released October 27, 2017_
 > Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
 > Depends on the Marketing Cloud Mobile Push Android SDK v5.0.x
 
-* [Basic Push Notification Functionality](#usingtheplugin) w/Audience Segmentation via [Contact Key](#contactkey), [Attributes](#attributes) and [Tags](#tags).
+* [Basic Push Notification Functionality](#using-the-plugin) w/Audience Segmentation via [Contact Key](#contact-key), [Attributes](#attributes) and [Tags](#tags).
 * [Logging](#logging) - Enable/Disable Underlying SDK verbose logging
 
 ## Installing the Plugin
@@ -41,7 +41,6 @@ The following variables should be used in the `cordova plugin add` command:
 | GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter App |
 | MCANALYTICS | Whether or not you wish to collect notification displayed, opened, etc. analytics |
 
-<a href="usingtheplugin"></a>
 ## Using the Plugin
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
@@ -50,7 +49,6 @@ After successful installation of your Cordova platform(s) and the plugin, you ca
 
 Use the `MCCordovaPlugin` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MCCordovaPlugin object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MCCordovaPlugin.methodname() within your app.
 
-<a href="contactkey"></a>
 ### Contact Key
 #### setContactKey
 
@@ -70,7 +68,6 @@ MCCordovaPlugin.getContactKey(successCallback, errorCallback);
 
 The successCallback will include a result parameter in the following format: `"contactKey"`
 
-<a href="attributes"></a>
 ### Attributes
 #### setAttribute
 
@@ -115,7 +112,6 @@ The successCallback will include a result parameter in the following format:
 }
 ```
 
-<a href="tags"></a>
 ### Tags
 #### addTag
 
@@ -150,7 +146,6 @@ The successCallback will include a result parameter in the following format:
 ]
 ```
 
-<a href="logging"></a>
 ### Logging
 #### enableVerboseLogging
 
