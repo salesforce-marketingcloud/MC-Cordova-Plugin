@@ -1,16 +1,16 @@
 # Salesforce Marketing Cloud Cordova Plugin
 
-This plugin implements the Marketing Cloud Mobile Push SDK for your applications built for iOS and Android.
+This plugin implements the Marketing Cloud Mobile Push SDK for your applications built for [iOS](http://salesforce-marketingcloud.github.io/JB4A-SDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/).
 
 ## Release History
 
 ### Version 1.0.0
 _Released October 27, 2017_
-> Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.6<br>
-> Depends on the Marketing Cloud Mobile Push Android SDK v5.0.6
+> Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
+> Depends on the Marketing Cloud Mobile Push Android SDK v5.0.x
 
-* Initial Release
-* Uses iOS SDK version 4.9.6 and Android version 5.x
+* [Basic Push Notification Functionality](#usingtheplugin) w/Audience Segmentation via [Contact Key](#contactkey), [Attributes](#attributes) and [Tags](#tags).
+* [Logging](#logging) - Enable/Disable Underlying SDK verbose logging
 
 ## Installing the Plugin
 
@@ -21,8 +21,6 @@ In order to connect this plugin to your Marketing Cloud account, you must follow
 
 Once provisioning and your AppCenter app(s) are setup, install the plugin into your Cordova project with the following command:
 
-***Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs***
-
 ```Bash
 cordova plugin add ../MarketingCloudSdk-Cordova-Plugin 
 --variable APPID={YOUR_APP_ID} 
@@ -32,6 +30,7 @@ cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
 --nosave 
 --nofetch
 ```
+>Be sure to replace the values below with your App Ids, Access Tokens and GCM Sender IDs
 
 The following variables should be used in the `cordova plugin add` command:
 
@@ -42,6 +41,7 @@ The following variables should be used in the `cordova plugin add` command:
 | GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter App |
 | MCANALYTICS | Whether or not you wish to collect notification displayed, opened, etc. analytics |
 
+<a href="usingtheplugin"></a>
 ## Using the Plugin
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
@@ -50,34 +50,9 @@ After successful installation of your Cordova platform(s) and the plugin, you ca
 
 Use the `MCCordovaPlugin` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MCCordovaPlugin object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MCCordovaPlugin.methodname() within your app.
 
-### enableVerboseLogging
-
-Enable internal Marketing Cloud SDK logging
-
-```javascript
-MCCordovaPlugin.enableVerboseLogging(successCallback, errorCallback);
-```
-
-### disableVerboseLogging
-
-Disable internal Marketing Cloud SDK logging.
-
-```javascript
-MCCordovaPlugin.disableVerboseLogging(successCallback, errorCallback);
-```
-
-### getSystemToken
-
-Get the System Token of the Marketing Cloud SDK.
-
-```javascript
-MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format: `"systemToken"`
-
-
-### setContactKey
+<a href="contactkey"></a>
+### Contact Key
+#### setContactKey
 
 Sets the Contact Key for this device.
 
@@ -85,7 +60,7 @@ Sets the Contact Key for this device.
 MCCordovaPlugin.setContactKey(successCallback, errorCallback, contactKey);
 ```
 
-### getContactKey
+#### getContactKey
 
 Gets the Contact Key for this device.
 
@@ -95,45 +70,14 @@ MCCordovaPlugin.getContactKey(successCallback, errorCallback);
 
 The successCallback will include a result parameter in the following format: `"contactKey"`
 
-### addTag
-
-Adds a tag to the current user's Contact model.
-
-```javascript
-MCCordovaPlugin.addTag(successCallback, errorCallback, tagName);
-```
-
-### removeTag
-
-Removes a tag to the current user's Contact model.
-
-```javascript
-MCCordovaPlugin.removeTag(successCallback, errorCallback, tagName);
-```
-
-### getTags
-
-Gets a list of tags from the current user's Contact model.
-
-```javascript
-MCCordovaPlugin.getTags(successCallback, errorCallback);
-```
-
-The successCallback will include a result parameter in the following format:
-```json
-[
-	"tag1",
-	"tag2",
-	"tag3"
-]
-```
-
-### addAttribute
+<a href="attributes"></a>
+### Attributes
+#### setAttribute
 
 Adds an attribute to current user's Contact model.
 
 ```javascript
-MCCordovaPlugin.addAttribute(successCallback, errorCallback, attributeName, attributeValue);
+MCCordovaPlugin.setAttribute(successCallback, errorCallback, attributeName, attributeValue);
 ```
 
 The successCallback will include a result parameter of "true" or "false":
@@ -141,12 +85,12 @@ The successCallback will include a result parameter of "true" or "false":
 "true"
 ```
 
-### removeAttribute
+#### clearAttribute
 
 Removes an attribute from current user's Contact model.
 
 ```javascript
-MCCordovaPlugin.removeAttribute(successCallback, errorCallback, attributeName);
+MCCordovaPlugin.clearAttribute(successCallback, errorCallback, attributeName);
 ```
 
 The successCallback will return the key value that has been removed:
@@ -154,7 +98,7 @@ The successCallback will return the key value that has been removed:
 "First Name"
 ```
 
-### getAttributes
+#### getAttributes
 
 Gets the list of attributes from the current user's data.
 
@@ -171,23 +115,61 @@ The successCallback will include a result parameter in the following format:
 }
 ```
 
-### enablePush (android only)
+<a href="tags"></a>
+### Tags
+#### addTag
 
-Enables push and push accessories in the SDK.
-
-```javascript
-MCCordovaPlugin.enablePush(successCallback, errorCallback);
-```
-
-### disablePush (android only)
-
-Disables push and push accessories in the SDK.
+Adds a tag to the current user's Contact model.
 
 ```javascript
-MCCordovaPlugin.disablePush(successCallback, errorCallback);
+MCCordovaPlugin.addTag(successCallback, errorCallback, tagName);
 ```
 
-### isPushEnabled
+#### removeTag
+
+Removes a tag to the current user's Contact model.
+
+```javascript
+MCCordovaPlugin.removeTag(successCallback, errorCallback, tagName);
+```
+
+#### getTags
+
+Gets a list of tags from the current user's Contact model.
+
+```javascript
+MCCordovaPlugin.getTags(successCallback, errorCallback);
+```
+
+The successCallback will include a result parameter in the following format:
+```json
+[
+	"tag1",
+	"tag2",
+	"tag3"
+]
+```
+
+<a href="logging"></a>
+### Logging
+#### enableVerboseLogging
+
+Enable internal Marketing Cloud SDK logging
+
+```javascript
+MCCordovaPlugin.enableVerboseLogging(successCallback, errorCallback);
+```
+
+#### disableVerboseLogging
+
+Disable internal Marketing Cloud SDK logging.
+
+```javascript
+MCCordovaPlugin.disableVerboseLogging(successCallback, errorCallback);
+```
+
+### Misc
+#### isPushEnabled
 
 Checks persistent preferences for the state of Push.
 
@@ -197,7 +179,30 @@ MCCordovaPlugin.isPushEnabled(successCallback, errorCallback);
 
 The successCallback will include a result parameter in the following format: `true/false`
 
+#### getSystemToken
 
-## Sample Application
+Get the System Token of the Marketing Cloud SDK.
 
-A sample application can be found [here](https://github.exacttarget.com/Mobile/MarketingCloudSdk-Cordova-Plugin-Tester.git) that demonstrates the full lifecycle use of this plugin.
+```javascript
+MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
+```
+
+The successCallback will include a result parameter in the following format: `"systemToken"`
+
+
+## Android Only Features
+#### enablePush (android only)
+
+Enables push and push accessories in the SDK.
+
+```javascript
+MCCordovaPlugin.enablePush(successCallback, errorCallback);
+```
+
+#### disablePush (android only)
+
+Disables push and push accessories in the SDK.
+
+```javascript
+MCCordovaPlugin.disablePush(successCallback, errorCallback);
+```
