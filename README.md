@@ -97,7 +97,7 @@ The successCallback will return the key value that has been removed:
 
 #### getAttributes
 
-Gets the list of attributes from the current user's data.
+Gets the list of attributes from the current user's Contact model.
 
 ```javascript
 MCCordovaPlugin.getAttributes(successCallback, errorCallback);
