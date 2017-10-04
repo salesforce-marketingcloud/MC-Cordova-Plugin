@@ -136,11 +136,6 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.0";
 	[[ETPush pushManager] applicationDidFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-	[[ETPush pushManager] resetBadgeCount];
-}
-
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
 	[self notificationReceivedWithUserInfo:userInfo messageType:@"Outbound" alertText:nil];
