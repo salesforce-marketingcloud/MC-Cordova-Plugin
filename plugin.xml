@@ -52,7 +52,6 @@
         <header-file src="src/ios/MCPushSDK/PushConstants.h" />
 
         <source-file src="src/ios/MCPushSDK/libJB4ASDK-4.9.5.20900000.a" framework="true" />
-        <framework src="libsqlite3.dylib" />
         <framework src="CoreLocation.framework/" />
         <framework src="WebKit.framework/" />
     </platform>
