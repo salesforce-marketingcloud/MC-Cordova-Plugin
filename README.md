@@ -185,8 +185,7 @@ MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
 The successCallback will include a result parameter in the following format: `"systemToken"`
 
 
-## Android Only Features
-#### enablePush (android only)
+#### enablePush
 
 Enables push and push accessories in the SDK.
 
@@ -194,7 +193,7 @@ Enables push and push accessories in the SDK.
 MCCordovaPlugin.enablePush(successCallback, errorCallback);
 ```
 
-#### disablePush (android only)
+#### disablePush
 
 Disables push and push accessories in the SDK.
 
