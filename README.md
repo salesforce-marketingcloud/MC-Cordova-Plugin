@@ -4,6 +4,10 @@ This plugin implements the Marketing Cloud Mobile Push SDK for your applications
 
 ## Release History
 
+### Version 1.0.1
+_Released Nov 08, 2017_
+> Added "Channel Name" support for Cordova Android 6.3.0 supporting Android Oreo<br>
+
 ### Version 1.0.0
 _Released October 27, 2017_
 > Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
