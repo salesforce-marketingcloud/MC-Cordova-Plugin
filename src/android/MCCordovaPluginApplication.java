@@ -35,6 +35,7 @@ public class MCCordovaPluginApplication extends Application {
                 .setAccessToken(getString(R.string.ACCESSTOKEN))
                 .setGcmSenderId(getString(R.string.GCMSENDERID))
                 .setAnalyticsEnabled(mcAnalyticsEnabled)
+                .setNotificationChannelName(String.valueOf(R.string.CHANNELNAME))
                 .build(), new MarketingCloudSdk.InitializationListener() {
             @Override public void complete(InitializationStatus status) {
 

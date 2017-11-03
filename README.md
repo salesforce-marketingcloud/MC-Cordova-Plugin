@@ -27,10 +27,11 @@ cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
 --variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} 
 --variable GCMSENDERID={YOUR_GCM_SENDER_ID} 
 --variable MCANALYTICS={enabled|disabled}
+--variable CHANNELNAME={YOUR_CHANNEL_NAME}
 --nosave 
 --nofetch
 ```
->Be sure to replace the values with your App's ID, Access Token and GCM Sender ID.  Also, you must explicitely choose enabled or disabled for `MCANALYTICS`.
+>Be sure to replace the values with your App's ID, Access Token, GCM Sender ID and Channel Name.  Also, you must explicitely choose enabled or disabled for `MCANALYTICS`.
 
 The following variables should be used in the `cordova plugin add` command:
 
@@ -40,6 +41,7 @@ The following variables should be used in the `cordova plugin add` command:
 | ACCESSTOKEN | The `Access Token` for your Salesforce Marketing Cloud AppCenter App |
 | GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter App |
 | MCANALYTICS | Whether or not you wish to collect notification displayed, opened, etc. analytics |
+| CHANNELNAME | The `Channel Name` for your Salesforce Marketing Cloud AppCenter App |
 
 ## Using the Plugin
 
