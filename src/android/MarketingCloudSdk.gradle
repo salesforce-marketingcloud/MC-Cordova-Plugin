@@ -5,7 +5,7 @@ allprojects {
 }
 
 dependencies {
-    compile('com.salesforce.marketingcloud:marketingcloudsdk:5.2.0') {
+    compile('com.salesforce.marketingcloud:marketingcloudsdk:5.2.+') {
         exclude module: 'android-beacon-library'
         exclude module: 'play-services-location'
     }
