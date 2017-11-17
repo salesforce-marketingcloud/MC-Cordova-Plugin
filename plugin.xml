@@ -12,6 +12,7 @@
     <preference name="APPID" />
     <preference name="ACCESSTOKEN" />
     <preference name="MCANALYTICS" />
+    <preference name="CHANNELNAME" />
 
     <platform name="ios">
         <config-file target="*-Info.plist" parent="MCCordovaPluginSettings">
@@ -63,6 +64,7 @@
           <string name="ACCESSTOKEN">$ACCESSTOKEN</string>
           <string name="GCMSENDERID">$GCMSENDERID</string>
           <string name="MCANALYTICS">$MCANALYTICS</string>
+          <string name="CHANNELNAME">$CHANNELNAME</string>
         </config-file>
 
         <source-file src="src/android/MCCordovaPluginApplication.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />

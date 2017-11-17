@@ -1,6 +1,6 @@
 {
   "name": "cordova-push",
-  "version": "2.0.0",
+  "version": "1.0.1",
   "description": "A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs",
   "cordova": {
     "id": "com.salesforce.marketingcloud.cordovaplugin",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.exacttarget.com/Mobile/cordova-push.git"
+    "url": "git+https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin"
   },
   "keywords": [
     "cordova",
