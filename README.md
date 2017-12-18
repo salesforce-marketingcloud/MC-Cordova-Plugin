@@ -4,6 +4,13 @@ This plugin implements the Marketing Cloud Mobile Push SDK for your applications
 
 ## Release History
 
+### Version 1.0.2
+_Released Jan 19, 2018_
+> Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
+> Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x
+
+* Updated Android SDK to v5.3.+<br>
+
 ### Version 1.0.1
 _Released Nov 29, 2017_
 > Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
