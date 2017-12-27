@@ -3,11 +3,11 @@ var exec = require('cordova/exec');
 module.exports = {
 
   //Logging
-  enableVerboseLogging(successCallback, errorCallback){
+  enableVerboseLogging: function(successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "MCCordovaPlugin", "enableVerboseLogging");
   },
 
-  disableVerboseLogging(successCallback, errorCallback){
+  disableVerboseLogging: function(successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "MCCordovaPlugin", "disableVerboseLogging");
   },
 
