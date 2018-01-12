@@ -5,7 +5,7 @@ This plugin implements the Marketing Cloud Mobile Push SDK for your applications
 ## Release History
 
 ### Version 1.0.2
-_Released Jan 19, 2018_
+_Released Jan 22, 2018_
 > Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
 > Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x
 
@@ -60,6 +60,15 @@ The following variables should be used in the `cordova plugin add` command:
 ## Using the Plugin
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
+
+## Requirements for using plugin
+
+If you are building Cordova for the Android Platform, installing Android Studio is not required. However, gradle is required as a dependancy and you will be required to install the gradle build tool. https://gradle.org/install/#manually
+
+Once you have installed the Gradle build tool, make sure you have also set the enviornment variables path. 
+export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin
+
+When you have completed this, you should be able to build and run your project with the MarketingCloud-Cordova-Plugin.
 
 ### MCCordovaPlugin
 
