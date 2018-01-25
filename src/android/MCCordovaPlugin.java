@@ -18,9 +18,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
 public class MCCordovaPlugin extends CordovaPlugin {
@@ -195,16 +197,15 @@ public class MCCordovaPlugin extends CordovaPlugin {
                 @Override
                 public void ready(MarketingCloudSdk marketingCloudSdk) {
                     RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
-                    final List<Attribute> attributes = new ArrayList<>(registrationManager.getAttributes());
+                    final Map<String, String> map = registrationManager.getAttributesMap();
                     final JSONObject attributeObject = new JSONObject();
-                    if (!attributes.isEmpty()) {
-                        for (Attribute attribute : attributes) {
-                            if (attribute != null && !TextUtils.isEmpty(attribute.key())) {
-                                try {
-                                    attributeObject.put(attribute.key(), attribute.value());
-                                } catch (JSONException e) {
-                                    Log.e(TAG, String.format(Locale.ENGLISH, "Failed to get attribute: %s", attribute.key()));
-                                }
+
+                    for (Map.Entry<String, String> attribute : map.entrySet()) {
+                        if (!TextUtils.isEmpty(attribute.getKey())) {
+                            try {
+                                attributeObject.put(attribute.getKey(), attribute.getValue());
+                            } catch (JSONException e) {
+                                Log.e(TAG, String.format(Locale.ENGLISH, "Failed to get attribute: %s", attribute.getKey()));
                             }
                         }
                     }
