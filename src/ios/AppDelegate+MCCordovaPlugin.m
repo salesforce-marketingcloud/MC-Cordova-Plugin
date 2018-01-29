@@ -1,13 +1,14 @@
 
 #import <objc/runtime.h>
 #import "AppDelegate+MCCordovaPlugin.h"
-#import "ETPush.h"
 #import "MCCordovaPlugin.h"
 
+#import "MarketingCloudSDK/MarketingCloudSDK.h"
 
 @implementation AppDelegate (MCCordovaPlugin)
 
-static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.2";
+static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
+
 
 // its dangerous to override a method from within a category.
 // Instead, we will use method swizzling.
@@ -41,109 +42,93 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.2";
 // Init the SDK with options set by the cordova plugin add command
 - (BOOL)application:(UIApplication *)application shouldInitETSDKWithOptions:(NSDictionary *)launchOptions
 {
-	BOOL successful = NO;
-	NSError *error = nil;
+    // weak reference to avoid retain cycle within block
+    __weak __typeof__(self) weakSelf = self;
+    
+    if ([MarketingCloudSDK sharedInstance] == nil) {
+        // failed to access the MarketingCloudSDK
+        os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
+    }
+    else {
+        NSError *configureError;
+        
+        // start the configuration of the Marketing Cloud SDK - use explicit URL to configuration
+        if ([[MarketingCloudSDK sharedInstance] sfmc_configureWithURL:[[NSBundle mainBundle] URLForResource:@"MarketingCloudSDKConfiguration"                       withExtension:@"json"]
+       configurationIndex:@(0)
+                    error:&configureError
+        completionHandler:^(BOOL success, NSString * _Nonnull appId, NSError * _Nonnull error) {
+                if (success == YES) {
+                    
+                    // set the delegate if needed then ask if we are authorized - the delegate must be set here if used
+                    [UNUserNotificationCenter currentNotificationCenter].delegate = weakSelf;
 
-	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSDictionary *ETSettings = [mainBundle objectForInfoDictionaryKey:@"MCCordovaPluginSettings"];
-
-    BOOL useAnalytics = NO;
-    NSString *analytics = [ETSettings objectForKey:@"MCANALYTICS"];
-    if (analytics != nil) {
-        analytics = [analytics lowercaseString];
-        if ([analytics isEqualToString:@"enabled"] == YES) {
-            useAnalytics = YES;
+                    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge
+                     completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                         if (error == nil) {
+                             if (granted == YES) {
+                                 os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s", granted ? "YES" : "NO");
+                                 
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     // we are authorized to use notifications, request a device token for remote notifications
+                                     [[UIApplication sharedApplication] registerForRemoteNotifications];
+                                 });
+                                 
+                                 NSSet *tagsSet = [[MarketingCloudSDK sharedInstance] sfmc_tags];
+                                 for(NSString* tag in tagsSet) {
+                                     NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
+                                     //Is this string at index 0 meaning its a valid Tag prefix.
+                                     if (range.location != NSNotFound && range.location == 0)
+                                     {
+                                         [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag]; //remove old tag version
+                                     }
+                                 }
+                                 
+                                 [[MarketingCloudSDK sharedInstance] sfmc_addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
+                             }
+                         }
+                    }];
+               }
+          }] == NO)
+        {
+            // synchronous configuration portion failed
+            os_log_debug(OS_LOG_DEFAULT, "%@", configureError);
+        }
+        else {
+            // synchronous configuration portion succeeded
         }
     }
-             
-	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] 
-		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"] 
-		andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"] 
-		withAnalytics:useAnalytics
-		andLocationServices:NO 
-		andProximityServices:NO 
-		andCloudPages:NO 
-		withPIAnalytics:NO 
-		error:&error ];
-
-	//
-	// if configureSDKWithAppID returns NO, check the error object for detailed failure info. See PushConstants.h for codes.
-	// the features of the JB4ASDK will NOT be useable unless configureSDKWithAppID returns YES.
-	//
-	if (!successful) {
-		dispatch_async(dispatch_get_main_queue(), ^ {
-			// something failed in the configureSDKWithAppID call - show what the error is
-			[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed configureSDKWithAppID!", @"Failed configureSDKWithAppID!")
-			message:[error localizedDescription]
-			delegate:nil
-			cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-			otherButtonTitles:nil] show];
-		});
-	} else {
-		// register for push notifications - enable all notification types, no categories
-		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
-																						UIUserNotificationTypeBadge |
-																						UIUserNotificationTypeSound |
-																						UIUserNotificationTypeAlert
-																						categories:nil];
-
-		[[ETPush pushManager] registerUserNotificationSettings:settings];
-		[[ETPush pushManager] registerForRemoteNotifications];
-        
-        //MC_Cordova-vX.Y.Z
-        //Replace any older tags
-        NSSet *tagsSet = [[ETPush pushManager] getTags];
-        for(NSString* tag in tagsSet) {
-            NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
-            //Is this string at index 0 meaning its a valid Tag prefix.
-            if (range.location != NSNotFound && range.location == 0)
-            {
-                [[ETPush pushManager] removeTag:tag]; //remove old tag version
-            }
-        }
-        
-        [[ETPush pushManager] addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
-	}
-
-	return YES;
+  
+    return YES;
 }
 
-// Handle local notifications. Location-based push notifications are downloaded when the app starts. When
-// a device gets near this notifications, a local notification is used instead of a standard remote
-// push notification
--(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-	NSLog(@"### GOT LOCAL NOTIFICATION: %@", notification);
-	[self notificationReceivedWithUserInfo:notification.userInfo messageType:@"Location" alertText:notification.alertBody];
-	[[ETPush pushManager] handleLocalNotification:notification];
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // save the device token
+    [[MarketingCloudSDK sharedInstance] sfmc_setDeviceToken:deviceToken];
 }
 
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
-{
-	[[ETPush pushManager] didRegisterUserNotificationSettings:notificationSettings];
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    os_log_debug(OS_LOG_DEFAULT, "didFailToRegisterForRemoteNotificationsWithError = %@", error);
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-	NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
-
-	[[ETPush pushManager] registerDeviceToken:deviceToken];
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
+    
+    // tell the MarketingCloudSDK about the notification
+    [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:response.notification.request];
+    
+    if (completionHandler != nil) {
+        completionHandler();
+    }
 }
 
--(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
-{
-	[[ETPush pushManager] applicationDidFailToRegisterForRemoteNotificationsWithError:error];
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    
+    // tell the MarketingCloudSDK about the notification
+    [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:notification.request];
+    
+    if (completionHandler != nil) {
+        completionHandler(UNNotificationPresentationOptionAlert);
+    }
 }
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
-{
-	[self notificationReceivedWithUserInfo:userInfo messageType:@"Outbound" alertText:nil];
-	[[ETPush pushManager] handleNotification:userInfo forApplicationState:application.applicationState];
-
-	handler(UIBackgroundFetchResultNoData);
-}
-
 
 #pragma mark - Custom message handlers
 

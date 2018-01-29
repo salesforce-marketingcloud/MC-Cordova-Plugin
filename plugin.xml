@@ -31,17 +31,15 @@
             </feature>
         </config-file>
 
+        <header-file src="src/ios/AppDelegate+MCCordovaPlugin.h" />
         <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
+        <header-file src="src/ios/MCCordovaPlugin.h" />
         <source-file src="src/ios/MCCordovaPlugin.m" />
 
-        <header-file src="src/ios/AppDelegate+MCCordovaPlugin.h" />
-        <header-file src="src/ios/MCCordovaPlugin.h" />
+        <resource-file src="src/ios/MCPushSDK/MarketingCloudSDK.bundle" />
+        <resource-file src="src/ios/MCPushSDK/MarketingCloudSDKConfiguration.json" />
 
-        <header-file src="src/ios/MCPushSDK/ETPush.h" />
-        <header-file src="src/ios/MCPushSDK/ETLocationManager.h" />
-        <header-file src="src/ios/MCPushSDK/PushConstants.h" />
-
-        <source-file src="src/ios/MCPushSDK/libJB4ASDK-4.9.5.20900000.a" framework="true" />
+        <framework src="src/ios/MCPushSDK/MarketingCloudSDK.framework" custom="true"/>
         <framework src="CoreLocation.framework/" />
         <framework src="WebKit.framework/" />
     </platform>
