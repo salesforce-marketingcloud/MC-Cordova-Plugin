@@ -213,14 +213,28 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param request The UNNotificationRequest that generated a notification
  */
-- (void)sfmc_setNotificationRequest:(UNNotificationRequest *)request;
+- (void)sfmc_setNotificationRequest:(UNNotificationRequest *)request API_AVAILABLE(ios(10));
 
 /**
  Returns the last notification delivered to the SDK
 
  @return UNNotificationRequest * The last UNNotificationRequest that generated a notification
  */
-- (UNNotificationRequest *)sfmc_notificationRequest;
+- (UNNotificationRequest *)sfmc_notificationRequest API_AVAILABLE(ios(10));
+
+/**
+ Informs the SDK of the current notification
+ 
+ @param userInfo The user info the last notification delivered to the SDK
+ */
+- (void)sfmc_setNotificationUserInfo:(NSDictionary *)userInfo;
+
+/**
+ Returns the user info of the last notification delivered to the SDK
+ 
+ @return NSDictionary * The user info the last notification delivered to the SDK
+ */
+- (NSDictionary *)sfmc_notificationUserInfo;
 
 /**
  Allows setting the state of pushEnabled to YES/NO. If set to NO, the application will not receive any push notifications
