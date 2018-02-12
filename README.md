@@ -5,9 +5,9 @@ This plugin implements the Marketing Cloud Mobile Push SDK for your applications
 ## Release History
 
 ### Version 1.0.3
-_Released Jan 22, 2018_
+_Released Apr 9, 2018_
 > Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
-> Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x
+> Depends on the Marketing Cloud Mobile Push Android SDK v5.4.x
 
 * Updated Android SDK to v5.3.+<br>
 
@@ -79,7 +79,7 @@ Cordova allows you to develop using one of two different approaches. *Cross-plat
     
  2. You will need to edit or add these attributes to the build.xcconfig file.
 
-	*Note*: iOS supports 3 architecture types. The armv7 and armv7s support older 32 bit systems and allow for greater range when included with the arm64 64-bit supported architectures.
+	*Note*: iOS supports 3 architecture types. The armv7 and armv7s support older 32 bit systems and allow for greater range when included with the arm64 64-bit supported architectures. Ref: https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html
     
     ```
     DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
