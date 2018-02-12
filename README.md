@@ -98,6 +98,7 @@ cp -a ./platforms/ ./platformsBck
 rm -R ./platforms/
 cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable MCANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
 cordova prepare
+cp -a ./platformsBck/android/ ./platforms/android/
 cp -a ./platformsBck/ios/cordova/build.xcconfig ./platforms/ios/cordova/build.xcconfig
 rm -R ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj
 cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj
