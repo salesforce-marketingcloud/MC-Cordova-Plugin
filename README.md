@@ -77,14 +77,17 @@ Cordova allows you to develop using one of two different approaches. *Cross-plat
     *Note*: You will need to make a back-up copy of this file, edit it and then replace the original. See helper script below.
     Your build.xcconfig file is typically found here: YOUR_CORDOVA_PROJECT/platforms/ios/cordova/build.xcconfig
     
-    Attributes you will need to edit or add to the build.xcconfig file.
+ 2. You will need to edit or add these attributes to the build.xcconfig file.
+
+	*Note*: iOS supports 3 architecture types. The armv7 and armv7s support older 32 bit systems and allow for greater range when included with the arm64 64-bit supported architectures.
     
+    ```
     DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
     
     ARCHS = arm64 armv7 armv7s
     
     VALID_ARCHS = arm64 armv7 armv7s
-
+    ```
 
 Once you add these attributes and save your back-up copy you will need to copy this back-up file and overwrite Cordova's version generated with the “cordova prepare” command. 
 Sample shell script:
