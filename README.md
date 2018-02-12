@@ -9,7 +9,7 @@ _Released Apr 9, 2018_
 > Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
 > Depends on the Marketing Cloud Mobile Push Android SDK v5.4.x
 
-* Updated Android SDK to v5.3.+<br>
+* Support for Cordova iOS Cross-platform (CLI) workflow<br>
 
 ### Version 1.0.2
 _Released Jan 22, 2018_
