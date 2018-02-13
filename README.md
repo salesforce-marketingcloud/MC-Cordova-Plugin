@@ -1,8 +1,15 @@
 # Salesforce Marketing Cloud Cordova Plugin
 
-This plugin implements the Marketing Cloud Mobile Push SDK for your applications built for [iOS](http://salesforce-marketingcloud.github.io/JB4A-SDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/).
+This plugin implements the Marketing Cloud Mobile Push SDK for your applications built for [iOS](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/).
 
 ## Release History
+
+### Version 1.0.3
+_Released Apr 9, 2018_
+> Depends on the Marketing Cloud Mobile Push iOS SDK v5.1.x<br>
+> Depends on the Marketing Cloud Mobile Push Android SDK v5.4.x
+
+* Support for Cordova iOS Cross-platform (CLI) workflow<br>
 
 ### Version 1.0.2
 _Released Jan 22, 2018_
@@ -30,7 +37,7 @@ _Released October 27, 2017_
 
 In order to connect this plugin to your Marketing Cloud account, you must follow these provisioning and app creation steps:
 
-* [Connecting Marketing Cloud Account to your iOS App](http://salesforce-marketingcloud.github.io/JB4A-SDK-iOS/create-apps/create-apps-overview.html)
+* [Connecting Marketing Cloud Account to your iOS App](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/get-started/create-apps-overview.html)
 * [Connecting Marketing Cloud Account to your Android App](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/create-apps/create-apps-overview.html)
 
 Once provisioning and your AppCenter app(s) are setup, install the plugin into your Cordova project with the following command:
@@ -60,6 +67,47 @@ The following variables should be used in the `cordova plugin add` command:
 ## Using the Plugin
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
+
+## Cordova CLI iOS Configuration
+
+Cordova allows you to develop using one of two different approaches. *Cross-platform (CLI) workflow *or* Platform-centered workflow. (See Developement Paths:http://cordova.apache.org/docs/en/7.x/guide/overview/index.html) *If you are going to use the CLI workflow with iOS development then there are a couple things that you will need to do. 
+
+1. The first thing you will need to do is leverage the build.xcconfig file that iOS platform uses for specific configuration settings. Since we are not using platform centered workflow and therefore not using xcode, we will need to make sure we configure some values ourselves for CLI to be able to build and run your project. 
+    
+    *Note*: You will need to make a back-up copy of this file, edit it and then replace the original. See helper script below.
+    Your build.xcconfig file is typically found here: YOUR_CORDOVA_PROJECT/platforms/ios/cordova/build.xcconfig
+    
+ 2. You will need to edit or add these attributes to the build.xcconfig file.
+
+	*Note*: iOS supports 3 architecture types. The armv7 and armv7s support older 32 bit systems and allow for greater range when included with the arm64 64-bit supported architectures. Ref: https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html
+    
+    ```
+    DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
+    
+    ARCHS = arm64 armv7 armv7s
+    
+    VALID_ARCHS = arm64 armv7 armv7s
+    ```
+
+Once you add these attributes and save your back-up copy you will need to copy this back-up file and overwrite Cordova's version generated with the “cordova prepare” command. 
+Sample shell script:
+
+
+```
+cp -a ./platforms/ ./platformsBck
+rm -R ./platforms/
+cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable MCANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
+cordova prepare
+cp -a ./platformsBck/android/ ./platforms/android/
+cp -a ./platformsBck/ios/cordova/build.xcconfig ./platforms/ios/cordova/build.xcconfig
+rm -R ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj
+cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj
+cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Debug.plist ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Debug.plist
+cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Release.plist ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Release.plist
+rm -R ./platformsBck/
+export PATH=$PATH:/opt/gradle/gradle-4.4/bin
+cordova run ios -verbose —device
+```
 
 ## Requirements for using plugin
 

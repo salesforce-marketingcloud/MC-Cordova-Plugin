@@ -59,34 +59,37 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
         completionHandler:^(BOOL success, NSString * _Nonnull appId, NSError * _Nonnull error) {
                 if (success == YES) {
                     
-                    // set the delegate if needed then ask if we are authorized - the delegate must be set here if used
-                    [UNUserNotificationCenter currentNotificationCenter].delegate = weakSelf;
+                    if (@available(iOS 10.0, *)) {
+                        // set the delegate if needed then ask if we are authorized - the delegate must be set here if used
+                        [UNUserNotificationCenter currentNotificationCenter].delegate = weakSelf;
 
-                    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge
-                     completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                         if (error == nil) {
-                             if (granted == YES) {
-                                 os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s", granted ? "YES" : "NO");
-                                 
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     // we are authorized to use notifications, request a device token for remote notifications
-                                     [[UIApplication sharedApplication] registerForRemoteNotifications];
-                                 });
-                                 
-                                 NSSet *tagsSet = [[MarketingCloudSDK sharedInstance] sfmc_tags];
-                                 for(NSString* tag in tagsSet) {
-                                     NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
-                                     //Is this string at index 0 meaning its a valid Tag prefix.
-                                     if (range.location != NSNotFound && range.location == 0)
-                                     {
-                                         [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag]; //remove old tag version
-                                     }
+                        [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge
+                         completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                             if (error == nil) {
+                                 if (granted == YES) {
+                                     os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s", granted ? "YES" : "NO");
+                                     
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         // we are authorized to use notifications, request a device token for remote notifications
+                                         [[UIApplication sharedApplication] registerForRemoteNotifications];
+                                     });
+                                     
+                                     [self setDefaultTag];
                                  }
-                                 
-                                 [[MarketingCloudSDK sharedInstance] sfmc_addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
                              }
-                         }
-                    }];
+                        }];
+                    }
+                    else {
+                        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
+                                                                UIUserNotificationTypeBadge |
+                                                                UIUserNotificationTypeSound |
+                                                                UIUserNotificationTypeAlert
+                                                                                                 categories:nil];
+                        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+                        [[UIApplication sharedApplication] registerForRemoteNotifications];
+                        
+                        [self setDefaultTag];
+                    }
                }
           }] == NO)
         {
@@ -99,6 +102,39 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
     }
   
     return YES;
+}
+
+- (void)setDefaultTag
+{
+    NSSet *tagsSet = [[MarketingCloudSDK sharedInstance] sfmc_tags];
+    for(NSString* tag in tagsSet) {
+        NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
+        //Is this string at index 0 meaning its a valid Tag prefix.
+        if (range.location != NSNotFound && range.location == 0)
+        {
+            [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag]; //remove old tag version
+        }
+    }
+    
+    [[MarketingCloudSDK sharedInstance] sfmc_addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
+}
+
+// This method is REQUIRED for correct functionality of the SDK.
+// This method will be called on the delegate when the application receives a silent push
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    if (@available(iOS 10, *)) {
+        UNMutableNotificationContent *theSilentPushContent = [[UNMutableNotificationContent alloc] init];
+        theSilentPushContent.userInfo = userInfo;
+        UNNotificationRequest *theSilentPushRequest = [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString content:theSilentPushContent trigger:nil];
+        
+        [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:theSilentPushRequest];
+    }
+    else {
+        [[MarketingCloudSDK sharedInstance] sfmc_setNotificationUserInfo:userInfo];
+    }
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
