@@ -37,7 +37,7 @@ _Released October 27, 2017_
 
 In order to connect this plugin to your Marketing Cloud account, you must follow these provisioning and app creation steps:
 
-* [Connecting Marketing Cloud Account to your iOS App](http://salesforce-marketingcloud.github.io/JB4A-SDK-iOS/create-apps/create-apps-overview.html)
+* [Connecting Marketing Cloud Account to your iOS App](http://salesforce-marketingcloud.github.io/JB4A-SDK-iOS/get-started/create-apps-overview.html)
 * [Connecting Marketing Cloud Account to your Android App](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/create-apps/create-apps-overview.html)
 
 Once provisioning and your AppCenter app(s) are setup, install the plugin into your Cordova project with the following command:
