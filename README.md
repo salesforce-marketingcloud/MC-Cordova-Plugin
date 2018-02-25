@@ -66,13 +66,14 @@ The following variables should be used in the `cordova plugin add` command:
 
 >Important Note: If you are developing for the iOS platform, you will also need to set the attributes in the MarketingCloudSDKConfiguration.json file found in the src/ios/MCPushSDK/ dir.
 
-| [{
-| "name": "production",
-| "appid": "YOUR_APPID_HERE",
-| "accesstoken": "YOUR_ACCESSTOKEN_HERE",
-| "analytics": true
-| }]
-
+ ```
+ [{
+ "name": "production",
+ "appid": "YOUR_APPID_HERE",
+ "accesstoken": "YOUR_ACCESSTOKEN_HERE",
+ "analytics": true
+ }]
+```
 ## Using the Plugin
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
