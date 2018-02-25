@@ -64,7 +64,7 @@ The following variables should be used in the `cordova plugin add` command:
 | MCANALYTICS | Whether or not you wish to collect notification displayed, opened, etc. analytics |
 | CHANNELNAME | The `Channel Name` for your Salesforce Marketing Cloud AppCenter App |
 
->Important Note: If you are developing for the iOS platform, you will also need to set the attributes in the MarketingCloudSDKConfiguration.json file prior to adding the plugin found in the src/ios/MCPushSDK/ dir.
+>Important Note: If you are developing for the iOS platform, you will also need to set the attributes in the MarketingCloudSDKConfiguration.json file prior to adding the plugin found in the .../src/ios/MCPushSDK/ dir.
 
  ```
  [{
