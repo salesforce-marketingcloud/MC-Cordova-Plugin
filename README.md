@@ -64,6 +64,16 @@ The following variables should be used in the `cordova plugin add` command:
 | MCANALYTICS | Whether or not you wish to collect notification displayed, opened, etc. analytics |
 | CHANNELNAME | The `Channel Name` for your Salesforce Marketing Cloud AppCenter App |
 
+>Important Note: If you are developing for the iOS platform, you will also need to set the attributes in the MarketingCloudSDKConfiguration.json file prior to adding the plugin found in the .../src/ios/MCPushSDK/ dir.
+
+ ```
+ [{
+ "name": "production",
+ "appid": "YOUR_APPID_HERE",
+ "accesstoken": "YOUR_ACCESSTOKEN_HERE",
+ "analytics": true
+ }]
+```
 ## Using the Plugin
 
 After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
@@ -256,6 +266,10 @@ MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
 ```
 
 The successCallback will include a result parameter in the following format: `"systemToken"`
+
+
+
+>Important Note: If you are going to use Push Notifications in iOS make sure you call enablePush as Push is not enabled by default on start up.
 
 
 #### enablePush
