@@ -267,6 +267,8 @@ MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
 
 The successCallback will include a result parameter in the following format: `"systemToken"`
 
+>Important Note: If you are going to use Push Notifications in iOS make sure you call enablePush as Push is not enabled by default on start up.
+
 
 #### enablePush
 
