@@ -55,16 +55,16 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.2";
             useAnalytics = YES;
         }
     }
-             
+
 	// configure and set initial settings of the JB4ASDK
-	successful = [[ETPush pushManager] 
-		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"] 
-		andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"] 
+	successful = [[ETPush pushManager]
+		configureSDKWithAppID:[ETSettings objectForKey:@"APPID"]
+		andAccessToken:[ETSettings objectForKey:@"ACCESSTOKEN"]
 		withAnalytics:useAnalytics
-		andLocationServices:NO 
-		andProximityServices:NO 
-		andCloudPages:NO 
-		withPIAnalytics:NO 
+		andLocationServices:NO
+		andProximityServices:NO
+		andCloudPages:NO
+		withPIAnalytics:NO
 		error:&error ];
 
 	//
@@ -81,16 +81,6 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.2";
 			otherButtonTitles:nil] show];
 		});
 	} else {
-		// register for push notifications - enable all notification types, no categories
-		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
-																						UIUserNotificationTypeBadge |
-																						UIUserNotificationTypeSound |
-																						UIUserNotificationTypeAlert
-																						categories:nil];
-
-		[[ETPush pushManager] registerUserNotificationSettings:settings];
-		[[ETPush pushManager] registerForRemoteNotifications];
-        
         //MC_Cordova-vX.Y.Z
         //Replace any older tags
         NSSet *tagsSet = [[ETPush pushManager] getTags];
@@ -102,7 +92,7 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.2";
                 [[ETPush pushManager] removeTag:tag]; //remove old tag version
             }
         }
-        
+
         [[ETPush pushManager] addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
 	}
 

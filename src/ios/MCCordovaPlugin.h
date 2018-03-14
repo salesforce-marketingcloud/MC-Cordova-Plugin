@@ -8,6 +8,7 @@
 - (void)enableVerboseLogging:(CDVInvokedUrlCommand*)command;
 - (void)disableVerboseLogging:(CDVInvokedUrlCommand*)command;
 
+- (void)registerPush:(CDVInvokedUrlCommand*)command;
 - (void)getSystemToken:(CDVInvokedUrlCommand*)command;
 - (void)isPushEnabled:(CDVInvokedUrlCommand*)command;
 - (void)enablePush:(CDVInvokedUrlCommand*)command;

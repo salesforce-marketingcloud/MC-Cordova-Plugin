@@ -12,6 +12,10 @@ module.exports = {
   },
 
   //push
+  registerPush: function(successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, "MCCordovaPlugin", "registerPush", []);
+  },
+
   enablePush: function(successCallback, errorCallback) {
       cordova.exec(successCallback, errorCallback, "MCCordovaPlugin", "enablePush", []);
   },

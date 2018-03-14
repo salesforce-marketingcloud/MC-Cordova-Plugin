@@ -21,6 +21,18 @@
 
 #pragma mark - Push
     
+- (void)registerPush:(CDVInvokedUrlCommand*)command {
+    // register for push notifications - enable all notification types, no categories
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
+                                            UIUserNotificationTypeBadge |
+                                            UIUserNotificationTypeSound |
+                                            UIUserNotificationTypeAlert
+                                            categories:nil];
+
+    [[ETPush pushManager] registerUserNotificationSettings:settings];
+    [[ETPush pushManager] registerForRemoteNotifications];
+}
+
 - (void)isPushEnabled:(CDVInvokedUrlCommand*)command {
     BOOL pushEnabled = [ETPush isPushEnabled];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:pushEnabled];
