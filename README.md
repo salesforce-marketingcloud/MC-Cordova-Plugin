@@ -277,7 +277,7 @@ The successCallback will include a result parameter in the following format: `"s
 Enables push and push accessories in the SDK.
 
 ```javascript
-MCCordovaPlugin.enablePush(successCallback, errorCallback);
+MCCordovaPlugin.enablePush();
 ```
 
 #### disablePush
@@ -285,5 +285,5 @@ MCCordovaPlugin.enablePush(successCallback, errorCallback);
 Disables push and push accessories in the SDK.
 
 ```javascript
-MCCordovaPlugin.disablePush(successCallback, errorCallback);
+MCCordovaPlugin.disablePush();
 ```
