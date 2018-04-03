@@ -13,6 +13,8 @@ import com.salesforce.marketingcloud.registration.RegistrationManager;
 import java.util.Set;
 import java.util.TreeSet;
 
+import nl.matise.expeditiewadden.R;
+
 public class MCCordovaPluginApplication extends Application {
 
     private static final String TAG = "~#MCSdkCordovaApp";
