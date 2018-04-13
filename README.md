@@ -1,20 +1,20 @@
 # Salesforce Marketing Cloud Cordova Plugin
 
-This plugin implements the Marketing Cloud Mobile Push SDK for your applications built for [iOS](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/).
+Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/) applications.
 
 ## Release History
 
 ### Version 1.0.3
 _Released Apr 23, 2018_
-> Depends on the Marketing Cloud Mobile Push iOS SDK v5.1.x<br>
-> Depends on the Marketing Cloud Mobile Push Android SDK v5.5.x
+> For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v5.1.x<br>
+> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.5.x, the latest version of Cordova, and Android Cordova platform 6.40.
 
-* Support for Cordova iOS Cross-platform (CLI) workflow<br>
+* Added support for Cordova iOS cross-platform (CLI) workflow<br>
 
 ### Version 1.0.2
 _Released Jan 22, 2018_
-> Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
-> Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x
+> For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
+> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x, the latest version of Cordova, and Android Cordova platform 6.40.
 
 * Updated Android SDK to v5.3.+<br>
 
@@ -33,75 +33,63 @@ _Released October 27, 2017_
 * [Basic Push Notification Functionality](#using-the-plugin) w/Audience Segmentation via [Contact Key](#contact-key), [Attributes](#attributes) and [Tags](#tags).
 * [Logging](#logging) - Enable/Disable Underlying SDK verbose logging
 
-## Installing the Plugin
+## Install the Plugin
 
-In order to connect this plugin to your Marketing Cloud account, you must follow these provisioning and app creation steps:
+1. Create your iOS app in Marketing Cloud MobilePush and provision it.
 
-* [Connecting Marketing Cloud Account to your iOS App](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/get-started/create-apps-overview.html)
-* [Connecting Marketing Cloud Account to your Android App](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/create-apps/create-apps-overview.html)
+* [Connect your iOS app to MobilePush](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/get-started/apple.html)
+* [Connect your Android app to MobilePush](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/create-apps/create-apps-overview.html)
 
-Once provisioning and your AppCenter app(s) are setup, install the plugin into your Cordova project with the following command:
+2. For iOS apps, set the attributes in the MarketingCloudSDKConfiguration.json file found in the .../src/ios/MCPushSDK/ directory before installing the plugin.
+
+```
+[{
+"name": "production",
+"appid": "YOUR_APPID_HERE",
+"accesstoken": "YOUR_ACCESSTOKEN_HERE",
+"analytics": true
+}]
+```
+
+3. Use this command to install the plugin in your Cordova project.
 
 ```Bash
-cordova plugin add ../MarketingCloudSdk-Cordova-Plugin 
---variable APPID={YOUR_APP_ID} 
---variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} 
---variable GCMSENDERID={YOUR_GCM_SENDER_ID} 
+cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
+--variable APPID={YOUR_APP_ID}
+--variable ACCESSTOKEN={YOUR_ACCESS_TOKEN}
+--variable GCMSENDERID={YOUR_GCM_SENDER_ID}
 --variable MCANALYTICS={enabled|disabled}
 --variable CHANNELNAME={YOUR_CHANNEL_NAME}
---nosave 
+--nosave
 --nofetch
 ```
->Be sure to replace the values with your App's ID, Access Token, GCM Sender ID and Channel Name.  Also, you must explicitely choose enabled or disabled for `MCANALYTICS`.
+> You must explicitly enable or disable `MCANALYTICS`. `MCANALYTICS` enables or disables collection of analytics, such as notification displayed, opened, etc. for your app.
 
-The following variables should be used in the `cordova plugin add` command:
+> These variables refer to your app in MobilePush.
 
-| Name | Description |
-| ---- | ----------- |
-| APPID | The `Application ID` for your Salesforce Marketing Cloud AppCenter App |
-| ACCESSTOKEN | The `Access Token` for your Salesforce Marketing Cloud AppCenter App |
-| GCMSENDERID | The `GCM Sender ID` for your Salesforce Marketing Cloud AppCenter App |
-| MCANALYTICS | Whether or not you wish to collect notification displayed, opened, etc. analytics |
-| CHANNELNAME | The `Channel Name` for your Salesforce Marketing Cloud AppCenter App |
+## Cordova Configuration
 
->Important Note: If you are developing for the iOS platform, you will also need to set the attributes in the MarketingCloudSDKConfiguration.json file prior to adding the plugin found in the .../src/ios/MCPushSDK/ dir.
+You can develop in Cordova using one of two different approaches: 1) Cross-platform, or command-line interface (CLI) workflow or 2) platform-centered workflow. See the Cordova [Development Paths documentation section](http://cordova.apache.org/docs/en/7.x/guide/overview/index.html) for more information.
 
- ```
- [{
- "name": "production",
- "appid": "YOUR_APPID_HERE",
- "accesstoken": "YOUR_ACCESSTOKEN_HERE",
- "analytics": true
- }]
+### iOS CLI Workflow
+
+You can either use Apple's Xcode or use the CLI workflow. To use the CLI workflow, follow these steps.
+
+1. Locate the build.xcconfig file, typically found in YOUR_CORDOVA_PROJECT/platforms/ios/cordova/build.xcconfig.
+
+1. Create a copy of the build.xcconfig file.
+
+1. Edit the copy to add the following attributes.
 ```
-## Using the Plugin
+DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
 
-After successful installation of your Cordova platform(s) and the plugin, you can begin using the following features of the Marketing Cloud SDK within your javascript in your Cordova app. 
+ARCHS = arm64 armv7 armv7s
 
-## Cordova CLI iOS Configuration
+VALID_ARCHS = arm64 armv7 armv7s
+```
+> armv7 and armv7s support older 32 bit systems. They allow for greater range when included with the arm64 64-bit supported architectures. See [Apple’s documentation](https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html) for more information.
 
-Cordova allows you to develop using one of two different approaches. *Cross-platform (CLI) workflow *or* Platform-centered workflow. (See Developement Paths:http://cordova.apache.org/docs/en/7.x/guide/overview/index.html) *If you are going to use the CLI workflow with iOS development then there are a couple things that you will need to do. 
-
-1. The first thing you will need to do is leverage the build.xcconfig file that iOS platform uses for specific configuration settings. Since we are not using platform centered workflow and therefore not using xcode, we will need to make sure we configure some values ourselves for CLI to be able to build and run your project. 
-    
-    *Note*: You will need to make a back-up copy of this file, edit it and then replace the original. See helper script below.
-    Your build.xcconfig file is typically found here: YOUR_CORDOVA_PROJECT/platforms/ios/cordova/build.xcconfig
-    
- 2. You will need to edit or add these attributes to the build.xcconfig file.
-
-	*Note*: iOS supports 3 architecture types. The armv7 and armv7s support older 32 bit systems and allow for greater range when included with the arm64 64-bit supported architectures. Ref: https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html
-    
-    ```
-    DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
-    
-    ARCHS = arm64 armv7 armv7s
-    
-    VALID_ARCHS = arm64 armv7 armv7s
-    ```
-
-Once you add these attributes and save your back-up copy you will need to copy this back-up file and overwrite Cordova's version generated with the “cordova prepare” command. 
-Sample shell script:
-
+1. Copy the edited file and overwrite Cordova's version using the "cordova prepare" command.
 
 ```
 cp -a ./platforms/ ./platformsBck
@@ -110,27 +98,33 @@ cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_A
 cordova prepare
 cp -a ./platformsBck/android/ ./platforms/android/
 cp -a ./platformsBck/ios/cordova/build.xcconfig ./platforms/ios/cordova/build.xcconfig
-rm -R ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj
-cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester.xcodeproj
-cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Debug.plist ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Debug.plist
-cp -a ./platformsBck/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Release.plist ./platforms/ios/MarketingCloudSdk-Cordova-Plugin-Tester/Entitlements-Release.plist
+rm -R ./platforms/ios/YOUR_PROJECT_NAME.xcodeproj
+cp -a ./platformsBck/ios/YOUR_PROJECT_NAME.xcodeproj ./platforms/ios/YOUR_PROJECT_NAME.xcodeproj
+cp -a ./platformsBck/ios/YOUR_PROJECT_NAME/Entitlements-Debug.plist ./platforms/ios/YOUR_PROJECT_NAME/Entitlements-Debug.plist
+cp -a ./platformsBck/ios/YOUR_PROJECT_NAME/Entitlements-Release.plist ./platforms/ios/YOUR_PROJECT_NAME/Entitlements-Release.plist
 rm -R ./platformsBck/
 export PATH=$PATH:/opt/gradle/gradle-4.4/bin
 cordova run ios -verbose —device
 ```
 
-## Requirements for using plugin
+### Android CLI Workflow
 
-If you are building Cordova for the Android Platform, installing Android Studio is not required. However, gradle is required as a dependancy and you will be required to install the gradle build tool. https://gradle.org/install/#manually
+You can either use Android Studio or use the CLI workflow. If you use the CLI workflow, follow these steps.
 
-Once you have installed the Gradle build tool, make sure you have also set the enviornment variables path. 
-export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin
+1. Install the [gradle build tool](https://gradle.org/install/#manually).
 
-When you have completed this, you should be able to build and run your project with the MarketingCloud-Cordova-Plugin.
+>Gradle is a required dependency.
 
-### MCCordovaPlugin
+1. Set the following environment variables path.
+`export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin`
 
-Use the `MCCordovaPlugin` object in your javascript on or after the device ready or platform ready event. All of the methods below belong to the MCCordovaPlugin object that is automatically provided by the plugin. The MarketingCloudSdk configuration and registration calls will complete behind the scenes. You can just start using MCCordovaPlugin.methodname() within your app.
+1. Build and run your project with the plugin.
+
+## Plugin Features
+
+After installing your Cordova platform and the plugin, you can use these features of the Marketing Cloud MobilePush SDK within your Cordova app javascript.
+
+All of the following methods belong to the `MCCordovaPlugin` object. use `MCCordovaPlugin.methodname()` in your app Javascript on or after the device ready or platform ready event. The MarketingCloudSdk configuration and registration calls complete behind the scenes.
 
 ### Contact Key
 #### setContactKey
@@ -149,7 +143,7 @@ Gets the Contact Key for this device.
 MCCordovaPlugin.getContactKey(successCallback, errorCallback);
 ```
 
-The successCallback will include a result parameter in the following format: `"contactKey"`
+The successCallback will include a result parameter in this format: `"contactKey"`
 
 ### Attributes
 #### setAttribute
@@ -160,7 +154,7 @@ Adds an attribute to current user's Contact model.
 MCCordovaPlugin.setAttribute(successCallback, errorCallback, attributeName, attributeValue);
 ```
 
-The successCallback will include a result parameter of "true" or "false":
+The successCallback includes a result parameter of "true" or "false":
 ```javascript
 "true"
 ```
@@ -173,7 +167,7 @@ Removes an attribute from current user's Contact model.
 MCCordovaPlugin.clearAttribute(successCallback, errorCallback, attributeName);
 ```
 
-The successCallback will return the key value that has been removed:
+The successCallback returns the removed key value. For example:
 ```javascript
 "First Name"
 ```
@@ -186,7 +180,7 @@ Gets the list of attributes from the current user's Contact model.
 MCCordovaPlugin.getAttributes(successCallback, errorCallback);
 ```
 
-The successCallback will include a result parameter in the following format:
+The successCallback includes a result parameter in this format:
 ```json
 {
 	"attributeName1": "attributeValue1",
@@ -220,7 +214,7 @@ Gets a list of tags from the current user's Contact model.
 MCCordovaPlugin.getTags(successCallback, errorCallback);
 ```
 
-The successCallback will include a result parameter in the following format:
+The successCallback includes a result parameter in this format:
 ```json
 [
 	"tag1",
@@ -232,7 +226,7 @@ The successCallback will include a result parameter in the following format:
 ### Logging
 #### enableVerboseLogging
 
-Enable internal Marketing Cloud SDK logging
+Enables internal Marketing Cloud SDK logging
 
 ```javascript
 MCCordovaPlugin.enableVerboseLogging(successCallback, errorCallback);
@@ -240,7 +234,7 @@ MCCordovaPlugin.enableVerboseLogging(successCallback, errorCallback);
 
 #### disableVerboseLogging
 
-Disable internal Marketing Cloud SDK logging.
+Disables internal Marketing Cloud SDK logging.
 
 ```javascript
 MCCordovaPlugin.disableVerboseLogging(successCallback, errorCallback);
@@ -255,34 +249,31 @@ Checks persistent preferences for the state of Push.
 MCCordovaPlugin.isPushEnabled(successCallback, errorCallback);
 ```
 
-The successCallback will include a result parameter in the following format: `true/false`
+The successCallback will include a result parameter in this format: `true/false`
 
 #### getSystemToken
 
-Get the System Token of the Marketing Cloud SDK.
+Gets the system token of the Marketing Cloud SDK.
 
 ```javascript
 MCCordovaPlugin.getSystemToken(successCallback, errorCallback);
 ```
 
-The successCallback will include a result parameter in the following format: `"systemToken"`
-
-
-
->Important Note: If you are going to use Push Notifications in iOS make sure you call enablePush as Push is not enabled by default on start up.
-
+The successCallback includes a result parameter in this format: `"systemToken"`
 
 #### enablePush
 
-Enables push and push accessories in the SDK.
+Enables push and push accessories in the Marketing Cloud SDK.
 
 ```javascript
 MCCordovaPlugin.enablePush();
 ```
 
+> To use push notifications in iOS, call `enablePush`. Push is not enabled by default on start up.
+
 #### disablePush
 
-Disables push and push accessories in the SDK.
+Disables push and push accessories in the Marketing Cloud SDK.
 
 ```javascript
 MCCordovaPlugin.disablePush();
