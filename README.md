@@ -77,9 +77,9 @@ You can either use Apple's Xcode or use the CLI workflow. To use the CLI workflo
 
 1. Locate the build.xcconfig file, typically found in YOUR_CORDOVA_PROJECT/platforms/ios/cordova/build.xcconfig.
 
-1. Create a copy of the build.xcconfig file.
+2. Create a copy of the build.xcconfig file.
 
-1. Edit the copy to add the following attributes.
+3. Edit the copy to add the following attributes.
 ```
 DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
 
@@ -89,7 +89,7 @@ VALID_ARCHS = arm64 armv7 armv7s
 ```
 > armv7 and armv7s support older 32 bit systems. They allow for greater range when included with the arm64 64-bit supported architectures. See [Apple’s documentation](https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html) for more information.
 
-1. Copy the edited file and overwrite Cordova's version using the "cordova prepare" command.
+4. Copy the edited file and overwrite Cordova's version using the "cordova prepare" command.
 
 ```
 cp -a ./platforms/ ./platformsBck
@@ -115,10 +115,10 @@ You can either use Android Studio or use the CLI workflow. If you use the CLI wo
 
 >Gradle is a required dependency.
 
-1. Set the following environment variables path.
+2. Set the following environment variables path.
 `export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin`
 
-1. Build and run your project with the plugin.
+3. Build and run your project with the plugin.
 
 ## Plugin Features
 
