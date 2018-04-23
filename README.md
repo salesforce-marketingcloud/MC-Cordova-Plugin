@@ -71,54 +71,58 @@ cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
 
 You can develop in Cordova using one of two different approaches: 1) Cross-platform, or command-line interface (CLI) workflow or 2) platform-centered workflow. See the Cordova [Development Paths documentation section](http://cordova.apache.org/docs/en/7.x/guide/overview/index.html) for more information.
 
-### iOS CLI Workflow
+### CLI Workflow
 
-You can either use Apple's Xcode or use the CLI workflow. To use the CLI workflow, follow these steps.
+For iOS, you can either use Apple's Xcode or use the CLI workflow. For Android, you can either use Android Studio or the CLI workflow.
 
-1. Locate the build.xcconfig file, typically found in YOUR_CORDOVA_PROJECT/platforms/ios/cordova/build.xcconfig.
+To use the CLI workflow, follow these steps.
 
-2. Create a copy of the build.xcconfig file.
+1. For iOS, create an Xcode project. For Android, install the [gradle build tool](https://gradle.org/install/#manually).
 
-3. Edit the copy to add the following attributes.
-```
-DEVELOPMENT_TEAM = *YOUR_TEAM_VALUE*
+> When you install the gradle build tool, make sure that you set your gradle environment variable by following the instructions at the link. If you don’t, it will fail.
 
-ARCHS = arm64 armv7 armv7s
+2. For iOS, configure your Xcode environment for push notifications and build settings.
 
-VALID_ARCHS = arm64 armv7 armv7s
-```
-> armv7 and armv7s support older 32 bit systems. They allow for greater range when included with the arm64 64-bit supported architectures. See [Apple’s documentation](https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html) for more information.
+3. Modify the following shell script to fit your needs. For example, replace placeholder text with the name of your project.
 
-4. Copy the edited file and overwrite Cordova's version using the "cordova prepare" command.
+4. Run the modified shell script. The shell script builds both iOS and Android.
 
 ```
+//This script assumes that you have an existing Cordova project. Back up the platforms directory.
 cp -a ./platforms/ ./platformsBck
+
+//Remove the original platforms directory so that Cordova can generate the platforms from scratch.
 rm -R ./platforms/
+
+//Add the MarketingCloud-Cordova-Plugin with appropriate values.
 cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable MCANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
+
+//Execute the plugin prepare step to set up your new platforms.
 cordova prepare
+
+//Copy only the AndroidManifest.xml file inside the backed-up platforms directory.
 cp -a ./platformsBck/android/ ./platforms/android/
+
+//Copy the specific iOS platform files needed. These files contain your original project configuration files and the entitlements files required for push notifications.
 cp -a ./platformsBck/ios/cordova/build.xcconfig ./platforms/ios/cordova/build.xcconfig
 rm -R ./platforms/ios/YOUR_PROJECT_NAME.xcodeproj
 cp -a ./platformsBck/ios/YOUR_PROJECT_NAME.xcodeproj ./platforms/ios/YOUR_PROJECT_NAME.xcodeproj
 cp -a ./platformsBck/ios/YOUR_PROJECT_NAME/Entitlements-Debug.plist ./platforms/ios/YOUR_PROJECT_NAME/Entitlements-Debug.plist
 cp -a ./platformsBck/ios/YOUR_PROJECT_NAME/Entitlements-Release.plist ./platforms/ios/YOUR_PROJECT_NAME/Entitlements-Release.plist
+
+//Remove your backup dir.
 rm -R ./platformsBck/
-export PATH=$PATH:/opt/gradle/gradle-4.4/bin
-cordova run ios -verbose —device
+
+//Set your configuration environment variable for the Android platform. Follow the instructions and get the latest gradle version here: https://gradle.org/install/#manually
+export PATH=$PATH:/opt/gradle/gradle-X.X/bin
+
+//Build and run for the selected platform.
+cordova run android --verbose
+
+//or
+
+cordova run ios -verbose --device
 ```
-
-### Android CLI Workflow
-
-You can either use Android Studio or use the CLI workflow. If you use the CLI workflow, follow these steps.
-
-1. Install the [gradle build tool](https://gradle.org/install/#manually).
-
->Gradle is a required dependency.
-
-2. Set the following environment variables path.
-`export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin`
-
-3. Build and run your project with the plugin.
 
 ## Plugin Features
 
