@@ -117,11 +117,11 @@ rm -R ./platformsBck/
 export PATH=$PATH:/opt/gradle/gradle-X.X/bin
 
 //Build and run for the selected platform.
-cordova run android --verbose
+cordova run android --verbose --device
 
 //or
 
-cordova run ios -verbose --device
+cordova run ios --verbose --device
 ```
 
 ## Plugin Features
@@ -273,7 +273,7 @@ Enables push and push accessories in the Marketing Cloud SDK.
 MCCordovaPlugin.enablePush();
 ```
 
-> To use push notifications in iOS, call `enablePush`. Push is not enabled by default on start up.
+> To use push notifications in iOS, call `enablePush`. **Push is not enabled by default on start up.**
 
 #### disablePush
 
