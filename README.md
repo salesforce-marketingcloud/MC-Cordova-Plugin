@@ -58,12 +58,12 @@ cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
 --variable APPID={YOUR_APP_ID}
 --variable ACCESSTOKEN={YOUR_ACCESS_TOKEN}
 --variable GCMSENDERID={YOUR_GCM_SENDER_ID}
---variable MCANALYTICS={enabled|disabled}
+--variable ETANALYTICS={enabled|disabled}
 --variable CHANNELNAME={YOUR_CHANNEL_NAME}
 --nosave
 --nofetch
 ```
-> You must explicitly enable or disable `MCANALYTICS`. `MCANALYTICS` enables or disables collection of analytics, such as notification displayed, opened, etc. for your app.
+> You must explicitly enable or disable `ETANALYTICS`. `ETANALYTICS` enables or disables collection of analytics, such as notification displayed, opened, etc. for your app.
 
 > These variables refer to your app in MobilePush.
 
@@ -95,7 +95,7 @@ cp -a ./platforms/ ./platformsBck
 rm -R ./platforms/
 
 //Add the MarketingCloud-Cordova-Plugin with appropriate values.
-cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable MCANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
+cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
 
 //Execute the plugin prepare step to set up your new platforms.
 cordova prepare

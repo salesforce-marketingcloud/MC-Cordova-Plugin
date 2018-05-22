@@ -11,7 +11,7 @@
 
     <preference name="APPID" />
     <preference name="ACCESSTOKEN" />
-    <preference name="MCANALYTICS" />
+    <preference name="ETANALYTICS" />
     <preference name="CHANNELNAME" />
 
     <platform name="ios">
@@ -21,8 +21,8 @@
                 <string>$APPID</string>
                 <key>ACCESSTOKEN</key>
                 <string>$ACCESSTOKEN</string>
-                <key>MCANALYTICS</key>
-                <string>$MCANALYTICS</string>
+                <key>ETANALYTICS</key>
+                <string>$ETANALYTICS</string>
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
@@ -61,7 +61,7 @@
           <string name="APPID">$APPID</string>
           <string name="ACCESSTOKEN">$ACCESSTOKEN</string>
           <string name="GCMSENDERID">$GCMSENDERID</string>
-          <string name="MCANALYTICS">$MCANALYTICS</string>
+          <string name="ETANALYTICS">$ETANALYTICS</string>
           <string name="CHANNELNAME">$CHANNELNAME</string>
         </config-file>
 
