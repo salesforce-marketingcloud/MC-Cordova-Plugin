@@ -54,7 +54,7 @@ _Released October 27, 2017_
 3. Use this command to install the plugin in your Cordova project.
 
 ```Bash
-cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
+cordova plugin add ../sdk-cordova-plugin
 --variable APPID={YOUR_APP_ID}
 --variable ACCESSTOKEN={YOUR_ACCESS_TOKEN}
 --variable GCMSENDERID={YOUR_GCM_SENDER_ID}
@@ -95,7 +95,7 @@ cp -a ./platforms/ ./platformsBck
 rm -R ./platforms/
 
 //Add the MarketingCloud-Cordova-Plugin with appropriate values.
-cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
+cordova plugin add ../sdk-cordova-plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
 
 //Execute the plugin prepare step to set up your new platforms.
 cordova prepare
