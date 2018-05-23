@@ -2,5 +2,5 @@
   "name": "production",
   "appid": "YOUR_APPID_HERE",
   "accesstoken": "YOUR_ACCESSTOKEN_HERE",
-  "analytics": true
+  "etanalytics": true
   }]
