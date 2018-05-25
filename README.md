@@ -40,18 +40,7 @@ _Released October 27, 2017_
 * [Connect your iOS app to MobilePush](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/get-started/apple.html)
 * [Connect your Android app to MobilePush](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/create-apps/create-apps-overview.html)
 
-2. For iOS apps, set the attributes in the MarketingCloudSDKConfiguration.json file found in the .../src/ios/MCPushSDK/ directory before installing the plugin.
-
-```
-[{
-"name": "production",
-"appid": "YOUR_APPID_HERE",
-"accesstoken": "YOUR_ACCESSTOKEN_HERE",
-"analytics": true
-}]
-```
-
-3. Use this command to install the plugin in your Cordova project.
+2. Use this command to install the plugin in your Cordova project.
 
 ```Bash
 cordova plugin add ../sdk-cordova-plugin
