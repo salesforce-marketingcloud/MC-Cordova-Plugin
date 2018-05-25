@@ -37,7 +37,6 @@
         <source-file src="src/ios/MCCordovaPlugin.m" />
 
         <resource-file src="src/ios/MCPushSDK/MarketingCloudSDK.bundle" />
-        <resource-file src="src/ios/MCPushSDK/MarketingCloudSDKConfiguration.json" />
 
         <framework src="src/ios/MCPushSDK/MarketingCloudSDK.framework" custom="true"/>
         <framework src="CoreLocation.framework/" />
