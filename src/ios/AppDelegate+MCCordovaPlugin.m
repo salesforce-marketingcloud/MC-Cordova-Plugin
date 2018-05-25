@@ -43,14 +43,13 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
     
     // Build the path, and create if needed.
     NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* fileName = @"generated.json";
+    NSString* fileName = @"tempJSON.json";
     NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fileAtPath]) {
         [[NSFileManager defaultManager] createFileAtPath:fileAtPath contents:nil attributes:nil];
     }
     
-    // The main act...
     [[aString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:fileAtPath atomically:NO];
 }
 
@@ -58,10 +57,9 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
     
     // Build the path...
     NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* fileName = @"generated.json";
+    NSString* fileName = @"tempJSON.json";
     NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
     
-    // The main act...
     return [[NSString alloc] initWithData:[NSData dataWithContentsOfFile:fileAtPath] encoding:NSUTF8StringEncoding];
 }
 
@@ -69,12 +67,35 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
     
     // Build the path...
     NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* fileName = @"generated.json";
+    NSString* fileName = @"tempJSON.json";
     NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
     
     NSURL *url = [NSURL fileURLWithPath:fileAtPath];
-    // The main act...
+
     return url;
+}
+
+- (NSString *)buildPayloadString:(NSDictionary *)dictionary
+{
+    NSMutableString *objStr = [NSMutableString string];
+    [objStr appendString:@"[{"];
+    
+    __block int count = 0;
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString * formatStr;
+        if(count == 0)
+        {
+            formatStr = [NSString stringWithFormat:@"\"%@\": \"%@\"",key,obj];
+        }else{
+            formatStr = [NSString stringWithFormat:@", \"%@\": \"%@\"",key,obj];
+        }
+        [objStr appendString:formatStr];
+        
+        count += 1;
+    }];
+    [objStr appendString:@"}]"];
+    
+    return objStr;
 }
 
 // Init the SDK with options set by the cordova plugin add command
@@ -105,23 +126,7 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
         }
         [dictionary setValue:ETANALYTICSStr forKey:@"ETANALYTICS"];
         
-        NSMutableString *objStr = [NSMutableString string];
-        __block int count = 0;
-        [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            NSString * formatStr;
-            if(count == 0)
-            {
-                formatStr = [NSString stringWithFormat:@"[{\"%@\": \"%@\"",key,obj];
-            }else{
-                formatStr = [NSString stringWithFormat:@", \"%@\": \"%@\"",key,obj];
-            }
-            [objStr appendString:formatStr];
-            
-            count += 1;
-        }];
-        [objStr appendString:@"}]"];
-        
-        [self writeStringToFile:objStr];
+        [self writeStringToFile:[self buildPayloadString:dictionary]];
         NSLog(@"string:%@",[self readStringFromFile]);
         
         // start the configuration of the Marketing Cloud SDK - use explicit URL to configuration
