@@ -13,6 +13,7 @@
     <preference name="ACCESSTOKEN" />
     <preference name="ETANALYTICS" />
     <preference name="CHANNELNAME" />
+    <preference name="MARKETINGCLOUDSERVERURL" />
 
     <platform name="ios">
         <config-file target="*-Info.plist" parent="MCCordovaPluginSettings">
@@ -23,6 +24,8 @@
                 <string>$ACCESSTOKEN</string>
                 <key>ETANALYTICS</key>
                 <string>$ETANALYTICS</string>
+                <key>MARKETINGCLOUDSERVERURL</key>
+                <string>$MARKETINGCLOUDSERVERURL</string>
             </dict>
         </config-file>
         <config-file target="config.xml" parent="/*">
@@ -62,6 +65,7 @@
           <string name="GCMSENDERID">$GCMSENDERID</string>
           <string name="ETANALYTICS">$ETANALYTICS</string>
           <string name="CHANNELNAME">$CHANNELNAME</string>
+          <string name="MARKETINGCLOUDSERVERURL">$MARKETINGCLOUDSERVERURL</string>
         </config-file>
 
         <source-file src="src/android/MCCordovaPluginApplication.java" target-dir="src/com/salesforce/marketingcloud/cordovaplugin" />

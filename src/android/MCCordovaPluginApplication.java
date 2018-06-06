@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper;
 import android.util.Log;
 
 import com.salesforce.marketingcloud.InitializationStatus;
+import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
@@ -21,6 +22,7 @@ public class MCCordovaPluginApplication extends Application {
     public static Context getAppContext() {
         return context;
     }
+
     public static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.0.2";
 
     @Override
@@ -35,9 +37,11 @@ public class MCCordovaPluginApplication extends Application {
                 .setAccessToken(getString(R.string.ACCESSTOKEN))
                 .setGcmSenderId(getString(R.string.GCMSENDERID))
                 .setAnalyticsEnabled(etAnalyticsEnabled)
-                .setNotificationChannelName(String.valueOf(R.string.CHANNELNAME))
+                .setNotificationChannelName(getString(R.string.CHANNELNAME))
+                .setMarketingCloudServerUrl(getString(R.string.MARKETINGCLOUDSERVERURL))
                 .build(), new MarketingCloudSdk.InitializationListener() {
-            @Override public void complete(InitializationStatus status) {
+            @Override
+            public void complete(InitializationStatus status) {
 
                 if (status.isUsable()) {
                     RegistrationManager registrationManager = MarketingCloudSdk.getInstance().getRegistrationManager();
