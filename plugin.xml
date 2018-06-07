@@ -24,7 +24,7 @@
                 <string>$ACCESSTOKEN</string>
                 <key>ETANALYTICS</key>
                 <string>$ETANALYTICS</string>
-                <key>MARKETINGCLOUDSERVERURL</key>
+                <key>MARKETING_CLOUD_SERVER_URL</key>
                 <string>$MARKETINGCLOUDSERVERURL</string>
             </dict>
         </config-file>
