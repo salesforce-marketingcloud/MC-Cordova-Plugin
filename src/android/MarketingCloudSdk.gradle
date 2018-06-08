@@ -1,7 +1,6 @@
 allprojects {
     repositories {
-        //maven { url "http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/repository" }
-        mavenLocal()
+        maven { url "http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/repository" }
     }
 }
 
