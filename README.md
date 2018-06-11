@@ -49,6 +49,7 @@ cordova plugin add ../sdk-cordova-plugin
 --variable GCMSENDERID={YOUR_GCM_SENDER_ID}
 --variable ETANALYTICS={enabled|disabled}
 --variable CHANNELNAME={YOUR_CHANNEL_NAME}
+--variable MARKETINGCLOUDSERVERURL={YOUR_MARKETING_CLOUD_SERVER_URL}
 --nosave
 --nofetch
 ```
@@ -84,7 +85,7 @@ cp -a ./platforms/ ./platformsBck
 rm -R ./platforms/
 
 //Add the MarketingCloud-Cordova-Plugin with appropriate values.
-cordova plugin add ../sdk-cordova-plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
+cordova plugin add ../sdk-cordova-plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —variable MARKETINGCLOUDSERVERURL={YOUR_MARKETING_CLOUD_SERVER_URL} —nosave —nofetch
 
 //Execute the plugin prepare step to set up your new platforms.
 cordova prepare
