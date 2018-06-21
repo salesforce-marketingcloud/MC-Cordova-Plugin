@@ -4,11 +4,12 @@ Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](h
 
 ## Release History
 
+### Important TLS Update
+Use Cordova Android version 1.0.3 or higher to guarantee support for TLS 1.1+. The Android SDK now supports only TLS 1.1+.
+
 ### Version 1.1.0
 _Released June 25, 2018_
-> For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v5.2.x<br>
-> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.6.x, the latest version of Cordova, and Android Cordova platform 6.40.<br>
-> The Android SDK now supports only TLS 1.1 and higher. You must use Android SDK version 5.5.x or higher and Cordova plugin version 1.1.0 to ensure communication with Marketing Cloud.
+> For Android: Depends on Android Cordova platform 6.40.<br>
 
 * Updated Android SDK to 5.6.x
 * Updated iOS SDK to 5.2.x
