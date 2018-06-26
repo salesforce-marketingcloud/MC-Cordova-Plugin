@@ -7,7 +7,7 @@
 
 @implementation AppDelegate (MCCordovaPlugin)
 
-static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
+static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.1.0";
 
 
 // its dangerous to override a method from within a category.

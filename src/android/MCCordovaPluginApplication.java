@@ -21,7 +21,7 @@ public class MCCordovaPluginApplication extends Application {
     public static Context getAppContext() {
         return context;
     }
-    public static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.0.2";
+    public static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.1.0";
 
     @Override
     public void onCreate() {
