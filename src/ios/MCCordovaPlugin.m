@@ -28,23 +28,20 @@
 #pragma mark - Push
     
 - (void)isPushEnabled:(CDVInvokedUrlCommand*)command {
-    //BOOL pushEnabled = [ETPush isPushEnabled];
-    BOOL pushEnabled = [[MarketingCloudSDK sharedInstance] sfmc_pushEnabled];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:pushEnabled];
+    BOOL success= [[MarketingCloudSDK sharedInstance] sfmc_pushEnabled];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)enablePush:(CDVInvokedUrlCommand*)command {
     [[UIApplication sharedApplication] registerForRemoteNotifications];
 
-    //[[ETPush pushManager] updateET];
     [[MarketingCloudSDK sharedInstance] sfmc_setPushEnabled:YES];
 }
 
 - (void)disablePush:(CDVInvokedUrlCommand*)command {
     [[UIApplication sharedApplication] unregisterForRemoteNotifications];
 
-    //[[ETPush pushManager] updateET];
     [[MarketingCloudSDK sharedInstance] sfmc_setPushEnabled:NO];
 }
 
@@ -54,19 +51,28 @@
     NSString *name = [command.arguments objectAtIndex:0];
     NSString *value = [command.arguments objectAtIndex:1];
     
-    //BOOL success = [[ETPush pushManager] addAttributeNamed:name value:value];
-    BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_setAttributeNamed:name value:value];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+    CDVPluginResult* pluginResult;
+    if(true == [[MarketingCloudSDK sharedInstance] sfmc_setAttributeNamed:name value:value])
+    {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    }else{
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Error: setAttribute failed."];
+    }
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)clearAttribute:(CDVInvokedUrlCommand*)command {
     NSString *name = [command.arguments objectAtIndex:0];
     
-    //TODO: Using sfmc_clearAttributeNamed was not expected as I was thinking to look for a remove instead.
-    //NSString *result = [[ETPush pushManager] removeAttributeNamed:name];
-    BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_clearAttributeNamed:name];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+    CDVPluginResult* pluginResult;
+    if(true == [[MarketingCloudSDK sharedInstance] sfmc_clearAttributeNamed:name])
+    {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    }else{
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Error: clearAttribute failed."];
+    }
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -89,9 +95,15 @@
 
 - (void)setContactKey:(CDVInvokedUrlCommand*)command {
     NSString *contactKey = [command.arguments objectAtIndex:0];
-    //BOOL success = [[ETPush pushManager] setSubscriberKey:contactKey];
-    BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_setContactKey:contactKey];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+
+    CDVPluginResult* pluginResult;
+    if(true == [[MarketingCloudSDK sharedInstance] sfmc_setContactKey:contactKey])
+    {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    }else{
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Error: setContactKey failed."];
+    }
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -100,18 +112,28 @@
 - (void)addTag:(CDVInvokedUrlCommand*)command {
     NSString *tag = [command.arguments objectAtIndex:0];
     
-    //BOOL success = [[ETPush pushManager] addTag:tag];
-    BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_addTag:tag];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+    CDVPluginResult* pluginResult;
+    if(true == [[MarketingCloudSDK sharedInstance] sfmc_addTag:tag])
+    {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    }else{
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Error: addTag failed."];
+    }
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)removeTag:(CDVInvokedUrlCommand*)command {
     NSString *tag = [command.arguments objectAtIndex:0];
+
+    CDVPluginResult* pluginResult;
+    if(true == [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag])
+    {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+    }else{
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Error: removeTag failed."];
+    }
     
-    //NSString *result = [[ETPush pushManager] removeTag:tag];
-    BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 

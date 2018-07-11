@@ -21,20 +21,20 @@ public class MCCordovaPluginApplication extends Application {
     public static Context getAppContext() {
         return context;
     }
-    public static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.0.2";
+    public static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.1.0";
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
 
-        boolean mcAnalyticsEnabled = "enabled".equalsIgnoreCase(getString(R.string.MCANALYTICS));
+        boolean etAnalyticsEnabled = "enabled".equalsIgnoreCase(getString(R.string.ETANALYTICS));
 
         MarketingCloudSdk.init(this, MarketingCloudConfig.builder()
                 .setApplicationId(getString(R.string.APPID))
                 .setAccessToken(getString(R.string.ACCESSTOKEN))
                 .setGcmSenderId(getString(R.string.GCMSENDERID))
-                .setAnalyticsEnabled(mcAnalyticsEnabled)
+                .setAnalyticsEnabled(etAnalyticsEnabled)
                 .setNotificationChannelName(String.valueOf(R.string.CHANNELNAME))
                 .build(), new MarketingCloudSdk.InitializationListener() {
             @Override public void complete(InitializationStatus status) {

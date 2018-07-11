@@ -4,6 +4,16 @@ Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](h
 
 ## Release History
 
+### Important TLS Update
+Use Cordova Android version 1.0.3 or higher to guarantee support for TLS 1.1+. The Android SDK now supports only TLS 1.1+.
+
+### Version 1.1.0
+_Released July 11, 2018_
+> For Android: Depends on Android Cordova platform 6.40.<br>
+
+* Updated Android SDK to 5.6.x
+* Updated iOS SDK to 5.2.x
+
 ### Version 1.0.3
 _Released Apr 23, 2018_
 > For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v5.1.x<br>
@@ -40,30 +50,19 @@ _Released October 27, 2017_
 * [Connect your iOS app to MobilePush](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/get-started/apple.html)
 * [Connect your Android app to MobilePush](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/create-apps/create-apps-overview.html)
 
-2. For iOS apps, set the attributes in the MarketingCloudSDKConfiguration.json file found in the .../src/ios/MCPushSDK/ directory before installing the plugin.
-
-```
-[{
-"name": "production",
-"appid": "YOUR_APPID_HERE",
-"accesstoken": "YOUR_ACCESSTOKEN_HERE",
-"analytics": true
-}]
-```
-
-3. Use this command to install the plugin in your Cordova project.
+2. Use this command to install the plugin in your Cordova project.
 
 ```Bash
-cordova plugin add ../MarketingCloudSdk-Cordova-Plugin
+cordova plugin add ../sdk-cordova-plugin
 --variable APPID={YOUR_APP_ID}
 --variable ACCESSTOKEN={YOUR_ACCESS_TOKEN}
 --variable GCMSENDERID={YOUR_GCM_SENDER_ID}
---variable MCANALYTICS={enabled|disabled}
+--variable ETANALYTICS={enabled|disabled}
 --variable CHANNELNAME={YOUR_CHANNEL_NAME}
 --nosave
 --nofetch
 ```
-> You must explicitly enable or disable `MCANALYTICS`. `MCANALYTICS` enables or disables collection of analytics, such as notification displayed, opened, etc. for your app.
+> You must explicitly enable or disable `ETANALYTICS`. `ETANALYTICS` enables or disables collection of analytics, such as notification displayed, opened, etc. for your app.
 
 > These variables refer to your app in MobilePush.
 
@@ -95,7 +94,7 @@ cp -a ./platforms/ ./platformsBck
 rm -R ./platforms/
 
 //Add the MarketingCloud-Cordova-Plugin with appropriate values.
-cordova plugin add ../MarketingCloudSdk-Cordova-Plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable MCANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
+cordova plugin add ../sdk-cordova-plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
 
 //Execute the plugin prepare step to set up your new platforms.
 cordova prepare
