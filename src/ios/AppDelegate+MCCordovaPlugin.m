@@ -7,7 +7,7 @@
 
 @implementation AppDelegate (MCCordovaPlugin)
 
-static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
+static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.1.0";
 
 
 // its dangerous to override a method from within a category.
@@ -17,17 +17,17 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.0.3";
     Method original, swizzled;
     
     original = class_getInstanceMethod(self, @selector(init));
-    swizzled = class_getInstanceMethod(self, @selector(swizzled_init));
+    swizzled = class_getInstanceMethod(self, @selector(sfmc_swizzled_init));
     method_exchangeImplementations(original, swizzled);
 }
 
 // Swizzle the init, this will be executed after UIApplicationDidFinishLaunchingNotification with
 // added functionality to create the notification checker for the ET SDK.
-- (AppDelegate *)swizzled_init
+- (AppDelegate *)sfmc_swizzled_init
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNotificationChecker:)
                                                  name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
-    return [self swizzled_init];
+    return [self sfmc_swizzled_init];
 }
 
 // This code will be called immediately after application:didFinishLaunchingWithOptions:.
