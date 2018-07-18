@@ -4,6 +4,16 @@ Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](h
 
 ## Release History
 
+### Important TLS Update
+Use Cordova Android version 1.0.3 or higher to guarantee support for TLS 1.1+. The Android SDK now supports only TLS 1.1+.
+
+### Version 1.1.0
+_Released July 11, 2018_
+> For Android: Depends on Android Cordova platform 6.40.<br>
+
+* Updated Android SDK to 5.6.x
+* Updated iOS SDK to 5.2.x
+
 ### Version 1.0.3
 _Released Apr 23, 2018_
 > For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v5.1.x<br>
@@ -49,7 +59,6 @@ cordova plugin add ../sdk-cordova-plugin
 --variable GCMSENDERID={YOUR_GCM_SENDER_ID}
 --variable ETANALYTICS={enabled|disabled}
 --variable CHANNELNAME={YOUR_CHANNEL_NAME}
---variable MARKETINGCLOUDSERVERURL={YOUR_MARKETING_CLOUD_SERVER_URL}
 --nosave
 --nofetch
 ```
@@ -85,7 +94,7 @@ cp -a ./platforms/ ./platformsBck
 rm -R ./platforms/
 
 //Add the MarketingCloud-Cordova-Plugin with appropriate values.
-cordova plugin add ../sdk-cordova-plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —variable MARKETINGCLOUDSERVERURL={YOUR_MARKETING_CLOUD_SERVER_URL} —nosave —nofetch
+cordova plugin add ../sdk-cordova-plugin —variable APPID={YOUR_APP_ID} —variable ACCESSTOKEN={YOUR_ACCESS_TOKEN} —variable GCMSENDERID={YOUR_GCM_SENDER_ID} —variable ETANALYTICS={enabled|disable} —variable CHANNELNAME={YOUR_CHANNEL_NAME} —nosave —nofetch
 
 //Execute the plugin prepare step to set up your new platforms.
 cordova prepare
