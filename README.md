@@ -14,7 +14,7 @@ Use Cordova Android version 1.0.3 or higher to guarantee support for TLS 1.1+. T
 
 ### Version 1.1.0
 _Released July 11, 2018_
-> For Android: Depends on Android Cordova platform 6.40.<br>
+> For Android: Depends on Android Cordova platform 6.4.0.<br>
 
 * Updated Android SDK to 5.6.x
 * Updated iOS SDK to 5.2.x
@@ -22,14 +22,14 @@ _Released July 11, 2018_
 ### Version 1.0.3
 _Released Apr 23, 2018_
 > For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v5.1.x<br>
-> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.5.x, the latest version of Cordova, and Android Cordova platform 6.40.
+> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.5.x, the latest version of Cordova, and Android Cordova platform 6.4.0.
 
 * Added support for Cordova iOS cross-platform (CLI) workflow<br>
 
 ### Version 1.0.2
 _Released Jan 22, 2018_
 > For iOS: Depends on the Marketing Cloud Mobile Push iOS SDK v4.9.x<br>
-> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x, the latest version of Cordova, and Android Cordova platform 6.40.
+> For Android: Depends on the Marketing Cloud Mobile Push Android SDK v5.3.x, the latest version of Cordova, and Android Cordova platform 6.4.0.
 
 * Updated Android SDK to v5.3.+<br>
 
