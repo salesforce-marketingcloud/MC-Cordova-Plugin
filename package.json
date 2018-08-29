@@ -1,0 +1,19 @@
+{
+  "name": "marketing-cloud-sdk-plugin",
+  "version": "2.0.0",
+  "description": "",
+  "cordova": {
+    "id": "marketing-cloud-sdk-plugin",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "",
+  "license": "ISC"
+}

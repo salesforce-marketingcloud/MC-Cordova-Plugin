@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="marketing-cloud-sdk-plugin" 
+  version="2.0.0" 
+  xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <name>MCCordovaPlugin</name>
+
+  <description>TODO</description>
+
+  <repo>TODO</repo>
+
+  <license>TODO</license>
+
+  <author>TODO</author>
+
+  <!-- cordova -->
+  <engines>
+    <engine name="cordova" 
+      version=">=3.6.0" />
+    <engine name="cordova-plugman" 
+      version=">=4.3.0" />
+    <engine name="cordova-android" 
+      version=">=6.0.0" />
+    <engine name="android-sdk" 
+      version=">=16" />
+    <engine name="apple-ios" 
+      version=">=10.0.0" />
+  </engines>
+
+  <!-- js -->
+  <js-module name="MCCordovaPlugin" 
+    src="www/MCCordovaPlugin.js">
+    <clobbers target="MCCordovaPlugin" />
+  </js-module>
+
+  <!-- android -->
+  <platform name="android">
+    <framework src="src/android/build/marketingcloudsdk.gradle" 
+      custom="true" 
+      type="gradleReference" />
+
+    <config-file parent="/*" 
+      target="res/xml/config.xml">
+      <feature name="MCCordovaPlugin">
+        <param name="android-package" 
+          value="com.salesforce.marketingcloud.cordova.MCCordovaPlugin" />
+      </feature>
+    </config-file>
+
+    <config-file parent="/manifest/application" 
+      target="AndroidManifest.xml">
+
+      <provider android:name="com.salesforce.marketingcloud.cordova.MCInitProvider" 
+        android:authorities="$PACKAGE_NAME.com.salesforce.marketingcloud.cordova.MCInitProvider" 
+        android:enabled="true" 
+        android:exported="false" />
+    </config-file>
+
+    <source-file src="src/android/MCCordovaPlugin.java" 
+      target-dir="src/com/salesforce/marketingcloud/cordova" />
+    <source-file src="src/android/MCSdkConfig.java" 
+      target-dir="src/com/salesforce/marketingcloud/cordova" />
+    <source-file src="src/android/MCInitProvider.java" 
+      target-dir="src/com/salesforce/marketingcloud/cordova" />
+
+  </platform>
+
+  <!-- ios -->
+  <platform name="ios">
+    <config-file parent="/*" 
+      target="config.xml">
+      <feature name="MCCordovaPlugin">
+        <param name="ios-package" 
+          value="MCCordovaPlugin" />
+      </feature>
+    </config-file>
+    <source-file src="src/ios/MCCordovaPlugin.m" />
+  </platform>
+</plugin>
