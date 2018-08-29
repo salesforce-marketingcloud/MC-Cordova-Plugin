@@ -55,6 +55,9 @@
         android:authorities="$PACKAGE_NAME.com.salesforce.marketingcloud.cordova.MCInitProvider" 
         android:enabled="true" 
         android:exported="false" />
+
+      <meta-data android:name="com.salesforce.marketingcloud.cordova.VERSION" 
+        android:value="2.0.0" />
     </config-file>
 
     <source-file src="src/android/MCCordovaPlugin.java" 

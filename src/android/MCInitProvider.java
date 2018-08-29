@@ -3,10 +3,14 @@ package com.salesforce.marketingcloud.cordova;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import com.salesforce.marketingcloud.InitializationStatus;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
@@ -16,7 +20,20 @@ import java.util.Set;
 public class MCInitProvider extends ContentProvider
     implements MarketingCloudSdk.InitializationListener {
 
-  private static final String CURRENT_CORDOVA_VERSION_NAME = "MC_Cordova_v1.1.0";
+  private static final String TAG_PREFIX = "MC_Cordova_v";
+
+  private static String versionMetaData(Context context) {
+    try {
+      ApplicationInfo ai = context.getPackageManager()
+          .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+      Bundle bundle = ai.metaData;
+      return bundle.getString("com.salesforce.marketingcloud.cordova.VERSION", "");
+    } catch (Exception e) {
+      Log.e(MCCordovaPlugin.TAG, "Failed to read cordova plugin version from manifest.", e);
+    }
+
+    return "";
+  }
 
   @Override public boolean onCreate() {
     Context ctx = getContext();
@@ -59,16 +76,18 @@ public class MCInitProvider extends ContentProvider
       MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
         @Override public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
           RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
-          RegistrationManager.Editor registrationEditor = registrationManager.edit();
           Set<String> tags = registrationManager.getTags();
           if (!tags.isEmpty()) {
             for (String tag : tags) {
-              if (!tag.equals(CURRENT_CORDOVA_VERSION_NAME) && tag.startsWith("MC_Cordova_v")) {
-                registrationEditor.removeTags(tag);
+              if (tag.startsWith(TAG_PREFIX)) {
+                String versionTag = TAG_PREFIX + versionMetaData(getContext());
+                registrationManager.edit().removeTag(tag).addTag(versionTag).commit();
+                break;
               }
             }
+          } else {
+            registrationManager.edit().addTag(TAG_PREFIX + versionMetaData(getContext())).commit();
           }
-          registrationEditor.addTags(CURRENT_CORDOVA_VERSION_NAME).commit();
         }
       });
     }
