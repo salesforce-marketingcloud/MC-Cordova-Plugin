@@ -1,6 +1,7 @@
 package com.salesforce.marketingcloud.cordova;
 
 import android.support.annotation.NonNull;
+import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import java.util.Collection;
 import java.util.Map;
@@ -40,6 +41,10 @@ public class MCCordovaPlugin extends CordovaPlugin {
   @Override public boolean execute(final String action, final JSONArray args,
       final CallbackContext callbackContext) throws JSONException {
 
+    if (handleStaticAction(action, args, callbackContext)) {
+      return true;
+    }
+
     final ActionHandler handler = getActionHandler(action);
 
     if (handler == null) {
@@ -59,6 +64,23 @@ public class MCCordovaPlugin extends CordovaPlugin {
     }
 
     return true;
+  }
+
+  private boolean handleStaticAction(String action, JSONArray args,
+      CallbackContext callbackContext) {
+    switch (action) {
+      case "enableVerboseLogging":
+        MarketingCloudSdk.setLogLevel(MCLogListener.VERBOSE);
+        MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
+        callbackContext.success();
+        return true;
+      case "disableVerboseLogging":
+        MarketingCloudSdk.setLogListener(null);
+        callbackContext.success();
+        return true;
+      default:
+        return false;
+    }
   }
 
   private ActionHandler getActionHandler(String action) {

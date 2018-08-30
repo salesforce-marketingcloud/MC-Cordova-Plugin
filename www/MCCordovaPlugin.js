@@ -16,12 +16,12 @@ var MCCordovaPlugin = {
     },
 
     enablePush: function (successCallback, errorCallback) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.enablePush`, arguments);
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.enablePush`, arguments);
         _exec(successCallback, errorCallback, 'enablePush');
     },
 
     disablePush: function (successCallback, errorCallback) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.disablePush`, arguments);
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.disablePush`, arguments);
         _exec(successCallback, errorCallback, 'disablePush');
     },
 
@@ -36,22 +36,22 @@ var MCCordovaPlugin = {
     },
 
     setAttribute: function (key, value, successCallback, errorCallback) {
-        argsCheck.checkArgs('ssfF', `${PLUGIN_NAME}.setAttribute`, arguments);
+        argsCheck.checkArgs('ssFF', `${PLUGIN_NAME}.setAttribute`, arguments);
         _exec(successCallback, errorCallback, 'setAttribute', [key, value]);
     },
 
     clearAttribute: function (key, successCallback, errorCallback) {
-        argsCheck.checkArgs('sfF', `${PLUGIN_NAME}.clearAttribute`, arguments);
+        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.clearAttribute`, arguments);
         _exec(successCallback, errorCallback, 'clearAttribute', [key]);
     },
 
     addTag: function (tag, successCallback, errorCallback) {
-        argsCheck.checkArgs('sfF', `${PLUGIN_NAME}.addTag`, arguments);
+        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.addTag`, arguments);
         _exec(successCallback, errorCallback, 'addTag', [tag]);
     },
 
     removeTag: function (tag, successCallback, errorCallback) {
-        argsCheck.checkArgs('sfF', `${PLUGIN_NAME}.removeTag`, arguments);
+        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.removeTag`, arguments);
         _exec(successCallback, errorCallback, 'removeTag', [tag]);
     },
 
@@ -61,18 +61,24 @@ var MCCordovaPlugin = {
     },
 
     setContactKey: function (contactKey, successCallback, errorCallback) {
-        argsCheck.checkArgs('sfF', `${PLUGIN_NAME}.setContactKey`, arguments);
+        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.setContactKey`, arguments);
         _exec(successCallback, errorCallback, 'setContactKey', [contactKey]);
     },
 
     getContactKey: function (successCallback, errorCallback) {
         argsCheck.checkArgs('fF', `${PLUGIN_NAME}.getContactKey`, arguments);
         _exec(successCallback, errorCallback, 'getContactKey');
-    }
+    },
 
-    //TODO Logging
-    //enableVerboseLogging
-    //disableVerboseLogging
+    enableVerboseLogging: function (successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.enableVerboseLogging`, arguments);
+        _exec(successCallback, errorCallback, 'enableVerboseLogging');
+    },
+
+    disableVerboseLogging: function (successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.disableVerboseLogging`, arguments);
+        _exec(successCallback, errorCallback, 'disableVerboseLogging');
+    }
 
 };
 

@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.salesforce.marketingcloud.MCLogListener
 import com.salesforce.marketingcloud.MarketingCloudSdk
 import com.salesforce.marketingcloud.messages.push.PushMessageManager
 import com.salesforce.marketingcloud.registration.RegistrationManager
@@ -187,5 +188,20 @@ class MCCordovaPluginTest {
       verify(registrationEditor).setContactKey("testContactKey")
       verify(registrationEditor).commit()
     }
+  }
+
+  @Test fun execute_enableVerboseLogging_success() {
+    assertThat(plugin.execute("enableVerboseLogging", JSONArray(), callbackContext)).isTrue()
+
+    assertThat(ShadowMarketingCloudSdk.getLogLevel()).isEqualTo(MCLogListener.VERBOSE)
+    assertThat(ShadowMarketingCloudSdk.getLogListener()).isInstanceOf(
+        MCLogListener.AndroidLogListener::class.java)
+  }
+
+
+  @Test fun execute_disableVerboseLogging_success() {
+    assertThat(plugin.execute("disableVerboseLogging", JSONArray(), callbackContext)).isTrue()
+
+    assertThat(ShadowMarketingCloudSdk.getLogListener()).isNull()
   }
 }
