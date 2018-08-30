@@ -5,7 +5,7 @@ def productionSrcDir = '../../../src/android'
 
 android {
   compileSdkVersion 27
-  buildToolsVersion "27.0.1"
+  buildToolsVersion '27.0.3'
   defaultConfig {
     applicationId "com.salesforce.marketingcloud.cordova.test"
     minSdkVersion 16
@@ -38,8 +38,9 @@ dependencies {
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.61'
-  testImplementation "org.robolectric:robolectric:3.8"
-  testImplementation "com.google.truth:truth:0.42"
+  testImplementation 'org.robolectric:robolectric:3.8'
+  testImplementation 'com.google.truth:truth:0.42'
+  testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1'
 }
 
 apply from: "$productionSrcDir/build/marketingcloudsdk.gradle"
