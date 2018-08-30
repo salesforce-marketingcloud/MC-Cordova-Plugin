@@ -1,0 +1,14 @@
+{
+  "name": "marketing-cloud-sdk-plugin-tests",
+  "version": "2.0.0",
+  "description": "",
+  "cordova": {
+    "id": "marketing-cloud-sdk-plugin-tests",
+    "platforms": []
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "",
+  "license": "TODO"
+}
