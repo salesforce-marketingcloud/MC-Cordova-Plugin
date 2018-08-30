@@ -3,6 +3,7 @@ package com.salesforce.marketingcloud.cordova
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -12,6 +13,7 @@ import com.salesforce.marketingcloud.MarketingCloudSdk
 import com.salesforce.marketingcloud.messages.push.PushMessageManager
 import com.salesforce.marketingcloud.registration.RegistrationManager
 import org.apache.cordova.CallbackContext
+import org.apache.cordova.CordovaInterface
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
@@ -26,6 +28,7 @@ import org.robolectric.annotation.Config
 class MCCordovaPluginTest {
 
   val plugin = MCCordovaPlugin()
+  val testExecutorService = TestExecutorService()
   val sdk = mock<MarketingCloudSdk>()
   val pushMessageManager = mock<PushMessageManager>()
   val registrationManager = mock<RegistrationManager>()
@@ -33,6 +36,9 @@ class MCCordovaPluginTest {
   val callbackContext = mock<CallbackContext>()
 
   @Before fun setup() {
+    plugin.cordova = mock<CordovaInterface> {
+      on { threadPool } doReturn testExecutorService
+    }
     whenever(registrationEditor.addTag(any())).thenReturn(registrationEditor)
     whenever(registrationEditor.removeTag(any())).thenReturn(registrationEditor)
     whenever(registrationEditor.setAttribute(any(), any())).thenReturn(registrationEditor)

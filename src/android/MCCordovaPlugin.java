@@ -51,17 +51,21 @@ public class MCCordovaPlugin extends CordovaPlugin {
       return false;
     }
 
-    if (MarketingCloudSdk.isReady()) {
-      handler.execute(MarketingCloudSdk.getInstance(), args, callbackContext);
-    } else if (MarketingCloudSdk.isInitializing()) {
-      MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
-        @Override public void ready(@NonNull MarketingCloudSdk sdk) {
-          handler.execute(sdk, args, callbackContext);
+    cordova.getThreadPool().execute(new Runnable() {
+      @Override public void run() {
+        if (MarketingCloudSdk.isReady()) {
+          handler.execute(MarketingCloudSdk.getInstance(), args, callbackContext);
+        } else if (MarketingCloudSdk.isInitializing()) {
+          MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
+            @Override public void ready(@NonNull MarketingCloudSdk sdk) {
+              handler.execute(sdk, args, callbackContext);
+            }
+          });
+        } else {
+          callbackContext.error("MarketingCloudSdk#init has not been called");
         }
-      });
-    } else {
-      callbackContext.error("MarketingCloudSdk#init has not been called");
-    }
+      }
+    });
 
     return true;
   }
