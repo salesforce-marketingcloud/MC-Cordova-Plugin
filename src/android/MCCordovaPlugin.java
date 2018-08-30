@@ -200,6 +200,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
         String value = args.optString(1);
         if (key != null) {
           sdk.getRegistrationManager().edit().setAttribute(key, value).commit();
+          callbackContext.success();
         } else {
           callbackContext.error("Valid attribute key/value not provided.");
         }

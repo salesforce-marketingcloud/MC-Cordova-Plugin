@@ -78,12 +78,16 @@ public class MCInitProvider extends ContentProvider
           RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
           Set<String> tags = registrationManager.getTags();
           if (!tags.isEmpty()) {
+            String foundTag = null;
             for (String tag : tags) {
               if (tag.startsWith(TAG_PREFIX)) {
-                String versionTag = TAG_PREFIX + versionMetaData(getContext());
-                registrationManager.edit().removeTag(tag).addTag(versionTag).commit();
+                foundTag = tag;
                 break;
               }
+            }
+            String versionTag = TAG_PREFIX + versionMetaData(getContext());
+            if (!versionTag.equalsIgnoreCase(foundTag)) {
+              registrationManager.edit().removeTag(foundTag).addTag(versionTag).commit();
             }
           } else {
             registrationManager.edit().addTag(TAG_PREFIX + versionMetaData(getContext())).commit();
