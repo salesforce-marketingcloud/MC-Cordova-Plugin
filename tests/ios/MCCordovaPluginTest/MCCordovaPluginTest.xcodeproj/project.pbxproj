@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A8084FF213F1F91001F773F /* MarketingCloudSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE6EBE9213F002800823C29 /* MarketingCloudSDK.framework */; };
 		3AE6EBC7213EFD6100823C29 /* MCCordovaPluginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6EBC6213EFD6100823C29 /* MCCordovaPluginTest.m */; };
 		3AE6EBC9213EFD6100823C29 /* libMCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE6EBB7213EFD4900823C29 /* libMCCordovaPluginLib.a */; };
 		3AE6EBDB213EFE5D00823C29 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE6EBD5213EFE3000823C29 /* libCordova.a */; };
@@ -98,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8084FF213F1F91001F773F /* MarketingCloudSDK.framework in Frameworks */,
 				3AE6EBE4213EFEA900823C29 /* MobileCoreServices.framework in Frameworks */,
 				3AE6EBE2213EFE9F00823C29 /* UIKit.framework in Frameworks */,
 				3AE6EBE5213EFEB100823C29 /* CoreGraphics.framework in Frameworks */,
@@ -448,7 +450,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
 				INFOPLIST_FILE = MCCordovaPluginLibTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -465,7 +467,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
 				INFOPLIST_FILE = MCCordovaPluginLibTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
