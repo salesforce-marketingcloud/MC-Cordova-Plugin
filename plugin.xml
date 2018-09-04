@@ -67,7 +67,6 @@
 
     <framework src="src/ios/MarketingCloudSDK/MarketingCloudSDK.framework" custom="true"/>
     <framework src="CoreLocation.framework/" />
-    <framework src="WebKit.framework/" />
 
   </platform>
 </plugin>
