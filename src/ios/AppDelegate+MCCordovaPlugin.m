@@ -38,43 +38,6 @@ static NSString *const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.1.0";
     }
 }
 
-- (void)writeStringToFile:(NSString *)aString {
-    // Build the path, and create if needed.
-    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
-                                                              YES) objectAtIndex:0];
-    NSString *fileName = @"tempJSON.json";
-    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fileAtPath]) {
-        [[NSFileManager defaultManager] createFileAtPath:fileAtPath contents:nil attributes:nil];
-    }
-
-    [[aString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:fileAtPath atomically:NO];
-}
-
-- (NSString *)readStringFromFile {
-    // Build the path...
-    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
-                                                              YES) objectAtIndex:0];
-    NSString *fileName = @"tempJSON.json";
-    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-
-    return [[NSString alloc] initWithData:[NSData dataWithContentsOfFile:fileAtPath]
-                                 encoding:NSUTF8StringEncoding];
-}
-
-- (NSURL *)readStringFileLocation {
-    // Build the path...
-    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
-                                                              YES) objectAtIndex:0];
-    NSString *fileName = @"tempJSON.json";
-    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-
-    NSURL *url = [NSURL fileURLWithPath:fileAtPath];
-
-    return url;
-}
-
 - (NSString *)buildPayloadString:(NSDictionary *)dictionary {
     NSMutableString *objStr = [NSMutableString string];
     [objStr appendString:@"[{"];
@@ -100,97 +63,120 @@ static NSString *const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.1.0";
 // Init the SDK with options set by the cordova plugin add command
 - (BOOL)application:(UIApplication *)application
     shouldInitMCSDKWithOptions:(NSDictionary *)launchOptions {
-//    // weak reference to avoid retain cycle within block
-//    __weak __typeof__(self) weakSelf = self;
-//
-//    if ([MarketingCloudSDK sharedInstance] == nil) {
-//        // failed to access the MarketingCloudSDK
-//        os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
-//    } else {
-        MCCordovaPlugin* plugin = [self.viewController getCommandInstance: @"mccordovaplugin"];
-        NSString* preferenceValue = [plugin.commandDelegate.settings objectForKey:[@"com.salesforce.marketingcloud.app_id" lowercaseString]];
-        NSLog(@"dictionary = %@", preferenceValue);
-//        NSError *configureError;
-//
-//        // Read and Set JSON values from plist values read from cordova plugin.xml
-//        NSDictionary *dictionary =
-//            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"MCCordovaPluginSettings"];
-//        NSLog(@"dictionary = %@", dictionary);
-//
-//        // Clean-up ETANALYTICS value for iOS
-//        NSString *ETANALYTICSStr = [dictionary objectForKey:@"ETANALYTICS"];
-//        if ([[ETANALYTICSStr localizedLowercaseString] isEqualToString:@"enabled"]) {
-//            ETANALYTICSStr = @"true";
-//        } else {
-//            ETANALYTICSStr = @"false";
-//        }
-//        [dictionary setValue:ETANALYTICSStr forKey:@"ETANALYTICS"];
-//
-//        [self writeStringToFile:[self buildPayloadString:dictionary]];
-//        NSLog(@"string:%@", [self readStringFromFile]);
-//
-//        // start the configuration of the Marketing Cloud SDK - use explicit URL to configuration
-//        if ([[MarketingCloudSDK sharedInstance]
-//                sfmc_configureWithURL:[self readStringFileLocation]
-//                   configurationIndex:@(0)
-//                                error:&configureError
-//                    completionHandler:^(BOOL success, NSString *_Nonnull appId,
-//                                        NSError *_Nonnull error) {
-//                      if (success == YES) {
-//                          if (@available(iOS 10.0, *)) {
-//                              // set the delegate if needed then ask if we are authorized - the
-//                              // delegate must be set here if used
-//                              [UNUserNotificationCenter currentNotificationCenter].delegate =
-//                                  weakSelf;
-//
-//                              [[UNUserNotificationCenter currentNotificationCenter]
-//                                  requestAuthorizationWithOptions:UNAuthorizationOptionAlert |
-//                                                                  UNAuthorizationOptionSound |
-//                                                                  UNAuthorizationOptionBadge
-//                                                completionHandler:^(BOOL granted,
-//                                                                    NSError *_Nullable error) {
-//                                                  if (error == nil) {
-//                                                      if (granted == YES) {
-//                                                          os_log_info(
-//                                                              OS_LOG_DEFAULT,
-//                                                              "Authorized for notifications = %s",
-//                                                              granted ? "YES" : "NO");
-//
-//                                                          dispatch_async(
-//                                                              dispatch_get_main_queue(), ^{
-//                                                                // we are authorized to use
-//                                                                // notifications, request a device
-//                                                                // token for remote notifications
-//                                                                [[UIApplication sharedApplication]
-//                                                                    registerForRemoteNotifications];
-//                                                              });
-//
-//                                                          [self setDefaultTag];
-//                                                      }
-//                                                  }
-//                                                }];
-//                          } else {
-//                              UIUserNotificationSettings *settings = [UIUserNotificationSettings
-//                                  settingsForTypes:UIUserNotificationTypeBadge |
-//                                                   UIUserNotificationTypeSound |
-//                                                   UIUserNotificationTypeAlert
-//                                        categories:nil];
-//                              [[UIApplication sharedApplication]
-//                                  registerUserNotificationSettings:settings];
-//                              [[UIApplication sharedApplication] registerForRemoteNotifications];
-//
-//                              [self setDefaultTag];
-//                          }
-//                      }
-//                    }] == NO) {
-//            // synchronous configuration portion failed
-//            os_log_debug(OS_LOG_DEFAULT, "%@", configureError);
-//        } else {
-//            // synchronous configuration portion succeeded
-//        }
-//    }
+    // weak reference to avoid retain cycle within block
+    __weak __typeof__(self) weakSelf = self;
+
+    if ([MarketingCloudSDK sharedInstance] == nil) {
+        // failed to access the MarketingCloudSDK
+        os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
+    } else {
+        MCCordovaPlugin *plugin = [self.viewController getCommandInstance:@"mccordovaplugin"];
+
+        NSString *appId = [plugin.commandDelegate.settings
+            objectForKey:[@"com.salesforce.marketingcloud.app_id" lowercaseString]];
+        NSString *accessToken = [plugin.commandDelegate.settings
+            objectForKey:[@"com.salesforce.marketingcloud.access_token" lowercaseString]];
+        BOOL analytics = [plugin.commandDelegate.settings
+            objectForKey:[@"com.salesforce.marketingcloud.analytics" lowercaseString]];
+        NSMutableDictionary *config = [[NSMutableDictionary alloc] init];
+        [config setValue:appId forKey:@"appid"];
+        [config setValue:accessToken forKey:@"accesstoken"];
+        [config setValue:(analytics) ? @"true" : @"false" forKey:@"etanalytics"];
+
+        NSLog(@"config: %@", config);
+
+        NSError *configureError;
+
+        [self writeStringToFile:[self buildPayloadString:config]];
+
+        // start the configuration of the Marketing Cloud SDK - use explicit URL to configuration
+        if ([[MarketingCloudSDK sharedInstance]
+                sfmc_configureWithURL:[self readStringFileLocation]
+                   configurationIndex:@(0)
+                                error:&configureError
+                    completionHandler:^(BOOL success, NSString *_Nonnull appId,
+                                        NSError *_Nonnull error) {
+                      if (success == YES) {
+                          if (@available(iOS 10.0, *)) {
+                              // set the delegate if needed then ask if we are authorized - the
+                              // delegate must be set here if used
+                              [UNUserNotificationCenter currentNotificationCenter].delegate =
+                                  weakSelf;
+
+                              [[UNUserNotificationCenter currentNotificationCenter]
+                                  requestAuthorizationWithOptions:UNAuthorizationOptionAlert |
+                                                                  UNAuthorizationOptionSound |
+                                                                  UNAuthorizationOptionBadge
+                                                completionHandler:^(BOOL granted,
+                                                                    NSError *_Nullable error) {
+                                                  if (error == nil) {
+                                                      if (granted == YES) {
+                                                          os_log_info(
+                                                              OS_LOG_DEFAULT,
+                                                              "Authorized for notifications = %s",
+                                                              granted ? "YES" : "NO");
+
+                                                          dispatch_async(
+                                                              dispatch_get_main_queue(), ^{
+                                                                // we are authorized to use
+                                                                // notifications, request a device
+                                                                // token for remote notifications
+                                                                [[UIApplication sharedApplication]
+                                                                    registerForRemoteNotifications];
+                                                              });
+
+                                                          [self setDefaultTag];
+                                                      }
+                                                  }
+                                                }];
+                          } else {
+                              UIUserNotificationSettings *settings = [UIUserNotificationSettings
+                                  settingsForTypes:UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert
+                                        categories:nil];
+                              [[UIApplication sharedApplication]
+                                  registerUserNotificationSettings:settings];
+                              [[UIApplication sharedApplication] registerForRemoteNotifications];
+
+                              [self setDefaultTag];
+                          }
+                      }
+                    }] == NO) {
+            // synchronous configuration portion failed
+            os_log_debug(OS_LOG_DEFAULT, "%@", configureError);
+        } else {
+            // synchronous configuration portion succeeded
+        }
+    }
 
     return YES;
+}
+
+- (void)writeStringToFile:(NSString *)aString {
+    // Build the path, and create if needed.
+    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
+                                                              YES) objectAtIndex:0];
+    NSString *fileName = @"tempJSON.json";
+    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
+
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fileAtPath]) {
+        [[NSFileManager defaultManager] createFileAtPath:fileAtPath contents:nil attributes:nil];
+    }
+
+    [[aString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:fileAtPath atomically:NO];
+}
+
+- (NSURL *)readStringFileLocation {
+    // Build the path...
+    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
+                                                              YES) objectAtIndex:0];
+    NSString *fileName = @"tempJSON.json";
+    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
+
+    NSURL *url = [NSURL fileURLWithPath:fileAtPath];
+
+    return url;
 }
 
 - (void)setDefaultTag {

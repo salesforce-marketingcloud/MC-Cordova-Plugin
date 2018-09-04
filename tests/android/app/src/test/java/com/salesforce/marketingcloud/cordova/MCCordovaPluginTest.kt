@@ -116,6 +116,7 @@ class MCCordovaPluginTest {
 
   @Test fun execute_clearAttribute_success() {
     ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(true)
 
     assertThat(
         plugin.execute("clearAttribute", JSONArray(listOf("attrKey")), callbackContext)).isTrue()
@@ -124,10 +125,28 @@ class MCCordovaPluginTest {
       verify(registrationEditor).clearAttribute("attrKey")
       verify(registrationEditor).commit()
     }
+
+    verify(callbackContext).success(1)
+  }
+
+  @Test fun execute_clearAttribute_error() {
+    ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(false)
+
+    assertThat(
+        plugin.execute("clearAttribute", JSONArray(listOf("attrKey")), callbackContext)).isTrue()
+
+    inOrder(registrationEditor) {
+      verify(registrationEditor).clearAttribute("attrKey")
+      verify(registrationEditor).commit()
+    }
+
+    verify(callbackContext).success(0)
   }
 
   @Test fun execute_setAttribute_success() {
     ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(true)
 
     assertThat(
         plugin.execute("setAttribute", JSONArray(listOf("key1", "val1")), callbackContext)).isTrue()
@@ -136,6 +155,23 @@ class MCCordovaPluginTest {
       verify(registrationEditor).setAttribute("key1", "val1")
       verify(registrationEditor).commit()
     }
+
+    verify(callbackContext).success(1)
+  }
+
+  @Test fun execute_setAttribute_error() {
+    ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(false)
+
+    assertThat(
+        plugin.execute("setAttribute", JSONArray(listOf("key1", "val1")), callbackContext)).isTrue()
+
+    inOrder(registrationEditor) {
+      verify(registrationEditor).setAttribute("key1", "val1")
+      verify(registrationEditor).commit()
+    }
+
+    verify(callbackContext).success(0)
   }
 
   @Test fun execute_getTags_success() {
@@ -154,6 +190,7 @@ class MCCordovaPluginTest {
 
   @Test fun execute_addTag_success() {
     ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(true)
 
     assertThat(plugin.execute("addTag", JSONArray(listOf("tag1")), callbackContext)).isTrue()
 
@@ -161,10 +198,27 @@ class MCCordovaPluginTest {
       verify(registrationEditor).addTag("tag1")
       verify(registrationEditor).commit()
     }
+
+    verify(callbackContext).success(1)
+  }
+
+  @Test fun execute_addTag_error() {
+    ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(false)
+
+    assertThat(plugin.execute("addTag", JSONArray(listOf("tag1")), callbackContext)).isTrue()
+
+    inOrder(registrationEditor) {
+      verify(registrationEditor).addTag("tag1")
+      verify(registrationEditor).commit()
+    }
+
+    verify(callbackContext).success(0)
   }
 
   @Test fun execute_removeTag_success() {
     ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(true)
 
     assertThat(plugin.execute("removeTag", JSONArray(listOf("tag1")), callbackContext)).isTrue()
 
@@ -172,6 +226,22 @@ class MCCordovaPluginTest {
       verify(registrationEditor).removeTag("tag1")
       verify(registrationEditor).commit()
     }
+
+    verify(callbackContext).success(1)
+  }
+
+  @Test fun execute_removeTag_error() {
+    ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(false)
+
+    assertThat(plugin.execute("removeTag", JSONArray(listOf("tag1")), callbackContext)).isTrue()
+
+    inOrder(registrationEditor) {
+      verify(registrationEditor).removeTag("tag1")
+      verify(registrationEditor).commit()
+    }
+
+    verify(callbackContext).success(0)
   }
 
   @Test fun execute_getContactKey_success() {
@@ -186,6 +256,7 @@ class MCCordovaPluginTest {
 
   @Test fun execute_setContactKey_success() {
     ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(true)
 
     assertThat(plugin.execute("setContactKey", JSONArray(listOf("testContactKey")),
         callbackContext)).isTrue()
@@ -194,6 +265,23 @@ class MCCordovaPluginTest {
       verify(registrationEditor).setContactKey("testContactKey")
       verify(registrationEditor).commit()
     }
+
+    verify(callbackContext).success(1)
+  }
+
+  @Test fun execute_setContactKey_error() {
+    ShadowMarketingCloudSdk.isReady(true)
+    whenever(registrationEditor.commit()).thenReturn(false)
+
+    assertThat(plugin.execute("setContactKey", JSONArray(listOf("testContactKey")),
+        callbackContext)).isTrue()
+
+    inOrder(registrationEditor) {
+      verify(registrationEditor).setContactKey("testContactKey")
+      verify(registrationEditor).commit()
+    }
+
+    verify(callbackContext).success(0)
   }
 
   @Test fun execute_enableVerboseLogging_success() {

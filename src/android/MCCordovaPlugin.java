@@ -132,12 +132,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
       @Override
       public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
         String tag = args.optString(0, null);
-        if (tag != null) {
-          sdk.getRegistrationManager().edit().setContactKey(tag).commit();
-          callbackContext.success();
-        } else {
-          callbackContext.error("Valid contactKey not provided.");
-        }
+        boolean success = sdk.getRegistrationManager().edit().setContactKey(tag).commit();
+        callbackContext.success(success ? 1 : 0);
       }
     };
   }
@@ -156,12 +152,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
       @Override
       public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
         String tag = args.optString(0, null);
-        if (tag != null) {
-          sdk.getRegistrationManager().edit().removeTag(tag).commit();
-          callbackContext.success();
-        } else {
-          callbackContext.error("Valid tag not provided.");
-        }
+        boolean success = sdk.getRegistrationManager().edit().removeTag(tag).commit();
+        callbackContext.success(success ? 1 : 0);
       }
     };
   }
@@ -171,12 +163,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
       @Override
       public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
         String tag = args.optString(0, null);
-        if (tag != null) {
-          sdk.getRegistrationManager().edit().addTag(tag).commit();
-          callbackContext.success();
-        } else {
-          callbackContext.error("Valid tag not provided.");
-        }
+        boolean success = sdk.getRegistrationManager().edit().addTag(tag).commit();
+        callbackContext.success(success ? 1 : 0);
       }
     };
   }
@@ -186,12 +174,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
       @Override
       public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
         String key = args.optString(0, null);
-        if (key != null) {
-          sdk.getRegistrationManager().edit().clearAttribute(key).commit();
-          callbackContext.success();
-        } else {
-          callbackContext.error("Valid attribute key not provided.");
-        }
+        boolean success = sdk.getRegistrationManager().edit().clearAttribute(key).commit();
+        callbackContext.success(success ? 1 : 0);
       }
     };
   }
@@ -202,12 +186,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
       public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
         String key = args.optString(0, null);
         String value = args.optString(1);
-        if (key != null) {
-          sdk.getRegistrationManager().edit().setAttribute(key, value).commit();
-          callbackContext.success();
-        } else {
-          callbackContext.error("Valid attribute key/value not provided.");
-        }
+        boolean success = sdk.getRegistrationManager().edit().setAttribute(key, value).commit();
+        callbackContext.success(success ? 1 : 0);
       }
     };
   }
