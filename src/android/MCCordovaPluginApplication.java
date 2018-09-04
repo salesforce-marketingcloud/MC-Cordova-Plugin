@@ -12,6 +12,7 @@ import com.salesforce.marketingcloud.registration.RegistrationManager;
 
 import java.util.Set;
 import java.util.TreeSet;
+import packagename.R;
 
 public class MCCordovaPluginApplication extends Application {
 

@@ -49,14 +49,14 @@
         <framework src="src/android/MarketingCloudSdk.gradle" custom="true" type="gradleReference" />
 
         <hook type="after_prepare" src="scripts/android_after_prepare.js" />
-        <config-file target="res/xml/config.xml" parent="/*">
+        <config-file target="app/src/main/res/xml/config.xml" parent="/*">
             <feature name="MCCordovaPlugin">
                 <param name="android-package" value="com.salesforce.marketingcloud.cordovaplugin.MCCordovaPlugin"/>
             </feature>
         </config-file>
 
         <source-file src="src/android/res/values/secrets.xml" target-dir="res/values/" />
-        <config-file target="res/values/secrets.xml" parent="/resources">
+        <config-file target="app/src/main/res/values/secrets.xml" parent="/resources">
           <string name="APPID">$APPID</string>
           <string name="ACCESSTOKEN">$ACCESSTOKEN</string>
           <string name="GCMSENDERID">$GCMSENDERID</string>
