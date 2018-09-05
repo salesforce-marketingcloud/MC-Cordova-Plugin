@@ -43,4 +43,8 @@ dependencies {
   testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1'
 }
 
+ext {
+  cdvPluginPostBuildExtras = []
+}
+
 apply from: "$productionSrcDir/build/marketingcloudsdk.gradle"
