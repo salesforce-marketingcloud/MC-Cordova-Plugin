@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "MarketingCloudSDK/MarketingCloudSDK.h"
+#import <MarketingCloudSDK/MarketingCloudSDK.h>
 
 @interface MCCordovaPluginLibTest : XCTestCase
 
