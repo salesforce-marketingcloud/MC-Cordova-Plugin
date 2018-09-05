@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:MCCordovaPluginTest/MCCordovaPluginTest.xcodeproj">
+      location = "group:MCCordovaPluginLib/MCCordovaPluginLib.xcodeproj">
    </FileRef>
 </Workspace>
