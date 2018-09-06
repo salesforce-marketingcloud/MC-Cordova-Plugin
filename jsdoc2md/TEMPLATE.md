@@ -2,12 +2,16 @@
 
 Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/) applications.
 
+## Release Notes
+
+Release notes for the plugin can be found [here](CHANGELOG.md)
+
 ## Installation
 
 #### 1. Add plugin to your application via [npm](TODO add link to npm for this plugin)
 
-```
-$ cordova plugin add marketing-cloud-sdk-plugin
+```shell
+cordova plugin add marketing-cloud-sdk-plugin
 ```
 
 #### 2. Modify your application's `config.xml` to configure the plugin

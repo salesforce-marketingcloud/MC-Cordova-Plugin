@@ -7,19 +7,19 @@
 
   <description>A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs</description>
 
-  <repo>TODO</repo>
+  <repo>https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin</repo>
 
-  <license>TODO</license>
+  <license>Apache 2.0</license>
 
-  <author>TODO</author>
+  <author></author>
 
   <!-- cordova -->
   <engines>
-    <engine name="cordova" version=">=3.6.0" />
-    <engine name="cordova-plugman" version=">=4.3.0" />
-    <engine name="cordova-android" version=">=6.0.0" />
+    <engine name="cordova" version=">=7.1.0"/>
+    <engine name="cordova-android" version=">=6.3.0" />
+    <engine name="cordova-ios" version=">=4.5.0" />
     <engine name="android-sdk" version=">=16" />
-    <engine name="apple-ios" version=">=10.0.0" />
+    <engine name="apple-ios" version=">=9.0.0" />
   </engines>
 
   <!-- js -->

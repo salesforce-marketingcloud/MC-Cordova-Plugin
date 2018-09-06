@@ -1,7 +1,9 @@
 {
   "name": "marketing-cloud-sdk-plugin",
   "version": "2.0.0",
-  "description": "",
+  "description": "A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs",
+  "author": "",
+  "license": "Apache 2.0",
   "cordova": {
     "id": "marketing-cloud-sdk-plugin",
     "platforms": [
@@ -9,10 +11,18 @@
       "ios"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin"
+  },
   "keywords": [
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-ios"
+    "cordova-ios",
+    "salesforce",
+    "mobilepush",
+    "marketingcloud",
+    "marketingcloudsdk"
   ],
   "scripts": {
     "precommit": "npm run gen-docs && git add README.md",
@@ -20,8 +30,6 @@
     "test": "npm run eslint",
     "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "dmd-plugin-cordova-plugin": "^0.1.0",
     "eslint": "^4.3.0",
