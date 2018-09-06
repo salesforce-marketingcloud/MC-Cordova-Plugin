@@ -8,6 +8,6 @@
     "cordova-ios": "*"
   },
   "scripts": {
-    "test": "xcodebuild -scheme CordovaLib && xcodebuild test -scheme MCCordovaPluginLibTest -destination 'platform=iOS Simulator,name=iPhone X'"
+    "test": "xcodebuild -scheme CordovaLib && xcodebuild test -scheme MCCordovaPluginLibTests -destination 'platform=iOS Simulator,name=iPhone X'"
   }
 }

@@ -20,10 +20,14 @@
 
 - (void)enableVerboseLogging:(CDVInvokedUrlCommand*)command {
     [[MarketingCloudSDK sharedInstance] sfmc_setDebugLoggingEnabled:YES];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
 }
 
 - (void)disableVerboseLogging:(CDVInvokedUrlCommand*)command {
     [[MarketingCloudSDK sharedInstance] sfmc_setDebugLoggingEnabled:NO];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
 }
 
 - (void)getSystemToken:(CDVInvokedUrlCommand*)command {
@@ -46,12 +50,16 @@
     [[UIApplication sharedApplication] registerForRemoteNotifications];
 
     [[MarketingCloudSDK sharedInstance] sfmc_setPushEnabled:YES];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
 }
 
 - (void)disablePush:(CDVInvokedUrlCommand*)command {
     [[UIApplication sharedApplication] unregisterForRemoteNotifications];
 
     [[MarketingCloudSDK sharedInstance] sfmc_setPushEnabled:NO];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
 }
 
 - (void)setAttribute:(CDVInvokedUrlCommand*)command {
