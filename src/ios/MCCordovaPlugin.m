@@ -5,88 +5,35 @@
 
 static NSString *const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v2.0.0";
 
-/**
- * TODO REMOVE!
- */
-- (void)writeStringToFile:(NSString *)aString {
-    // Build the path, and create if needed.
-    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
-                                                              YES) objectAtIndex:0];
-    NSString *fileName = @"tempJSON.json";
-    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fileAtPath]) {
-        [[NSFileManager defaultManager] createFileAtPath:fileAtPath contents:nil attributes:nil];
-    }
-
-    [[aString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:fileAtPath atomically:NO];
-}
-
-/**
- * TODO REMOVE!
- */
-- (NSString *)buildPayloadString:(NSDictionary *)dictionary {
-    NSMutableString *objStr = [NSMutableString string];
-    [objStr appendString:@"[{"];
-
-    __block int count = 0;
-    [dictionary
-        enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
-          NSString *formatStr;
-          if (count == 0) {
-              formatStr = [NSString stringWithFormat:@"\"%@\": \"%@\"", key, obj];
-          } else {
-              formatStr = [NSString stringWithFormat:@", \"%@\": \"%@\"", key, obj];
-          }
-          [objStr appendString:formatStr];
-
-          count += 1;
-        }];
-    [objStr appendString:@"}]"];
-
-    return objStr;
-}
-
-/**
- * TODO REMOVE!
- */
-- (NSURL *)readStringFileLocation {
-    // Build the path...
-    NSString *filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,
-                                                              YES) objectAtIndex:0];
-    NSString *fileName = @"tempJSON.json";
-    NSString *fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-
-    NSURL *url = [NSURL fileURLWithPath:fileAtPath];
-
-    return url;
-}
-
 - (void)pluginInitialize {
     if ([MarketingCloudSDK sharedInstance] == nil) {
         // failed to access the MarketingCloudSDK
         os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
     } else {
-        NSString *appId = [self.commandDelegate.settings
-            objectForKey:[@"com.salesforce.marketingcloud.app_id" lowercaseString]];
-        NSString *accessToken = [self.commandDelegate.settings
-            objectForKey:[@"com.salesforce.marketingcloud.access_token" lowercaseString]];
-        BOOL analytics = [self.commandDelegate.settings
-            objectForKey:[@"com.salesforce.marketingcloud.analytics" lowercaseString]];
-        NSMutableDictionary *config = [[NSMutableDictionary alloc] init];
-        [config setValue:appId forKey:@"appid"];
-        [config setValue:accessToken forKey:@"accesstoken"];
-        [config setValue:(analytics) ? @"true" : @"false" forKey:@"etanalytics"];
+        NSDictionary *pluginSettings = self.commandDelegate.settings;
 
-        NSLog(@"config: %@", config);
+        MarketingCloudSDKConfigBuilder *configBuilder = [MarketingCloudSDKConfigBuilder new];
+        [configBuilder
+            sfmc_setApplicationId:[pluginSettings
+                                      objectForKey:@"com.salesforce.marketingcloud.app_id"]];
+        [configBuilder
+            sfmc_setAccessToken:[pluginSettings
+                                    objectForKey:@"com.salesforce.marketingcloud.access_token"]];
 
-        [self writeStringToFile:[self buildPayloadString:config]];
+        BOOL analytics =
+            [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.analytics"] boolValue];
+        [configBuilder sfmc_setAnalyticsEnabled:[NSNumber numberWithBool:analytics]];
 
-        // TODO Remove completion handler since it not helpful.
+        NSString *tse =
+            [pluginSettings objectForKey:@"com.salesforce.marketingcloud.tenant_specific_endpoint"];
+        if (tse != nil) {
+            [configBuilder sfmc_setMarketingCloudServerUrl:tse];
+        }
+
         NSError *configError = nil;
-        if ([[MarketingCloudSDK sharedInstance] sfmc_configureWithURL:[self readStringFileLocation]
-                                                   configurationIndex:@(0)
-                                                                error:&configError]) {
+        if ([[MarketingCloudSDK sharedInstance]
+                sfmc_configureWithDictionary:[configBuilder sfmc_build]
+                                       error:&configError]) {
             [self setDelegate];
             [self setDefaultTag];
             [self requestPushPermission];
