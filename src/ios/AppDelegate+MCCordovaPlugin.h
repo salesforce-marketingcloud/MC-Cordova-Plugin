@@ -2,6 +2,5 @@
 #import "MarketingCloudSDK/MarketingCloudSDK.h"
 
 @interface AppDelegate (MCCordovaPlugin)<UNUserNotificationCenterDelegate>
-- (BOOL)application:(UIApplication *)application
-    shouldInitMCSDKWithOptions:(NSDictionary *)launchOptions;
+- (void) sfmc_setNotificationDelegate;
 @end
