@@ -16,7 +16,6 @@ import java.util.UUID
 
   private val testAppId = UUID.randomUUID().toString()
   private val testAccessToken = "abcdefghi123456789abcdef"
-  private val testNotificationChannelName = "Marketing"
   private val testNotificationSmallIconName = "ic_notification"
   private val testSenderId = "123456789876"
 
@@ -31,7 +30,6 @@ import java.util.UUID
     val configParser = """
       <preference name="com.salesforce.marketingcloud.app_id" value="$testAppId" />
       <preference name="com.salesforce.marketingcloud.access_token" value="$testAccessToken" />
-      <preference name="com.salesforce.marketingcloud.notification_channel_name" value="$testNotificationChannelName" />
       <preference name="com.salesforce.marketingcloud.notification_small_icon" value="$testNotificationSmallIconName" />
     """.trimIndent().toXmlParser()
 
@@ -43,7 +41,6 @@ import java.util.UUID
     assertThat(config.applicationId()).isEqualTo(testAppId)
     assertThat(config.accessToken()).isEqualTo(testAccessToken)
     assertThat(config.senderId()).isEqualTo(testSenderId)
-    assertThat(config.notificationChannelName()).isEqualTo(testNotificationChannelName)
     val iconName = RuntimeEnvironment.application.resources.getResourceEntryName(
         config.notificationSmallIconResId())
     assertThat(iconName).isEqualTo(testNotificationSmallIconName)
@@ -63,7 +60,6 @@ import java.util.UUID
       <preference name="com.salesforce.marketingcloud.app_id" value="$testAppId" />
       <preference name="com.salesforce.marketingcloud.access_token" value="$testAccessToken" />
       <preference name="com.salesforce.marketingcloud.sender_id" value="$testSenderId" />
-      <preference name="com.salesforce.marketingcloud.notification_channel_name" value="$testNotificationChannelName" />
       <preference name="com.salesforce.marketingcloud.notification_small_icon" value="$testNotificationSmallIconName" />
       <preference name="com.salesforce.marketingcloud.analytics" value="true" />
       <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="$testTse" />
@@ -77,7 +73,6 @@ import java.util.UUID
     assertThat(config.applicationId()).isEqualTo(testAppId)
     assertThat(config.accessToken()).isEqualTo(testAccessToken)
     assertThat(config.senderId()).isEqualTo(testSenderId)
-    assertThat(config.notificationChannelName()).isEqualTo(testNotificationChannelName)
     val iconName = RuntimeEnvironment.application.resources.getResourceEntryName(
         config.notificationSmallIconResId())
     assertThat(iconName).isEqualTo(testNotificationSmallIconName)

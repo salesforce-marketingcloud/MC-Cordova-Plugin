@@ -24,7 +24,6 @@ cordova plugin add marketing-cloud-sdk-plugin
 <!-- Required - Android Only -->
 <platform name="android">
   <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
-  <preference name="com.salesforce.marketingcloud.notification_channel_name" value="Marketing" />
 </platform>
 
 <!-- Optional - Will soon be required -->
