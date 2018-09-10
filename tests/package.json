@@ -1,14 +1,18 @@
 {
   "name": "marketing-cloud-sdk-plugin-tests",
   "version": "2.0.0",
-  "description": "",
+  "description": "Tests for Marketing Cloud Cordova Plugin",
   "cordova": {
     "id": "marketing-cloud-sdk-plugin-tests",
     "platforms": []
   },
-  "keywords": [
-    "ecosystem:cordova"
-  ],
-  "author": "",
-  "license": "TODO"
+  "keywords": [],
+  "author": "Salesforce Marketing Cloud",
+  "license": "Apache 2.0",
+  "scripts": {
+    "test": "cordova-paramedic --platform ios --plugin sdk-cordova-plugin"
+  },
+  "devDependencies": {
+    "cordova-paramedic": "0.5.0"
+  }
 }
