@@ -10,7 +10,7 @@
   "author": "Salesforce Marketing Cloud",
   "license": "Apache 2.0",
   "scripts": {
-    "test": "cordova-paramedic --platform ios --plugin sdk-cordova-plugin"
+    "test": "cordova-paramedic --platform ios --plugin ../"
   },
   "devDependencies": {
     "cordova-paramedic": "0.5.0"
