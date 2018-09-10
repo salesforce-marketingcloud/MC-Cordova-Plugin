@@ -11,7 +11,7 @@ Release notes for the plugin can be found [here](CHANGELOG.md)
 #### 1. Add plugin to your application via [npm](TODO add link to npm for this plugin)
 
 ```shell
-cordova plugin add marketing-cloud-sdk-plugin
+cordova plugin add cordova-plugin-marketingcloudsdk
 ```
 
 #### 2. Modify your application's `config.xml` to configure the plugin

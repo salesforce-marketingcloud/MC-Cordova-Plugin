@@ -1,9 +1,9 @@
 {
-  "name": "marketing-cloud-sdk-plugin-tests",
+  "name": "cordova-plugin-marketingcloudsdk-tests",
   "version": "2.0.0",
   "description": "Tests for Marketing Cloud Cordova Plugin",
   "cordova": {
-    "id": "marketing-cloud-sdk-plugin-tests",
+    "id": "cordova-plugin-marketingcloudsdk-tests",
     "platforms": []
   },
   "keywords": [],
