@@ -1,6 +1,6 @@
 {
   "name": "marketing-cloud-sdk-plugin",
-  "version": "2.0.0",
+  "version": "6.0.0",
   "description": "A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs",
   "author": "Salesforce Marketing Cloud",
   "license": "Apache 2.0",
