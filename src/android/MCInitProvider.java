@@ -20,21 +20,6 @@ import java.util.Set;
 public class MCInitProvider extends ContentProvider
     implements MarketingCloudSdk.InitializationListener {
 
-  private static final String TAG_PREFIX = "MC_Cordova_v";
-
-  private static String versionMetaData(Context context) {
-    try {
-      ApplicationInfo ai = context.getPackageManager()
-          .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-      Bundle bundle = ai.metaData;
-      return bundle.getString("com.salesforce.marketingcloud.cordova.VERSION", "");
-    } catch (Exception e) {
-      Log.e(MCCordovaPlugin.TAG, "Failed to read cordova plugin version from manifest.", e);
-    }
-
-    return "";
-  }
-
   @Override public boolean onCreate() {
     Context ctx = getContext();
     if (ctx != null) {
@@ -76,22 +61,7 @@ public class MCInitProvider extends ContentProvider
       MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
         @Override public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
           RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
-          Set<String> tags = registrationManager.getTags();
-          if (!tags.isEmpty()) {
-            String foundTag = null;
-            for (String tag : tags) {
-              if (tag.startsWith(TAG_PREFIX)) {
-                foundTag = tag;
-                break;
-              }
-            }
-            String versionTag = TAG_PREFIX + versionMetaData(getContext());
-            if (!versionTag.equalsIgnoreCase(foundTag)) {
-              registrationManager.edit().removeTag(foundTag).addTag(versionTag).commit();
-            }
-          } else {
-            registrationManager.edit().addTag(TAG_PREFIX + versionMetaData(getContext())).commit();
-          }
+          registrationManager.edit().addTag("Cordova").commit();
         }
       });
     }

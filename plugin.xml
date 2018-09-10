@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="marketing-cloud-sdk-plugin" version="2.0.0" 
+<plugin id="marketing-cloud-sdk-plugin" version="6.0.0" 
   xmlns="http://apache.org/cordova/ns/plugins/1.0" 
   xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -18,8 +18,6 @@
     <engine name="cordova" version=">=7.1.0"/>
     <engine name="cordova-android" version=">=6.3.0" />
     <engine name="cordova-ios" version=">=4.5.0" />
-    <engine name="android-sdk" version=">=16" />
-    <engine name="apple-ios" version=">=9.0.0" />
   </engines>
 
   <!-- js -->
@@ -40,8 +38,6 @@
     <config-file parent="/manifest/application" target="AndroidManifest.xml">
 
       <provider android:name="com.salesforce.marketingcloud.cordova.MCInitProvider" android:authorities="$PACKAGE_NAME.com.salesforce.marketingcloud.cordova.MCInitProvider" android:enabled="true" android:exported="false" />
-
-      <meta-data android:name="com.salesforce.marketingcloud.cordova.VERSION" android:value="2.0.0" />
     </config-file>
 
     <source-file src="src/android/MCCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordova" />

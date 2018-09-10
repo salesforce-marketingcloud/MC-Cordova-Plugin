@@ -3,8 +3,6 @@
 
 @implementation MCCordovaPlugin
 
-static NSString *const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v2.0.0";
-
 - (void)pluginInitialize {
     if ([MarketingCloudSDK sharedInstance] == nil) {
         // failed to access the MarketingCloudSDK
@@ -35,7 +33,7 @@ static NSString *const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v2.0.0";
                 sfmc_configureWithDictionary:[configBuilder sfmc_build]
                                        error:&configError]) {
             [self setDelegate];
-            [self setDefaultTag];
+            [[MarketingCloudSDK sharedInstance] sfmc_addTag:@"Cordova"];
             [self requestPushPermission];
         } else if (configError != nil) {
             os_log_debug(OS_LOG_DEFAULT, "%@", configError);
@@ -84,20 +82,6 @@ static NSString *const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v2.0.0";
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
-}
-
-- (void)setDefaultTag {
-    NSSet *tagsSet = [[MarketingCloudSDK sharedInstance] sfmc_tags];
-    for (NSString *tag in tagsSet) {
-        NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
-        // Is this string at index 0 meaning its a valid Tag prefix.
-        if (range.location != NSNotFound && range.location == 0) {
-            [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag];  // remove old tag version
-        }
-    }
-
-    [[MarketingCloudSDK sharedInstance]
-        sfmc_addTag:CURRENT_CORDOVA_VERSION_NAME];  // add new tag version
 }
 
 - (void)enableVerboseLogging:(CDVInvokedUrlCommand *)command {
