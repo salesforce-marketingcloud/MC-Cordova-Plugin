@@ -2,7 +2,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android" 
   xmlns:rim="http://www.blackberry.com/ns/widgets" id="cordova-plugin-marketingcloudsdk-tests" version="2.0.0">
   <name>MCCordovaPlugin Tests</name>
-  <license>Apache 2.0</license>
+  <license>BSD-3-Clause</license>
 
   <js-module src="tests.js" name="tests">
   </js-module>
