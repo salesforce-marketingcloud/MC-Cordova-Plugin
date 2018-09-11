@@ -13,12 +13,11 @@ buildscript {
 
 repositories {
     maven { url "https://maven.google.com" }
-    mavenLocal() //TODO Remove before release!
     maven { url "http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/repository" }
 }
 
 dependencies {
-    implementation 'com.salesforce.marketingcloud:marketingcloudsdk:6.0.0-SNAPSHOT'
+    implementation 'com.salesforce.marketingcloud:marketingcloudsdk:6.0.+'
 }
 
 ext.cdvPluginPostBuildExtras += {

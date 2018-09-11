@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+### Version 6.0.0
+
+In this release we have greatly simplified the Cordova plugin for our MobilePush SDK.  For greatest success, if you are upgrading from a prior release, we suggest following the integration instructions as if this were a new plugin.
+
+All functionality of this plugin remains the same as the preceding versions.
+
+* The plugin version number will now match with the `major`.`minor` version of the SDK release.
+* The plugin is now published to npm for easier installation
+* The Javascript API has been updated to allow for optional parameters where applicable.  Refer to the [API Reference](README.md#reference) for more details.
+* Moved SDK configuration values from command line arguments passed in while installing the SDK into the `config.xml` file.
+
 ### Version 1.1.0
 _Released July 11, 2018_
 > For Android: Depends on Android Cordova platform 6.4.0.
