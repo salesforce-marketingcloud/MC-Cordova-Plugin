@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.salesforce.marketingcloud:marketingcloudsdk:6.0.0'
+    implementation 'com.salesforce.marketingcloud:marketingcloudsdk:6.0.+'
 }
 
 ext.cdvPluginPostBuildExtras += {
