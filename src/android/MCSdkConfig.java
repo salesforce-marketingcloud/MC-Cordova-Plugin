@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import com.google.firebase.FirebaseApp;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
+import com.salesforce.marketingcloud.notifications.NotificationCustomizationOptions;
 import java.io.IOException;
 import java.util.Locale;
 import org.xmlpull.v1.XmlPullParser;
@@ -68,7 +69,8 @@ public class MCSdkConfig {
               int notifId =
                   context.getResources().getIdentifier(val, "drawable", context.getPackageName());
               if (notifId != 0) {
-                builder.setNotificationSmallIconResId(notifId);
+                builder.setNotificationCustomizationOptions(
+                    NotificationCustomizationOptions.create(notifId));
               }
               break;
             case CONFIG_PREFIX + "tenant_specific_endpoint":
