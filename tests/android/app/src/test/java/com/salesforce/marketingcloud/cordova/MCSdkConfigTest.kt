@@ -67,10 +67,6 @@ import java.util.UUID
     assertThat(config.applicationId()).isEqualTo(testAppId)
     assertThat(config.accessToken()).isEqualTo(testAccessToken)
     assertThat(config.senderId()).isEqualTo(testSenderId)
-    val iconName = RuntimeEnvironment.application.resources.getResourceEntryName(
-        config.notificationSmallIconResId())
-    assertThat(iconName).isEqualTo(testNotificationSmallIconName)
-    assertThat(config.notificationSmallIconResId()).isNotEqualTo(0)
     assertThat(config.analyticsEnabled()).isFalse()
     assertThat(config.geofencingEnabled()).isFalse()
     assertThat(config.proximityEnabled()).isFalse()
@@ -99,10 +95,6 @@ import java.util.UUID
     assertThat(config.applicationId()).isEqualTo(testAppId)
     assertThat(config.accessToken()).isEqualTo(testAccessToken)
     assertThat(config.senderId()).isEqualTo(testSenderId)
-    val iconName = RuntimeEnvironment.application.resources.getResourceEntryName(
-        config.notificationSmallIconResId())
-    assertThat(iconName).isEqualTo(testNotificationSmallIconName)
-    assertThat(config.notificationSmallIconResId()).isNotEqualTo(0)
     assertThat(config.analyticsEnabled()).isTrue()
     assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
   }
