@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.salesforce.marketingcloud.cordova.tester" version="1.0.0" 
+  xmlns="http://www.w3.org/ns/widgets" 
+  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <feature name="Whitelist">
+    <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+    <param name="onload" value="true" />
+  </feature>
+  <feature name="MCCordovaPlugin">
+    <param name="android-package" value="com.salesforce.marketingcloud.cordova.MCCordovaPlugin" />
+  </feature>
+  <name>CordovaTester</name>
+  <description>
+    A sample Apache Cordova application that responds to the deviceready event.
+  </description>
+  <author email="dev@cordova.apache.org" href="http://cordova.io">
+    Apache Cordova Team
+  </author>
+  <content src="index.html" />
+  <access origin="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="tel:*" />
+  <allow-intent href="sms:*" />
+  <allow-intent href="mailto:*" />
+  <allow-intent href="geo:*" />
+  <allow-intent href="market:*" />
+  <preference name="loglevel" value="DEBUG" />
+  <preference name="com.salesforce.marketingcloud.app_id" value="ee98fe8a-c255-441f-9648-feacb8e6aa94" />
+  <preference name="com.salesforce.marketingcloud.access_token" value="abcdefghi123456789abcdef" />
+  <preference name="com.salesforce.marketingcloud.sender_id" value="123456789876\" />
+  <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
+</widget>

@@ -1,0 +1,9 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+  xmlns:android="http://schemas.android.com/apk/res/android" 
+  xmlns:rim="http://www.blackberry.com/ns/widgets" id="cordova-plugin-marketingcloudsdk-tests" version="2.0.0">
+  <name>MCCordovaPlugin Tests</name>
+  <license>BSD-3-Clause</license>
+
+  <js-module src="tests.js" name="tests">
+  </js-module>
+</plugin>

@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+def productionSrcDir = '../../../src/android'
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion '27.0.3'
+  defaultConfig {
+    applicationId "com.salesforce.marketingcloud.cordova.test"
+    minSdkVersion 16
+    targetSdkVersion 27
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+
+  sourceSets {
+    main.java.srcDirs +=
+        "src/main/com/salesforce/marketingcloud/cordova/../../../../../../$productionSrcDir"
+  }
+}
+
+dependencies {
+  implementation 'org.apache.cordova:framework:7.0.0'
+
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.61'
+  testImplementation 'org.robolectric:robolectric:3.8'
+  testImplementation 'com.google.truth:truth:0.42'
+  testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1'
+}
+
+ext {
+  cdvPluginPostBuildExtras = []
+}
+
+apply from: "$productionSrcDir/build/marketingcloudsdk.gradle"

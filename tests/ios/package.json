@@ -1,0 +1,13 @@
+{
+  "name": "marketing-cloud-plugin-test-ios",
+  "version": "1.0.0",
+  "description": "iOS Unit Tests for Marketing Cloud Plugin",
+  "author": "Salesforce Marketing Cloud",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "cordova-ios": "*"
+  },
+  "scripts": {
+    "test": "xcodebuild -scheme CordovaLib && xcodebuild test -scheme MCCordovaPluginLib -destination 'platform=iOS Simulator,name=iPhone X'"
+  }
+}

@@ -1,3 +1,29 @@
+// AppDelegate+MCCordovaPlugin.m
+//
+// Copyright (c) 2018 Salesforce, Inc
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// Redistributions of source code must retain the above copyright notice, this
+// list of conditions and the following disclaimer. Redistributions in binary
+// form must reproduce the above copyright notice, this list of conditions and
+// the following disclaimer in the documentation and/or other materials
+// provided with the distribution. Neither the name of the nor the names of
+// its contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 
 #import <objc/runtime.h>
 #import "AppDelegate+MCCordovaPlugin.h"
@@ -7,237 +33,60 @@
 
 @implementation AppDelegate (MCCordovaPlugin)
 
-static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.1.0";
-
-
-// its dangerous to override a method from within a category.
-// Instead, we will use method swizzling.
-+ (void)load
-{
-    Method original, swizzled;
-    
-    original = class_getInstanceMethod(self, @selector(init));
-    swizzled = class_getInstanceMethod(self, @selector(swizzled_init));
-    method_exchangeImplementations(original, swizzled);
-}
-
-// Swizzle the init, this will be executed after UIApplicationDidFinishLaunchingNotification with
-// added functionality to create the notification checker for the ET SDK.
-- (AppDelegate *)swizzled_init
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNotificationChecker:)
-                                                 name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
-    return [self swizzled_init];
-}
-
-// This code will be called immediately after application:didFinishLaunchingWithOptions:.
-- (void)createNotificationChecker:(NSNotification *)notification
-{
-    if (notification) {
-        NSDictionary *launchOptions = [notification userInfo];
-        [self application:[UIApplication sharedApplication] shouldInitETSDKWithOptions:launchOptions];
-    }
-}
-
-- (void)writeStringToFile:(NSString*)aString {
-    
-    // Build the path, and create if needed.
-    NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* fileName = @"tempJSON.json";
-    NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fileAtPath]) {
-        [[NSFileManager defaultManager] createFileAtPath:fileAtPath contents:nil attributes:nil];
-    }
-    
-    [[aString dataUsingEncoding:NSUTF8StringEncoding] writeToFile:fileAtPath atomically:NO];
-}
-
-- (NSString*)readStringFromFile {
-    
-    // Build the path...
-    NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* fileName = @"tempJSON.json";
-    NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-    
-    return [[NSString alloc] initWithData:[NSData dataWithContentsOfFile:fileAtPath] encoding:NSUTF8StringEncoding];
-}
-
-- (NSURL*)readStringFileLocation {
-    
-    // Build the path...
-    NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString* fileName = @"tempJSON.json";
-    NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
-    
-    NSURL *url = [NSURL fileURLWithPath:fileAtPath];
-
-    return url;
-}
-
-- (NSString *)buildPayloadString:(NSDictionary *)dictionary
-{
-    NSMutableString *objStr = [NSMutableString string];
-    [objStr appendString:@"[{"];
-    
-    __block int count = 0;
-    [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString * formatStr;
-        if(count == 0)
-        {
-            formatStr = [NSString stringWithFormat:@"\"%@\": \"%@\"",key,obj];
-        }else{
-            formatStr = [NSString stringWithFormat:@", \"%@\": \"%@\"",key,obj];
-        }
-        [objStr appendString:formatStr];
-        
-        count += 1;
-    }];
-    [objStr appendString:@"}]"];
-    
-    return objStr;
-}
-
-// Init the SDK with options set by the cordova plugin add command
-- (BOOL)application:(UIApplication *)application shouldInitETSDKWithOptions:(NSDictionary *)launchOptions
-{
-    // weak reference to avoid retain cycle within block
-    __weak __typeof__(self) weakSelf = self;
-    
-    if ([MarketingCloudSDK sharedInstance] == nil) {
-        // failed to access the MarketingCloudSDK
-        os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
-    }
-    else {
-        NSError *configureError;
-        
-        //Read and Set JSON values from plist values read from cordova plugin.xml
-        NSDictionary *dictionary = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"MCCordovaPluginSettings"];
-        NSLog(@"dictionary = %@", dictionary);
-        
-        //Clean-up ETANALYTICS value for iOS
-        NSString *ETANALYTICSStr = [dictionary objectForKey:@"ETANALYTICS"];
-        if([[ETANALYTICSStr localizedLowercaseString] isEqualToString:@"enabled"])
-        {
-            ETANALYTICSStr = @"true";
-        }else
-        {
-            ETANALYTICSStr = @"false";
-        }
-        [dictionary setValue:ETANALYTICSStr forKey:@"ETANALYTICS"];
-        
-        [self writeStringToFile:[self buildPayloadString:dictionary]];
-        NSLog(@"string:%@",[self readStringFromFile]);
-        
-        // start the configuration of the Marketing Cloud SDK - use explicit URL to configuration
-        if ([[MarketingCloudSDK sharedInstance] sfmc_configureWithURL:[self readStringFileLocation]
-                                                   configurationIndex:@(0)
-                                                                error:&configureError
-                                                    completionHandler:^(BOOL success, NSString * _Nonnull appId, NSError * _Nonnull error) {
-                                                        if (success == YES) {
-                                                            
-                                                            if (@available(iOS 10.0, *)) {
-                                                                // set the delegate if needed then ask if we are authorized - the delegate must be set here if used
-                                                                [UNUserNotificationCenter currentNotificationCenter].delegate = weakSelf;
-                                                                
-                                                                [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge
-                                                                                                                                    completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                                                                                                                                        if (error == nil) {
-                                                                                                                                            if (granted == YES) {
-                                                                                                                                                os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s", granted ? "YES" : "NO");
-                                                                                                                                                
-                                                                                                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                                                                                    // we are authorized to use notifications, request a device token for remote notifications
-                                                                                                                                                    [[UIApplication sharedApplication] registerForRemoteNotifications];
-                                                                                                                                                });
-                                                                                                                                                
-                                                                                                                                                [self setDefaultTag];
-                                                                                                                                            }
-                                                                                                                                        }
-                                                                                                                                    }];
-                                                            }
-                                                            else {
-                                                                UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
-                                                                                                        UIUserNotificationTypeBadge |
-                                                                                                        UIUserNotificationTypeSound |
-                                                                                                        UIUserNotificationTypeAlert
-                                                                                                                                         categories:nil];
-                                                                [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-                                                                [[UIApplication sharedApplication] registerForRemoteNotifications];
-                                                                
-                                                                [self setDefaultTag];
-                                                            }
-                                                        }
-                                                    }] == NO)
-        {
-            // synchronous configuration portion failed
-            os_log_debug(OS_LOG_DEFAULT, "%@", configureError);
-        }
-        else {
-            // synchronous configuration portion succeeded
-        }
-    }
-    
-    return YES;
-}
-
-- (void)setDefaultTag
-{
-    NSSet *tagsSet = [[MarketingCloudSDK sharedInstance] sfmc_tags];
-    for(NSString* tag in tagsSet) {
-        NSRange range = [tag rangeOfString:@"MC_Cordova_v"];
-        //Is this string at index 0 meaning its a valid Tag prefix.
-        if (range.location != NSNotFound && range.location == 0)
-        {
-            [[MarketingCloudSDK sharedInstance] sfmc_removeTag:tag]; //remove old tag version
-        }
-    }
-    
-    [[MarketingCloudSDK sharedInstance] sfmc_addTag:CURRENT_CORDOVA_VERSION_NAME]; //add new tag version
-}
-
-// This method is REQUIRED for correct functionality of the SDK.
-// This method will be called on the delegate when the application receives a silent push
-
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
+- (void)sfmc_setNotificationDelegate {
     if (@available(iOS 10, *)) {
-        UNMutableNotificationContent *theSilentPushContent = [[UNMutableNotificationContent alloc] init];
-        theSilentPushContent.userInfo = userInfo;
-        UNNotificationRequest *theSilentPushRequest = [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString content:theSilentPushContent trigger:nil];
-        
-        [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:theSilentPushRequest];
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
     }
-    else {
+}
+
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    if (@available(iOS 10, *)) {
+        UNMutableNotificationContent *theSilentPushContent =
+            [[UNMutableNotificationContent alloc] init];
+        theSilentPushContent.userInfo = userInfo;
+        UNNotificationRequest *theSilentPushRequest =
+            [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString
+                                                 content:theSilentPushContent
+                                                 trigger:nil];
+
+        [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:theSilentPushRequest];
+    } else {
         [[MarketingCloudSDK sharedInstance] sfmc_setNotificationUserInfo:userInfo];
     }
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // save the device token
     [[MarketingCloudSDK sharedInstance] sfmc_setDeviceToken:deviceToken];
 }
 
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+- (void)application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     os_log_debug(OS_LOG_DEFAULT, "didFailToRegisterForRemoteNotificationsWithError = %@", error);
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler {
-    
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+    didReceiveNotificationResponse:(UNNotificationResponse *)response
+             withCompletionHandler:(void (^)(void))completionHandler {
     // tell the MarketingCloudSDK about the notification
     [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:response.notification.request];
-    
+
     if (completionHandler != nil) {
         completionHandler();
     }
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:
+             (void (^)(UNNotificationPresentationOptions options))completionHandler {
     // tell the MarketingCloudSDK about the notification
     [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:notification.request];
-    
+
     if (completionHandler != nil) {
         completionHandler(UNNotificationPresentationOptionAlert);
     }
@@ -245,15 +94,15 @@ static NSString * const CURRENT_CORDOVA_VERSION_NAME = @"MC_Cordova_v1.1.0";
 
 #pragma mark - Custom message handlers
 
-- (void)notificationReceivedWithUserInfo:(NSDictionary *)userInfo messageType:(NSString *)messageType alertText:(NSString *)alertText
-{
+- (void)notificationReceivedWithUserInfo:(NSDictionary *)userInfo
+                             messageType:(NSString *)messageType
+                               alertText:(NSString *)alertText {
     NSLog(@"### USERINFO: %@", userInfo);
     NSLog(@"### alertText: %@", alertText);
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"kCDVPushReceivedNotification"
                                                         object:self
                                                       userInfo:nil];
 }
-
 
 @end
