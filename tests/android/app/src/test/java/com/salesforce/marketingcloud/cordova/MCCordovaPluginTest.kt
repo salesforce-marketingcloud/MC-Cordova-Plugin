@@ -26,20 +26,26 @@
 
 package com.salesforce.marketingcloud.cordova
 
-import com.google.common.truth.Truth.assertThat
+import android.app.Activity
+import android.content.Intent
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import com.salesforce.marketingcloud.MCLogListener
 import com.salesforce.marketingcloud.MarketingCloudSdk
 import com.salesforce.marketingcloud.messages.push.PushMessageManager
+import com.salesforce.marketingcloud.notifications.NotificationMessage
 import com.salesforce.marketingcloud.registration.RegistrationManager
 import org.apache.cordova.CallbackContext
 import org.apache.cordova.CordovaInterface
+import org.apache.cordova.CordovaWebView
+import org.apache.cordova.PluginResult
+import org.assertj.core.api.Java6Assertions.assertThat
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
@@ -323,5 +329,124 @@ class MCCordovaPluginTest {
     assertThat(plugin.execute("disableVerboseLogging", JSONArray(), callbackContext)).isTrue()
 
     assertThat(ShadowMarketingCloudSdk.getLogListener()).isNull()
+  }
+
+  @Test fun pushReceived_callbackRegister_pushOpenedNotSubscribed_doesNotDeliverPushToCallback() {
+    // GIVEN
+    assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
+
+    // WHEN
+    plugin.onNewIntent(intentWithMessage())
+
+    // THEN
+    verifyNoMoreInteractions(callbackContext)
+  }
+
+  @Test fun pushOpenedSubscribed_afterOnNewIntent_sendsCachedPush() {
+    // GIVEN
+    assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
+    plugin.onNewIntent(intentWithMessage(openDirectUrl = "https://salesforce.com"))
+
+    // WHEN
+    plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
+
+    // THEN
+    argumentCaptor<PluginResult>().apply {
+      verify(callbackContext).sendPluginResult(capture())
+    }.firstValue.run {
+      assertThat(keepCallback).isTrue()
+      assertThat(status).isEqualTo(PluginResult.Status.OK.ordinal)
+      assertThat(message).isNotNull()
+      JSONObject(message).run {
+        assertThat(get("timeStamp")).isNotNull().isInstanceOf(java.lang.Long::class.java)
+        assertThat(getString("type")).isEqualTo("notificationOpened")
+        JSONObject(getString("values")).run {
+          assertThat(getString("url")).isEqualTo("https://salesforce.com")
+          assertThat(getString("type")).isEqualTo("openDirect")
+          assertThat(optString("alert", null)).isNotNull()
+          assertThat(optString("_sid", null)).isNotNull()
+          assertThat(optString("_m", null)).isNotNull()
+        }
+      }
+    }
+  }
+
+  @Test fun pushOpenedSubscribed_beforeOnNewIntent_sendsPushWhenReceived() {
+    // GIVEN
+    assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
+    plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
+
+    // WHEN
+    plugin.onNewIntent(intentWithMessage(cloudPageUrl = "https://salesforce.com"))
+
+    // THEN
+    argumentCaptor<PluginResult>().apply {
+      verify(callbackContext).sendPluginResult(capture())
+    }.firstValue.run {
+      assertThat(keepCallback).isTrue()
+      assertThat(status).isEqualTo(PluginResult.Status.OK.ordinal)
+      assertThat(message).isNotNull()
+      JSONObject(message).run {
+        assertThat(get("timeStamp")).isNotNull().isInstanceOf(java.lang.Long::class.java)
+        assertThat(getString("type")).isEqualTo("notificationOpened")
+        JSONObject(getString("values")).run {
+          assertThat(getString("url")).isEqualTo("https://salesforce.com")
+          assertThat(getString("type")).isEqualTo("cloudPage")
+          assertThat(optString("alert", null)).isNotNull()
+          assertThat(optString("_sid", null)).isNotNull()
+          assertThat(optString("_m", null)).isNotNull()
+        }
+      }
+    }
+  }
+
+  @Test fun pushOpenedSubscribed_afterInitializaWithPush_sendsCachedPush() {
+    // GIVEN
+    assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
+    val cordovaActivity = mock<Activity> {
+      on { intent } doReturn intentWithMessage()
+    }
+    val cordovaInterface = mock<CordovaInterface> {
+      on { activity } doReturn cordovaActivity
+    }
+    plugin.initialize(cordovaInterface, mock<CordovaWebView>())
+
+    // WHEN
+    plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
+
+    // THEN
+    argumentCaptor<PluginResult>().apply {
+      verify(callbackContext).sendPluginResult(capture())
+    }.firstValue.run {
+      assertThat(keepCallback).isTrue()
+      assertThat(status).isEqualTo(PluginResult.Status.OK.ordinal)
+      assertThat(message).isNotNull()
+      JSONObject(message).run {
+        assertThat(get("timeStamp")).isNotNull().isInstanceOf(java.lang.Long::class.java)
+        assertThat(getString("type")).isEqualTo("notificationOpened")
+        JSONObject(getString("values")).run {
+          assertThat(getString("type")).isEqualTo("other")
+          assertThat(optString("alert", null)).isNotNull()
+          assertThat(optString("_sid", null)).isNotNull()
+          assertThat(optString("_m", null)).isNotNull()
+        }
+      }
+    }
+  }
+
+
+  private fun intentWithMessage(messageId: String = "mId", alert: String = "Alert text",
+      openDirectUrl: String? = null, cloudPageUrl: String? = null): Intent {
+    return Intent().apply {
+      val data = mutableMapOf("_sid" to "SFMC", "_m" to messageId, "alert" to alert).apply {
+        if (openDirectUrl != null) {
+          put("_od", openDirectUrl)
+        } else if (cloudPageUrl != null) {
+          put("_x", cloudPageUrl)
+        }
+      }
+      putExtra("com.salesforce.marketingcloud.notifications.EXTRA_MESSAGE",
+          NotificationMessage.a(data))
+    }
   }
 }

@@ -34,6 +34,24 @@ var argsCheck = require('cordova/argscheck');
 
 var PLUGIN_NAME = 'MCCordovaPlugin';
 
+var onNotificationOpened;
+
+function registerEvents() {
+    var onEventsCallback = function(event) {
+        switch (event.type) {
+            case 'notificationOpened':
+                if (onNotificationOpened !== undefined) {
+                    onNotificationOpened(event);
+                }
+                break;
+        }
+    };
+
+    _exec(onEventsCallback, null, 'registerEventsChannel');
+}
+
+document.addEventListener('deviceready', registerEvents);
+
 function _exec(successCallback, errorCallback, methodName, args) {
     args = args || [];
     exec(successCallback, errorCallback, PLUGIN_NAME, methodName, args);
@@ -83,7 +101,8 @@ var MCCordovaPlugin = {
      * Returns the token used by the Marketing Cloud to send push messages to
      * the device.
      * @param  {function(token)} successCallback
-     * @param  {string} successCallback.token - The token used for push messaging.
+     * @param  {string} successCallback.token - The token used for push
+     *     messaging.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_deviceToken|iOS Docs}
@@ -95,7 +114,8 @@ var MCCordovaPlugin = {
     /**
      * Returns the maps of attributes set in the registration.
      * @param  {function(attributes)} successCallback
-     * @param  {Object.<string, string>} successCallback.attributes - The key/value map of attributes set in the registration.
+     * @param  {Object.<string, string>} successCallback.attributes - The
+     *     key/value map of attributes set in the registration.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getAttributes()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_attributes|iOS Docs}
@@ -106,10 +126,13 @@ var MCCordovaPlugin = {
     },
     /**
      * Sets the value of an attribute in the registration.
-     * @param  {string} key - The name of the attribute to be set in the registration.
-     * @param  {string} value - The value of the `key` attribute to be set in the registration.
+     * @param  {string} key - The name of the attribute to be set in the
+     *     registration.
+     * @param  {string} value - The value of the `key` attribute to be set in
+     *     the registration.
      * @param  {function(saved)} [successCallback]
-     * @param  {boolean} successCallback.saved - Whether the attribute value was set in the registration.
+     * @param  {boolean} successCallback.saved - Whether the attribute value was
+     *     set in the registration.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setAttribute(java.lang.String,%20java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setAttributeNamed:value:|iOS Docs}
@@ -120,9 +143,11 @@ var MCCordovaPlugin = {
     },
     /**
      * Clears the value of an attribute in the registration.
-     * @param  {string} key - The name of the attribute whose value should be cleared from the registration.
+     * @param  {string} key - The name of the attribute whose value should be
+     *     cleared from the registration.
      * @param  {function(saved)} [successCallback]
-     * @param  {boolean} successCallback.saved - Whether the value of the `key` attribute was cleared from the registration.
+     * @param  {boolean} successCallback.saved - Whether the value of the `key`
+     *     attribute was cleared from the registration.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#clearAttribute(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_clearAttributeNamed:|iOS Docs}
@@ -132,9 +157,11 @@ var MCCordovaPlugin = {
         _exec(successCallback, errorCallback, 'clearAttribute', [key]);
     },
     /**
-     * @param  {string} tag - The tag to be added to the list of tags in the registration.
+     * @param  {string} tag - The tag to be added to the list of tags in the
+     *     registration.
      * @param  {function(saved)} [successCallback]
-     * @param  {boolean} successCallback.saved - Whether the value passed in for `tag` was saved in the registration.
+     * @param  {boolean} successCallback.saved - Whether the value passed in for
+     *     `tag` was saved in the registration.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#addTag(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_addTag:|iOS Docs}
@@ -144,9 +171,11 @@ var MCCordovaPlugin = {
         _exec(successCallback, errorCallback, 'addTag', [tag]);
     },
     /**
-     * @param  {string} tag - The tag to be removed from the list of tags in the registration.
+     * @param  {string} tag - The tag to be removed from the list of tags in the
+     *     registration.
      * @param  {function(saved)} [successCallback]
-     * @param  {boolean} successCallback.saved - Whether the value passed in for `tag` was cleared from the registration.
+     * @param  {boolean} successCallback.saved - Whether the value passed in for
+     *     `tag` was cleared from the registration.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#removeTag(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_removeTag:|iOS Docs}
@@ -158,7 +187,8 @@ var MCCordovaPlugin = {
     /**
      * Returns the tags currently set on the device.
      * @param  {function(tags)} successCallback
-     * @param  {string[]} successCallback.tags - The array of tags currently set in the native SDK.
+     * @param  {string[]} successCallback.tags - The array of tags currently set
+     *     in the native SDK.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getTags()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_tags|iOS Docs}
@@ -169,9 +199,11 @@ var MCCordovaPlugin = {
     },
     /**
      * Sets the contact key for the device's user.
-     * @param  {string} contactKey - The value to be set as the contact key of the device's user.
+     * @param  {string} contactKey - The value to be set as the contact key of
+     *     the device's user.
      * @param  {function(saved)} [successCallback]
-     * @param  {boolean} successCallback.saved - Whether the value passed in for `contactKey` was saved in the registration.
+     * @param  {boolean} successCallback.saved - Whether the value passed in for
+     *     `contactKey` was saved in the registration.
      * @param  {function} [errorCallback]
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setContactKey(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setContactKey:|iOS Docs}
@@ -215,7 +247,35 @@ var MCCordovaPlugin = {
         argsCheck.checkArgs(
             'FF', `${PLUGIN_NAME}.disableVerboseLogging`, arguments);
         _exec(successCallback, errorCallback, 'disableVerboseLogging');
+    },
+    /**
+     *
+     * @param {function(event)} notificationOpenedListener
+     * @param {MCCordovaPlugin~notificationOpenedCallback}
+     *     notificationOpenedListener.event
+     * @since 6.1.0
+     */
+    setOnNotificationOpenedListener: function(notificationOpenedListener) {
+        argsCheck.checkArgs(
+            'f', `${PLUGIN_NAME}.setOnNotificationOpenedListener`, arguments);
+        onNotificationOpened = notificationOpenedListener;
+        _exec(undefined, undefined, 'subscribe', ['notificationOpened']);
     }
+
+    /**
+     * @callback module:MCCordovaPlugin~notificationOpenedCallback
+     * @param {number} timeStamp - Time since epoch when the push message was
+     *     opened.
+     * @param {Object} values - The values of the notification message.
+     * @param {string} values.alert - The alert text of the notification
+     *     message.
+     * @param {string} [values.title] - The title text of the notification
+     *     message.
+     * @param {string} [values.url] - The url associated with the notification
+     *     message. This can be either a cloud-page url or an open-direct url.
+     * @param {string} values.type - Indicates the type of notification message.
+     *     Possible values: 'cloudPage', 'openDirect' or 'other'
+     */
 
 };
 

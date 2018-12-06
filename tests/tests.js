@@ -124,5 +124,15 @@ exports.defineAutoTests = function() {
                    typeof MCCordovaPlugin.disableVerboseLogging === 'function')
                    .toBe(true);
            });
+
+        it('plugin.spec.16 should contain a setOnPushOpenedListener function',
+           function() {
+               expect(typeof MCCordovaPlugin.setOnPushOpenedListener)
+                   .toBeDefined();
+               expect(
+                   typeof MCCordovaPlugin.setOnPushOpenedListener ===
+                   'function')
+                   .toBe(true);
+           });
     });
 };
