@@ -25,19 +25,30 @@
  */
 package com.salesforce.marketingcloud.cordova;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
+import com.salesforce.marketingcloud.notifications.NotificationManager;
+import com.salesforce.marketingcloud.notifications.NotificationMessage;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MCCordovaPlugin extends CordovaPlugin {
   static final String TAG = "~!MCCordova";
+
+  private CallbackContext eventsChannel = null;
+  private PluginResult cachedNotificationOpenedResult = null;
+  private boolean notificationOpenedSubscribed = false;
 
   private static JSONObject fromMap(Map<String, String> map) throws JSONException {
     JSONObject data = new JSONObject();
@@ -57,6 +68,56 @@ public class MCCordovaPlugin extends CordovaPlugin {
       }
     }
     return data;
+  }
+
+  @Override public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    handleNotificationMessage(
+        NotificationManager.extractMessage(cordova.getActivity().getIntent()));
+  }
+
+  @Override public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    handleNotificationMessage(NotificationManager.extractMessage(intent));
+  }
+
+  private void handleNotificationMessage(@Nullable NotificationMessage message) {
+    if (message != null) {
+      // Open from push
+      PluginResult result;
+
+      try {
+        JSONObject eventArgs = new JSONObject();
+        eventArgs.put("timeStamp", System.currentTimeMillis());
+        JSONObject values = new JSONObject(message.payload());
+        if (message.url() != null) {
+          values.put("url", message.url());
+        }
+        switch (message.type()) {
+          case OTHER:
+            values.put("type", "other");
+            break;
+          case CLOUD_PAGE:
+            values.put("type", "cloudPage");
+            break;
+          case OPEN_DIRECT:
+            values.put("type", "openDirect");
+            break;
+        }
+        eventArgs.put("values", values);
+        eventArgs.put("type", "notificationOpened");
+
+        result = new PluginResult(PluginResult.Status.OK, eventArgs);
+        result.setKeepCallback(true);
+
+        if (eventsChannel != null && notificationOpenedSubscribed) {
+          eventsChannel.sendPluginResult(result);
+        } else {
+          cachedNotificationOpenedResult = result;
+        }
+      } catch (Exception e) {
+        // NO_OP
+      }
+    }
   }
 
   @Override public boolean execute(final String action, final JSONArray args,
@@ -102,8 +163,41 @@ public class MCCordovaPlugin extends CordovaPlugin {
         MarketingCloudSdk.setLogListener(null);
         callbackContext.success();
         return true;
+      case "registerEventsChannel":
+        registerEventsChannel(callbackContext);
+        return true;
+      case "subscribe":
+        subscribe(args, callbackContext);
+        return true;
       default:
         return false;
+    }
+  }
+
+  private void registerEventsChannel(CallbackContext callbackContext) {
+    this.eventsChannel = callbackContext;
+    if (notificationOpenedSubscribed) {
+      sendCachedPushEvent(eventsChannel);
+    }
+  }
+
+  private void subscribe(JSONArray args, CallbackContext context) {
+    switch (args.optString(0, null)) {
+      case "notificationOpened":
+        notificationOpenedSubscribed = true;
+        if (eventsChannel != null) {
+          sendCachedPushEvent(eventsChannel);
+        }
+        break;
+      default:
+        // NO_OP
+    }
+  }
+
+  private void sendCachedPushEvent(CallbackContext callbackContext) {
+    if (cachedNotificationOpenedResult != null) {
+      callbackContext.sendPluginResult(cachedNotificationOpenedResult);
+      cachedNotificationOpenedResult = null;
     }
   }
 

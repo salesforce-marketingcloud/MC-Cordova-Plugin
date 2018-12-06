@@ -1,9 +1,8 @@
 root: true
 extends: semistandard
 rules:
-  indent:
-    - error
-    - 4
+  indent: ["error", 4, { "SwitchCase": 1}]
+  switchcase: 4
   camelcase: off
   padded-blocks: off
   operator-linebreak: off
