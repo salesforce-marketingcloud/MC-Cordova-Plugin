@@ -431,6 +431,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/cordova-ios/CordovaLib\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -443,6 +444,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/cordova-ios/CordovaLib\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
