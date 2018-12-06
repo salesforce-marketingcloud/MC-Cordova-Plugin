@@ -348,7 +348,7 @@ class MCCordovaPluginTest {
     plugin.onNewIntent(intentWithMessage(openDirectUrl = "https://salesforce.com"))
 
     // WHEN
-    plugin.execute("subscribe", JSONArray().apply { put("pushOpened") }, mock<CallbackContext>())
+    plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
 
     // THEN
     argumentCaptor<PluginResult>().apply {
@@ -359,7 +359,7 @@ class MCCordovaPluginTest {
       assertThat(message).isNotNull()
       JSONObject(message).run {
         assertThat(get("timeStamp")).isNotNull().isInstanceOf(java.lang.Long::class.java)
-        assertThat(getString("type")).isEqualTo("pushOpened")
+        assertThat(getString("type")).isEqualTo("notificationOpened")
         JSONObject(getString("values")).run {
           assertThat(getString("url")).isEqualTo("https://salesforce.com")
           assertThat(getString("type")).isEqualTo("openDirect")
@@ -374,7 +374,7 @@ class MCCordovaPluginTest {
   @Test fun pushOpenedSubscribed_beforeOnNewIntent_sendsPushWhenReceived() {
     // GIVEN
     assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
-    plugin.execute("subscribe", JSONArray().apply { put("pushOpened") }, mock<CallbackContext>())
+    plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
 
     // WHEN
     plugin.onNewIntent(intentWithMessage(cloudPageUrl = "https://salesforce.com"))
@@ -388,7 +388,7 @@ class MCCordovaPluginTest {
       assertThat(message).isNotNull()
       JSONObject(message).run {
         assertThat(get("timeStamp")).isNotNull().isInstanceOf(java.lang.Long::class.java)
-        assertThat(getString("type")).isEqualTo("pushOpened")
+        assertThat(getString("type")).isEqualTo("notificationOpened")
         JSONObject(getString("values")).run {
           assertThat(getString("url")).isEqualTo("https://salesforce.com")
           assertThat(getString("type")).isEqualTo("cloudPage")
@@ -412,7 +412,7 @@ class MCCordovaPluginTest {
     plugin.initialize(cordovaInterface, mock<CordovaWebView>())
 
     // WHEN
-    plugin.execute("subscribe", JSONArray().apply { put("pushOpened") }, mock<CallbackContext>())
+    plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
 
     // THEN
     argumentCaptor<PluginResult>().apply {
@@ -423,7 +423,7 @@ class MCCordovaPluginTest {
       assertThat(message).isNotNull()
       JSONObject(message).run {
         assertThat(get("timeStamp")).isNotNull().isInstanceOf(java.lang.Long::class.java)
-        assertThat(getString("type")).isEqualTo("pushOpened")
+        assertThat(getString("type")).isEqualTo("notificationOpened")
         JSONObject(getString("values")).run {
           assertThat(getString("type")).isEqualTo("other")
           assertThat(optString("alert", null)).isNotNull()
