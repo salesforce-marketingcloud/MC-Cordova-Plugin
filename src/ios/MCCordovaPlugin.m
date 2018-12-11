@@ -30,6 +30,58 @@
 
 @implementation MCCordovaPlugin
 
+@synthesize eventsCallbackId;
+@synthesize notificationOpenedSubscribed;
+@synthesize cachedNotification;
+
++ (NSMutableDictionary *_Nullable)dataForNotificationReceived:(NSNotification *)notification {
+    NSMutableDictionary *notificationData = nil;
+
+    if (notification.userInfo != nil) {
+        if (@available(iOS 10.0, *)) {
+            UNNotificationRequest *userNotificationRequest = [notification.userInfo
+                objectForKey:
+                    @"SFMCFoundationUNNotificationReceivedNotificationKeyUNNotificationRequest"];
+            if (userNotificationRequest != nil) {
+                notificationData = [userNotificationRequest.content.userInfo mutableCopy];
+            }
+        }
+        if (notificationData == nil) {
+            NSDictionary *userNotificationUserInfo = [notification.userInfo
+                objectForKey:@"SFMCFoundationNotificationReceivedNotificationKeyUserInfo"];
+            notificationData = [userNotificationUserInfo mutableCopy];
+        }
+    }
+
+    if (notificationData != nil) {
+        NSString *alert = nil;
+        NSString *title = nil;
+        NSString *subtitle = nil;
+        if ([notificationData[@"aps"][@"alert"] isKindOfClass:[NSString class]]) {
+            alert = notificationData[@"aps"][@"alert"];
+        } else if ([notificationData[@"aps"][@"alert"] isKindOfClass:[NSDictionary class]]) {
+            // if not a silent push, pull out the rest of the alert values
+            if ([notificationData[@"aps"][@"alert"] isEqualToDictionary:@{}] == NO) {
+                alert = notificationData[@"aps"][@"alert"][@"body"];
+                title = notificationData[@"aps"][@"alert"][@"title"];
+                subtitle = notificationData[@"aps"][@"alert"][@"subtitle"];
+            }
+        }
+        if (alert != nil) {
+            [notificationData setValue:alert forKey:@"alert"];
+        }
+        if (title != nil) {
+            [notificationData setValue:title forKey:@"title"];
+        }
+        if (subtitle != nil) {
+            [notificationData setValue:subtitle forKey:@"subtitle"];
+        }
+        [notificationData removeObjectForKey:@"aps"];
+    }
+
+    return notificationData;
+}
+
 - (void)pluginInitialize {
     if ([MarketingCloudSDK sharedInstance] == nil) {
         // failed to access the MarketingCloudSDK
@@ -65,6 +117,49 @@
         } else if (configError != nil) {
             os_log_debug(OS_LOG_DEFAULT, "%@", configError);
         }
+
+        [[NSNotificationCenter defaultCenter]
+            addObserverForName:SFMCFoundationUNNotificationReceivedNotification
+                        object:nil
+                         queue:[NSOperationQueue mainQueue]
+                    usingBlock:^(NSNotification *_Nonnull note) {
+                      NSMutableDictionary *userInfo =
+                          [MCCordovaPlugin dataForNotificationReceived:note];
+                      if (userInfo != nil) {
+                          NSString *url = nil;
+                          NSString *type;
+                          if ((url = [userInfo objectForKey:@"_od"])) {
+                              type = @"openDirect";
+                          } else if ((url = [userInfo objectForKey:@"_x"])) {
+                              type = @"cloudPage";
+                          } else {
+                              type = @"other";
+                          }
+
+                          if (url != nil) {
+                              [userInfo setValue:url forKey:@"url"];
+                          }
+                          [userInfo setValue:type forKey:@"type"];
+
+                          [self sendNotificationEvent:@{
+                              @"timeStamp" : [NSNumber
+                                  numberWithLong:([[NSDate date] timeIntervalSince1970] * 1000)],
+                              @"values" : userInfo,
+                              @"type" : @"notificationOpened"
+                          }];
+                      }
+                    }];
+    }
+}
+
+- (void)sendNotificationEvent:(NSDictionary *)notification {
+    if (notificationOpenedSubscribed && self.eventsCallbackId != nil) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                messageAsDictionary:notification];
+        [result setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:result callbackId:self.eventsCallbackId];
+    } else {
+        self.cachedNotification = notification;
     }
 }
 
@@ -226,6 +321,33 @@
         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                             messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
               callbackId:command.callbackId];
+}
+
+- (void)registerEventsChannel:(CDVInvokedUrlCommand *)command {
+    self.eventsCallbackId = command.callbackId;
+    if (self.notificationOpenedSubscribed) {
+        [self sendCachedNotification];
+    }
+}
+
+- (void)subscribe:(CDVInvokedUrlCommand *)command {
+    if (command.arguments != nil && [command.arguments count] > 0) {
+        NSString *eventName = [command.arguments objectAtIndex:0];
+
+        if ([eventName isEqualToString:@"notificationOpened"]) {
+            self.notificationOpenedSubscribed = YES;
+            if (self.eventsCallbackId != nil) {
+                [self sendCachedNotification];
+            }
+        }
+    }
+}
+
+- (void)sendCachedNotification {
+    if (self.cachedNotification != nil) {
+        [self sendNotificationEvent:self.cachedNotification];
+        self.cachedNotification = nil;
+    }
 }
 
 @end
