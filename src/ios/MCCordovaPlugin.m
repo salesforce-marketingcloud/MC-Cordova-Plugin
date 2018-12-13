@@ -127,7 +127,7 @@
                           [MCCordovaPlugin dataForNotificationReceived:note];
                       if (userInfo != nil) {
                           NSString *url = nil;
-                          NSString *type;
+                          NSString *type = nil;
                           if ((url = [userInfo objectForKey:@"_od"])) {
                               type = @"openDirect";
                           } else if ((url = [userInfo objectForKey:@"_x"])) {
@@ -153,7 +153,7 @@
 }
 
 - (void)sendNotificationEvent:(NSDictionary *)notification {
-    if (notificationOpenedSubscribed && self.eventsCallbackId != nil) {
+    if (self.notificationOpenedSubscribed && self.eventsCallbackId != nil) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                 messageAsDictionary:notification];
         [result setKeepCallbackAsBool:YES];
