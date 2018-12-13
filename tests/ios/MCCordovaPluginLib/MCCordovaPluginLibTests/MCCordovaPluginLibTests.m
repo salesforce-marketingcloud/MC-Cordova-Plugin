@@ -45,6 +45,7 @@
     OCMStub(ClassMethod([_sdk sharedInstance])).andReturn(_sdk);
 
     _plugin = [MCCordovaPlugin alloc];
+    [_plugin pluginInitialize];
 
     _commandDelegate = OCMProtocolMock(@protocol(CDVCommandDelegate));
     _plugin.commandDelegate = _commandDelegate;
@@ -496,11 +497,202 @@
     OCMVerify([_sdk sfmc_tags]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-          NSArray *resultTags = (NSArray *)result.message;
           return [result.status intValue] == CDVCommandStatus_OK && result.message != nil &&
                  [(NSArray *)result.message count] == 0;
         }]
               callbackId:@"testCallback"]);
+}
+
+- (void)
+    testNotificationOpened_beforeEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
+    // GIVEN
+    [self sendTestNotification:@{@"aps" : @{}}];
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+
+    // WHEN
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    // THEN
+    OCMVerify([_commandDelegate sendPluginResult:[OCMArg any] callbackId:@"eventCallback"]);
+}
+
+- (void)
+    testNotificationOpened_afterEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
+    // GIVEN
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+    [self sendTestNotification:@{@"aps" : @{}}];
+
+    // WHEN
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    // THEN
+    OCMVerify([_commandDelegate sendPluginResult:[OCMArg any] callbackId:@"eventCallback"]);
+}
+
+- (void)
+    testNotificationOpened_afterEventCallbackCalled_afterSubscribeCalled_shouldBeDeliveredImmediately {
+    // GIVEN
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    // WHEN
+    [self sendTestNotification:@{@"aps" : @{}}];
+
+    // THEN
+    OCMVerify([_commandDelegate sendPluginResult:[OCMArg any] callbackId:@"eventCallback"]);
+}
+
+- (void)testNotificationOpened_OD_withAlertTitleSubTitle {
+    // GIVEN
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    NSDictionary *payload = @{
+        @"_sid" : @"SFMC",
+        @"_m" : @"messageId",
+        @"_od" : @"http://salesforce.com",
+        @"aps" : @{
+            @"alert" : @{
+                @"body" : @"Alert Body",
+                @"title" : @"Alert Title",
+                @"subtitle" : @"Alert Subtitle"
+            }
+        }
+    };
+
+    // WHEN
+    [self sendTestNotification:payload];
+
+    // THEN
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [self validateResult:result forOpenedNotification:payload];
+        }]
+              callbackId:@"eventCallback"]);
+}
+
+- (void)testNotificationOpened_CP_withAlert_old {
+    // GIVEN
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    NSDictionary *payload = @{
+        @"_sid" : @"SFMC",
+        @"_m" : @"messageId",
+        @"_x" : @"http://salesforce.com",
+        @"aps" : @{@"alert" : @"Alert Body"}
+    };
+
+    // WHEN
+    [self sendTestNotification:payload];
+
+    // THEN
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [self validateResult:result forOpenedNotification:payload];
+        }]
+              callbackId:@"eventCallback"]);
+}
+
+- (void)testNotificationOpened_noUrl_withAlertTitle {
+    // GIVEN
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    NSDictionary *payload = @{
+        @"_sid" : @"SFMC",
+        @"_m" : @"messageId",
+        @"aps" : @{@"alert" : @{@"body" : @"Alert Body", @"title" : @"Alert Title"}}
+    };
+
+    // WHEN
+    [self sendTestNotification:payload];
+
+    // THEN
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [self validateResult:result forOpenedNotification:payload];
+        }]
+              callbackId:@"eventCallback"]);
+}
+
+- (void)sendTestNotification:(NSDictionary *)notification {
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = notification;
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"NDY5NjoxMTQ6MA"
+                                                                          content:content
+                                                                          trigger:nil];
+
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:SFMCFoundationUNNotificationReceivedNotification
+                      object:self
+                    userInfo:@{
+                        @"SFMCFoundationUNNotificationReceivedNotificationKeyUNNotificationReques"
+                        @"t" : request
+                    }];
+}
+
+- (BOOL)validateResult:(CDVPluginResult *)result
+    forOpenedNotification:(NSDictionary *)notification {
+    XCTAssertEqual([result.status intValue], CDVCommandStatus_OK);
+    XCTAssertTrue([result.message isKindOfClass:[NSDictionary class]]);
+    XCTAssertTrue(result.keepCallback);
+
+    NSDictionary *message = result.message;
+    XCTAssertTrue([[message objectForKey:@"timeStamp"] isKindOfClass:[NSNumber class]]);
+    XCTAssertEqualObjects([message objectForKey:@"type"], @"notificationOpened");
+    XCTAssertTrue([[message objectForKey:@"values"] isKindOfClass:[NSDictionary class]]);
+    NSDictionary *values = [message objectForKey:@"values"];
+
+    NSSet *notificationKeys = [NSSet setWithArray:notification.allKeys];
+    Boolean hadUrl = false;
+    for (id key in notificationKeys) {
+        if ([key isEqualToString:@"aps"]) {
+            NSDictionary *aps = [notification objectForKey:key];
+            if ([[aps objectForKey:@"alert"] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *alert = [aps objectForKey:@"alert"];
+                NSSet *alertKeys = [NSSet setWithArray:alert.allKeys];
+                for (id alertKey in alertKeys) {
+                    NSString *valuesKey = [alertKeys isEqual:@"body"] ? @"alert" : valuesKey;
+                    XCTAssertEqualObjects([values objectForKey:valuesKey],
+                                          [aps objectForKey:alertKey]);
+                }
+            } else {
+                XCTAssertEqualObjects([values objectForKey:@"alert"], [aps objectForKey:@"alert"]);
+            }
+
+        } else if ([key isEqualToString:@"_od"]) {
+            XCTAssertEqualObjects([values objectForKey:@"url"], [notification objectForKey:key]);
+            XCTAssertEqualObjects([values objectForKey:@"type"], @"openDirect");
+            hadUrl = true;
+        } else if ([key isEqualToString:@"_x"]) {
+            XCTAssertEqualObjects([values objectForKey:@"url"], [notification objectForKey:key]);
+            XCTAssertEqualObjects([values objectForKey:@"type"], @"cloudPage");
+            hadUrl = true;
+        } else {
+            XCTAssertEqualObjects([values objectForKey:key], [notification objectForKey:key]);
+        }
+    }
+
+    if (!hadUrl) {
+        XCTAssertNil([values objectForKey:@"url"]);
+        XCTAssertEqualObjects([values objectForKey:@"type"], @"other");
+    }
+    return YES;
+}
+
++ (CDVInvokedUrlCommand *)eventCallbackCommand {
+    return [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
+                                                callbackId:@"eventCallback"
+                                                 className:@"MCCordovaPlugin"
+                                                methodName:@"registerEventsChannel"];
+}
+
++ (CDVInvokedUrlCommand *)notificationOpenedSubscribeCommand {
+    return [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @"notificationOpened" ]
+                                                callbackId:@"subCallback"
+                                                 className:@"MCCordovaPlugin"
+                                                methodName:@"subscribe"];
 }
 
 @end
