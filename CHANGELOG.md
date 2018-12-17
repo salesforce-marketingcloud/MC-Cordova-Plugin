@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### Version 6.1.0
+
+* Updated to the 6.1.x versions of the Android and iOS Marketing Cloud SDK.
+* Added support for listening to notification opened events.  This will allow you to take action when a user clicks a notification, such as loading the url from an Open Direct or Cloud Page message.  
+
 ### Version 6.0.0
 
 In this release we have greatly simplified the Cordova plugin for our MobilePush SDK.  For greatest success, if you are upgrading from a prior release, we suggest following the integration instructions as if this were a new plugin.
