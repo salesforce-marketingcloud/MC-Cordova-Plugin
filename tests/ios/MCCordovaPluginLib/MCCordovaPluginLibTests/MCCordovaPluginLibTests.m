@@ -504,7 +504,7 @@
 }
 
 - (void)
-    testNotificationOpened_beforeEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
+    testNotificationReceived_beforeEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
     // GIVEN
     [self sendTestNotification:@{@"aps" : @{}}];
     [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
@@ -517,7 +517,7 @@
 }
 
 - (void)
-    testNotificationOpened_afterEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
+    testNotificationReceived_afterEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
     // GIVEN
     [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
     [self sendTestNotification:@{@"aps" : @{}}];
@@ -530,7 +530,7 @@
 }
 
 - (void)
-    testNotificationOpened_afterEventCallbackCalled_afterSubscribeCalled_shouldBeDeliveredImmediately {
+    testNotificationReceived_afterEventCallbackCalled_afterSubscribeCalled_shouldBeDeliveredImmediately {
     // GIVEN
     [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
     [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
@@ -542,7 +542,7 @@
     OCMVerify([_commandDelegate sendPluginResult:[OCMArg any] callbackId:@"eventCallback"]);
 }
 
-- (void)testNotificationOpened_OD_withAlertTitleSubTitle {
+- (void)testNotificationReceived_OD_withAlertTitleSubTitle {
     // GIVEN
     [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
     [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
@@ -571,7 +571,7 @@
               callbackId:@"eventCallback"]);
 }
 
-- (void)testNotificationOpened_CP_withAlert_old {
+- (void)testNotificationReceived_CP_withAlert_old {
     // GIVEN
     [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
     [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
@@ -594,7 +594,7 @@
               callbackId:@"eventCallback"]);
 }
 
-- (void)testNotificationOpened_noUrl_withAlertTitle {
+- (void)testNotificationReceived_noUrl_withAlertTitle {
     // GIVEN
     [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
     [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
@@ -614,6 +614,24 @@
           return [self validateResult:result forOpenedNotification:payload];
         }]
               callbackId:@"eventCallback"]);
+}
+
+- (void)testNotificationReceived_silentPush_notSentToCordova {
+    // GIVEN
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+    [_plugin subscribe:[MCCordovaPluginLibTests notificationOpenedSubscribeCommand]];
+
+    NSDictionary *payload =
+        @{@"_sid" : @"SFMC", @"_m" : @"messageId", @"aps" : @{@"content-available" : @1}};
+
+    //Hack in failure when sendPluginResult it called.  Couldn't seem to get OCMock's `reject` to work...
+    OCMStub([_commandDelegate sendPluginResult:[OCMArg any] callbackId:[OCMArg any]])
+    .andDo(^(NSInvocation *invocation) {
+        XCTFail("sendPluginResult should not be called");
+    });
+
+    // WHEN
+    [self sendTestNotification:payload];
 }
 
 - (void)sendTestNotification:(NSDictionary *)notification {

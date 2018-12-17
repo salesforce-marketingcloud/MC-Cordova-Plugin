@@ -54,6 +54,11 @@
     }
 
     if (notificationData != nil) {
+        if([notificationData[@"aps"] objectForKey:@"content-available"] != nil) {
+            // Making the same assumption as the SDK would here.
+            // if silent push, bail out so that the data is not returned as "notification opened"
+            return nil;
+        }
         NSString *alert = nil;
         NSString *title = nil;
         NSString *subtitle = nil;
