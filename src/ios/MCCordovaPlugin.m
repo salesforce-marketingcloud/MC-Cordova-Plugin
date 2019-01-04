@@ -49,6 +49,9 @@
             [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.analytics"] boolValue];
         [configBuilder sfmc_setAnalyticsEnabled:[NSNumber numberWithBool:analytics]];
 
+      BOOL location = [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.location"] boolValue];
+      [configBuilder sfmc_setLocationEnabled:[NSNumber numberWithBool:location]];
+      
         NSString *tse =
             [pluginSettings objectForKey:@"com.salesforce.marketingcloud.tenant_specific_endpoint"];
         if (tse != nil) {
@@ -226,6 +229,30 @@
         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                             messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
               callbackId:command.callbackId];
+}
+
+- (void)locationEnabled:(CDVInvokedUrlCommand *)command {
+  [[MarketingCloudSDK sharedInstance] sfmc_locationEnabled];
+  [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                              callbackId:command.callbackId];
+}
+
+- (void)startWatchingLocation:(CDVInvokedUrlCommand *)command {
+  [[MarketingCloudSDK sharedInstance] sfmc_startWatchingLocation];
+  [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                              callbackId:command.callbackId];
+}
+
+- (void)stopWatchingLocation:(CDVInvokedUrlCommand *)command {
+  [[MarketingCloudSDK sharedInstance] sfmc_stopWatchingLocation];
+  [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                              callbackId:command.callbackId];
+}
+
+- (void)watchingLocation:(CDVInvokedUrlCommand *)command {
+  [[MarketingCloudSDK sharedInstance] sfmc_watchingLocation];
+  [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                              callbackId:command.callbackId];
 }
 
 @end
