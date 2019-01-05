@@ -335,8 +335,8 @@ Check if location is enabled in the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
-- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_startWatchingLocation:)
+- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/package-summary.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_locationEnabled:)
 
 
 | Param | Type |
@@ -352,7 +352,7 @@ Start watching location in the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
+- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/package-summary.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_startWatchingLocation:)
 
 
@@ -369,8 +369,8 @@ Stop watching location in the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
-- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_startWatchingLocation:)
+- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/package-summary.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_stopWatchingLocation:)
 
 
 | Param | Type |
@@ -386,8 +386,8 @@ Check if is watching location in the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
-- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_startWatchingLocation:)
+- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/package-summary.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_watchingLocation:)
 
 
 | Param | Type |
