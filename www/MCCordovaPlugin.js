@@ -70,10 +70,11 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_pushEnabled|iOS Docs}
      */
-    isPushEnabled: function(successCallback, errorCallback = undefined) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.isPushEnabled`, arguments);
+    isPushEnabled: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('fF', PLUGIN_NAME + '.isPushEnabled', arguments);
         _exec(successCallback, errorCallback, 'isPushEnabled');
     },
+
     /**
      * Enables push messaging in the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
@@ -81,11 +82,11 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
-    enablePush: function(
-        successCallback = undefined, errorCallback = undefined) {
-        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.enablePush`, arguments);
+    enablePush: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', PLUGIN_NAME + '.enablePush', arguments);
         _exec(successCallback, errorCallback, 'enablePush');
     },
+
     /**
      * Disables push messaging in the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
@@ -94,9 +95,10 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
     disablePush: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.disablePush`, arguments);
+        argsCheck.checkArgs('FF', PLUGIN_NAME + '.disablePush', arguments);
         _exec(successCallback, errorCallback, 'disablePush');
     },
+
     /**
      * Returns the token used by the Marketing Cloud to send push messages to
      * the device.
@@ -108,9 +110,10 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_deviceToken|iOS Docs}
      */
     getSystemToken: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.getSystemToken`, arguments);
+        argsCheck.checkArgs('fF', PLUGIN_NAME + '.getSystemToken', arguments);
         _exec(successCallback, errorCallback, 'getSystemToken');
     },
+
     /**
      * Returns the maps of attributes set in the registration.
      * @param  {function(attributes)} successCallback
@@ -121,7 +124,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_attributes|iOS Docs}
      */
     getAttributes: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.getAttributes`, arguments);
+        argsCheck.checkArgs('fF', PLUGIN_NAME + '.getAttributes', arguments);
         _exec(successCallback, errorCallback, 'getAttributes');
     },
     /**
@@ -138,7 +141,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setAttributeNamed:value:|iOS Docs}
      */
     setAttribute: function(key, value, successCallback, errorCallback) {
-        argsCheck.checkArgs('ssFF', `${PLUGIN_NAME}.setAttribute`, arguments);
+        argsCheck.checkArgs('ssFF', PLUGIN_NAME + '.setAttribute', arguments);
         _exec(successCallback, errorCallback, 'setAttribute', [key, value]);
     },
     /**
@@ -153,7 +156,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_clearAttributeNamed:|iOS Docs}
      */
     clearAttribute: function(key, successCallback, errorCallback) {
-        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.clearAttribute`, arguments);
+        argsCheck.checkArgs('sFF', PLUGIN_NAME + '.clearAttribute', arguments);
         _exec(successCallback, errorCallback, 'clearAttribute', [key]);
     },
     /**
@@ -167,7 +170,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_addTag:|iOS Docs}
      */
     addTag: function(tag, successCallback, errorCallback) {
-        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.addTag`, arguments);
+        argsCheck.checkArgs('sFF', PLUGIN_NAME + '.addTag', arguments);
         _exec(successCallback, errorCallback, 'addTag', [tag]);
     },
     /**
@@ -181,7 +184,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_removeTag:|iOS Docs}
      */
     removeTag: function(tag, successCallback, errorCallback) {
-        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.removeTag`, arguments);
+        argsCheck.checkArgs('sFF', PLUGIN_NAME + '.removeTag', arguments);
         _exec(successCallback, errorCallback, 'removeTag', [tag]);
     },
     /**
@@ -194,7 +197,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_tags|iOS Docs}
      */
     getTags: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.getTags`, arguments);
+        argsCheck.checkArgs('fF', PLUGIN_NAME + '.getTags', arguments);
         _exec(successCallback, errorCallback, 'getTags');
     },
     /**
@@ -209,7 +212,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setContactKey:|iOS Docs}
      */
     setContactKey: function(contactKey, successCallback, errorCallback) {
-        argsCheck.checkArgs('sFF', `${PLUGIN_NAME}.setContactKey`, arguments);
+        argsCheck.checkArgs('sFF', PLUGIN_NAME + '.setContactKey', arguments);
         _exec(successCallback, errorCallback, 'setContactKey', [contactKey]);
     },
     /**
@@ -221,7 +224,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_contactKey|iOS Docs}
      */
     getContactKey: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.getContactKey`, arguments);
+        argsCheck.checkArgs('fF', PLUGIN_NAME + '.getContactKey', arguments);
         _exec(successCallback, errorCallback, 'getContactKey');
     },
     /**
@@ -233,7 +236,7 @@ var MCCordovaPlugin = {
      */
     enableVerboseLogging: function(successCallback, errorCallback) {
         argsCheck.checkArgs(
-            'FF', `${PLUGIN_NAME}.enableVerboseLogging`, arguments);
+            'FF', PLUGIN_NAME + '.enableVerboseLogging', arguments);
         _exec(successCallback, errorCallback, 'enableVerboseLogging');
     },
     /**
@@ -245,7 +248,7 @@ var MCCordovaPlugin = {
      */
     disableVerboseLogging: function(successCallback, errorCallback) {
         argsCheck.checkArgs(
-            'FF', `${PLUGIN_NAME}.disableVerboseLogging`, arguments);
+            'FF', PLUGIN_NAME + '.disableVerboseLogging', arguments);
         _exec(successCallback, errorCallback, 'disableVerboseLogging');
     },
     /**
@@ -257,7 +260,7 @@ var MCCordovaPlugin = {
      */
     setOnNotificationOpenedListener: function(notificationOpenedListener) {
         argsCheck.checkArgs(
-            'f', `${PLUGIN_NAME}.setOnNotificationOpenedListener`, arguments);
+            'f', PLUGIN_NAME + '.setOnNotificationOpenedListener', arguments);
         onNotificationOpened = notificationOpenedListener;
         _exec(undefined, undefined, 'subscribe', ['notificationOpened']);
     }
