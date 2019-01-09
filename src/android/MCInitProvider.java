@@ -37,9 +37,8 @@ import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
 
-public class MCInitProvider extends ContentProvider
-        implements MarketingCloudSdk.InitializationListener {
-
+public class MCInitProvider
+    extends ContentProvider implements MarketingCloudSdk.InitializationListener {
     @Override
     public boolean onCreate() {
         Context ctx = getContext();
@@ -55,7 +54,7 @@ public class MCInitProvider extends ContentProvider
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
-                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         return null;
     }
 
@@ -72,14 +71,14 @@ public class MCInitProvider extends ContentProvider
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection,
-                      @Nullable String[] selectionArgs) {
+    public int delete(
+        @NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection,
-                      @Nullable String[] selectionArgs) {
+        @Nullable String[] selectionArgs) {
         return 0;
     }
 
@@ -89,7 +88,8 @@ public class MCInitProvider extends ContentProvider
             MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
                 @Override
                 public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
-                    RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
+                    RegistrationManager registrationManager =
+                        marketingCloudSdk.getRegistrationManager();
                     registrationManager.edit().addTag("Cordova").commit();
                 }
             });

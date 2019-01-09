@@ -70,7 +70,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         handleNotificationMessage(
-                NotificationManager.extractMessage(cordova.getActivity().getIntent()));
+            NotificationManager.extractMessage(cordova.getActivity().getIntent()));
     }
 
     @Override
@@ -121,7 +121,7 @@ public class MCCordovaPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(final String action, final JSONArray args,
-                           final CallbackContext callbackContext) throws JSONException {
+        final CallbackContext callbackContext) throws JSONException {
         if (handleStaticAction(action, args, callbackContext)) {
             return true;
         }
@@ -153,8 +153,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
-    private boolean handleStaticAction(String action, JSONArray args,
-                                       CallbackContext callbackContext) {
+    private boolean handleStaticAction(
+        String action, JSONArray args, CallbackContext callbackContext) {
         switch (action) {
             case "enableVerboseLogging":
                 MarketingCloudSdk.setLogLevel(MCLogListener.VERBOSE);
@@ -237,7 +237,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler getContactKey() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getRegistrationManager().getContactKey());
             }
         };
@@ -246,9 +247,11 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler setContactKey() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 String contactKey = args.optString(0, null);
-                boolean success = sdk.getRegistrationManager().edit().setContactKey(contactKey).commit();
+                boolean success =
+                    sdk.getRegistrationManager().edit().setContactKey(contactKey).commit();
                 callbackContext.success(success ? 1 : 0);
             }
         };
@@ -257,7 +260,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler getTags() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(fromCollection(sdk.getRegistrationManager().getTags()));
             }
         };
@@ -266,7 +270,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler removeTag() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 String tag = args.optString(0, null);
                 boolean success = sdk.getRegistrationManager().edit().removeTag(tag).commit();
                 callbackContext.success(success ? 1 : 0);
@@ -277,7 +282,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler addTag() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 String tag = args.optString(0, null);
                 boolean success = sdk.getRegistrationManager().edit().addTag(tag).commit();
                 callbackContext.success(success ? 1 : 0);
@@ -288,7 +294,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler clearAttribute() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 String key = args.optString(0, null);
                 boolean success = sdk.getRegistrationManager().edit().clearAttribute(key).commit();
                 callbackContext.success(success ? 1 : 0);
@@ -299,10 +306,12 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler setAttribute() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 String key = args.optString(0, null);
                 String value = args.optString(1);
-                boolean success = sdk.getRegistrationManager().edit().setAttribute(key, value).commit();
+                boolean success =
+                    sdk.getRegistrationManager().edit().setAttribute(key, value).commit();
                 callbackContext.success(success ? 1 : 0);
             }
         };
@@ -311,7 +320,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler getAttributes() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 try {
                     callbackContext.success(fromMap(sdk.getRegistrationManager().getAttributes()));
                 } catch (JSONException e) {
@@ -324,7 +334,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler disablePush() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 sdk.getPushMessageManager().disablePush();
                 callbackContext.success();
             }
@@ -334,7 +345,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler enabledPush() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 sdk.getPushMessageManager().enablePush();
                 callbackContext.success();
             }
@@ -344,7 +356,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler isPushEnabled() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getPushMessageManager().isPushEnabled() ? 1 : 0);
             }
         };
@@ -353,7 +366,8 @@ public class MCCordovaPlugin extends CordovaPlugin {
     private ActionHandler getSystemToken() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getPushMessageManager().getPushToken());
             }
         };

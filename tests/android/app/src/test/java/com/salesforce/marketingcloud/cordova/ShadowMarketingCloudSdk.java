@@ -41,8 +41,7 @@ public class ShadowMarketingCloudSdk {
     private static final MCLogListener testLogListener = new MCLogListener() {
         @Override
         public void out(
-                int i, @NonNull String s, @NonNull String s1, @Nullable Throwable throwable) {
-        }
+            int i, @NonNull String s, @NonNull String s1, @Nullable Throwable throwable) {}
     };
 
     private static MarketingCloudSdk.WhenReadyListener recentSdkRequest = null;

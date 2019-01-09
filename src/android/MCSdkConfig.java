@@ -42,11 +42,9 @@ import java.util.Locale;
 import static com.salesforce.marketingcloud.cordova.MCCordovaPlugin.TAG;
 
 public class MCSdkConfig {
-
     private static final String CONFIG_PREFIX = "com.salesforce.marketingcloud.";
 
-    private MCSdkConfig() {
-    }
+    private MCSdkConfig() {}
 
     @Nullable
     public static MarketingCloudConfig.Builder prepareConfigBuilder(Context context) {
@@ -67,8 +65,8 @@ public class MCSdkConfig {
         boolean senderIdSet = false;
         try {
             while (parser.next() != XmlPullParser.END_DOCUMENT) {
-                if (parser.getEventType() != XmlPullParser.START_TAG || !"preference".equals(
-                        parser.getName())) {
+                if (parser.getEventType() != XmlPullParser.START_TAG
+                    || !"preference".equals(parser.getName())) {
                     continue;
                 }
 
@@ -93,11 +91,11 @@ public class MCSdkConfig {
                             builder.setAnalyticsEnabled("true".equalsIgnoreCase(val));
                             break;
                         case CONFIG_PREFIX + "notification_small_icon":
-                            int notifId =
-                                    context.getResources().getIdentifier(val, "drawable", context.getPackageName());
+                            int notifId = context.getResources().getIdentifier(
+                                val, "drawable", context.getPackageName());
                             if (notifId != 0) {
                                 builder.setNotificationCustomizationOptions(
-                                        NotificationCustomizationOptions.create(notifId));
+                                    NotificationCustomizationOptions.create(notifId));
                             }
                             break;
                         case CONFIG_PREFIX + "tenant_specific_endpoint":
@@ -117,7 +115,8 @@ public class MCSdkConfig {
                 builder.setSenderId(FirebaseApp.getInstance().getOptions().getGcmSenderId());
             } catch (Exception e) {
                 Log.e(TAG,
-                        "Unable to retrieve sender id.  Push messages will not work for Marketing Cloud.", e);
+                    "Unable to retrieve sender id.  Push messages will not work for Marketing Cloud.",
+                    e);
             }
         }
 
