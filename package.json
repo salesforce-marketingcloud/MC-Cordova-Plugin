@@ -31,7 +31,7 @@
     "test:android": "cordova-paramedic --cleanUpAfterRun --verbose --platform android --plugin .",
     "test:ios": "cordova-paramedic --cleanUpAfterRun --verbose --platform ios --plugin .",
     "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src",
-    "format": "clang-format -i -style=file src/android/MCCordovaPlugin.java src/android/MCInitProvider.java src/android/MCSdkConfig.java src/ios/AppDelegate+MCCordovaPlugin.h src/ios/AppDelegate+MCCordovaPlugin.m src/ios/MCCordovaPlugin.h src/ios/MCCordovaPlugin.m www/MCCordovaPlugin.js"
+    "format": "clang-format -i -style=file src/android/MCCordovaPlugin.java src/android/MCInitProvider.java src/android/MCSdkConfig.java src/ios/AppDelegate+MCCordovaPlugin.h src/ios/AppDelegate+MCCordovaPlugin.m src/ios/MCCordovaPlugin.h src/ios/MCCordovaPlugin.m tests/ios/MCCordovaPluginLib/MCCordovaPluginLibTests/MCCordovaPluginLibTests.m www/MCCordovaPlugin.js"
   },
   "devDependencies": {
     "clang-format": "^1.2.4",
