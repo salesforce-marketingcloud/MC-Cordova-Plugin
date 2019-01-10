@@ -81,8 +81,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
-    enablePush: function(
-        successCallback = undefined, errorCallback = undefined) {
+    enablePush: function(successCallback = undefined, errorCallback = undefined) {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.enablePush`, arguments);
         _exec(successCallback, errorCallback, 'enablePush');
     },
@@ -232,8 +231,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:|iOS Docs}
      */
     enableVerboseLogging: function(successCallback, errorCallback) {
-        argsCheck.checkArgs(
-            'FF', `${PLUGIN_NAME}.enableVerboseLogging`, arguments);
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.enableVerboseLogging`, arguments);
         _exec(successCallback, errorCallback, 'enableVerboseLogging');
     },
     /**
@@ -244,8 +242,7 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:|iOS Docs}
      */
     disableVerboseLogging: function(successCallback, errorCallback) {
-        argsCheck.checkArgs(
-            'FF', `${PLUGIN_NAME}.disableVerboseLogging`, arguments);
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.disableVerboseLogging`, arguments);
         _exec(successCallback, errorCallback, 'disableVerboseLogging');
     },
     /**
@@ -256,8 +253,7 @@ var MCCordovaPlugin = {
      * @since 6.1.0
      */
     setOnNotificationOpenedListener: function(notificationOpenedListener) {
-        argsCheck.checkArgs(
-            'f', `${PLUGIN_NAME}.setOnNotificationOpenedListener`, arguments);
+        argsCheck.checkArgs('f', `${PLUGIN_NAME}.setOnNotificationOpenedListener`, arguments);
         onNotificationOpened = notificationOpenedListener;
         _exec(undefined, undefined, 'subscribe', ['notificationOpened']);
     }
