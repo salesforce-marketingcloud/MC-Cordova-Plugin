@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.salesforce.marketingcloud:marketingcloudsdk:6.1.+") {
+    implementation("com.salesforce.marketingcloud:marketingcloudsdk:6.2.+") {
         // At time of release Cordova was not compatible with Android-28.
         // In order to use the 6.1.x SDK with Cordova we needed to exclude support
         // and manually pull in the Android-27 version.

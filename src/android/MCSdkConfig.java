@@ -101,6 +101,10 @@ public class MCSdkConfig {
                         case CONFIG_PREFIX + "tenant_specific_endpoint":
                             builder.setMarketingCloudServerUrl(val);
                             break;
+                        case CONFIG_PREFIX + "delay_registration_until_contact_key_is_set":
+                            builder.setDelayRegistrationUntilContactKeyIsSet(
+                                "true".equalsIgnoreCase(val));
+                            break;
                     }
                 }
             }

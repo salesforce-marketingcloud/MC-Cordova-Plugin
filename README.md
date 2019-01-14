@@ -14,7 +14,7 @@ Release notes for the plugin can be found [here](CHANGELOG.md)
 cordova plugin add cordova-plugin-marketingcloudsdk
 ```
 
-#### 2. Modify your application's `config.xml` to configure the plugin
+#### 2. Modify your application's `config.xml` to configure the plugin <a name="config"></a>
 
 ```xml
 <!-- Required -->
@@ -31,6 +31,7 @@ cordova plugin add cordova-plugin-marketingcloudsdk
 
 <!-- Optional -->
 <preference name="com.salesforce.marketingcloud.analytics" value="{true|false}" />
+<preference name="com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set" value="{true|false}" />
 ```
 
 #### 3. Provide FCM credentials
