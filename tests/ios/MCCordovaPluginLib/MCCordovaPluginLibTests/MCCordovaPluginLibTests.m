@@ -624,11 +624,12 @@
     NSDictionary *payload =
         @{@"_sid" : @"SFMC", @"_m" : @"messageId", @"aps" : @{@"content-available" : @1}};
 
-    //Hack in failure when sendPluginResult it called.  Couldn't seem to get OCMock's `reject` to work...
+    // Hack in failure when sendPluginResult it called.  Couldn't seem to get OCMock's `reject` to
+    // work...
     OCMStub([_commandDelegate sendPluginResult:[OCMArg any] callbackId:[OCMArg any]])
-    .andDo(^(NSInvocation *invocation) {
-        XCTFail("sendPluginResult should not be called");
-    });
+        .andDo(^(NSInvocation *invocation) {
+          XCTFail("sendPluginResult should not be called");
+        });
 
     // WHEN
     [self sendTestNotification:payload];

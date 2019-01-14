@@ -36,49 +36,52 @@ import org.robolectric.RuntimeEnvironment
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.StringReader
-import java.util.UUID
+import java.util.*
 
-@RunWith(RobolectricTestRunner::class) class MCSdkConfigTest {
+@RunWith(RobolectricTestRunner::class)
+class MCSdkConfigTest {
 
-  private val testAppId = UUID.randomUUID().toString()
-  private val testAccessToken = "abcdefghi123456789abcdef"
-  private val testNotificationSmallIconName = "ic_notification"
-  private val testSenderId = "123456789876"
+    private val testAppId = UUID.randomUUID().toString()
+    private val testAccessToken = "abcdefghi123456789abcdef"
+    private val testNotificationSmallIconName = "ic_notification"
+    private val testSenderId = "123456789876"
 
-  @Test fun parseConfig_minimumInput_producesConfigWithDefaultValues() {
-    // GIVEN
-    FirebaseApp.initializeApp(RuntimeEnvironment.application, with(FirebaseOptions.Builder()) {
-      setApplicationId("1:$testSenderId:android:12b123ab12345678")
-      setProjectId("test-app")
-      setGcmSenderId(testSenderId)
-      build()
-    })
-    val configParser = """
+    @Test
+    fun parseConfig_minimumInput_producesConfigWithDefaultValues() {
+        // GIVEN
+        FirebaseApp.initializeApp(RuntimeEnvironment.application, with(FirebaseOptions.Builder()) {
+            setApplicationId("1:$testSenderId:android:12b123ab12345678")
+            setProjectId("test-app")
+            setGcmSenderId(testSenderId)
+            build()
+        })
+        val configParser = """
       <preference name="com.salesforce.marketingcloud.app_id" value="$testAppId" />
       <preference name="com.salesforce.marketingcloud.access_token" value="$testAccessToken" />
       <preference name="com.salesforce.marketingcloud.notification_small_icon" value="$testNotificationSmallIconName" />
     """.trimIndent().toXmlParser()
 
-    // WHEN
-    val config = MCSdkConfig.parseConfig(RuntimeEnvironment.application, configParser).build(
-        RuntimeEnvironment.application)
+        // WHEN
+        val config = MCSdkConfig.parseConfig(RuntimeEnvironment.application, configParser).build(
+                RuntimeEnvironment.application)
 
-    // THEN
-    assertThat(config.applicationId()).isEqualTo(testAppId)
-    assertThat(config.accessToken()).isEqualTo(testAccessToken)
-    assertThat(config.senderId()).isEqualTo(testSenderId)
-    assertThat(config.analyticsEnabled()).isFalse()
-    assertThat(config.geofencingEnabled()).isFalse()
-    assertThat(config.proximityEnabled()).isFalse()
-    assertThat(config.piAnalyticsEnabled()).isFalse()
+        // THEN
+        assertThat(config.applicationId()).isEqualTo(testAppId)
+        assertThat(config.accessToken()).isEqualTo(testAccessToken)
+        assertThat(config.senderId()).isEqualTo(testSenderId)
+        assertThat(config.analyticsEnabled()).isFalse()
+        assertThat(config.geofencingEnabled()).isFalse()
+        assertThat(config.proximityEnabled()).isFalse()
+        assertThat(config.piAnalyticsEnabled()).isFalse()
 
-    FirebaseApp.getInstance()?.delete()
-  }
+        FirebaseApp.getInstance()?.delete()
+    }
 
-  @Test fun parseConfig_allConfigValues_producesConfigWithDefaultValues() {
-    // GIVEN
-    val testTse = "https://example.com/"
-    val configParser = """
+    @Test
+    fun parseConfig_allConfigValues_producesConfigWithDefaultValues() {
+        // GIVEN
+        val testTse = "https://example.com/"
+        val configParser = """
       <preference name="com.salesforce.marketingcloud.app_id" value="$testAppId" />
       <preference name="com.salesforce.marketingcloud.access_token" value="$testAccessToken" />
       <preference name="com.salesforce.marketingcloud.sender_id" value="$testSenderId" />
@@ -87,24 +90,24 @@ import java.util.UUID
       <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="$testTse" />
     """.trimIndent().toXmlParser()
 
-    // WHEN
-    val config = MCSdkConfig.parseConfig(RuntimeEnvironment.application, configParser).build(
-        RuntimeEnvironment.application)
+        // WHEN
+        val config = MCSdkConfig.parseConfig(RuntimeEnvironment.application, configParser).build(
+                RuntimeEnvironment.application)
 
-    // THEN
-    assertThat(config.applicationId()).isEqualTo(testAppId)
-    assertThat(config.accessToken()).isEqualTo(testAccessToken)
-    assertThat(config.senderId()).isEqualTo(testSenderId)
-    assertThat(config.analyticsEnabled()).isTrue()
-    assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
-  }
+        // THEN
+        assertThat(config.applicationId()).isEqualTo(testAppId)
+        assertThat(config.accessToken()).isEqualTo(testAccessToken)
+        assertThat(config.senderId()).isEqualTo(testSenderId)
+        assertThat(config.analyticsEnabled()).isTrue()
+        assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
+    }
 
 
-  private fun String.toXmlParser(): XmlPullParser {
-    val factory = XmlPullParserFactory.newInstance()
-    factory.isNamespaceAware = false
-    val parser = factory.newPullParser()
-    parser.setInput(StringReader(this))
-    return parser
-  }
+    private fun String.toXmlParser(): XmlPullParser {
+        val factory = XmlPullParserFactory.newInstance()
+        factory.isNamespaceAware = false
+        val parser = factory.newPullParser()
+        parser.setInput(StringReader(this))
+        return parser
+    }
 }
