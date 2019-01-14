@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### Version 6.2.0
+
+* Updated to the 6.2.x versions of the Android and iOS Marketing Cloud SDK.
+* Added support to delay registration until contact key has been set. Refer to the [config documentation](README.md#config) for more details.
+
 ### Version 6.1.0
 
 * Updated to the 6.1.x versions of the Android and iOS Marketing Cloud SDK.

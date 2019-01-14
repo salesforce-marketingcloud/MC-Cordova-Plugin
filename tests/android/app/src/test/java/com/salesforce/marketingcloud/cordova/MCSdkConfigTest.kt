@@ -70,6 +70,7 @@ class MCSdkConfigTest {
         assertThat(config.accessToken()).isEqualTo(testAccessToken)
         assertThat(config.senderId()).isEqualTo(testSenderId)
         assertThat(config.analyticsEnabled()).isFalse()
+        assertThat(config.delayRegistrationUntilContactKeyIsSet()).isFalse()
         assertThat(config.geofencingEnabled()).isFalse()
         assertThat(config.proximityEnabled()).isFalse()
         assertThat(config.piAnalyticsEnabled()).isFalse()
@@ -87,6 +88,7 @@ class MCSdkConfigTest {
       <preference name="com.salesforce.marketingcloud.sender_id" value="$testSenderId" />
       <preference name="com.salesforce.marketingcloud.notification_small_icon" value="$testNotificationSmallIconName" />
       <preference name="com.salesforce.marketingcloud.analytics" value="true" />
+      <preference name="com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set" value="true" />
       <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="$testTse" />
     """.trimIndent().toXmlParser()
 
@@ -99,6 +101,7 @@ class MCSdkConfigTest {
         assertThat(config.accessToken()).isEqualTo(testAccessToken)
         assertThat(config.senderId()).isEqualTo(testSenderId)
         assertThat(config.analyticsEnabled()).isTrue()
+        assertThat(config.delayRegistrationUntilContactKeyIsSet()).isTrue()
         assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
     }
 
