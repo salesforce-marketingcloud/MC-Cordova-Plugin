@@ -102,7 +102,8 @@ public class MCSdkConfig {
                             builder.setMarketingCloudServerUrl(val);
                             break;
                         case CONFIG_PREFIX + "delay_registration_until_contact_key_is_set":
-                            builder.setDelayRegistrationUntilContactKeyIsSet("true".equalsIgnoreCase(val));
+                            builder.setDelayRegistrationUntilContactKeyIsSet(
+                                "true".equalsIgnoreCase(val));
                             break;
                     }
                 }

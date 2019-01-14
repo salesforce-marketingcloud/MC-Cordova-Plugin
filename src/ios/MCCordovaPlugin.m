@@ -106,9 +106,12 @@
             [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.analytics"] boolValue];
         [configBuilder sfmc_setAnalyticsEnabled:[NSNumber numberWithBool:analytics]];
 
-        BOOL delayRegistrationUntilContactKeyIsSet =
-            [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"] boolValue];
-        [configBuilder sfmc_setDelayRegistrationUntilContactKeyIsSet:[NSNumber numberWithBool:delayRegistrationUntilContactKeyIsSet]];
+        BOOL delayRegistrationUntilContactKeyIsSet = [[pluginSettings
+            objectForKey:
+                @"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"]
+            boolValue];
+        [configBuilder sfmc_setDelayRegistrationUntilContactKeyIsSet:
+                           [NSNumber numberWithBool:delayRegistrationUntilContactKeyIsSet]];
 
         NSString *tse =
             [pluginSettings objectForKey:@"com.salesforce.marketingcloud.tenant_specific_endpoint"];
