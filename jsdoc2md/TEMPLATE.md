@@ -20,14 +20,12 @@ cordova plugin add cordova-plugin-marketingcloudsdk
 <!-- Required -->
 <preference name="com.salesforce.marketingcloud.app_id" value="{Marketing Cloud application id}" />
 <preference name="com.salesforce.marketingcloud.access_token" value="{Marketing Cloud access token}" />
+<preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
 
 <!-- Required - Android Only -->
 <platform name="android">
   <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
 </platform>
-
-<!-- Optional - Will soon be required -->
-<preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
 
 <!-- Optional -->
 <preference name="com.salesforce.marketingcloud.analytics" value="{true|false}" />
