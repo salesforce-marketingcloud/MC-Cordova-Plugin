@@ -4,7 +4,8 @@ Change Log
 ### Version 6.2.0
 
 * Updated to the 6.2.x versions of the Android and iOS Marketing Cloud SDK.
-* A value for `com.salesforce.marketingcloud.tenant_specific_endpoint` is now required.
+* Added support to delay registration until contact key has been set. Refer to the [config documentation](README.md#config) for more details.
+* Require Tenant Specific Endpoint in the  `config.xml` file. If a Tenant Specific Endpoint is not specified an exception is thrown.
 
 ### Version 6.1.0
 

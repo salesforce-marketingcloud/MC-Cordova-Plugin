@@ -54,7 +54,7 @@
     }
 
     if (notificationData != nil) {
-        if([notificationData[@"aps"] objectForKey:@"content-available"] != nil) {
+        if ([notificationData[@"aps"] objectForKey:@"content-available"] != nil) {
             // Making the same assumption as the SDK would here.
             // if silent push, bail out so that the data is not returned as "notification opened"
             return nil;
@@ -106,6 +106,13 @@
             [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.analytics"] boolValue];
         [configBuilder sfmc_setAnalyticsEnabled:[NSNumber numberWithBool:analytics]];
 
+        BOOL delayRegistrationUntilContactKeyIsSet = [[pluginSettings
+            objectForKey:
+                @"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"]
+            boolValue];
+        [configBuilder sfmc_setDelayRegistrationUntilContactKeyIsSet:
+                           [NSNumber numberWithBool:delayRegistrationUntilContactKeyIsSet]];
+
         NSString *tse =
             [pluginSettings objectForKey:@"com.salesforce.marketingcloud.tenant_specific_endpoint"];
         if (tse != nil) {
@@ -121,6 +128,14 @@
             [self requestPushPermission];
         } else if (configError != nil) {
             os_log_debug(OS_LOG_DEFAULT, "%@", configError);
+            if (configError.code == configureInvalidAppEndpointError) {
+                NSException *tseException = [NSException
+                    exceptionWithName:
+                        @"cordova-plugin-marketingcloudsdk:Tenant Specific Endpoint Exception"
+                               reason:@"configureInvalidAppEndpointError"
+                             userInfo:configError.userInfo];
+                @throw tseException;
+            }
         }
 
         [[NSNotificationCenter defaultCenter]
