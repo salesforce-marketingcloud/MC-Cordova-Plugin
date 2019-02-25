@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### Version 6.2.0
+
+* Updated to the 6.2.x versions of the Android and iOS Marketing Cloud SDK.
+* A value for `com.salesforce.marketingcloud.tenant_specific_endpoint` is now required.
+
 ### Version 6.1.0
 
 * Updated to the 6.1.x versions of the Android and iOS Marketing Cloud SDK.
