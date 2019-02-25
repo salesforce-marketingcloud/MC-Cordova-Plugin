@@ -128,6 +128,14 @@
             [self requestPushPermission];
         } else if (configError != nil) {
             os_log_debug(OS_LOG_DEFAULT, "%@", configError);
+            if (configError.code == configureInvalidAppEndpointError) {
+                NSException *tseException = [NSException
+                    exceptionWithName:
+                        @"cordova-plugin-marketingcloudsdk:Tenant Specific Endpoint Exception"
+                               reason:@"configureInvalidAppEndpointError"
+                             userInfo:configError.userInfo];
+                @throw tseException;
+            }
         }
 
         [[NSNotificationCenter defaultCenter]
