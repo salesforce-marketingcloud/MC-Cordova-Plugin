@@ -1,9 +1,15 @@
 root: true
-extends: semistandard
+plugins:
+  - es5
+extends: 
+  - eslint:recommended
+  - plugin:es5/no-es2016
+env:
+  browser: true
+  node: true
 rules:
-  indent:
-    - error
-    - 4
+  indent: ["error", 4, { "SwitchCase": 1}]
+  switchcase: 4
   camelcase: off
   padded-blocks: off
   operator-linebreak: off

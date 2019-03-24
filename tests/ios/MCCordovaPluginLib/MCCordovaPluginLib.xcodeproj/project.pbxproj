@@ -62,7 +62,7 @@
 /* Begin PBXFileReference section */
 		3A1BC6562140532B007122F6 /* libMCCordovaPluginLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMCCordovaPluginLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A1BC6662140533E007122F6 /* MCCordovaPluginLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCordovaPluginLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A1BC6682140533E007122F6 /* MCCordovaPluginLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCordovaPluginLibTests.m; sourceTree = "<group>"; };
+		3A1BC6682140533E007122F6 /* MCCordovaPluginLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCordovaPluginLibTests.m; sourceTree = "<group>"; usesTabs = 0; };
 		3A1BC66A2140533E007122F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A1BC67621405425007122F6 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		3A1BC678214054B3007122F6 /* MCCordovaPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCordovaPlugin.h; path = ../../../../src/ios/MCCordovaPlugin.h; sourceTree = "<group>"; };
@@ -431,6 +431,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/cordova-ios/CordovaLib\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -443,6 +444,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/cordova-ios/CordovaLib\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

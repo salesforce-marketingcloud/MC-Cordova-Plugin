@@ -84,9 +84,6 @@
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:
              (void (^)(UNNotificationPresentationOptions options))completionHandler {
-    // tell the MarketingCloudSDK about the notification
-    [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:notification.request];
-
     if (completionHandler != nil) {
         completionHandler(UNNotificationPresentationOptionAlert);
     }

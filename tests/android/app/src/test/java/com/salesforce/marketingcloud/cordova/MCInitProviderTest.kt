@@ -26,8 +26,8 @@
 
 package com.salesforce.marketingcloud.cordova
 
-import com.google.common.truth.Truth.assertThat
 import com.salesforce.marketingcloud.MarketingCloudSdk
+import org.assertj.core.api.Java6Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
