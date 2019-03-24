@@ -353,6 +353,8 @@
   [[MarketingCloudSDK sharedInstance] sfmc_watchingLocation];
   [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
                               callbackId:command.callbackId];
+}
+
 - (void)registerEventsChannel:(CDVInvokedUrlCommand *)command {
     self.eventsCallbackId = command.callbackId;
     if (self.notificationOpenedSubscribed) {
