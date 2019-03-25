@@ -14,8 +14,32 @@ Release notes for the plugin can be found [here](CHANGELOG.md)
 cordova plugin add cordova-plugin-marketingcloudsdk
 ```
 
-#### 2. Add 'MarketingCloudSDKConfiguration.json' to your app's resource bundle
+#### 2. Modify your application's `config.xml` to configure the plugin
 
+```xml
+<!-- Required -->
+<preference name="com.salesforce.marketingcloud.app_id" value="{Marketing Cloud application id}" />
+<preference name="com.salesforce.marketingcloud.access_token" value="{Marketing Cloud access token}" />
+
+<!-- Required - iOS Only -->
+<platform name="ios">
+  <resource-file src="MarketingCloudSDKConfiguration.json" />
+</platform>
+
+<!-- Required - Android Only -->
+<platform name="android">
+  <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
+</platform>
+
+<!-- Optional - Will soon be required -->
+<preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
+
+<!-- Optional -->
+<preference name="com.salesforce.marketingcloud.analytics" value="{true|false}" />
+```
+
+#### 3. Provide Marketing Cloud credentials
+ 1. Add MarketingCloudSDKConfiguration.json to your application.
 ```json
 [
   {
@@ -32,9 +56,7 @@ cordova plugin add cordova-plugin-marketingcloudsdk
   }
 ]
 
-```
-
-#### 3. Provide FCM credentials
+#### 5. Provide FCM credentials
 
 To enable push support for the Android platform you will need to include the google-services.json file.
 
