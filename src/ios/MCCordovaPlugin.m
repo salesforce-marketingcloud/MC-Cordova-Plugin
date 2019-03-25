@@ -92,30 +92,9 @@
         // failed to access the MarketingCloudSDK
         os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
     } else {
-        NSDictionary *pluginSettings = self.commandDelegate.settings;
-
-        MarketingCloudSDKConfigBuilder *configBuilder = [MarketingCloudSDKConfigBuilder new];
-        [configBuilder
-            sfmc_setApplicationId:[pluginSettings
-                                      objectForKey:@"com.salesforce.marketingcloud.app_id"]];
-        [configBuilder
-            sfmc_setAccessToken:[pluginSettings
-                                    objectForKey:@"com.salesforce.marketingcloud.access_token"]];
-
-        BOOL analytics =
-            [[pluginSettings objectForKey:@"com.salesforce.marketingcloud.analytics"] boolValue];
-        [configBuilder sfmc_setAnalyticsEnabled:[NSNumber numberWithBool:analytics]];
-
-        NSString *tse =
-            [pluginSettings objectForKey:@"com.salesforce.marketingcloud.tenant_specific_endpoint"];
-        if (tse != nil) {
-            [configBuilder sfmc_setMarketingCloudServerUrl:tse];
-        }
-
         NSError *configError = nil;
         if ([[MarketingCloudSDK sharedInstance]
-                sfmc_configureWithDictionary:[configBuilder sfmc_build]
-                                       error:&configError]) {
+                sfmc_configure:&configError]) {
             [self setDelegate];
             [[MarketingCloudSDK sharedInstance] sfmc_addTag:@"Cordova"];
             [self requestPushPermission];
