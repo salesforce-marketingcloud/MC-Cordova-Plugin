@@ -14,23 +14,22 @@ Release notes for the plugin can be found [here](CHANGELOG.md)
 cordova plugin add cordova-plugin-marketingcloudsdk
 ```
 
-#### 2. Modify your application's `config.xml` to configure the plugin
+#### 2. Modify your application's `config.xml` to configure the plugin <a name="config"></a>
 
 ```xml
 <!-- Required -->
 <preference name="com.salesforce.marketingcloud.app_id" value="{Marketing Cloud application id}" />
 <preference name="com.salesforce.marketingcloud.access_token" value="{Marketing Cloud access token}" />
+<preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
 
 <!-- Required - Android Only -->
 <platform name="android">
   <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
 </platform>
 
-<!-- Optional - Will soon be required -->
-<preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
-
 <!-- Optional -->
 <preference name="com.salesforce.marketingcloud.analytics" value="{true|false}" />
+<preference name="com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set" value="{true|false}" />
 ```
 
 #### 3. Provide FCM credentials
