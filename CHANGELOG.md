@@ -1,7 +1,12 @@
 Change Log
 ==========
 
-### Version 6.2.0
+### Version 6.3.0
+
+* Updated to the 6.3.x versions of the Android and iOS Marketing Cloud SDK.
+* TODO - Add note about iam change (future ticket)
+
+### Version 6.2.1
 
 * Updated to the 6.2.x versions of the Android and iOS Marketing Cloud SDK.
 * Added support to delay registration until contact key has been set. Refer to the [config documentation](README.md#config) for more details.
