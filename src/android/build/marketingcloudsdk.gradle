@@ -5,8 +5,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.google.gms:google-services:4.1.0'
+        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 
@@ -17,13 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.salesforce.marketingcloud:marketingcloudsdk:6.2.+") {
-        // At time of release Cordova was not compatible with Android-28.
-        // In order to use the 6.1.x SDK with Cordova we needed to exclude support
-        // and manually pull in the Android-27 version.
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
-    implementation 'com.android.support:support-v4:27.1.1'
+    implementation("com.salesforce.marketingcloud:marketingcloudsdk:6.3.+")
 }
 
 ext.cdvPluginPostBuildExtras += {
