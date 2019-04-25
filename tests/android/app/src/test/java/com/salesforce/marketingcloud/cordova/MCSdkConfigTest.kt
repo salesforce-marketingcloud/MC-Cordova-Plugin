@@ -49,6 +49,7 @@ class MCSdkConfigTest {
     @Test
     fun parseConfig_minimumInput_producesConfigWithDefaultValues() {
         // GIVEN
+        val testTse = "https://example.com/"
         FirebaseApp.initializeApp(RuntimeEnvironment.application, with(FirebaseOptions.Builder()) {
             setApplicationId("1:$testSenderId:android:12b123ab12345678")
             setProjectId("test-app")
@@ -59,6 +60,7 @@ class MCSdkConfigTest {
       <preference name="com.salesforce.marketingcloud.app_id" value="$testAppId" />
       <preference name="com.salesforce.marketingcloud.access_token" value="$testAccessToken" />
       <preference name="com.salesforce.marketingcloud.notification_small_icon" value="$testNotificationSmallIconName" />
+      <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="$testTse" />
     """.trimIndent().toXmlParser()
 
         // WHEN
@@ -69,6 +71,7 @@ class MCSdkConfigTest {
         assertThat(config.applicationId()).isEqualTo(testAppId)
         assertThat(config.accessToken()).isEqualTo(testAccessToken)
         assertThat(config.senderId()).isEqualTo(testSenderId)
+        assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
         assertThat(config.analyticsEnabled()).isFalse()
         assertThat(config.delayRegistrationUntilContactKeyIsSet()).isFalse()
         assertThat(config.geofencingEnabled()).isFalse()
