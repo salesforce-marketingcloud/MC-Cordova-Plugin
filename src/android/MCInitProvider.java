@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.salesforce.marketingcloud.InitializationStatus;
+import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
@@ -45,6 +46,7 @@ public class MCInitProvider
         if (ctx != null) {
             MarketingCloudConfig.Builder builder = MCSdkConfig.prepareConfigBuilder(ctx);
             if (builder != null) {
+                builder.setUrlHandler(MCSdkListener.INSTANCE);
                 MarketingCloudSdk.init(ctx, builder.build(ctx), this);
             }
         }

@@ -35,6 +35,7 @@ var argsCheck = require('cordova/argscheck');
 var PLUGIN_NAME = 'MCCordovaPlugin';
 
 var onNotificationOpened;
+var onUrlAction;
 
 function registerEvents() {
     var onEventsCallback = function(event) {
@@ -44,6 +45,10 @@ function registerEvents() {
                     onNotificationOpened(event);
                 }
                 break;
+            case 'urlAction':
+                if (onUrlAction !== undefined) {
+                    onUrlAction(event);
+                }
         }
     };
 
@@ -246,7 +251,6 @@ var MCCordovaPlugin = {
         _exec(successCallback, errorCallback, 'disableVerboseLogging');
     },
     /**
-     *
      * @param {function(event)} notificationOpenedListener
      * @param {MCCordovaPlugin~notificationOpenedCallback}
      *     notificationOpenedListener.event
@@ -256,7 +260,7 @@ var MCCordovaPlugin = {
         argsCheck.checkArgs('f', `${PLUGIN_NAME}.setOnNotificationOpenedListener`, arguments);
         onNotificationOpened = notificationOpenedListener;
         _exec(undefined, undefined, 'subscribe', ['notificationOpened']);
-    }
+    },
 
     /**
      * @callback module:MCCordovaPlugin~notificationOpenedCallback
@@ -271,6 +275,22 @@ var MCCordovaPlugin = {
      *     message. This can be either a cloud-page url or an open-direct url.
      * @param {string} values.type - Indicates the type of notification message.
      *     Possible values: 'cloudPage', 'openDirect' or 'other'
+     */
+
+    /**
+     * @param {function(event)} urlActionListener
+     * @param {MCCordovaPlugin~urlActionCallback} urlActionListener.event
+     * @since 6.3.0
+     */
+    setOnUrlActionListener: function(urlActionListener) {
+        argsCheck.checkArgs('f', `${PLUGIN_NAME}.setOnUrlActionListener`, arguments);
+        onUrlAction = urlActionListener;
+        _exec(undefined, undefined, 'subscribe', ['urlAction']);
+    }
+
+    /**
+     * @callback module:MCCordovaPlugin~urlActionCallback
+     * @param {string} url - The url associated with the action taken by the user.
      */
 
 };

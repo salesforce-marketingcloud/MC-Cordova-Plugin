@@ -26,20 +26,25 @@
 
 package com.salesforce.marketingcloud.cordova
 
-import com.salesforce.marketingcloud.MarketingCloudSdk
 import org.assertj.core.api.Java6Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(shadows = [ShadowMarketingCloudSdk::class])
 class MCInitProviderTest {
 
     @Test
-    fun provider_onCreate_initializesMarketingCloudSdk() {
-        MCInitProvider().attachInfo(RuntimeEnvironment.application, null)
+    fun provider_onCreate_initializesMarketingCloudSdk_withListeners() {
+        val initProvider = MCInitProvider()
+        initProvider.attachInfo(RuntimeEnvironment.application, null)
 
-        assertThat(MarketingCloudSdk.isReady() || MarketingCloudSdk.isInitializing()).isTrue()
+        ShadowMarketingCloudSdk.mostRecentInitInvocation.run {
+            assertThat(config.urlHandler()).isEqualTo(MCSdkListener.INSTANCE)
+            assertThat(listener).isEqualTo(initProvider)
+        }
     }
 }
