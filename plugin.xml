@@ -59,11 +59,27 @@
     <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
     <header-file src="src/ios/MCCordovaPlugin.h" />
     <source-file src="src/ios/MCCordovaPlugin.m" />
-
+    <podspec>
+      <config>
+        <!-- <source url="https://github.com/brightcove/BrightcoveSpecs.git" /> -->
+        <source url="https://github.com/CocoaPods/Specs.git"/>
+      </config>
+      <pods use-frameworks="true">
+        <pod name="MarketingCloudSDK" spec="~> 6.2" />
+        <!-- <pod name="SDWebImage" spec="~> 4.0" />
+        <pod name="Eureka" swift-version="3.3" />
+        <pod name="AcknowList" />
+        <pod name="Brightcove-Player-Core" spec="~> 6.3.4" />
+        <pod name="Foobar1" git="git@github.com:hoge/foobar1.git" configurations="Debug"/>
+        <pod name="Foobar2" git="git@github.com:hoge/foobar2.git" branch="next" configurations="Debug,Release"/>
+        <pod name="FoobarSwift" swift-version="4.1" /> -->
+      </pods>
+    </podspec>
+<!-- 
     <resource-file src="src/ios/MarketingCloudSDK/MarketingCloudSDK.bundle" />
 
-    <framework src="src/ios/MarketingCloudSDK/MarketingCloudSDK.framework" custom="true"/>
-    <framework src="CoreLocation.framework/" />
+    <framework src="src/ios/MarketingCloudSDK/MarketingCloudSDK.framework" custom="true"/>-->
+    <framework src="CoreLocation.framework/" /> 
 
   </platform>
 </plugin>
