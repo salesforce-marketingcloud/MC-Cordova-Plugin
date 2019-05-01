@@ -59,11 +59,15 @@
     <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
     <header-file src="src/ios/MCCordovaPlugin.h" />
     <source-file src="src/ios/MCCordovaPlugin.m" />
-
-    <resource-file src="src/ios/MarketingCloudSDK/MarketingCloudSDK.bundle" />
-
-    <framework src="src/ios/MarketingCloudSDK/MarketingCloudSDK.framework" custom="true"/>
-    <framework src="CoreLocation.framework/" />
+    <podspec>
+      <config>
+        <source url="https://github.com/CocoaPods/Specs.git"/>
+      </config>
+      <pods use-frameworks="true">
+        <pod name="MarketingCloudSDK" spec="~> 6.3" />
+      </pods>
+    </podspec>
+    <framework src="CoreLocation.framework/" /> 
 
   </platform>
 </plugin>
