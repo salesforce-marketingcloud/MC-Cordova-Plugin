@@ -14,6 +14,8 @@ Release notes for the plugin can be found [here](CHANGELOG.md)
 cordova plugin add cordova-plugin-marketingcloudsdk
 ```
 
+> For iOS, you must have Cocoapods installed.  You can find instructions for this on the [Cocoapods website](https://cocoapods.org/).
+
 #### 2. Modify your application's `config.xml` to configure the plugin <a name="config"></a>
 
 ```xml

@@ -4,6 +4,7 @@ Change Log
 ### Version 6.3.0
 
 * Updated to the 6.3.x versions of the Android and iOS Marketing Cloud SDK.
+* The plugin now utilizes Cocoapods for the iOS SDK integration.
 * TODO - Add note about iam change (future ticket)
 
 ### Version 6.2.1
