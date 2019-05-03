@@ -3,7 +3,7 @@ Change Log
 
 ### Version 6.2.2
 
-* Updated iOS SDK to 6.2.1
+* Updated iOS SDK to 6.2.2
 
 ### Version 6.2.1
 
