@@ -21,12 +21,20 @@ cordova plugin add cordova-plugin-marketingcloudsdk
 <preference name="com.salesforce.marketingcloud.app_id" value="{Marketing Cloud application id}" />
 <preference name="com.salesforce.marketingcloud.access_token" value="{Marketing Cloud access token}" />
 <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
+```
 
+You must have a status bar icon, following the [Android Documentation](https://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar).
+
+```xml
 <!-- Required - Android Only -->
 <platform name="android">
-  <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
-</platform>
+  <preference name="com.salesforce.marketingcloud.notification_small_icon" value="{ic_notification_name}" />
+</platformP>
+```
 
+And finally, as a option:
+
+```xml
 <!-- Optional -->
 <preference name="com.salesforce.marketingcloud.analytics" value="{true|false}" />
 <preference name="com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set" value="{true|false}" />
