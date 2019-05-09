@@ -32,7 +32,7 @@ You must have a status bar icon, following the [Android Documentation](https://d
 </platformP>
 ```
 
-And finally, as a option:
+And finally, as an option:
 
 ```xml
 <!-- Optional -->
