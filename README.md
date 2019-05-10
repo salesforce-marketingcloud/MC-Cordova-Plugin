@@ -37,15 +37,16 @@ Note: The property `value` must receive just the name of icon, because the MCCor
 ```
 
 ├── android 
-    ├── app
-        ├── src
-            ├── res
-                ├── drawable-hdpi
-                    ├── ic_notification_name
-                ├── drawable-mdpi
-                ├── drawable-xhdpi
-                ├── drawable-xxhdpi
-                ├── drawable-xxxhdpi
+    └── app
+        └── src
+            └── main
+                └── res
+                    └── drawable-hdpi
+                        └── ic_notification_name
+                    ├── drawable-mdpi
+                    ├── drawable-xhdpi
+                    ├── drawable-xxhdpi
+                    └── drawable-xxxhdpi
 ```
 
 And finally, as an option:
