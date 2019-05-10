@@ -23,7 +23,7 @@ cordova plugin add cordova-plugin-marketingcloudsdk
 <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
 ```
 
-You will need have a status bar icon, following the [Android Documentation](https://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar).
+You will need to have a status bar icon, following the [Android Documentation](https://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar).
 
 ```xml
 <!-- Required - Android Only -->
