@@ -23,13 +23,29 @@ cordova plugin add cordova-plugin-marketingcloudsdk
 <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="{URL retrieved from Marketing Cloud adminstration page}" />
 ```
 
-You must have a status bar icon, following the [Android Documentation](https://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar).
+You will need have a status bar icon, following the [Android Documentation](https://developer.android.com/guide/practices/ui_guidelines/icon_design_status_bar).
 
 ```xml
 <!-- Required - Android Only -->
 <platform name="android">
   <preference name="com.salesforce.marketingcloud.notification_small_icon" value="{ic_notification_name}" />
 </platformP>
+```
+
+Note: The property `value` must receive just the name of icon, because the MCCordovaPlugin read the content inside the drawable's folders. Example:
+
+```
+
+├── android 
+    ├── app
+        ├── src
+            ├── res
+                ├── drawable-hdpi
+                    ├── ic_notification_name
+                ├── drawable-mdpi
+                ├── drawable-xhdpi
+                ├── drawable-xxhdpi
+                ├── drawable-xxxhdpi
 ```
 
 And finally, as an option:
