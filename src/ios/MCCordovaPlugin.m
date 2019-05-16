@@ -29,6 +29,8 @@
 
 @implementation MCCordovaPlugin
 
+const int LOG_LENGTH = 800;
+
 @synthesize eventsCallbackId;
 @synthesize notificationOpenedSubscribed;
 @synthesize cachedNotification;
@@ -84,6 +86,26 @@
     }
 
     return notificationData;
+}
+
+- (void)log:(NSString *)msg {
+    if (@available(iOS 10, *)) {
+        if (self.logger == nil) {
+            self.logger =
+                os_log_create("com.salesforce.marketingcloud.marketingcloudsdk", "Cordova");
+        }
+        os_log_info(self.logger, "%@", msg);
+    } else {
+        NSLog(@"%@", msg);
+    }
+}
+
+- (void)splitLog:(NSString *)msg {
+    NSInteger length = msg.length;
+    for (int i = 0; i < length; i += LOG_LENGTH) {
+        NSInteger rangeLength = MIN(length - i, LOG_LENGTH);
+        [self log:[msg substringWithRange:NSMakeRange((NSUInteger)i, (NSUInteger)rangeLength)]];
+    }
 }
 
 - (void)sfmc_handleURL:(NSURL *)url type:(NSString *)type {
@@ -239,6 +261,12 @@
 
 - (void)disableVerboseLogging:(CDVInvokedUrlCommand *)command {
     [[MarketingCloudSDK sharedInstance] sfmc_setDebugLoggingEnabled:NO];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
+- (void)logSdkState:(CDVInvokedUrlCommand *)command {
+    [self splitLog:[[MarketingCloudSDK sharedInstance] sfmc_getSDKState]];
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
                                 callbackId:command.callbackId];
 }
