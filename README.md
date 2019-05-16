@@ -74,9 +74,9 @@ To enable push support for the Android platform you will need to include the goo
         * [.disableVerboseLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.disableVerboseLogging)
         * [.setOnNotificationOpenedListener(notificationOpenedListener)](#module_MCCordovaPlugin.setOnNotificationOpenedListener)
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
+        * [.logSdkState([successCallback], [errorCallback])](#module_MCCordovaPlugin.logSdkState)
     * _inner_
         * [~notificationOpenedCallback](#module_MCCordovaPlugin..notificationOpenedCallback) : <code>function</code>
-        * [~urlActionCallback](#module_MCCordovaPlugin..urlActionCallback) : <code>function</code>
 
 
 ---
@@ -358,6 +358,20 @@ Disables verbose logging within the native Marketing Cloud SDK.
 | urlActionListener | <code>function</code> | 
 | urlActionListener.event | <code>MCCordovaPlugin~urlActionCallback</code> | 
 
+<a name="module_MCCordovaPlugin.logSdkState"></a>
+
+### MCCordovaPlugin.logSdkState([successCallback], [errorCallback])
+Instructs the native SDK to log the SDK state to the native logging system (Logcat for
+Android and OS_Log for iOS).  This content can help diagnose most issues within the SDK and
+will be requested by the Marketing Cloud support team.
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [successCallback] | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
+
 <a name="module_MCCordovaPlugin..notificationOpenedCallback"></a>
 
 ### MCCordovaPlugin~notificationOpenedCallback : <code>function</code>
@@ -371,15 +385,6 @@ Disables verbose logging within the native Marketing Cloud SDK.
 | [values.title] | <code>string</code> | The title text of the notification     message. |
 | [values.url] | <code>string</code> | The url associated with the notification     message. This can be either a cloud-page url or an open-direct url. |
 | values.type | <code>string</code> | Indicates the type of notification message.     Possible values: 'cloudPage', 'openDirect' or 'other' |
-
-<a name="module_MCCordovaPlugin..urlActionCallback"></a>
-
-### MCCordovaPlugin~urlActionCallback : <code>function</code>
-**Kind**: inner typedef of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| url | <code>string</code> | The url associated with the action taken by the user. |
 
 ---
 

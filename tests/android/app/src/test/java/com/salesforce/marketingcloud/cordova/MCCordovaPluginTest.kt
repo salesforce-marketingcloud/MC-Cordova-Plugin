@@ -49,6 +49,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
 import java.util.concurrent.ExecutorService
 
 @RunWith(RobolectricTestRunner::class)
@@ -480,6 +481,21 @@ class MCCordovaPluginTest {
                 assertThat(getString("url")).isEqualTo(url)
             }
         }
+    }
+
+    @Test
+    fun logSdkState_printsStateToLog() {
+        // GIVEN
+        ShadowMarketingCloudSdk.isReady(true)
+        val testState = JSONObject().apply { put("state", "a".repeat(4000)) }
+        given(sdk.sdkState).willReturn(testState)
+
+        // WHEN
+        val callSuccess = plugin.execute("logSdkState", JSONArray(), callbackContext)
+
+        assertThat(callSuccess).isTrue()
+        val stateLogs = ShadowLog.getLogsForTag("MCSDK STATE")
+        assertThat(stateLogs).hasSize(2) // Should have split log into two calls given size of sdk state
     }
 
     private fun intentWithMessage(messageId: String = "mId", alert: String = "Alert text",
