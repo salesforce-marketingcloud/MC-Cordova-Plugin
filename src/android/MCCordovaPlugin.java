@@ -414,7 +414,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     private ActionHandler logSdkState() {
         return new ActionHandler() {
             @Override
-            public void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 log("MCSDK STATE", sdk.getSdkState().toString());
             }
         };
@@ -430,6 +431,5 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         for (int i = 0, length = msg.length(); i < length; i += MAX_LOG_LENGTH) {
             Log.println(Log.DEBUG, tag, msg.substring(i, Math.min(length, i + MAX_LOG_LENGTH)));
         }
-
     }
 }
