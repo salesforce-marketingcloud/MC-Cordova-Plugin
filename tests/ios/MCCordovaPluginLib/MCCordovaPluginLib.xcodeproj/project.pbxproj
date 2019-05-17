@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A7E2C3A228F317B00168F10 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7E2C39228F317B00168F10 /* libCordova.a */; };
+		3A515F7F228F359E00036F6B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A515F7E228F359E00036F6B /* libCordova.a */; };
 		3ACBFBA2228F2BC300899187 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBFBA1228F2BC300899187 /* Tests.m */; };
 		3ACBFBA4228F2BC300899187 /* libMCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */; };
 		3ACBFBAC228F2E7600899187 /* MCCordovaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */; };
@@ -38,6 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3A515F7E228F359E00036F6B /* libCordova.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A7E2C39228F317B00168F10 /* libCordova.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMCCordovaPluginLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ACBFB9F228F2BC300899187 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A7E2C3A228F317B00168F10 /* libCordova.a in Frameworks */,
+				3A515F7F228F359E00036F6B /* libCordova.a in Frameworks */,
 				61B0D6D103B2450154680DFC /* libPods-MCCordovaPluginLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +128,7 @@
 		BBE93FF81042BCEF58449B6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3A515F7E228F359E00036F6B /* libCordova.a */,
 				3A7E2C39228F317B00168F10 /* libCordova.a */,
 				96DC5A63310C83190D5A0E4D /* libPods-MCCordovaPluginLib.a */,
 				4CA1A461D053DCF774C41814 /* libPods-Tests.a */,
@@ -410,7 +412,6 @@
 			baseConfigurationReference = 90D45726C2590366B6A9B0CC /* Pods-MCCordovaPluginLib.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -422,7 +423,6 @@
 			baseConfigurationReference = B8286676AB8BAD6395703CF9 /* Pods-MCCordovaPluginLib.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
