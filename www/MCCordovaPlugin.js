@@ -289,6 +289,11 @@ var MCCordovaPlugin = {
     },
 
     /**
+     * @callback module:MCCordovaPlugin~urlActionCallback
+     * @param {string} url - The url associated with the action taken by the user.
+     */
+
+    /**
      * Instructs the native SDK to log the SDK state to the native logging system (Logcat for
      * Android and Xcode/Console.app for iOS).  This content can help diagnose most issues within
      * the SDK and will be requested by the Marketing Cloud support team.
