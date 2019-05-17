@@ -7,48 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A1BC6692140533E007122F6 /* MCCordovaPluginLibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1BC6682140533E007122F6 /* MCCordovaPluginLibTests.m */; };
-		3A1BC66B2140533E007122F6 /* libMCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1BC6562140532B007122F6 /* libMCCordovaPluginLib.a */; };
-		3A1BC67721405425007122F6 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1BC67621405425007122F6 /* libOCMock.a */; };
-		3A1BC67A214054B4007122F6 /* MCCordovaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1BC679214054B3007122F6 /* MCCordovaPlugin.m */; };
-		3A1BC68921405509007122F6 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1BC681214054CD007122F6 /* libCordova.a */; };
-		3A1BC68B21405516007122F6 /* MarketingCloudSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1BC68A21405516007122F6 /* MarketingCloudSDK.framework */; };
-		3A1BC68D214055A6007122F6 /* MarketingCloudSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3A1BC68C214055A6007122F6 /* MarketingCloudSDK.bundle */; };
+		3A515F7F228F359E00036F6B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A515F7E228F359E00036F6B /* libCordova.a */; };
+		3ACBFBA2228F2BC300899187 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBFBA1228F2BC300899187 /* Tests.m */; };
+		3ACBFBA4228F2BC300899187 /* libMCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */; };
+		3ACBFBAC228F2E7600899187 /* MCCordovaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */; };
+		61B0D6D103B2450154680DFC /* libPods-MCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DC5A63310C83190D5A0E4D /* libPods-MCCordovaPluginLib.a */; };
+		D252608757EF7590A5370DF4 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA1A461D053DCF774C41814 /* libPods-Tests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3A1BC66C2140533E007122F6 /* PBXContainerItemProxy */ = {
+		3ACBFBA5228F2BC300899187 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3A1BC64E2140532B007122F6 /* Project object */;
+			containerPortal = 3ACBFB87228F2B9D00899187 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3A1BC6552140532B007122F6;
+			remoteGlobalIDString = 3ACBFB8E228F2B9D00899187;
 			remoteInfo = MCCordovaPluginLib;
-		};
-		3A1BC680214054CD007122F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3A1BC67B214054CC007122F6 /* CordovaLib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 68A32D7114102E1C006B237C;
-			remoteInfo = CordovaLib;
-		};
-		3A1BC682214054CD007122F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3A1BC67B214054CC007122F6 /* CordovaLib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C0C01EB21E3911D50056E6CB;
-			remoteInfo = Cordova;
-		};
-		3A1BC686214054E6007122F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3A1BC67B214054CC007122F6 /* CordovaLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = CordovaLib;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3A1BC6542140532B007122F6 /* CopyFiles */ = {
+		3ACBFB8D228F2B9D00899187 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -60,263 +38,264 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3A1BC6562140532B007122F6 /* libMCCordovaPluginLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMCCordovaPluginLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A1BC6662140533E007122F6 /* MCCordovaPluginLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCordovaPluginLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A1BC6682140533E007122F6 /* MCCordovaPluginLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCordovaPluginLibTests.m; sourceTree = "<group>"; usesTabs = 0; };
-		3A1BC66A2140533E007122F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3A1BC67621405425007122F6 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
-		3A1BC678214054B3007122F6 /* MCCordovaPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCordovaPlugin.h; path = ../../../../src/ios/MCCordovaPlugin.h; sourceTree = "<group>"; };
-		3A1BC679214054B3007122F6 /* MCCordovaPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCordovaPlugin.m; path = ../../../../src/ios/MCCordovaPlugin.m; sourceTree = "<group>"; };
-		3A1BC67B214054CC007122F6 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = "../node_modules/cordova-ios/CordovaLib/CordovaLib.xcodeproj"; sourceTree = "<group>"; };
-		3A1BC68A21405516007122F6 /* MarketingCloudSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MarketingCloudSDK.framework; path = ../../../src/ios/MarketingCloudSDK/MarketingCloudSDK.framework; sourceTree = "<group>"; };
-		3A1BC68C214055A6007122F6 /* MarketingCloudSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MarketingCloudSDK.bundle; path = ../../../src/ios/MarketingCloudSDK/MarketingCloudSDK.bundle; sourceTree = "<group>"; };
+		3A515F7E228F359E00036F6B /* libCordova.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A7E2C39228F317B00168F10 /* libCordova.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMCCordovaPluginLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3ACBFB9F228F2BC300899187 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3ACBFBA1228F2BC300899187 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
+		3ACBFBA3228F2BC300899187 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCordovaPlugin.m; path = ../../../../src/ios/MCCordovaPlugin.m; sourceTree = "<group>"; };
+		3ACBFBAB228F2E7600899187 /* MCCordovaPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCordovaPlugin.h; path = ../../../../src/ios/MCCordovaPlugin.h; sourceTree = "<group>"; };
+		4CA1A461D053DCF774C41814 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		90D45726C2590366B6A9B0CC /* Pods-MCCordovaPluginLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCCordovaPluginLib.debug.xcconfig"; path = "Target Support Files/Pods-MCCordovaPluginLib/Pods-MCCordovaPluginLib.debug.xcconfig"; sourceTree = "<group>"; };
+		96DC5A63310C83190D5A0E4D /* libPods-MCCordovaPluginLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MCCordovaPluginLib.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B315E285464CAEAC040D414C /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B8286676AB8BAD6395703CF9 /* Pods-MCCordovaPluginLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCCordovaPluginLib.release.xcconfig"; path = "Target Support Files/Pods-MCCordovaPluginLib/Pods-MCCordovaPluginLib.release.xcconfig"; sourceTree = "<group>"; };
+		EB4189AD7C1D1AD692CA1625 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3A1BC6532140532B007122F6 /* Frameworks */ = {
+		3ACBFB8C228F2B9D00899187 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A1BC68B21405516007122F6 /* MarketingCloudSDK.framework in Frameworks */,
-				3A1BC68921405509007122F6 /* libCordova.a in Frameworks */,
+				3A515F7F228F359E00036F6B /* libCordova.a in Frameworks */,
+				61B0D6D103B2450154680DFC /* libPods-MCCordovaPluginLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3A1BC6632140533E007122F6 /* Frameworks */ = {
+		3ACBFB9C228F2BC300899187 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A1BC67721405425007122F6 /* libOCMock.a in Frameworks */,
-				3A1BC66B2140533E007122F6 /* libMCCordovaPluginLib.a in Frameworks */,
+				3ACBFBA4228F2BC300899187 /* libMCCordovaPluginLib.a in Frameworks */,
+				D252608757EF7590A5370DF4 /* libPods-Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3A1BC64D2140532B007122F6 = {
+		11E39A16D2930658CE322A40 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3A1BC68C214055A6007122F6 /* MarketingCloudSDK.bundle */,
-				3A1BC67B214054CC007122F6 /* CordovaLib.xcodeproj */,
-				3A1BC6722140536D007122F6 /* usr */,
-				3A1BC6582140532B007122F6 /* MCCordovaPluginLib */,
-				3A1BC6672140533E007122F6 /* MCCordovaPluginLibTests */,
-				3A1BC6572140532B007122F6 /* Products */,
-				3A1BC67521405425007122F6 /* Frameworks */,
+				90D45726C2590366B6A9B0CC /* Pods-MCCordovaPluginLib.debug.xcconfig */,
+				B8286676AB8BAD6395703CF9 /* Pods-MCCordovaPluginLib.release.xcconfig */,
+				EB4189AD7C1D1AD692CA1625 /* Pods-Tests.debug.xcconfig */,
+				B315E285464CAEAC040D414C /* Pods-Tests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		3ACBFB86228F2B9D00899187 = {
+			isa = PBXGroup;
+			children = (
+				3ACBFB91228F2B9D00899187 /* MCCordovaPluginLib */,
+				3ACBFBA0228F2BC300899187 /* Tests */,
+				3ACBFB90228F2B9D00899187 /* Products */,
+				11E39A16D2930658CE322A40 /* Pods */,
+				BBE93FF81042BCEF58449B6A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		3A1BC6572140532B007122F6 /* Products */ = {
+		3ACBFB90228F2B9D00899187 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3A1BC6562140532B007122F6 /* libMCCordovaPluginLib.a */,
-				3A1BC6662140533E007122F6 /* MCCordovaPluginLibTests.xctest */,
+				3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */,
+				3ACBFB9F228F2BC300899187 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3A1BC6582140532B007122F6 /* MCCordovaPluginLib */ = {
+		3ACBFB91228F2B9D00899187 /* MCCordovaPluginLib */ = {
 			isa = PBXGroup;
 			children = (
-				3A1BC678214054B3007122F6 /* MCCordovaPlugin.h */,
-				3A1BC679214054B3007122F6 /* MCCordovaPlugin.m */,
+				3ACBFBAB228F2E7600899187 /* MCCordovaPlugin.h */,
+				3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */,
 			);
 			path = MCCordovaPluginLib;
 			sourceTree = "<group>";
 		};
-		3A1BC6672140533E007122F6 /* MCCordovaPluginLibTests */ = {
+		3ACBFBA0228F2BC300899187 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				3A1BC6682140533E007122F6 /* MCCordovaPluginLibTests.m */,
-				3A1BC66A2140533E007122F6 /* Info.plist */,
+				3ACBFBA1228F2BC300899187 /* Tests.m */,
+				3ACBFBA3228F2BC300899187 /* Info.plist */,
 			);
-			path = MCCordovaPluginLibTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
-		3A1BC6722140536D007122F6 /* usr */ = {
+		BBE93FF81042BCEF58449B6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3A1BC67421405399007122F6 /* lib */,
-				3A1BC6732140537B007122F6 /* include */,
-			);
-			path = usr;
-			sourceTree = "<group>";
-		};
-		3A1BC6732140537B007122F6 /* include */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		3A1BC67421405399007122F6 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		3A1BC67521405425007122F6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3A1BC68A21405516007122F6 /* MarketingCloudSDK.framework */,
-				3A1BC67621405425007122F6 /* libOCMock.a */,
+				3A515F7E228F359E00036F6B /* libCordova.a */,
+				3A7E2C39228F317B00168F10 /* libCordova.a */,
+				96DC5A63310C83190D5A0E4D /* libPods-MCCordovaPluginLib.a */,
+				4CA1A461D053DCF774C41814 /* libPods-Tests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3A1BC67C214054CC007122F6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3A1BC681214054CD007122F6 /* libCordova.a */,
-				3A1BC683214054CD007122F6 /* Cordova.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3A1BC6552140532B007122F6 /* MCCordovaPluginLib */ = {
+		3ACBFB8E228F2B9D00899187 /* MCCordovaPluginLib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3A1BC65F2140532B007122F6 /* Build configuration list for PBXNativeTarget "MCCordovaPluginLib" */;
+			buildConfigurationList = 3ACBFB98228F2B9D00899187 /* Build configuration list for PBXNativeTarget "MCCordovaPluginLib" */;
 			buildPhases = (
-				3A1BC6522140532B007122F6 /* Sources */,
-				3A1BC6532140532B007122F6 /* Frameworks */,
-				3A1BC6542140532B007122F6 /* CopyFiles */,
+				B9BD4B71FCBD19B39208F6A5 /* [CP] Check Pods Manifest.lock */,
+				3ACBFB8B228F2B9D00899187 /* Sources */,
+				3ACBFB8C228F2B9D00899187 /* Frameworks */,
+				3ACBFB8D228F2B9D00899187 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3A1BC687214054E6007122F6 /* PBXTargetDependency */,
 			);
 			name = MCCordovaPluginLib;
 			productName = MCCordovaPluginLib;
-			productReference = 3A1BC6562140532B007122F6 /* libMCCordovaPluginLib.a */;
+			productReference = 3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		3A1BC6652140533E007122F6 /* MCCordovaPluginLibTests */ = {
+		3ACBFB9E228F2BC300899187 /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3A1BC66E2140533E007122F6 /* Build configuration list for PBXNativeTarget "MCCordovaPluginLibTests" */;
+			buildConfigurationList = 3ACBFBA7228F2BC300899187 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
-				3A1BC6622140533E007122F6 /* Sources */,
-				3A1BC6632140533E007122F6 /* Frameworks */,
-				3A1BC6642140533E007122F6 /* Resources */,
+				C805576112F1136A5EDF639B /* [CP] Check Pods Manifest.lock */,
+				3ACBFB9B228F2BC300899187 /* Sources */,
+				3ACBFB9C228F2BC300899187 /* Frameworks */,
+				3ACBFB9D228F2BC300899187 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3A1BC66D2140533E007122F6 /* PBXTargetDependency */,
+				3ACBFBA6228F2BC300899187 /* PBXTargetDependency */,
 			);
-			name = MCCordovaPluginLibTests;
-			productName = MCCordovaPluginLibTests;
-			productReference = 3A1BC6662140533E007122F6 /* MCCordovaPluginLibTests.xctest */;
+			name = Tests;
+			productName = Tests;
+			productReference = 3ACBFB9F228F2BC300899187 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		3A1BC64E2140532B007122F6 /* Project object */ = {
+		3ACBFB87228F2B9D00899187 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = "Seth Clark";
+				LastUpgradeCheck = 1020;
 				TargetAttributes = {
-					3A1BC6552140532B007122F6 = {
-						CreatedOnToolsVersion = 9.4.1;
+					3ACBFB8E228F2B9D00899187 = {
+						CreatedOnToolsVersion = 10.2.1;
 					};
-					3A1BC6652140533E007122F6 = {
-						CreatedOnToolsVersion = 9.4.1;
+					3ACBFB9E228F2BC300899187 = {
+						CreatedOnToolsVersion = 10.2.1;
 					};
 				};
 			};
-			buildConfigurationList = 3A1BC6512140532B007122F6 /* Build configuration list for PBXProject "MCCordovaPluginLib" */;
+			buildConfigurationList = 3ACBFB8A228F2B9D00899187 /* Build configuration list for PBXProject "MCCordovaPluginLib" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 3A1BC64D2140532B007122F6;
-			productRefGroup = 3A1BC6572140532B007122F6 /* Products */;
+			mainGroup = 3ACBFB86228F2B9D00899187;
+			productRefGroup = 3ACBFB90228F2B9D00899187 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 3A1BC67C214054CC007122F6 /* Products */;
-					ProjectRef = 3A1BC67B214054CC007122F6 /* CordovaLib.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				3A1BC6552140532B007122F6 /* MCCordovaPluginLib */,
-				3A1BC6652140533E007122F6 /* MCCordovaPluginLibTests */,
+				3ACBFB8E228F2B9D00899187 /* MCCordovaPluginLib */,
+				3ACBFB9E228F2BC300899187 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		3A1BC681214054CD007122F6 /* libCordova.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libCordova.a;
-			remoteRef = 3A1BC680214054CD007122F6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3A1BC683214054CD007122F6 /* Cordova.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Cordova.framework;
-			remoteRef = 3A1BC682214054CD007122F6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
-		3A1BC6642140533E007122F6 /* Resources */ = {
+		3ACBFB9D228F2BC300899187 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A1BC68D214055A6007122F6 /* MarketingCloudSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B9BD4B71FCBD19B39208F6A5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MCCordovaPluginLib-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C805576112F1136A5EDF639B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		3A1BC6522140532B007122F6 /* Sources */ = {
+		3ACBFB8B228F2B9D00899187 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A1BC67A214054B4007122F6 /* MCCordovaPlugin.m in Sources */,
+				3ACBFBAC228F2E7600899187 /* MCCordovaPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3A1BC6622140533E007122F6 /* Sources */ = {
+		3ACBFB9B228F2BC300899187 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A1BC6692140533E007122F6 /* MCCordovaPluginLibTests.m in Sources */,
+				3ACBFBA2228F2BC300899187 /* Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3A1BC66D2140533E007122F6 /* PBXTargetDependency */ = {
+		3ACBFBA6228F2BC300899187 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3A1BC6552140532B007122F6 /* MCCordovaPluginLib */;
-			targetProxy = 3A1BC66C2140533E007122F6 /* PBXContainerItemProxy */;
-		};
-		3A1BC687214054E6007122F6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CordovaLib;
-			targetProxy = 3A1BC686214054E6007122F6 /* PBXContainerItemProxy */;
+			target = 3ACBFB8E228F2B9D00899187 /* MCCordovaPluginLib */;
+			targetProxy = 3ACBFBA5228F2BC300899187 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		3A1BC65D2140532B007122F6 /* Debug */ = {
+		3ACBFB96228F2B9D00899187 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -367,14 +346,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		3A1BC65E2140532B007122F6 /* Release */ = {
+		3ACBFB97228F2B9D00899187 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -419,74 +399,65 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		3A1BC6602140532B007122F6 /* Debug */ = {
+		3ACBFB99228F2B9D00899187 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90D45726C2590366B6A9B0CC /* Pods-MCCordovaPluginLib.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/cordova-ios/CordovaLib\"/**";
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		3A1BC6612140532B007122F6 /* Release */ = {
+		3ACBFB9A228F2B9D00899187 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8286676AB8BAD6395703CF9 /* Pods-MCCordovaPluginLib.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/cordova-ios/CordovaLib\"/**";
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		3A1BC66F2140533E007122F6 /* Debug */ = {
+		3ACBFBA8228F2BC300899187 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB4189AD7C1D1AD692CA1625 /* Pods-Tests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/usr/include";
-				INFOPLIST_FILE = MCCordovaPluginLibTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/usr/lib";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.marketingcloud.cordova.MCCordovaPluginLibTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.marketingcloud.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		3A1BC6702140533E007122F6 /* Release */ = {
+		3ACBFBA9228F2BC300899187 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B315E285464CAEAC040D414C /* Pods-Tests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/ios/MarketingCloudSDK\"";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/usr/include";
-				INFOPLIST_FILE = MCCordovaPluginLibTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/usr/lib";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.marketingcloud.cordova.MCCordovaPluginLibTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.marketingcloud.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -495,34 +466,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3A1BC6512140532B007122F6 /* Build configuration list for PBXProject "MCCordovaPluginLib" */ = {
+		3ACBFB8A228F2B9D00899187 /* Build configuration list for PBXProject "MCCordovaPluginLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3A1BC65D2140532B007122F6 /* Debug */,
-				3A1BC65E2140532B007122F6 /* Release */,
+				3ACBFB96228F2B9D00899187 /* Debug */,
+				3ACBFB97228F2B9D00899187 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3A1BC65F2140532B007122F6 /* Build configuration list for PBXNativeTarget "MCCordovaPluginLib" */ = {
+		3ACBFB98228F2B9D00899187 /* Build configuration list for PBXNativeTarget "MCCordovaPluginLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3A1BC6602140532B007122F6 /* Debug */,
-				3A1BC6612140532B007122F6 /* Release */,
+				3ACBFB99228F2B9D00899187 /* Debug */,
+				3ACBFB9A228F2B9D00899187 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3A1BC66E2140533E007122F6 /* Build configuration list for PBXNativeTarget "MCCordovaPluginLibTests" */ = {
+		3ACBFBA7228F2BC300899187 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3A1BC66F2140533E007122F6 /* Debug */,
-				3A1BC6702140533E007122F6 /* Release */,
+				3ACBFBA8228F2BC300899187 /* Debug */,
+				3ACBFBA9228F2BC300899187 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 3A1BC64E2140532B007122F6 /* Project object */;
+	rootObject = 3ACBFB87228F2B9D00899187 /* Project object */;
 }
