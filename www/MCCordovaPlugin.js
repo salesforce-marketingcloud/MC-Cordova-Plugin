@@ -290,8 +290,8 @@ var MCCordovaPlugin = {
 
     /**
      * Instructs the native SDK to log the SDK state to the native logging system (Logcat for
-     * Android and OS_Log for iOS).  This content can help diagnose most issues within the SDK and
-     * will be requested by the Marketing Cloud support team.
+     * Android and Xcode/Console.app for iOS).  This content can help diagnose most issues within
+     * the SDK and will be requested by the Marketing Cloud support team.
      *
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]

@@ -362,8 +362,8 @@ Disables verbose logging within the native Marketing Cloud SDK.
 
 ### MCCordovaPlugin.logSdkState([successCallback], [errorCallback])
 Instructs the native SDK to log the SDK state to the native logging system (Logcat for
-Android and OS_Log for iOS).  This content can help diagnose most issues within the SDK and
-will be requested by the Marketing Cloud support team.
+Android and Xcode/Console.app for iOS).  This content can help diagnose most issues within
+the SDK and will be requested by the Marketing Cloud support team.
 
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 
