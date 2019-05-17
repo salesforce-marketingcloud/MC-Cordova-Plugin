@@ -19,3 +19,6 @@ xcuserdata/*
 
 package-lock.json
 node_modules
+
+Pods/
+Podfile.lock
