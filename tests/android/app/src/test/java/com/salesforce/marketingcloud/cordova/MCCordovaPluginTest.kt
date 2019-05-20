@@ -496,6 +496,7 @@ class MCCordovaPluginTest {
         assertThat(callSuccess).isTrue()
         val stateLogs = ShadowLog.getLogsForTag("MCSDK STATE")
         assertThat(stateLogs).hasSize(2) // Should have split log into two calls given size of sdk state
+        verify(callbackContext).success()
     }
 
     private fun intentWithMessage(messageId: String = "mId", alert: String = "Alert text",
