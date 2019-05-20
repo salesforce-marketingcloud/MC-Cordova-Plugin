@@ -286,12 +286,25 @@ var MCCordovaPlugin = {
         argsCheck.checkArgs('f', `${PLUGIN_NAME}.setOnUrlActionListener`, arguments);
         onUrlAction = urlActionListener;
         _exec(undefined, undefined, 'subscribe', ['urlAction']);
-    }
+    },
 
     /**
      * @callback module:MCCordovaPlugin~urlActionCallback
      * @param {string} url - The url associated with the action taken by the user.
      */
+
+    /**
+     * Instructs the native SDK to log the SDK state to the native logging system (Logcat for
+     * Android and Xcode/Console.app for iOS).  This content can help diagnose most issues within
+     * the SDK and will be requested by the Marketing Cloud support team.
+     *
+     * @param  {function} [successCallback]
+     * @param  {function} [errorCallback]
+     */
+    logSdkState: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.logSdkState`, arguments);
+        _exec(successCallback, errorCallback, 'logSdkState');
+    }
 
 };
 

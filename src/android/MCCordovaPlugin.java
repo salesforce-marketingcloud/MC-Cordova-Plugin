@@ -30,13 +30,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.UrlHandler;
 import com.salesforce.marketingcloud.notifications.NotificationManager;
 import com.salesforce.marketingcloud.notifications.NotificationMessage;
-import java.util.Collection;
-import java.util.Map;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -45,6 +46,9 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
@@ -261,6 +265,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return setContactKey();
             case "getContactKey":
                 return getContactKey();
+            case "logSdkState":
+                return logSdkState();
             default:
                 return null;
         }
@@ -405,7 +411,26 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         };
     }
 
+    private ActionHandler logSdkState() {
+        return new ActionHandler() {
+            @Override
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                log("MCSDK STATE", sdk.getSdkState().toString());
+                callbackContext.success();
+            }
+        };
+    }
+
     interface ActionHandler {
         void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext);
+    }
+
+    private static int MAX_LOG_LENGTH = 4000;
+
+    private static void log(String tag, String msg) {
+        for (int i = 0, length = msg.length(); i < length; i += MAX_LOG_LENGTH) {
+            Log.println(Log.DEBUG, tag, msg.substring(i, Math.min(length, i + MAX_LOG_LENGTH)));
+        }
     }
 }

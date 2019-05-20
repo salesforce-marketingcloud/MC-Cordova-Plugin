@@ -97,6 +97,26 @@
                callbackId:@"testCallback"]);
 }
 
+-(void)testLogSdkState {
+    //GIVEN
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"logSdkState"];
+    
+    // WHEN
+    [_plugin logSdkState:command];
+    
+    // THEN
+    OCMVerify([_sdk sfmc_getSDKState]);
+    OCMVerify([_commandDelegate
+               sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+        return [result.status intValue] == CDVCommandStatus_OK;
+    }]
+               callbackId:@"testCallback"]);
+}
+
+
 - (void)testGetSystemToken {
     // GIVEN
     id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
