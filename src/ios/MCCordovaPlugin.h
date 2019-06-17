@@ -27,9 +27,10 @@
 
 #import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
+#import <MarketingCloudSDK/MarketingCloudSDK.h>
 #import <UIKit/UIKit.h>
 
-@interface MCCordovaPlugin : CDVPlugin
+@interface MCCordovaPlugin : CDVPlugin <MarketingCloudSDKURLHandlingDelegate>
 
 - (void)enableVerboseLogging:(CDVInvokedUrlCommand *)command;
 - (void)disableVerboseLogging:(CDVInvokedUrlCommand *)command;

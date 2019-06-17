@@ -503,6 +503,29 @@
               callbackId:@"testCallback"]);
 }
 
+- (void)testUrlHandler_sendsActionUrlAsResult {
+    // GIVEN
+    NSString *url = @"https://www.salesforce.com";
+    [_plugin registerEventsChannel:[MCCordovaPluginLibTests eventCallbackCommand]];
+
+    // WHEN
+    [_plugin sfmc_handleURL:[NSURL URLWithString:url] type:@"action"];
+
+    // THEN
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          XCTAssertEqual([result.status intValue], CDVCommandStatus_OK);
+          XCTAssertTrue([result.message isKindOfClass:[NSDictionary class]]);
+          XCTAssertTrue(result.keepCallback);
+
+          NSDictionary *message = result.message;
+          XCTAssertEqualObjects(message[@"type"], @"urlAction");
+          XCTAssertEqualObjects(message[@"url"], url);
+          return YES;
+        }]
+              callbackId:@"eventCallback"]);
+}
+
 - (void)
     testNotificationReceived_beforeEventCallbackCalled_beforeSubscribeCalled_shouldBeDeliveredWhenSubscribed {
     // GIVEN
@@ -658,44 +681,43 @@
     XCTAssertTrue(result.keepCallback);
 
     NSDictionary *message = result.message;
-    XCTAssertTrue([[message objectForKey:@"timeStamp"] isKindOfClass:[NSNumber class]]);
-    XCTAssertEqualObjects([message objectForKey:@"type"], @"notificationOpened");
-    XCTAssertTrue([[message objectForKey:@"values"] isKindOfClass:[NSDictionary class]]);
-    NSDictionary *values = [message objectForKey:@"values"];
+    XCTAssertTrue([message[@"timeStamp"] isKindOfClass:[NSNumber class]]);
+    XCTAssertEqualObjects(message[@"type"], @"notificationOpened");
+    XCTAssertTrue([message[@"values"] isKindOfClass:[NSDictionary class]]);
+    NSDictionary *values = message[@"values"];
 
     NSSet *notificationKeys = [NSSet setWithArray:notification.allKeys];
     Boolean hadUrl = false;
     for (id key in notificationKeys) {
         if ([key isEqualToString:@"aps"]) {
-            NSDictionary *aps = [notification objectForKey:key];
-            if ([[aps objectForKey:@"alert"] isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *alert = [aps objectForKey:@"alert"];
+            NSDictionary *aps = notification[key];
+            if ([aps[@"alert"] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *alert = aps[@"alert"];
                 NSSet *alertKeys = [NSSet setWithArray:alert.allKeys];
                 for (id alertKey in alertKeys) {
                     NSString *valuesKey = [alertKeys isEqual:@"body"] ? @"alert" : valuesKey;
-                    XCTAssertEqualObjects([values objectForKey:valuesKey],
-                                          [aps objectForKey:alertKey]);
+                    XCTAssertEqualObjects(values[valuesKey], aps[alertKey]);
                 }
             } else {
-                XCTAssertEqualObjects([values objectForKey:@"alert"], [aps objectForKey:@"alert"]);
+                XCTAssertEqualObjects(values[@"alert"], aps[@"alert"]);
             }
 
         } else if ([key isEqualToString:@"_od"]) {
-            XCTAssertEqualObjects([values objectForKey:@"url"], [notification objectForKey:key]);
-            XCTAssertEqualObjects([values objectForKey:@"type"], @"openDirect");
+            XCTAssertEqualObjects(values[@"url"], notification[key]);
+            XCTAssertEqualObjects(values[@"type"], @"openDirect");
             hadUrl = true;
         } else if ([key isEqualToString:@"_x"]) {
-            XCTAssertEqualObjects([values objectForKey:@"url"], [notification objectForKey:key]);
-            XCTAssertEqualObjects([values objectForKey:@"type"], @"cloudPage");
+            XCTAssertEqualObjects(values[@"url"], notification[key]);
+            XCTAssertEqualObjects(values[@"type"], @"cloudPage");
             hadUrl = true;
         } else {
-            XCTAssertEqualObjects([values objectForKey:key], [notification objectForKey:key]);
+            XCTAssertEqualObjects(values[key], notification[key]);
         }
     }
 
     if (!hadUrl) {
-        XCTAssertNil([values objectForKey:@"url"]);
-        XCTAssertEqualObjects([values objectForKey:@"type"], @"other");
+        XCTAssertNil(values[@"url"]);
+        XCTAssertEqualObjects(values[@"type"], @"other");
     }
     return YES;
 }

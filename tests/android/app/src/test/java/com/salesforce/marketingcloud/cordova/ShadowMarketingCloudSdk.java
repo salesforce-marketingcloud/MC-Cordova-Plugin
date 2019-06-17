@@ -26,10 +26,12 @@
 
 package com.salesforce.marketingcloud.cordova;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.salesforce.marketingcloud.MCLogListener;
+import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 
 import org.robolectric.annotation.Implementation;
@@ -41,7 +43,8 @@ public class ShadowMarketingCloudSdk {
     private static final MCLogListener testLogListener = new MCLogListener() {
         @Override
         public void out(
-            int i, @NonNull String s, @NonNull String s1, @Nullable Throwable throwable) {}
+                int i, @NonNull String s, @NonNull String s1, @Nullable Throwable throwable) {
+        }
     };
 
     private static MarketingCloudSdk.WhenReadyListener recentSdkRequest = null;
@@ -50,6 +53,23 @@ public class ShadowMarketingCloudSdk {
     private static MarketingCloudSdk instance;
     private static int logLevel = -1;
     private static MCLogListener currentLogListener = testLogListener;
+
+    public static InitInvocation mostRecentInitInvocation = null;
+
+    public static class InitInvocation {
+
+        final MarketingCloudConfig config;
+        final MarketingCloudSdk.InitializationListener listener;
+
+        InitInvocation(MarketingCloudConfig config, MarketingCloudSdk.InitializationListener listener) {
+            this.config = config;
+            this.listener = listener;
+        }
+    }
+
+    public static void init(final Context context, final MarketingCloudConfig config, final MarketingCloudSdk.InitializationListener listener) {
+        mostRecentInitInvocation = new InitInvocation(config, listener);
+    }
 
     @Implementation
     public static MarketingCloudSdk getInstance() {

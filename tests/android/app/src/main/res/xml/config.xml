@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.salesforce.marketingcloud.cordova.tester" version="1.0.0" 
-  xmlns="http://www.w3.org/ns/widgets" 
+<widget id="com.salesforce.marketingcloud.cordova.tester" version="1.0.0"
+  xmlns="http://www.w3.org/ns/widgets"
   xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <feature name="Whitelist">
     <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
@@ -29,5 +29,6 @@
   <preference name="com.salesforce.marketingcloud.app_id" value="ee98fe8a-c255-441f-9648-feacb8e6aa94" />
   <preference name="com.salesforce.marketingcloud.access_token" value="abcdefghi123456789abcdef" />
   <preference name="com.salesforce.marketingcloud.sender_id" value="123456789876\" />
+  <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="https://www.example.com" />
   <preference name="com.salesforce.marketingcloud.notification_small_icon" value="ic_notification" />
 </widget>

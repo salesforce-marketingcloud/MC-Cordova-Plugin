@@ -25,22 +25,28 @@
  */
 package com.salesforce.marketingcloud.cordova;
 
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
+import com.salesforce.marketingcloud.UrlHandler;
 import com.salesforce.marketingcloud.notifications.NotificationManager;
 import com.salesforce.marketingcloud.notifications.NotificationMessage;
-import org.apache.cordova.*;
+import java.util.Collection;
+import java.util.Map;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Collection;
-import java.util.Map;
-
-public class MCCordovaPlugin extends CordovaPlugin {
+public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
 
     private CallbackContext eventsChannel = null;
@@ -67,8 +73,29 @@ public class MCCordovaPlugin extends CordovaPlugin {
         return data;
     }
 
+    @Nullable
+    @Override
+    public PendingIntent handleUrl(
+        @NonNull Context context, @NonNull String url, @NonNull String urlType) {
+        if (eventsChannel != null) {
+            try {
+                JSONObject eventArgs = new JSONObject();
+                eventArgs.put("type", "urlAction");
+                eventArgs.put("url", url);
+                PluginResult result = new PluginResult(PluginResult.Status.OK, eventArgs);
+                result.setKeepCallback(true);
+
+                eventsChannel.sendPluginResult(result);
+            } catch (Exception e) {
+                // NO_OP
+            }
+        }
+        return null;
+    }
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        MCSdkListener.INSTANCE.urlHandler = this;
         handleNotificationMessage(
             NotificationManager.extractMessage(cordova.getActivity().getIntent()));
     }
@@ -190,6 +217,11 @@ public class MCCordovaPlugin extends CordovaPlugin {
                 if (eventsChannel != null) {
                     sendCachedPushEvent(eventsChannel);
                 }
+                break;
+            case "urlAction":
+                // NO_OP
+                // Always send urlAction events to the JS plugin.  It will manager the listener
+                // registration.
                 break;
             default:
                 // NO_OP
