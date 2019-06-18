@@ -72,7 +72,7 @@ var MCCordovaPlugin = {
      * @param  {function(enabled)} successCallback
      * @param  {boolean} successCallback.enabled - Whether push is enabled.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_pushEnabled|iOS Docs}
      */
     isPushEnabled: function(successCallback, errorCallback = undefined) {
@@ -83,7 +83,7 @@ var MCCordovaPlugin = {
      * Enables push messaging in the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
     enablePush: function(successCallback = undefined, errorCallback = undefined) {
@@ -94,7 +94,7 @@ var MCCordovaPlugin = {
      * Disables push messaging in the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
     disablePush: function(successCallback, errorCallback) {
@@ -108,7 +108,7 @@ var MCCordovaPlugin = {
      * @param  {string} successCallback.token - The token used for push
      *     messaging.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_deviceToken|iOS Docs}
      */
     getSystemToken: function(successCallback, errorCallback) {
@@ -121,7 +121,7 @@ var MCCordovaPlugin = {
      * @param  {Object.<string, string>} successCallback.attributes - The
      *     key/value map of attributes set in the registration.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getAttributes()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getAttributes()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_attributes|iOS Docs}
      */
     getAttributes: function(successCallback, errorCallback) {
@@ -138,7 +138,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} successCallback.saved - Whether the attribute value was
      *     set in the registration.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setAttribute(java.lang.String,%20java.lang.String)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setAttribute(java.lang.String,%20java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setAttributeNamed:value:|iOS Docs}
      */
     setAttribute: function(key, value, successCallback, errorCallback) {
@@ -153,7 +153,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} successCallback.saved - Whether the value of the `key`
      *     attribute was cleared from the registration.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#clearAttribute(java.lang.String)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#clearAttribute(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_clearAttributeNamed:|iOS Docs}
      */
     clearAttribute: function(key, successCallback, errorCallback) {
@@ -167,7 +167,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} successCallback.saved - Whether the value passed in for
      *     `tag` was saved in the registration.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#addTag(java.lang.String)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#addTag(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_addTag:|iOS Docs}
      */
     addTag: function(tag, successCallback, errorCallback) {
@@ -181,7 +181,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} successCallback.saved - Whether the value passed in for
      *     `tag` was cleared from the registration.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#removeTag(java.lang.String)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#removeTag(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_removeTag:|iOS Docs}
      */
     removeTag: function(tag, successCallback, errorCallback) {
@@ -194,7 +194,7 @@ var MCCordovaPlugin = {
      * @param  {string[]} successCallback.tags - The array of tags currently set
      *     in the native SDK.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getTags()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getTags()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_tags|iOS Docs}
      */
     getTags: function(successCallback, errorCallback) {
@@ -209,7 +209,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} successCallback.saved - Whether the value passed in for
      *     `contactKey` was saved in the registration.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setContactKey(java.lang.String)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setContactKey(java.lang.String)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setContactKey:|iOS Docs}
      */
     setContactKey: function(contactKey, successCallback, errorCallback) {
@@ -221,7 +221,7 @@ var MCCordovaPlugin = {
      * @param  {function(contactKey)} successCallback
      * @param  {string} successCallback.contactKey - The current contact key.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getContactKey()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getContactKey()|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_contactKey|iOS Docs}
      */
     getContactKey: function(successCallback, errorCallback) {
@@ -232,7 +232,7 @@ var MCCordovaPlugin = {
      * Enables verbose logging within the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:|iOS Docs}
      */
     enableVerboseLogging: function(successCallback, errorCallback) {
@@ -243,7 +243,7 @@ var MCCordovaPlugin = {
      * Disables verbose logging within the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:|iOS Docs}
      */
     disableVerboseLogging: function(successCallback, errorCallback) {
