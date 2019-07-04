@@ -1,9 +1,11 @@
 Change Log
 ==========
 
-### Version 6.2.2
+### Version 6.3.0
 
-* Updated iOS SDK to 6.2.2
+* Updated to the 6.3.x versions of the Android and iOS Marketing Cloud SDK.
+* The plugin now utilizes Cocoapods for the iOS SDK integration.
+* Support In-App Messaging functionality of the MobilePush SDK.
 
 ### Version 6.2.1
 
