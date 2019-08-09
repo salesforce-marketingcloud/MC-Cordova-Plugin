@@ -53,6 +53,10 @@ To enable push support for the Android platform you will need to include the goo
 </platform>
 ```
 
+#### 4. Enable iOS Push
+
+Follow [these instructions](./ios_push.md) to enable push for iOS.
+
 ## API Reference <a name="reference"></a>
 
 
@@ -172,7 +176,7 @@ Returns the maps of attributes set in the registration.
 | Param | Type | Description |
 | --- | --- | --- |
 | successCallback | <code>function</code> |  |
-| successCallback.attributes | <code>Object.&lt;string, string&gt;</code> | The     key/value map of attributes set in the registration. |
+| successCallback.attributes | <code>[ &#x27;Object&#x27; ].&lt;string, string&gt;</code> | The     key/value map of attributes set in the registration. |
 | [errorCallback] | <code>function</code> |  |
 
 <a name="module_MCCordovaPlugin.setAttribute"></a>
@@ -263,7 +267,7 @@ Returns the tags currently set on the device.
 | Param | Type | Description |
 | --- | --- | --- |
 | successCallback | <code>function</code> |  |
-| successCallback.tags | <code>Array.&lt;string&gt;</code> | The array of tags currently set     in the native SDK. |
+| successCallback.tags | <code>[ &#x27;Array&#x27; ].&lt;string&gt;</code> | The array of tags currently set     in the native SDK. |
 | [errorCallback] | <code>function</code> |  |
 
 <a name="module_MCCordovaPlugin.setContactKey"></a>
