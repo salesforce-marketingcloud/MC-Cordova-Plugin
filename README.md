@@ -53,6 +53,10 @@ To enable push support for the Android platform you will need to include the goo
 </platform>
 ```
 
+#### 4. Enable iOS Push
+
+Follow [these instructions](./ios_push.md) to enable push for iOS.
+
 ## API Reference <a name="reference"></a>
 
 
