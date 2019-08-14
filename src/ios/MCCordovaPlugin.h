@@ -34,6 +34,7 @@
 
 - (void)enableVerboseLogging:(CDVInvokedUrlCommand *)command;
 - (void)disableVerboseLogging:(CDVInvokedUrlCommand *)command;
+- (void)logSdkState:(CDVInvokedUrlCommand *)command;
 
 - (void)getSystemToken:(CDVInvokedUrlCommand *)command;
 - (void)isPushEnabled:(CDVInvokedUrlCommand *)command;
@@ -57,5 +58,6 @@
 @property(nonatomic, copy) NSString *eventsCallbackId;
 @property(nonatomic, assign) BOOL notificationOpenedSubscribed;
 @property(nonatomic, strong) NSDictionary *cachedNotification;
+@property(nonatomic, strong) os_log_t logger;
 
 @end

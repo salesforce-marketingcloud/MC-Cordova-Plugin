@@ -1,6 +1,6 @@
 # Salesforce Marketing Cloud Cordova Plugin
 
-Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/JB4A-SDK-Android/) applications.
+Use this plugin to implement the Marketing Cloud MobilePush SDK for your [iOS](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/) and [Android](http://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/) applications.
 
 ## Release Notes
 
@@ -53,6 +53,10 @@ To enable push support for the Android platform you will need to include the goo
 </platform>
 ```
 
+#### 4. Enable iOS Push
+
+Follow [these instructions](./ios_push.md) to enable push for iOS.
+
 ## API Reference <a name="reference"></a>
 
 
@@ -74,6 +78,7 @@ To enable push support for the Android platform you will need to include the goo
         * [.disableVerboseLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.disableVerboseLogging)
         * [.setOnNotificationOpenedListener(notificationOpenedListener)](#module_MCCordovaPlugin.setOnNotificationOpenedListener)
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
+        * [.logSdkState([successCallback], [errorCallback])](#module_MCCordovaPlugin.logSdkState)
     * _inner_
         * [~notificationOpenedCallback](#module_MCCordovaPlugin..notificationOpenedCallback) : <code>function</code>
         * [~urlActionCallback](#module_MCCordovaPlugin..urlActionCallback) : <code>function</code>
@@ -93,7 +98,7 @@ SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_pushEnabled)
 
 
@@ -111,7 +116,7 @@ Enables push messaging in the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:)
 
 
@@ -128,7 +133,7 @@ Disables push messaging in the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:)
 
 
@@ -146,7 +151,7 @@ the device.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_deviceToken)
 
 
@@ -164,14 +169,14 @@ Returns the maps of attributes set in the registration.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getAttributes())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getAttributes())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_attributes)
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | successCallback | <code>function</code> |  |
-| successCallback.attributes | <code>Object.&lt;string, string&gt;</code> | The     key/value map of attributes set in the registration. |
+| successCallback.attributes | <code>[ &#x27;Object&#x27; ].&lt;string, string&gt;</code> | The     key/value map of attributes set in the registration. |
 | [errorCallback] | <code>function</code> |  |
 
 <a name="module_MCCordovaPlugin.setAttribute"></a>
@@ -182,7 +187,7 @@ Sets the value of an attribute in the registration.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setAttribute(java.lang.String,%20java.lang.String))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setAttribute(java.lang.String,%20java.lang.String))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setAttributeNamed:value:)
 
 
@@ -202,7 +207,7 @@ Clears the value of an attribute in the registration.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#clearAttribute(java.lang.String))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#clearAttribute(java.lang.String))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_clearAttributeNamed:)
 
 
@@ -219,7 +224,7 @@ Clears the value of an attribute in the registration.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#addTag(java.lang.String))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#addTag(java.lang.String))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_addTag:)
 
 
@@ -236,7 +241,7 @@ Clears the value of an attribute in the registration.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#removeTag(java.lang.String))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#removeTag(java.lang.String))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_removeTag:)
 
 
@@ -255,14 +260,14 @@ Returns the tags currently set on the device.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getTags())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getTags())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_tags)
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | successCallback | <code>function</code> |  |
-| successCallback.tags | <code>Array.&lt;string&gt;</code> | The array of tags currently set     in the native SDK. |
+| successCallback.tags | <code>[ &#x27;Array&#x27; ].&lt;string&gt;</code> | The array of tags currently set     in the native SDK. |
 | [errorCallback] | <code>function</code> |  |
 
 <a name="module_MCCordovaPlugin.setContactKey"></a>
@@ -273,7 +278,7 @@ Sets the contact key for the device's user.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setContactKey(java.lang.String))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setContactKey(java.lang.String))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setContactKey:)
 
 
@@ -292,7 +297,7 @@ Returns the contact key currently set on the device.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getContactKey())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getContactKey())
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_contactKey)
 
 
@@ -310,7 +315,7 @@ Enables verbose logging within the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:)
 
 
@@ -327,7 +332,7 @@ Disables verbose logging within the native Marketing Cloud SDK.
 **Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/JB4A-SDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:)
 
 
@@ -357,6 +362,20 @@ Disables verbose logging within the native Marketing Cloud SDK.
 | --- | --- |
 | urlActionListener | <code>function</code> | 
 | urlActionListener.event | <code>MCCordovaPlugin~urlActionCallback</code> | 
+
+<a name="module_MCCordovaPlugin.logSdkState"></a>
+
+### MCCordovaPlugin.logSdkState([successCallback], [errorCallback])
+Instructs the native SDK to log the SDK state to the native logging system (Logcat for
+Android and Xcode/Console.app for iOS).  This content can help diagnose most issues within
+the SDK and will be requested by the Marketing Cloud support team.
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [successCallback] | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
 
 <a name="module_MCCordovaPlugin..notificationOpenedCallback"></a>
 
