@@ -300,6 +300,7 @@ var MCCordovaPlugin = {
      *
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
+     * @since 6.3.1
      */
     logSdkState: function(successCallback, errorCallback) {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.logSdkState`, arguments);
