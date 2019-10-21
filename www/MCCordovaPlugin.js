@@ -118,9 +118,9 @@ var MCCordovaPlugin = {
     },
                
     /**
-     * Gets the notification settings for this app. Applies only to iOS/iPadOS
+     * Gets the notification settings for this app. Applies only to iOS/iPadOS.
      * @param  {function(status)} [successCallback]
-     * @param  {string} successCallback.status - One of the following values: 'not-determined', 'denied', 'authorized', 'provisional'
+     * @param  {string} successCallback.status - One of the following values: 'not-determined', 'denied', 'authorized', 'provisional'.
      * @param  {function} [errorCallback]
      * @see  {@link https://developer.apple.com/documentation/usernotifications/unauthorizationstatus:|iOS Docs}
      */
