@@ -63,6 +63,8 @@ Follow [these instructions](./ios_push.md) to enable push for iOS.
 * [MCCordovaPlugin](#module_MCCordovaPlugin)
     * _static_
         * [.isPushEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isPushEnabled)
+        * [.requestPushPermission(successCallback, [errorCallback])](#module_MCCordovaPlugin.requestPushPermission)
+        * [.getPushNotificationSettings(successCallback, [errorCallback])](#module_MCCordovaPlugin.getPushNotificationSettings)
         * [.enablePush([successCallback], [errorCallback])](#module_MCCordovaPlugin.enablePush)
         * [.disablePush([successCallback], [errorCallback])](#module_MCCordovaPlugin.disablePush)
         * [.getSystemToken(successCallback, [errorCallback])](#module_MCCordovaPlugin.getSystemToken)
@@ -106,6 +108,41 @@ SDK.
 | --- | --- | --- |
 | successCallback | <code>function</code> |  |
 | successCallback.enabled | <code>boolean</code> | Whether push is enabled. |
+| [errorCallback] | <code>function</code> |  |
+
+<a name="module_MCCordovaPlugin.requestPushPermission"></a>
+
+### MCCordovaPlugin.requestPushPermission(successCallback, [errorCallback])
+Requests iOS/iPadOS to ask the user to enable push notifications for
+the App. The user will be prompted only once.
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
+**See**
+
+- [iOS Docs](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649527-requestauthorizationwithoptions)
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| successCallback | <code>function</code> |  |
+| successCallback.granted | <code>boolean</code> | Whether permission to receive push notifications was granted. |
+| [errorCallback] | <code>function</code> |  |
+
+<a name="module_MCCordovaPlugin.getPushNotificationSettings"></a>
+
+### MCCordovaPlugin.getPushNotificationSettings(successCallback, [errorCallback])
+Gets the notification settings for this app. Applies only to iOS/iPadOS.
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
+**See**
+
+- [iOS Docs](https://developer.apple.com/documentation/usernotifications/unauthorizationstatus)
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| successCallback | <code>function</code> |  |
+| successCallback.status | <code>string</code> | One of the following values: 'not-determined', 'denied', 'authorized', 'provisional'. |
 | [errorCallback] | <code>function</code> |  |
 
 <a name="module_MCCordovaPlugin.enablePush"></a>
