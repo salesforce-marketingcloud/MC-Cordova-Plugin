@@ -105,6 +105,31 @@ var MCCordovaPlugin = {
     },
 
     /**
+     * Requests iOS/iPadOS to ask the user to enable push notifications for the App. The user will be prompted only once.
+     * @param  {function(granted)} [successCallback]
+     * @param  {boolean} successCallback.granted - Whether permission to receive push notifications was granted.
+     * @param  {function} [errorCallback]
+     * @remark On iOS 9 or older this method will always report success regardless of the user's response to the prompt.
+     * @see  {@link https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649527-requestauthorizationwithoptions:|iOS Docs}
+     */
+    requestPushPermission: function(successCallback = undefined, errorCallback = undefined) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.requestPushPermission`, arguments);
+        _exec(successCallback, errorCallback, 'requestPushPermission');
+    },
+               
+    /**
+     * Gets the notification settings for this app. Applies only to iOS/iPadOS
+     * @param  {function(status)} [successCallback]
+     * @param  {string} successCallback.status - One of the following values: 'not-determined', 'denied', 'authorized', 'provisional'
+     * @param  {function} [errorCallback]
+     * @see  {@link https://developer.apple.com/documentation/usernotifications/unauthorizationstatus:|iOS Docs}
+     */
+    getPushNotificationSettings: function(successCallback = undefined, errorCallback = undefined) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.getNotificationSettings`, arguments);
+        _exec(successCallback, errorCallback, 'getNotificationSettings');
+    },
+
+    /**
      * Returns the token used by the Marketing Cloud to send push messages to
      * the device.
      * @param  {function(token)} successCallback

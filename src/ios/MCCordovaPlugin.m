@@ -152,7 +152,6 @@ const int LOG_LENGTH = 800;
             [self setDelegate];
             [[MarketingCloudSDK sharedInstance] sfmc_setURLHandlingDelegate:self];
             [[MarketingCloudSDK sharedInstance] sfmc_addTag:@"Cordova"];
-            [self requestPushPermission];
         } else if (configError != nil) {
             os_log_debug(OS_LOG_DEFAULT, "%@", configError);
             if (configError.code == configureInvalidAppEndpointError) {
@@ -222,7 +221,7 @@ const int LOG_LENGTH = 800;
 #pragma clang diagnostic pop
 }
 
-- (void)requestPushPermission {
+- (void)requestPushPermission:(CDVInvokedUrlCommand *)command {
     if (@available(iOS 10, *)) {
         [[UNUserNotificationCenter currentNotificationCenter]
             requestAuthorizationWithOptions:UNAuthorizationOptionAlert |
@@ -231,7 +230,8 @@ const int LOG_LENGTH = 800;
                             if (granted) {
                                 os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s",
                                             granted ? "YES" : "NO");
-
+                                [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool: granted]
+                                                            callbackId:command.callbackId];
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                   // we are authorized to use
                                   // notifications, request a device
@@ -239,8 +239,12 @@ const int LOG_LENGTH = 800;
                                   [[UIApplication sharedApplication]
                                       registerForRemoteNotifications];
                                 });
-                            } else if (error != nil) {
-                                os_log_debug(OS_LOG_DEFAULT, "%@", error);
+                            } else {
+                                [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description]
+                                                            callbackId:command.callbackId];
+                                if (error != nil) {
+                                    os_log_debug(OS_LOG_DEFAULT, "%@", error);
+                                }
                             }
                           }];
     } else {
@@ -250,6 +254,37 @@ const int LOG_LENGTH = 800;
                   categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool: TRUE]
+                                    callbackId:command.callbackId];
+    }
+}
+
+- (void)getNotificationSettings:(CDVInvokedUrlCommand *)command {
+    if (@available(iOS 10, *)) {
+        [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            NSString *status;
+            switch (settings.authorizationStatus) {
+                case UNAuthorizationStatusNotDetermined:
+                    status = @"not-determined";
+                    break;
+                case UNAuthorizationStatusDenied:
+                    status = @"denied";
+                    break;
+                case UNAuthorizationStatusAuthorized:
+                    status = @"authorized";
+                    break;
+                case UNAuthorizationStatusProvisional:
+                    status = @"provisional";
+                    break;
+            }
+            
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: status]
+                                        callbackId:command.callbackId];
+        }];
+    } else {
+        NSString *status = UIApplication.sharedApplication.isRegisteredForRemoteNotifications ? @"authorized" : @"denied";
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: status]
+                                    callbackId:command.callbackId];
     }
 }
 
