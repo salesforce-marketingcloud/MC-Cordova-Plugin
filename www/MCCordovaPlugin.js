@@ -353,6 +353,19 @@ var MCCordovaPlugin = {
     watchingLocation: function(successCallback, errorCallback) {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.watchingLocation`, arguments);
         _exec(successCallback, errorCallback, 'watchingLocation');
+    },
+
+    /**
+     * Geofence messaging - access the device’s last known location
+     *
+     * @param   {[type]}  successCallback  returns last knwon location
+     * @param   {[type]}  errorCallback    [errorCallback description]
+     *
+     * @return  {[type]}                   [return description]
+     */
+    lastKnownLocation: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.lastKnownLocation`, arguments);
+        _exec(successCallback, errorCallback, 'lastKnownLocation');
     }
 
 };

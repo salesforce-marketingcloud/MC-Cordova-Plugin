@@ -428,4 +428,11 @@ const int LOG_LENGTH = 800;
 	 callbackId:command.callbackId];
 }
 
+- (void)lastKnownLocation:(CDVInvokedUrlCommand *)command {
+	NSDictionary<NSString *, NSString *> *lastLocation = [[MarketingCloudSDK sharedInstance] sfmc_lastKnownLocation];
+	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+	                                        messageAsDictionary:lastLocation]
+	 callbackId:command.callbackId];
+}
+
 @end
