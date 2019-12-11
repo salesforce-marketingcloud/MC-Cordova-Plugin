@@ -309,6 +309,50 @@ var MCCordovaPlugin = {
     logSdkState: function(successCallback, errorCallback) {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.logSdkState`, arguments);
         _exec(successCallback, errorCallback, 'logSdkState');
+    },
+    
+    /**
+     * Geofence messaging - check if location is enabled
+     *
+     * @param   {function}  successCallback  Returns boolean with status
+     * @param   {function}  errorCallback    [errorCallback description]
+     *
+     * @return  {[type]}                   [return description]
+     */
+    locationEnabled: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.locationEnabled`, arguments);
+        _exec(successCallback, errorCallback, 'locationEnabled');
+    },
+
+    /**
+     * Geofence messaging
+     * - start watching location.
+     */
+
+    /**
+     * Geofence messaging - start watching location
+     *
+     * @param   {function}  successCallback  returns empty result
+     * @param   {function}  errorCallback    [errorCallback description]
+     *
+     * @return  {function}                   [return description]
+     */
+    startWatchingLocation: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.startWatchingLocation`, arguments);
+        _exec(successCallback, errorCallback, 'startWatchingLocation');
+    },
+
+    /**
+     * Geofence messaging - watching location
+     *
+     * @param   {[type]}  successCallback  returns whether watching location is enabled
+     * @param   {[type]}  errorCallback    [errorCallback description]
+     *
+     * @return  {[type]}                   [return description]
+     */
+    watchingLocation: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.watchingLocation`, arguments);
+        _exec(successCallback, errorCallback, 'watchingLocation');
     }
 
 };

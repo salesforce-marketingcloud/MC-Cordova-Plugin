@@ -403,4 +403,24 @@ const int LOG_LENGTH = 800;
     }
 }
 
+- (void)locationEnabled:(CDVInvokedUrlCommand *)command {
+	BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_locationEnabled];
+	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+	                                        messageAsInt:(success) ? 1 : 0]
+	 callbackId:command.callbackId];
+}
+
+- (void)startWatchingLocation:(CDVInvokedUrlCommand *)command {
+    [[MarketingCloudSDK sharedInstance] sfmc_startWatchingLocation];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
+- (void)watchingLocation:(CDVInvokedUrlCommand *)command {
+	BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_watchingLocation];
+	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+	                                        messageAsInt:(success) ? 1 : 0]
+	 callbackId:command.callbackId];
+}
+
 @end
