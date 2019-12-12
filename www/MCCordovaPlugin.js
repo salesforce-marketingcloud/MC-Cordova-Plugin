@@ -343,6 +343,19 @@ var MCCordovaPlugin = {
     },
 
     /**
+     * Geofence messaging - stop watching location
+     *
+     * @param   {function}  successCallback  returns empty result
+     * @param   {function}  errorCallback    [errorCallback description]
+     *
+     * @return  {function}                   [return description]
+     */
+    stopWatchingLocation: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.stopWatchingLocation`, arguments);
+        _exec(successCallback, errorCallback, 'stopWatchingLocation');
+    },
+
+    /**
      * Geofence messaging - watching location
      *
      * @param   {[type]}  successCallback  returns whether watching location is enabled

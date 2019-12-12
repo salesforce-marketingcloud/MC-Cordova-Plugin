@@ -421,6 +421,12 @@ const int LOG_LENGTH = 800;
                                 callbackId:command.callbackId];
 }
 
+- (void)sfmc_stopWatchingLocation:(CDVInvokedUrlCommand *)command {
+    [[MarketingCloudSDK sharedInstance] sfmc_stopWatchingLocation];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
 - (void)watchingLocation:(CDVInvokedUrlCommand *)command {
 	BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_watchingLocation];
 	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
