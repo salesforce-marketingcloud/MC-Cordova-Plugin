@@ -310,24 +310,6 @@ var MCCordovaPlugin = {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.logSdkState`, arguments);
         _exec(successCallback, errorCallback, 'logSdkState');
     },
-    
-    /**
-     * Geofence messaging - check if location is enabled
-     *
-     * @param   {function}  successCallback  Returns boolean with status
-     * @param   {function}  errorCallback    [errorCallback description]
-     *
-     * @return  {[type]}                   [return description]
-     */
-    locationEnabled: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.locationEnabled`, arguments);
-        _exec(successCallback, errorCallback, 'locationEnabled');
-    },
-
-    /**
-     * Geofence messaging
-     * - start watching location.
-     */
 
     /**
      * Geofence messaging - start watching location
@@ -369,12 +351,31 @@ var MCCordovaPlugin = {
     },
 
     /**
+     * Geofence messaging - check if location is enabled
+     *
+     * @param   {function}  successCallback  Returns boolean with status
+     * @param   {function}  errorCallback    [errorCallback description]
+     *
+     * @return  {[type]}                   [return description]
+     * 
+     * !!WARN: iOS Only
+     * TODO: implement Andoid functionality
+     */
+    locationEnabled: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.locationEnabled`, arguments);
+        _exec(successCallback, errorCallback, 'locationEnabled');
+    },
+
+    /**
      * Geofence messaging - access the device’s last known location
      *
      * @param   {[type]}  successCallback  returns last knwon location
      * @param   {[type]}  errorCallback    [errorCallback description]
      *
      * @return  {[type]}                   [return description]
+     * 
+     * !!WARN: iOS Only
+     * TODO: implement Andoid functionality 
      */
     lastKnownLocation: function(successCallback, errorCallback) {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.lastKnownLocation`, arguments);

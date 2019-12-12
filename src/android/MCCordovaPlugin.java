@@ -267,6 +267,16 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return getContactKey();
             case "logSdkState":
                 return logSdkState();
+            case "startWatchingLocation":
+                return startWatchingLocation();
+            case "stopWatchingLocation":
+                return stopWatchingLocation();
+            case "watchingLocation":
+                return watchingLocation();
+            // case "locationEnabled":
+            //     return locationEnabled();
+            // case "lastKnownLocation":
+            //     return lastKnownLocation();
             default:
                 return null;
         }
@@ -421,6 +431,60 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             }
         };
     }
+
+    private ActionHandler startWatchingLocation() {
+        return new ActionHandler() {
+                @Override
+                public void execute(
+                    MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                    boolean success = sdk.getRegionMessageManager().enableGeofenceMessaging();
+                    callbackContext.success(success ? 1 : 0);
+                }
+        };
+    }
+
+    private ActionHandler stopWatchingLocation() {
+        return new ActionHandler() {
+                @Override
+                public void execute(
+                    MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                    boolean success = sdk.getRegionMessageManager().disableGeofenceMessaging();
+                    callbackContext.success(success ? 1 : 0);
+                }
+        };
+    }
+
+    private ActionHandler watchingLocation() {
+        return new ActionHandler() {
+                @Override
+                public void execute(
+                    MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                    boolean enabled = sdk.getRegionMessageManager().isGeofenceMessagingEnabled();
+                    callbackContext.success(enabled ? 1 : 0);
+                }
+        };
+    }
+
+    // private ActionHandler locationEnabled() {
+    //     return new ActionHandler() {
+    //             @Override
+    //             public void execute(
+    //                 MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+    //                 boolean enabled = sdk.getRegionMessageManager().isGeofenceMessagingEnabled();
+    //                 callbackContext.success(enabled ? 1 : 0);
+    //             }
+    //     };
+    // }
+
+    // private ActionHandler lastKnownLocation() {
+    //     return new ActionHandler() {
+    //             @Override
+    //             public void execute(
+    //                 MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+    //                 callbackContext.success(fromCollection(sdk.getRegionMessageManager().isGeofenceMessagingEnabled()));
+    //             }
+    //     };
+    // }
 
     interface ActionHandler {
         void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext);
