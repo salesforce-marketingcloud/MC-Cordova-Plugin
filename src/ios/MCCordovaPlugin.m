@@ -146,7 +146,7 @@ const int LOG_LENGTH = 800;
         }
 
         NSString *gfm = pluginSettings[@"com.salesforce.marketingcloud.geofence_messaging"];
-        if ([gfm isEqualToString:@"YES"]) {
+        if ([gfm caseInsensitiveCompare:@"true"] == NSOrderedSame) {
             [configBuilder sfmc_setLocationEnabled:@YES];
         }
 

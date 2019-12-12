@@ -106,7 +106,7 @@ public class MCSdkConfig {
                                 "true".equalsIgnoreCase(val));
                             break;
                         case CONFIG_PREFIX + "geofence_messaging":
-                            if (val.equalsIgnoreCase("YES")) {
+                            if (val.equalsIgnoreCase("true")) {
                                 builder.setGeofencingEnabled(true);
                             }
                             break;
