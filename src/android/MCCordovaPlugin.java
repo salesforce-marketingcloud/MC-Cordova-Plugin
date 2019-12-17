@@ -448,8 +448,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 @Override
                 public void execute(
                     MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                    boolean success = sdk.getRegionMessageManager().disableGeofenceMessaging();
-                    callbackContext.success(success ? 1 : 0);
+                    sdk.getRegionMessageManager().disableGeofenceMessaging();
+                    callbackContext.success();
                 }
         };
     }
