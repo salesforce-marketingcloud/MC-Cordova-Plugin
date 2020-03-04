@@ -25,21 +25,20 @@
  */
 package com.salesforce.marketingcloud.cordova;
 
+import static com.salesforce.marketingcloud.cordova.MCCordovaPlugin.TAG;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import androidx.annotation.Nullable;
 import android.util.Log;
+import androidx.annotation.Nullable;
 import com.google.firebase.FirebaseApp;
 import com.salesforce.marketingcloud.MarketingCloudConfig;
 import com.salesforce.marketingcloud.notifications.NotificationCustomizationOptions;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
 import java.util.Locale;
-
-import static com.salesforce.marketingcloud.cordova.MCCordovaPlugin.TAG;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
 public class MCSdkConfig {
     private static final String CONFIG_PREFIX = "com.salesforce.marketingcloud.";
