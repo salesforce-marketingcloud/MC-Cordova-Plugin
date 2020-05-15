@@ -14,10 +14,11 @@ buildscript {
 repositories {
     maven { url "https://maven.google.com" }
     maven { url "http://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/repository" }
+    mavenLocal()
 }
 
 dependencies {
-    implementation("com.salesforce.marketingcloud:marketingcloudsdk:7.1.+")
+    implementation("com.salesforce.marketingcloud:marketingcloudsdk:7.2.+")
 }
 
 ext.cdvPluginPostBuildExtras += {
