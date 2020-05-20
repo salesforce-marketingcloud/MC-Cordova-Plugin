@@ -67,7 +67,7 @@
         <pod name="MarketingCloudSDK" spec="~> 7.1" />
       </pods>
     </podspec>
-    <framework src="CoreLocation.framework/" /> 
+    <framework src="CoreLocation.framework" /> 
 
   </platform>
 </plugin>
