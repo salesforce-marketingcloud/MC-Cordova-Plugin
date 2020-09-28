@@ -53,7 +53,7 @@ import org.robolectric.shadows.ShadowLog
 import java.util.concurrent.ExecutorService
 
 @RunWith(RobolectricTestRunner::class)
-@Config(shadows = [ShadowMarketingCloudSdk::class])
+@Config(shadows = [ShadowMarketingCloudSdk::class, ShadowNotificationManager::class])
 class MCCordovaPluginTest {
 
     val plugin = MCCordovaPlugin()
@@ -88,6 +88,7 @@ class MCCordovaPluginTest {
     @After
     fun tearDown() {
         Mockito.reset(sdk, pushMessageManager, registrationEditor, registrationManager, callbackContext)
+        ShadowNotificationManager.reset()
         ShadowMarketingCloudSdk.reset()
     }
 
@@ -358,7 +359,7 @@ class MCCordovaPluginTest {
         assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
 
         // WHEN
-        plugin.onNewIntent(intentWithMessage())
+        plugin.onNewIntent(intentWithMessage(createMockNotificationMessage()))
 
         // THEN
         verifyNoMoreInteractions(callbackContext)
@@ -368,7 +369,10 @@ class MCCordovaPluginTest {
     fun pushOpenedSubscribed_afterOnNewIntent_sendsCachedPush() {
         // GIVEN
         assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
-        plugin.onNewIntent(intentWithMessage(openDirectUrl = "https://salesforce.com"))
+        val notificationMessage = createMockNotificationMessage(openDirectUrl = "https://salesforce.com")
+        val intentWithMessage = intentWithMessage(notificationMessage)
+        ShadowNotificationManager.expectedMessage = notificationMessage
+        plugin.onNewIntent(intentWithMessage)
 
         // WHEN
         plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
@@ -399,9 +403,12 @@ class MCCordovaPluginTest {
         // GIVEN
         assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
         plugin.execute("subscribe", JSONArray().apply { put("notificationOpened") }, mock<CallbackContext>())
+        val notificationMessage = createMockNotificationMessage(cloudPageUrl = "https://salesforce.com")
+        val intentWithMessage = intentWithMessage(notificationMessage)
+        ShadowNotificationManager.expectedMessage = notificationMessage
 
         // WHEN
-        plugin.onNewIntent(intentWithMessage(cloudPageUrl = "https://salesforce.com"))
+        plugin.onNewIntent(intentWithMessage)
 
         // THEN
         argumentCaptor<PluginResult>().apply {
@@ -428,8 +435,11 @@ class MCCordovaPluginTest {
     fun pushOpenedSubscribed_afterInitializaWithPush_sendsCachedPush() {
         // GIVEN
         assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
+        val notificationMessage = createMockNotificationMessage()
+        val intentWithMessage = intentWithMessage(notificationMessage)
+        ShadowNotificationManager.expectedMessage = notificationMessage
         val cordovaActivity = mock<Activity> {
-            on { intent } doReturn intentWithMessage()
+            on { intent } doReturn intentWithMessage
         }
         val cordovaInterface = mock<CordovaInterface> {
             on { activity } doReturn cordovaActivity
@@ -499,18 +509,34 @@ class MCCordovaPluginTest {
         verify(callbackContext).success()
     }
 
-    private fun intentWithMessage(messageId: String = "mId", alert: String = "Alert text",
-                                  openDirectUrl: String? = null, cloudPageUrl: String? = null): Intent {
+    private fun intentWithMessage(message: NotificationMessage): Intent {
         return Intent().apply {
-            val data = mutableMapOf("_sid" to "SFMC", "_m" to messageId, "alert" to alert).apply {
-                if (openDirectUrl != null) {
-                    put("_od", openDirectUrl)
-                } else if (cloudPageUrl != null) {
-                    put("_x", cloudPageUrl)
-                }
-            }
-            putExtra("com.salesforce.marketingcloud.notifications.EXTRA_MESSAGE",
-                    NotificationMessage.a(data))
+            putExtra("com.salesforce.marketingcloud.notifications.EXTRA_MESSAGE", message)
         }
+    }
+
+    private fun createMockNotificationMessage(messageId: String = "mId", alert: String = "Alert text",
+        openDirectUrl: String? = null, cloudPageUrl: String? = null): NotificationMessage {
+        val data = mutableMapOf("_sid" to "SFMC", "_m" to messageId, "alert" to alert).apply {
+            if (openDirectUrl != null) {
+                put("_od", openDirectUrl)
+            } else if (cloudPageUrl != null) {
+                put("_x", cloudPageUrl)
+            }
+        }
+        val notificationMessage = mock<NotificationMessage>()
+        whenever(notificationMessage.id).thenReturn(messageId)
+        whenever(notificationMessage.alert).thenReturn(alert)
+        whenever(notificationMessage.sound).thenReturn(NotificationMessage.Sound.DEFAULT)
+        whenever(notificationMessage.url).thenReturn(cloudPageUrl ?: openDirectUrl)
+        whenever(notificationMessage.type).thenReturn(
+            if (cloudPageUrl != null) { NotificationMessage.Type.CLOUD_PAGE }
+            else if (openDirectUrl != null) { NotificationMessage.Type.OPEN_DIRECT }
+            else { NotificationMessage.Type.OTHER}
+        )
+        whenever(notificationMessage.trigger).thenReturn(NotificationMessage.Trigger.PUSH)
+        whenever(notificationMessage.customKeys).thenReturn(emptyMap())
+        whenever(notificationMessage.payload).thenReturn(data)
+        return notificationMessage
     }
 }
