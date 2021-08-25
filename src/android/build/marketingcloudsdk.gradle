@@ -22,6 +22,10 @@ dependencies {
     implementation("com.salesforce.marketingcloud:marketingcloudsdk:7.3.+")
 }
 
-ext.cdvPluginPostBuildExtras += {
-    apply plugin: com.google.gms.googleservices.GoogleServicesPlugin
-}
+ext.cdvPluginPostBuildExtras.add({
+    if (!plugins.hasPlugin('com.google.gms.google-services')) {
+        apply {
+            plugin com.google.gms.googleservices.GoogleServicesPlugin
+        }
+    }
+})
