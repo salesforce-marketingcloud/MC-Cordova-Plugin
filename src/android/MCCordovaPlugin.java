@@ -49,7 +49,7 @@ import org.json.JSONObject;
 
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
-
+    private static final String EXTRA_MESSAGE = "com.salesforce.marketingcloud.notifications.EXTRA_MESSAGE";
     private CallbackContext eventsChannel = null;
     private PluginResult cachedNotificationOpenedResult = null;
     private boolean notificationOpenedSubscribed = false;
@@ -97,14 +97,20 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         MCSdkListener.INSTANCE.urlHandler = this;
-        handleNotificationMessage(
-            NotificationManager.extractMessage(cordova.getActivity().getIntent()));
+
+        Intent intent = cordova.getActivity().getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_MESSAGE)) {
+            handleNotificationMessage(NotificationManager.extractMessage(intent));
+        }
     }
 
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        handleNotificationMessage(NotificationManager.extractMessage(intent));
+
+        if (intent != null && intent.hasExtra(EXTRA_MESSAGE)) {
+            handleNotificationMessage(NotificationManager.extractMessage(intent));
+        }
     }
 
     private void handleNotificationMessage(@Nullable NotificationMessage message) {
