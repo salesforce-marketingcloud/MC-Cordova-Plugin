@@ -68,15 +68,15 @@ class MCSdkConfigTest {
                 RuntimeEnvironment.application)
 
         // THEN
-        assertThat(config.applicationId()).isEqualTo(testAppId)
-        assertThat(config.accessToken()).isEqualTo(testAccessToken)
-        assertThat(config.senderId()).isEqualTo(testSenderId)
-        assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
-        assertThat(config.analyticsEnabled()).isFalse()
-        assertThat(config.delayRegistrationUntilContactKeyIsSet()).isFalse()
-        assertThat(config.geofencingEnabled()).isFalse()
-        assertThat(config.proximityEnabled()).isFalse()
-        assertThat(config.piAnalyticsEnabled()).isFalse()
+        assertThat(config.applicationId).isEqualTo(testAppId)
+        assertThat(config.accessToken).isEqualTo(testAccessToken)
+        assertThat(config.senderId).isEqualTo(testSenderId)
+        assertThat(config.marketingCloudServerUrl).isEqualTo(testTse)
+        assertThat(config.analyticsEnabled).isFalse()
+        assertThat(config.delayRegistrationUntilContactKeyIsSet).isFalse()
+        assertThat(config.geofencingEnabled).isFalse()
+        assertThat(config.proximityEnabled).isFalse()
+        assertThat(config.piAnalyticsEnabled).isFalse()
 
         FirebaseApp.getInstance()?.delete()
     }
@@ -100,12 +100,12 @@ class MCSdkConfigTest {
                 RuntimeEnvironment.application)
 
         // THEN
-        assertThat(config.applicationId()).isEqualTo(testAppId)
-        assertThat(config.accessToken()).isEqualTo(testAccessToken)
-        assertThat(config.senderId()).isEqualTo(testSenderId)
-        assertThat(config.analyticsEnabled()).isTrue()
-        assertThat(config.delayRegistrationUntilContactKeyIsSet()).isTrue()
-        assertThat(config.marketingCloudServerUrl()).isEqualTo(testTse)
+        assertThat(config.applicationId).isEqualTo(testAppId)
+        assertThat(config.accessToken).isEqualTo(testAccessToken)
+        assertThat(config.senderId).isEqualTo(testSenderId)
+        assertThat(config.analyticsEnabled).isTrue()
+        assertThat(config.delayRegistrationUntilContactKeyIsSet).isTrue()
+        assertThat(config.marketingCloudServerUrl).isEqualTo(testTse)
     }
 
 
