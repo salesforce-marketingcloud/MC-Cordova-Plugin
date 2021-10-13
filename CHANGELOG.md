@@ -1,5 +1,11 @@
 Change Log
 ==========
+### Version 7.4.2
+* 7.4.x versions of the Android and iOS Marketing Cloud SDK are used in this version
+* This plugin version requires Cordova Android 9.0.0 as minimum version to build , which makes minimum supported Android version as 5.1. 
+* Google Play Services Plugin enable/disable support and version change can be modified in config.xml
+* Added AndroidXEnabled preference as true , as Android Marketing Cloud SDK depends on these support libraries
+
 ### Version 7.4.1
 * Updated to the 7.4.x versions of the Android and iOS Marketing Cloud SDK.
 * Fix for removing un necessary Logcat statements on newIntent() flow in Android

@@ -6,7 +6,6 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0'
-        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 
@@ -19,8 +18,4 @@ repositories {
 
 dependencies {
     implementation("com.salesforce.marketingcloud:marketingcloudsdk:7.4.+")
-}
-
-ext.cdvPluginPostBuildExtras += {
-    apply plugin: com.google.gms.googleservices.GoogleServicesPlugin
 }
