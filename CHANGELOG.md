@@ -1,5 +1,9 @@
 Change Log
 ==========
+### Version 7.4.3
+* 7.4.x versions of the Android and iOS Marketing Cloud SDK are used in this version
+* Fix Insecure Maven URL for downloading of Marketing Cloud SDK in Android
+
 ### Version 7.4.2
 * 7.4.x versions of the Android and iOS Marketing Cloud SDK are used in this version
 * This plugin version requires Cordova Android 9.0.0 as minimum version to build , which makes minimum supported Android version as 5.1. 
