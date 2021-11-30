@@ -38,6 +38,29 @@ pod repo update
 <!-- Optional -->
 <preference name="com.salesforce.marketingcloud.analytics" value="{true|false}" />
 <preference name="com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set" value="{true|false}" />
+<preference name="com.salesforce.marketingcloud.geofence_messaging" value="{true|false}" />
+
+<!-- Add permissions for geofence messaging -->
+<platform name="android">
+  <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  </config-file>
+  <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+  </config-file>
+</platform>
+
+<platform name="ios">
+  <edit-config target="NSLocationAlwaysUsageDescription" file="*-Info.plist" mode="merge">
+      <string>need location access to find things nearby</string>
+  </edit-config>
+  <edit-config target="NSLocationAlwaysAndWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+      <string>need location access to find things nearby</string>
+  </edit-config>
+  <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+      <string>need location access to find things nearby</string>
+  </edit-config>
+</platform>
 ```
 
 #### 3. Provide FCM credentials
@@ -79,10 +102,18 @@ Follow [these instructions](./ios_push.md) to enable push for iOS.
         * [.setOnNotificationOpenedListener(notificationOpenedListener)](#module_MCCordovaPlugin.setOnNotificationOpenedListener)
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
         * [.logSdkState([successCallback], [errorCallback])](#module_MCCordovaPlugin.logSdkState)
+        * [.watchingLocation([successCallback], [errorCallback])](#module_MCCordovaPlugin.watchingLocation)
+        * [.startWatchingLocation([successCallback], [errorCallback])](#module_MCCordovaPlugin.startWatchingLocation)
+        * [.stopWatchingLocation([successCallback], [errorCallback])](#module_MCCordovaPlugin.stopWatchingLocation)
+        * [.locationEnabled([successCallback], [errorCallback])](#module_MCCordovaPlugin.locationEnabled) 
+        * [.lastKnownLocation([successCallback], [errorCallback])](#module_MCCordovaPlugin.lastKnownLocation)
     * _inner_
         * [~notificationOpenedCallback](#module_MCCordovaPlugin..notificationOpenedCallback) : <code>function</code>
         * [~urlActionCallback](#module_MCCordovaPlugin..urlActionCallback) : <code>function</code>
 
+  __Notes__
+  + locationEnabled --> iOS only currently, not really needed for geofencing but usefull to check app permissions
+  + lastKnownLocation --> iOS only currently, not really needed for geofencing but usefull to check app permissions
 
 ---
 
@@ -371,6 +402,47 @@ Android and Xcode/Console.app for iOS).  This content can help diagnose most iss
 the SDK and will be requested by the Marketing Cloud support team.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Since**: 6.3.1  
+
+| Param | Type |
+| --- | --- |
+| [successCallback] | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
+
+<a name="module_MCCordovaPlugin..watchingLocation"></a>
+
+### MCCordovaPlugin.watchingLocation([successCallback], [errorCallback])
+Check geofence location status.
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
+**Since**: 6.3.1  
+
+| Param | Type |
+| --- | --- |
+| [successCallback] | <code>function</code> | 
+| [successCallback.status] | <code>boolean</code> | 
+| [errorCallback] | <code>function</code> | 
+
+<a name="module_MCCordovaPlugin..startWatchingLocation"></a>
+
+### MCCordovaPlugin.startWatchingLocation([successCallback], [errorCallback])
+Start watching geofence location changes.
+When enabled, it sends location status to Marketing Cloud, allowing for geofence messaging to send to the app/device. 
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
+**Since**: 6.3.1  
+
+| Param | Type |
+| --- | --- |
+| [successCallback] | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
+
+<a name="module_MCCordovaPlugin..stopWatchingLocation"></a>
+
+### MCCordovaPlugin.stopWatchingLocation([successCallback], [errorCallback])
+Stop watching geofence location changes.
+
+**Kind**: static method of <code>[MCCordovaPlugin](#module_MCCordovaPlugin)</code>  
 **Since**: 6.3.1  
 
 | Param | Type |

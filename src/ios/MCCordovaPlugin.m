@@ -145,6 +145,11 @@ const int LOG_LENGTH = 800;
             [configBuilder sfmc_setMarketingCloudServerUrl:tse];
         }
 
+        NSString *gfm = pluginSettings[@"com.salesforce.marketingcloud.geofence_messaging"];
+        if ([gfm caseInsensitiveCompare:@"true"] == NSOrderedSame) {
+            [configBuilder sfmc_setLocationEnabled:@YES];
+        }
+
         NSError *configError = nil;
         if ([[MarketingCloudSDK sharedInstance]
                 sfmc_configureWithDictionary:[configBuilder sfmc_build]
@@ -401,6 +406,39 @@ const int LOG_LENGTH = 800;
         [self sendNotificationEvent:self.cachedNotification];
         self.cachedNotification = nil;
     }
+}
+
+- (void)locationEnabled:(CDVInvokedUrlCommand *)command {
+	BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_locationEnabled];
+	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+	                                        messageAsInt:(success) ? 1 : 0]
+	 callbackId:command.callbackId];
+}
+
+- (void)startWatchingLocation:(CDVInvokedUrlCommand *)command {
+    [[MarketingCloudSDK sharedInstance] sfmc_startWatchingLocation];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
+- (void)sfmc_stopWatchingLocation:(CDVInvokedUrlCommand *)command {
+    [[MarketingCloudSDK sharedInstance] sfmc_stopWatchingLocation];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
+- (void)watchingLocation:(CDVInvokedUrlCommand *)command {
+	BOOL success = [[MarketingCloudSDK sharedInstance] sfmc_watchingLocation];
+	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+	                                        messageAsInt:(success) ? 1 : 0]
+	 callbackId:command.callbackId];
+}
+
+- (void)lastKnownLocation:(CDVInvokedUrlCommand *)command {
+	NSDictionary<NSString *, NSString *> *lastLocation = [[MarketingCloudSDK sharedInstance] sfmc_lastKnownLocation];
+	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+	                                        messageAsDictionary:lastLocation]
+	 callbackId:command.callbackId];
 }
 
 @end
