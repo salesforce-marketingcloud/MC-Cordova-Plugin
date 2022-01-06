@@ -67,7 +67,7 @@
     <source-file src="src/ios/MCCordovaPlugin.m" />
     <podspec>
       <config>
-        <source url="https://github.com/CocoaPods/Specs.git"/>
+        <source url="https://cdn.cocoapods.org/"/>
       </config>
       <pods use-frameworks="true">
         <pod name="MarketingCloudSDK" spec="~> 7.4" />
