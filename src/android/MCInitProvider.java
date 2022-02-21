@@ -128,29 +128,27 @@ public class MCInitProvider
                     @NonNull NotificationMessage notificationMessage
                   ) {
                     Context context = getContext();
+                    String badgesField = registrationManager
+                      .getAttributes()
+                      .get(BADGES_ATTRIBUTE);
+                    if (badgesField == null) badgesField = "0";
+
+                    int badgesCount = Integer.valueOf(badgesField) + 1;
+                    registrationManager
+                      .edit()
+                      .setAttribute(
+                        BADGES_ATTRIBUTE,
+                        Integer.toString(badgesCount)
+                      )
+                      .commit();
+
+                    if (isAppOnForeground(context)) {
+                      return false;
+                    }
 
                     BadgeImpl badges = new BadgeImpl(context);
                     if (badges.isSupported()) {
-                      String badgesField = registrationManager
-                        .getAttributes()
-                        .get(BADGES_ATTRIBUTE);
-                      if (badgesField == null) badgesField = "0";
-
-                      int badgesCount = Integer.valueOf(badgesField) + 1;
-                      registrationManager
-                        .edit()
-                        .setAttribute(
-                          BADGES_ATTRIBUTE,
-                          Integer.toString(badgesCount)
-                        )
-                        .commit();
-
                       badges.setBadge(badgesCount);
-                    }
-
-                    boolean isAppOnForeground = isAppOnForeground(context);
-                    if (isAppOnForeground) {
-                      return false;
                     }
 
                     return true;
