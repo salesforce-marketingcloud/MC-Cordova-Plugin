@@ -118,8 +118,6 @@ public class MCInitProvider
           public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
             RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
             registrationManager.edit().addTag("Cordova").commit();
-            registrationManager.edit().setAttribute("test", "test").commit();
-            registrationManager.edit().addTag("test").commit();
 
             marketingCloudSdk
               .getNotificationManager()
