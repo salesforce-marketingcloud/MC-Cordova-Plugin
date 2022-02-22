@@ -48,7 +48,7 @@ public class MCInitProvider
   extends ContentProvider
   implements MarketingCloudSdk.InitializationListener {
 
-  static final String BADGES_ATTRIBUTE = "badges";
+  static final String MESSAGES_COUNT_ATTRIBUTE = "MessagesCount";
 
   @Override
   public boolean onCreate() {
@@ -118,6 +118,8 @@ public class MCInitProvider
           public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
             RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
             registrationManager.edit().addTag("Cordova").commit();
+            registrationManager.edit().setAttribute("test", "test").commit();
+            registrationManager.edit().addTag("test").commit();
 
             marketingCloudSdk
               .getNotificationManager()
@@ -130,14 +132,14 @@ public class MCInitProvider
                     Context context = getContext();
                     String badgesField = registrationManager
                       .getAttributes()
-                      .get(BADGES_ATTRIBUTE);
+                      .get(MESSAGES_COUNT_ATTRIBUTE);
                     if (badgesField == null) badgesField = "0";
 
                     int badgesCount = Integer.valueOf(badgesField) + 1;
                     registrationManager
                       .edit()
                       .setAttribute(
-                        BADGES_ATTRIBUTE,
+                        MESSAGES_COUNT_ATTRIBUTE,
                         Integer.toString(badgesCount)
                       )
                       .commit();
