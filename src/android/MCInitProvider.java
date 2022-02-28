@@ -118,43 +118,6 @@ public class MCInitProvider
           public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
             RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
             registrationManager.edit().addTag("Cordova").commit();
-
-            marketingCloudSdk
-              .getNotificationManager()
-              .setShouldShowNotificationListener(
-                new NotificationManager.ShouldShowNotificationListener() {
-                  @Override
-                  public boolean shouldShowNotification(
-                    @NonNull NotificationMessage notificationMessage
-                  ) {
-                    Context context = getContext();
-                    String badgesField = registrationManager
-                      .getAttributes()
-                      .get(MESSAGES_COUNT_ATTRIBUTE);
-                    if (badgesField == null) badgesField = "0";
-
-                    int badgesCount = Integer.valueOf(badgesField) + 1;
-                    registrationManager
-                      .edit()
-                      .setAttribute(
-                        MESSAGES_COUNT_ATTRIBUTE,
-                        Integer.toString(badgesCount)
-                      )
-                      .commit();
-
-                    if (isAppOnForeground(context)) {
-                      return false;
-                    }
-
-                    BadgeImpl badges = new BadgeImpl(context);
-                    if (badges.isSupported()) {
-                      badges.setBadge(badgesCount);
-                    }
-
-                    return true;
-                  }
-                }
-              );
           }
         }
       );
