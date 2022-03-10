@@ -305,8 +305,18 @@ var MCCordovaPlugin = {
     logSdkState: function(successCallback, errorCallback) {
         argsCheck.checkArgs('FF', `${PLUGIN_NAME}.logSdkState`, arguments);
         _exec(successCallback, errorCallback, 'logSdkState');
-    }
+    },
 
+    /**
+     * @see {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.inbox/-inbox-message-manager/mark-all-messages-read.html|Android Docs}
+     *
+     * @param  {function} [successCallback]
+     * @param  {function} [errorCallback]
+     */
+    markAllMessagesRead: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.markAllMessagesRead`, arguments);
+        _exec(successCallback, errorCallback, 'markAllMessagesRead');
+    }
 };
 
 module.exports = MCCordovaPlugin;

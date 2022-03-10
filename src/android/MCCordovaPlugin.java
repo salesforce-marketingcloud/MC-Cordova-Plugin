@@ -262,6 +262,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return setContactKey();
             case "getContactKey":
                 return getContactKey();
+            case "markAllMessagesRead":
+                return markAllMessagesRead();
             case "logSdkState":
                 return logSdkState();
             default:
@@ -414,6 +416,17 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             public void execute(
                 MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 log("MCSDK STATE", sdk.getSdkState().toString());
+                callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler markAllMessagesRead() {
+        return new ActionHandler() {
+            @Override
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                sdk.getInboxMessageManager().markAllMessagesRead();
                 callbackContext.success();
             }
         };
