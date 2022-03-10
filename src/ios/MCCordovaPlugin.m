@@ -153,6 +153,10 @@ const int LOG_LENGTH = 800;
             [[MarketingCloudSDK sharedInstance] sfmc_setURLHandlingDelegate:self];
             [[MarketingCloudSDK sharedInstance] sfmc_addTag:@"Cordova"];
             [self requestPushPermission];
+
+            // after configuring your SDK, set the location delegate to your class implementing the sfmc_shouldShowLocationMessage:forRegion: method
+            // @see https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Protocols/MarketingCloudSDKLocationDelegate.html
+            [[MarketingCloudSDK sharedInstance] sfmc_setLocationDelegate:self];
         } else if (configError != nil) {
             os_log_debug(OS_LOG_DEFAULT, "%@", configError);
             if (configError.code == configureInvalidAppEndpointError) {
@@ -197,6 +201,11 @@ const int LOG_LENGTH = 800;
                       }
                     }];
     }
+}
+
+- (BOOL)sfmc_shouldShowLocationMessage:(NSDictionary *_Nonnull)message
+                             forRegion:(NSDictionary *_Nonnull)region {
+    return [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
 }
 
 - (void)sendNotificationEvent:(NSDictionary *)notification {
