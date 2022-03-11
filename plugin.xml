@@ -44,6 +44,7 @@
     <source-file src="src/android/MCSdkConfig.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
     <source-file src="src/android/MCInitProvider.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
     <source-file src="src/android/MCSdkListener.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
+    <source-file src="src/android/NotificationBroadcastReceiver.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
 
   </platform>
 
