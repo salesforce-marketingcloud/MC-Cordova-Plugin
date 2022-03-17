@@ -50,7 +50,7 @@ import org.json.JSONObject;
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
 
-    private CallbackContext eventsChannel = null;
+    private static CallbackContext eventsChannel = null;
     private PluginResult cachedNotificationOpenedResult = null;
     private boolean notificationOpenedSubscribed = false;
 
@@ -105,6 +105,20 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleNotificationMessage(NotificationManager.extractMessage(intent));
+    }
+
+    public static void sendMessage(String message) {
+        try {
+        PluginResult result;
+        JSONObject eventArgs = new JSONObject();
+        eventArgs.put("message", message);
+        eventArgs.put("type", "notificationReceived");
+        result = new PluginResult(PluginResult.Status.OK, eventArgs);
+        result.setKeepCallback(true);
+        eventsChannel.sendPluginResult(result);
+        } catch (Exception e) {
+        // NO_OP
+        }
     }
 
     private void handleNotificationMessage(@Nullable NotificationMessage message) {

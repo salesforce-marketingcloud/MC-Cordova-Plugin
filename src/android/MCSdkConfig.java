@@ -50,6 +50,7 @@ import de.appplant.cordova.plugin.badge.BadgeImpl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -156,6 +157,12 @@ public class MCSdkConfig {
                   "NotificationBuilder",
                   notificationMessage.toString()
                 );
+                if (isAppOnForeground(context)) {
+                  JSONObject data = new JSONObject(notificationMessage.payload());
+                  MCCordovaPlugin.sendMessage(data.toString());
+
+                  return null;
+                }
 
                 RegistrationManager registrationManager = MarketingCloudSdk
                   .getInstance()
