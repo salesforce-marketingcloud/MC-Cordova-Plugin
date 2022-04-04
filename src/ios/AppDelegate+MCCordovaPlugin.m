@@ -85,7 +85,7 @@
          withCompletionHandler:
              (void (^)(UNNotificationPresentationOptions options))completionHandler {
     if (completionHandler != nil) {
-        completionHandler(UNNotificationPresentationOptionAlert);
+        completionHandler(UNNotificationPresentationOptionNone);
     }
 }
 
