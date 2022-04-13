@@ -36,11 +36,6 @@
     </config-file>
 
     <config-file parent="/manifest/application" target="AndroidManifest.xml">
-      <receiver android:enabled="true" android:name="com.adeccoglobal.app.NotificationBroadcastReceiver">
-          <intent-filter>
-              <action android:name="notification_cancelled"/>
-          </intent-filter>
-      </receiver>
       <provider android:name="com.salesforce.marketingcloud.cordova.MCInitProvider" android:authorities="$PACKAGE_NAME.com.salesforce.marketingcloud.cordova.MCInitProvider" android:enabled="true" android:exported="false" />
     </config-file>
 
@@ -48,7 +43,6 @@
     <source-file src="src/android/MCSdkConfig.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
     <source-file src="src/android/MCInitProvider.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
     <source-file src="src/android/MCSdkListener.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
-    <source-file src="src/android/NotificationBroadcastReceiver.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
 
   </platform>
 

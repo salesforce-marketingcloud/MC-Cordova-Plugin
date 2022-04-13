@@ -43,12 +43,14 @@ import com.salesforce.marketingcloud.notifications.NotificationMessage;
 import com.salesforce.marketingcloud.registration.RegistrationManager;
 import de.appplant.cordova.plugin.badge.BadgeImpl;
 import java.util.List;
+import org.json.JSONObject;
 
 public class MCInitProvider
   extends ContentProvider
   implements MarketingCloudSdk.InitializationListener {
 
   static final String MESSAGES_COUNT_ATTRIBUTE = "MessagesCount";
+  private static BadgeImpl badgeImpl;
 
   @Override
   public boolean onCreate() {
@@ -109,7 +111,7 @@ public class MCInitProvider
     return 0;
   }
 
-  @Override
+@Override
   public void complete(@NonNull InitializationStatus status) {
     if (status.isUsable()) {
       MarketingCloudSdk.requestSdk(
@@ -118,9 +120,74 @@ public class MCInitProvider
           public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
             RegistrationManager registrationManager = marketingCloudSdk.getRegistrationManager();
             registrationManager.edit().addTag("Cordova").commit();
+            NotificationManager.ShouldShowNotificationListener listener = new NotificationManager.ShouldShowNotificationListener() {
+              @Override
+              public boolean shouldShowNotification(@NonNull NotificationMessage notificationMessage) {
+                if(isAppOnForeground(getContext())) {
+                  JSONObject data = new JSONObject(notificationMessage.payload());
+                  MCCordovaPlugin.sendMessage(data.toString());
+
+                  return false;
+                }
+                String count = notificationMessage.customKeys().get("badge").toString();
+
+                updateMessageCountCount(registrationManager, "PushMessagesCount", count);
+                return true;
+              }
+            };
+            marketingCloudSdk.getNotificationManager().setShouldShowNotificationListener(
+                    listener
+            );
           }
         }
       );
     }
+  }
+
+  public static void updateMessageCountCount(
+          RegistrationManager registrationManager,
+          String type,
+          String count
+  ) {
+    String messageCountCountAttr = registrationManager
+            .getAttributes()
+            .get(type);
+    Log.println(
+            Log.DEBUG,
+            "NotificationBuilder",
+            "updateMessageCountCount:" + messageCountCountAttr + ",count:" + count
+    );
+    registrationManager
+            .edit()
+            .setAttribute(
+                    type,
+                    count
+            )
+            .commit();
+
+    if (badgeImpl.isSupported()) {
+      badgeImpl.setBadge(Integer.parseInt(count));
+    }
+  }
+
+  private static boolean isAppOnForeground(Context context) {
+    ActivityManager activityManager = (ActivityManager) context.getSystemService(
+            Context.ACTIVITY_SERVICE
+    );
+    List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+    if (appProcesses == null) {
+      return false;
+    }
+    final String packageName = context.getPackageName();
+    for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+      if (
+              appProcess.importance ==
+                      ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
+                      appProcess.processName.equals(packageName)
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 }
