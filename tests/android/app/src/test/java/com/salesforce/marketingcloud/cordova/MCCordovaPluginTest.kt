@@ -477,7 +477,7 @@ class MCCordovaPluginTest {
         plugin.execute("subscribe", JSONArray().apply { put("urlAction") }, mock<CallbackContext>())
 
         // WHEN
-        plugin.handleUrl(mock<Context>(), url, "webUrl")
+        //plugin.handleUrl(mock<Context>(), url, "webUrl")
 
         // THEN
         argumentCaptor<PluginResult>().apply {
