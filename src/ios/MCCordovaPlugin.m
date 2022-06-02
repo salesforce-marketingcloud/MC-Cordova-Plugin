@@ -312,6 +312,9 @@ const int LOG_LENGTH = 800;
                                 callbackId:command.callbackId];
 }
 
+- (void)clearBadges:(CDVInvokedUrlCommand *)command {
+}
+
 - (void)setAttribute:(CDVInvokedUrlCommand *)command {
     NSString *name = command.arguments[0];
     NSString *value = command.arguments[1];
