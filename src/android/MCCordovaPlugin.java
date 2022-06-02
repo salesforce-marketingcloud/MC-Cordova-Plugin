@@ -260,6 +260,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return enabledPush();
             case "disablePush":
                 return disablePush();
+            case "clearBadges":
+                return clearBadges();
             case "getAttributes":
                 return getAttributes();
             case "setAttribute":
@@ -399,6 +401,16 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             public void execute(
                 MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 sdk.getPushMessageManager().enablePush();
+                callbackContext.success();
+            }
+        };
+    }
+    
+    private ActionHandler clearBadges() {
+        return new ActionHandler() {
+            @Override
+            public void execute(
+                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success();
             }
         };
