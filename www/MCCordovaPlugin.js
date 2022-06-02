@@ -353,6 +353,17 @@
      argsCheck.checkArgs("FF", `${PLUGIN_NAME}.markAllMessagesRead`, arguments);
      _exec(successCallback, errorCallback, "markAllMessagesRead");
    },
+  
+     /**
+    * Clear badges on app icon
+    *
+    * @param  {function} [successCallback]
+    * @param  {function} [errorCallback]
+    */
+   clearBadges: function (successCallback, errorCallback) {
+     argsCheck.checkArgs("FF", `${PLUGIN_NAME}.clearBadges`, arguments);
+     _exec(successCallback, errorCallback, "clearBadges");
+   },
  };
  
  module.exports = MCCordovaPlugin;
