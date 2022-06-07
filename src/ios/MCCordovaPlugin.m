@@ -403,4 +403,10 @@ const int LOG_LENGTH = 800;
     }
 }
 
+- (void)track:(CDVInvokedUrlCommand *)command {
+    NSString *name = command.arguments[0];
+    NSDictionary *attributes = command.arguments[1];
+    [[MarketingCloudSDK sharedInstance] sfmc_track:[SFMCEvent customEventWithName:name withAttributes:attributes]];
+}
+
 @end

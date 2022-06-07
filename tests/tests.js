@@ -134,5 +134,14 @@ exports.defineAutoTests = function() {
                    'function')
                    .toBe(true);
            });
+
+        it('plugin.spec.17 should contain a track function',
+           function() {
+               expect(typeof MCCordovaPlugin.track)
+                   .toBeDefined();
+               expect(
+                   typeof MCCordovaPlugin.track ==='function')
+                   .toBe(true);
+           });
     });
 };

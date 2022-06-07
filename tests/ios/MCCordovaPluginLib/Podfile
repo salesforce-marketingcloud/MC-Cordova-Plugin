@@ -4,7 +4,7 @@
 target 'MCCordovaPluginLib' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
-  pod 'MarketingCloudSDK', '~> 7.4'
+  pod 'MarketingCloudSDK', '~> 7.6'
 	pod 'Cordova', '~> 4.5.4'
 
   # Pods for MCCordovaPluginLib

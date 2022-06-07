@@ -70,7 +70,7 @@
         <source url="https://github.com/CocoaPods/Specs.git"/>
       </config>
       <pods use-frameworks="true">
-        <pod name="MarketingCloudSDK" spec="~> 7.4" />
+        <pod name="MarketingCloudSDK" spec="~> 7.6" />
       </pods>
     </podspec>
     <framework src="CoreLocation.framework" /> 
