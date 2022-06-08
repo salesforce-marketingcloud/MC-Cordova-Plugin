@@ -411,6 +411,10 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             @Override
             public void execute(
                 MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                android.app.NotificationManager notificationManager = (android.app.NotificationManager) cordova.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                if(notificationManager != null) {
+                    notificationManager.cancelAll();
+                }
                 callbackContext.success();
             }
         };
