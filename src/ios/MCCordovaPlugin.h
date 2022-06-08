@@ -55,6 +55,8 @@
 - (void)registerEventsChannel:(CDVInvokedUrlCommand *)command;
 - (void)subscribe:(CDVInvokedUrlCommand *)command;
 
+- (void)clearBadges:(CDVInvokedUrlCommand *)command;
+
 @property(nonatomic, copy) NSString *eventsCallbackId;
 @property(nonatomic, assign) BOOL notificationOpenedSubscribed;
 @property(nonatomic, strong) NSDictionary *cachedNotification;
