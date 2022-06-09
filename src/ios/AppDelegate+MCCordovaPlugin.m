@@ -31,7 +31,7 @@
 
 #import "MarketingCloudSDK/MarketingCloudSDK.h"
 
-@implementation AppDelegate (MCCordovaPlugin)
+@implementation UIResponder (MCCordovaPlugin)
 
 - (void)sfmc_setNotificationDelegate {
     if (@available(iOS 10, *)) {
