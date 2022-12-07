@@ -97,6 +97,26 @@ The current state of the pushEnabled flag in the native Marketing Cloud
 SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+**Example:**
+```js
+let pushEnabled = false;
+// callback to handle push state
+const handlePushState = (enabled) => {
+   // update the push state in UI
+    pushEnabled = enabled;
+}
+// enable or disable push
+const togglePush = () => {
+    if (pushEnabled) {
+        MCCordovaPlugin.disablePush();
+    } else {
+        MCCordovaPlugin.enablePush();
+    }
+    MCCordovaPlugin.isPushEnabled(handlePushState);
+}
+``` 
+
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled())
@@ -115,6 +135,12 @@ SDK.
 Enables push messaging in the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+**Example:**
+```js
+MCCordovaPlugin.enablePush();
+``` 
+
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
@@ -132,6 +158,12 @@ Enables push messaging in the native Marketing Cloud SDK.
 Disables push messaging in the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+**Example:**
+```js
+MCCordovaPlugin.disablePush();
+``` 
+
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush())
@@ -150,6 +182,13 @@ Returns the token used by the Marketing Cloud to send push messages to
 the device.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+**Example**
+```js
+MCCordovaPlugin.getSystemToken(function(token) {
+    //TODO - use the token in your application
+});
+```
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken())
@@ -168,6 +207,13 @@ the device.
 Returns the maps of attributes set in the registration.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+**Example**
+```js
+MCCordovaPlugin.getAttributes((attributes) => {
+    // handle attributes
+});
+```
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getAttributes())
@@ -186,6 +232,22 @@ Returns the maps of attributes set in the registration.
 Sets the value of an attribute in the registration.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+**Example**
+```js
+ MCCordovaPlugin.setAttribute(
+    attributeKey, attributeValue,
+    //success callback
+    function() {
+        MCCordovaPlugin.getAttributes((attributes) => {
+            // handle updated attributes
+        });
+    },
+    // error callback
+    function(msg) {
+        alert(msg);
+});
+```
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setAttribute(java.lang.String,%20java.lang.String))
@@ -206,6 +268,13 @@ Sets the value of an attribute in the registration.
 Clears the value of an attribute in the registration.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+
+```js
+MCCordovaPlugin.clearAttribute(key, function() {
+    // callback to update UI
+});
+```
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#clearAttribute(java.lang.String))
@@ -222,7 +291,20 @@ Clears the value of an attribute in the registration.
 <a name="module_MCCordovaPlugin.addTag"></a>
 
 ### MCCordovaPlugin.addTag(tag, [successCallback], [errorCallback])
-**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin) 
+**Example:**
+```js
+function() {
+        var tag = document.getElementById('tag').value;
+        if (!tag || tag === '') {
+            alert('Tag cannot be null or empty.');
+            return;
+        }
+        MCCordovaPlugin.addTag(tag, function() {
+            MCCordovaPlugin.getTags(app.handleTags);
+        });
+    }
+``` 
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#addTag(java.lang.String))
@@ -240,6 +322,13 @@ Clears the value of an attribute in the registration.
 
 ### MCCordovaPlugin.removeTag(tag, [successCallback], [errorCallback])
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+
+```js
+MCCordovaPlugin.removeTag(tag, function() {
+    // success
+});
+```
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#removeTag(java.lang.String))
@@ -259,6 +348,15 @@ Clears the value of an attribute in the registration.
 Returns the tags currently set on the device.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+
+```js
+MCCordovaPlugin.getTags(function(tags) {
+    // update tags in UI
+    document.getElementById('tags').innerHTML =
+        JSON.stringify(tags, undefined, 2);
+});
+```
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getTags())
@@ -276,7 +374,12 @@ Returns the tags currently set on the device.
 ### MCCordovaPlugin.setContactKey(contactKey, [successCallback], [errorCallback])
 Sets the contact key for the device's user.
 
-**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin) 
+**Example**
+
+```js
+MCCordovaPlugin.setContactKey('your_contact_key');
+``` 
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.Editor.html#setContactKey(java.lang.String))
@@ -296,6 +399,14 @@ Sets the contact key for the device's user.
 Returns the contact key currently set on the device.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+
+```js
+MCCordovaPlugin.getContactKey(function(contactKey){
+    // success
+    console.log(contactKey)
+ });
+``` 
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/registration/RegistrationManager.html#getContactKey())
@@ -331,6 +442,10 @@ Enables verbose logging within the native Marketing Cloud SDK.
 Disables verbose logging within the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+```js
+ MCCordovaPlugin.enableVerboseLogging();
+``` 
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
@@ -346,8 +461,20 @@ Disables verbose logging within the native Marketing Cloud SDK.
 
 ### MCCordovaPlugin.setOnNotificationOpenedListener(notificationOpenedListener)
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
-**Since**: 6.1.0  
+**Since**: 6.1.0
 
+**Example**
+```js
+  onDeviceReady: function() {
+    // .....
+    MCCordovaPlugin.setOnNotificationOpenedListener(function(value) {
+        // display notification content on UI
+        document.getElementById('notificationData').textContent =
+            JSON.stringify(value, null, 4);
+    });
+    // .....
+  }
+```   
 | Param | Type |
 | --- | --- |
 | notificationOpenedListener | <code>function</code> | 
@@ -357,7 +484,21 @@ Disables verbose logging within the native Marketing Cloud SDK.
 
 ### MCCordovaPlugin.setOnUrlActionListener(urlActionListener)
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
-**Since**: 6.3.0  
+**Since**: 6.3.0 
+
+**Example**
+```js
+  onDeviceReady: function() {
+    // .....
+    MCCordovaPlugin.setOnUrlActionListener(function(value) {
+        // display notification content on UI
+        var jsonString = JSON.stringify(value, null, 4);
+        document.getElementById('urlActionData').textContent = jsonString;
+        window.open(JSON.parse(jsonString).url, "_blank");
+    });
+    // .....
+  }
+```  
 
 | Param | Type |
 | --- | --- |
@@ -373,6 +514,10 @@ the SDK and will be requested by the Marketing Cloud support team.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
 **Since**: 6.3.1  
+**Example**
+```js
+  MCCordovaPlugin.logSdkState();
+```  
 
 | Param | Type |
 | --- | --- |
@@ -386,6 +531,10 @@ Method to track events, which could result in actions such as an InApp Message b
 displayed.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+```js
+   MCCordovaPlugin.track("ScreenViewed", { "ScreenName" : "HomeScreen"});
+```  
 **See**
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/7.4/com.salesforce.marketingcloud.events/-event-manager/custom-event.html)
@@ -400,7 +549,19 @@ displayed.
 <a name="module_MCCordovaPlugin..notificationOpenedCallback"></a>
 
 ### MCCordovaPlugin~notificationOpenedCallback : <code>function</code>
-**Kind**: inner typedef of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Kind**: inner typedef of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)
+**Example**
+```js
+  onDeviceReady: function() {
+    // .....
+    MCCordovaPlugin.setOnNotificationOpenedListener(function(value) {
+        // display notification content on UI
+        document.getElementById('notificationData').textContent =
+            JSON.stringify(value, null, 4);
+    });
+    // .....
+  }
+``` 
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -415,6 +576,19 @@ displayed.
 
 ### MCCordovaPlugin~urlActionCallback : <code>function</code>
 **Kind**: inner typedef of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+```js
+  onDeviceReady: function() {
+    // .....
+    MCCordovaPlugin.setOnUrlActionListener(function(value) {
+        // display notification content on UI
+        var jsonString = JSON.stringify(value, null, 4);
+        document.getElementById('urlActionData').textContent = jsonString;
+        window.open(JSON.parse(jsonString).url, "_blank");
+    });
+    // .....
+  }
+``` 
 
 | Param | Type | Description |
 | --- | --- | --- |
