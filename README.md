@@ -74,7 +74,7 @@ Follow [these instructions](./ios_push.md) to enable push for iOS.
         * [.getTags(successCallback, [errorCallback])](#module_MCCordovaPlugin.getTags)
         * [.setContactKey(contactKey, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setContactKey)
         * [.getContactKey(successCallback, [errorCallback])](#module_MCCordovaPlugin.getContactKey)
-        * [.enableVerboseLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.enableVerboseLogging)
+        * [.enableLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.enableLogging)
         * [.disableVerboseLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.disableVerboseLogging)
         * [.setOnNotificationOpenedListener(notificationOpenedListener)](#module_MCCordovaPlugin.setOnNotificationOpenedListener)
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
@@ -191,7 +191,7 @@ MCCordovaPlugin.getSystemToken(function(token) {
 ```
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#getPushToken())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.registration/-registration-manager/get-system-token.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_deviceToken)
 
 
@@ -419,15 +419,15 @@ MCCordovaPlugin.getContactKey(function(contactKey){
 | successCallback.contactKey | <code>string</code> | The current contact key. |
 | [errorCallback] | <code>function</code> |  |
 
-<a name="module_MCCordovaPlugin.enableVerboseLogging"></a>
+<a name="module_MCCordovaPlugin.enableLogging"></a>
 
-### MCCordovaPlugin.enableVerboseLogging([successCallback], [errorCallback])
+### MCCordovaPlugin.enableLogging([successCallback], [errorCallback])
 Enables verbose logging within the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/trouble-shooting/loginterface.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:)
 
 
@@ -444,7 +444,7 @@ Disables verbose logging within the native Marketing Cloud SDK.
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
 **Example**
 ```js
- MCCordovaPlugin.enableVerboseLogging();
+ MCCordovaPlugin.enableLogging();
 ``` 
 **See**
 
@@ -518,6 +518,11 @@ the SDK and will be requested by the Marketing Cloud support team.
 ```js
   MCCordovaPlugin.logSdkState();
 ```  
+**See**
+
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/trouble-shooting/loginterface.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledocs/SFMCSdk/8.0/Classes/SFMCSdk.html#/c:@M@SFMCSDK@objc(cs)SFMCSdk(cm)setLoggerWithLogLevel:logOutputter:)
+
 
 | Param | Type |
 | --- | --- |

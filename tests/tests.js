@@ -107,12 +107,12 @@ exports.defineAutoTests = function() {
                    .toBe(true);
            });
 
-        it('plugin.spec.14 should contain a enableVerboseLogging function',
+        it('plugin.spec.14 should contain a enableLogging function',
            function() {
-               expect(typeof MCCordovaPlugin.enableVerboseLogging)
+               expect(typeof MCCordovaPlugin.enableLogging)
                    .toBeDefined();
                expect(
-                   typeof MCCordovaPlugin.enableVerboseLogging === 'function')
+                   typeof MCCordovaPlugin.enableLogging === 'function')
                    .toBe(true);
            });
 

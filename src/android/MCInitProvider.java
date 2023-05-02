@@ -30,25 +30,39 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.salesforce.marketingcloud.InitializationStatus;
-import com.salesforce.marketingcloud.MCLogListener;
-import com.salesforce.marketingcloud.MarketingCloudConfig;
-import com.salesforce.marketingcloud.MarketingCloudSdk;
-import com.salesforce.marketingcloud.registration.RegistrationManager;
 
-public class MCInitProvider
-    extends ContentProvider implements MarketingCloudSdk.InitializationListener {
+import com.salesforce.marketingcloud.MarketingCloudConfig;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkModuleConfig;
+import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
+import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
+import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus;
+
+public class MCInitProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Context ctx = getContext();
         if (ctx != null) {
-            MarketingCloudConfig.Builder builder = MCSdkConfig.prepareConfigBuilder(ctx);
-            if (builder != null) {
-                builder.setUrlHandler(MCSdkListener.INSTANCE);
-                MarketingCloudSdk.init(ctx, builder.build(ctx), this);
-            }
+            SFMCSdk.configure(ctx, SFMCSdkModuleConfig.build(builder -> {
+                MarketingCloudConfig.Builder mcBuilder = MCSdkConfig.prepareConfigBuilder(ctx);
+                if (mcBuilder != null) {
+                    mcBuilder.setUrlHandler(MCSdkListener.INSTANCE);
+                    builder.setPushModuleConfig(mcBuilder.build(ctx));
+                }
+                return null;
+            }), initializationStatus -> {
+                if (initializationStatus.getStatus() == InitializationStatus.SUCCESS) {
+                    // add default tag `Corodova`
+                    SFMCSdk.requestSdk(sdk -> sdk.mp(
+                            module -> module.getRegistrationManager().edit().addTag("Cordova").commit()));
+                }
+                return null;
+            });
         }
         return false;
     }
@@ -56,7 +70,7 @@ public class MCInitProvider
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
-        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+            @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         return null;
     }
 
@@ -74,27 +88,13 @@ public class MCInitProvider
 
     @Override
     public int delete(
-        @NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+            @NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection,
-        @Nullable String[] selectionArgs) {
+            @Nullable String[] selectionArgs) {
         return 0;
-    }
-
-    @Override
-    public void complete(@NonNull InitializationStatus status) {
-        if (status.isUsable()) {
-            MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
-                @Override
-                public void ready(@NonNull MarketingCloudSdk marketingCloudSdk) {
-                    RegistrationManager registrationManager =
-                        marketingCloudSdk.getRegistrationManager();
-                    registrationManager.edit().addTag("Cordova").commit();
-                }
-            });
-        }
     }
 }

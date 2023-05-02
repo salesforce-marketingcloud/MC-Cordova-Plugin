@@ -337,8 +337,8 @@ class MCCordovaPluginTest {
     }
 
     @Test
-    fun execute_enableVerboseLogging_success() {
-        assertThat(plugin.execute("enableVerboseLogging", JSONArray(), callbackContext)).isTrue()
+    fun execute_enableLogging_success() {
+        assertThat(plugin.execute("enableLogging", JSONArray(), callbackContext)).isTrue()
 
         assertThat(ShadowMarketingCloudSdk.getLogLevel()).isEqualTo(MCLogListener.VERBOSE)
         assertThat(ShadowMarketingCloudSdk.getLogListener()).isInstanceOf(

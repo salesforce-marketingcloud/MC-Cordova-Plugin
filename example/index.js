@@ -126,7 +126,7 @@ var app = {
         });
     },
     enableLogging: function() {
-        MCCordovaPlugin.enableVerboseLogging();
+        MCCordovaPlugin.enableLogging();
     },
     disableLogging: function() {
         MCCordovaPlugin.disableVerboseLogging();
