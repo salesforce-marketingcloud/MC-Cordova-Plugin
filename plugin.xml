@@ -17,7 +17,7 @@
   <engines>
     <engine name="cordova" version=">=9.0.0"/>
     <engine name="cordova-android" version=">=9.0.0" />
-    <engine name="cordova-ios" version=">=5.0.0" />
+    <engine name="cordova-ios" version=">=6.0.0" />
   </engines>
 
   <!-- js -->
@@ -70,7 +70,7 @@
         <source url="https://github.com/CocoaPods/Specs.git"/>
       </config>
       <pods use-frameworks="true">
-        <pod name="MarketingCloudSDK" spec="~> 7.6" />
+        <pod name="MarketingCloudSDK" spec="~> 8.0.10" />
       </pods>
     </podspec>
     <framework src="CoreLocation.framework" /> 

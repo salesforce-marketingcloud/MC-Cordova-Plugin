@@ -28,6 +28,7 @@
 #import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
 #import <MarketingCloudSDK/MarketingCloudSDK.h>
+#import <SFMCSDK/SFMCSDK.h>
 #import <UIKit/UIKit.h>
 
 @interface MCCordovaPlugin : CDVPlugin <MarketingCloudSDKURLHandlingDelegate>

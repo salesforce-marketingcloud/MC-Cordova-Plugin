@@ -29,39 +29,33 @@
 #import "AppDelegate+MCCordovaPlugin.h"
 #import "MCCordovaPlugin.h"
 
-#import "MarketingCloudSDK/MarketingCloudSDK.h"
+#import <MarketingCloudSDK/MarketingCloudSDK.h>
+#import <SFMCSDK/SFMCSDK.h>
 
 @implementation AppDelegate (MCCordovaPlugin)
 
 - (void)sfmc_setNotificationDelegate {
-    if (@available(iOS 10, *)) {
-        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    }
+    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 }
 
 - (void)application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    if (@available(iOS 10, *)) {
-        UNMutableNotificationContent *theSilentPushContent =
-            [[UNMutableNotificationContent alloc] init];
-        theSilentPushContent.userInfo = userInfo;
-        UNNotificationRequest *theSilentPushRequest =
-            [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString
-                                                 content:theSilentPushContent
-                                                 trigger:nil];
-
-        [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:theSilentPushRequest];
-    } else {
-        [[MarketingCloudSDK sharedInstance] sfmc_setNotificationUserInfo:userInfo];
-    }
+    UNMutableNotificationContent *theSilentPushContent =
+        [[UNMutableNotificationContent alloc] init];
+    theSilentPushContent.userInfo = userInfo;
+    UNNotificationRequest *theSilentPushRequest =
+        [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString
+                                             content:theSilentPushContent
+                                             trigger:nil];
+    [[SFMCSdk mp] setNotificationRequest:theSilentPushRequest];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)application:(UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // save the device token
-    [[MarketingCloudSDK sharedInstance] sfmc_setDeviceToken:deviceToken];
+    [[SFMCSdk mp] setDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application
@@ -73,7 +67,7 @@
     didReceiveNotificationResponse:(UNNotificationResponse *)response
              withCompletionHandler:(void (^)(void))completionHandler {
     // tell the MarketingCloudSDK about the notification
-    [[MarketingCloudSDK sharedInstance] sfmc_setNotificationRequest:response.notification.request];
+    [[SFMCSdk mp] setNotificationRequest:response.notification.request];
 
     if (completionHandler != nil) {
         completionHandler();
