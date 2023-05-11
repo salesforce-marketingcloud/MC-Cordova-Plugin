@@ -285,6 +285,76 @@ const int LOG_LENGTH = 800;
                                 callbackId:command.callbackId];
 }
 
+- (void)setAttribute:(CDVInvokedUrlCommand *)command {
+    NSString *name = command.arguments[0];
+    NSString *value = command.arguments[1];
+
+    [[SFMCSdk identity] setProfileAttributes:@{name: value}];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                messageAsInt:1]
+                                callbackId:command.callbackId];
+}
+
+- (void)clearAttribute:(CDVInvokedUrlCommand *)command {
+    NSString *name = command.arguments[0];
+
+    [[SFMCSdk identity] clearProfileAttributeWithKey:name];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                messageAsInt:1]
+                                callbackId:command.callbackId];
+}
+
+- (void)getAttributes:(CDVInvokedUrlCommand *)command {
+    NSDictionary *attributes = [[SFMCSdk mp] attributes];
+    [self.commandDelegate
+        sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                       messageAsDictionary:(attributes != nil) ? attributes : @{}]
+              callbackId:command.callbackId];
+}
+
+- (void)getContactKey:(CDVInvokedUrlCommand *)command {
+    NSString *contactKey = [[SFMCSdk mp] contactKey];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                             messageAsString:contactKey]
+                                callbackId:command.callbackId];
+}
+
+- (void)setContactKey:(CDVInvokedUrlCommand *)command {
+    NSString *contactKey = command.arguments[0];
+
+    [[SFMCSdk identity] setProfileId:contactKey];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                messageAsInt:1]
+                                callbackId:command.callbackId];
+}
+
+- (void)addTag:(CDVInvokedUrlCommand *)command {
+    NSString *tag = command.arguments[0];
+
+    BOOL success =  [[SFMCSdk mp] addTag:tag];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                messageAsInt:(success) ? 1 : 0]
+                                callbackId:command.callbackId];
+}
+
+- (void)removeTag:(CDVInvokedUrlCommand *)command {
+    NSString *tag = command.arguments[0];
+
+    BOOL success = [[SFMCSdk mp] removeTag:tag];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                messageAsInt:(success) ? 1 : 0]
+                                callbackId:command.callbackId];
+}
+
+- (void)getTags:(CDVInvokedUrlCommand *)command {
+    NSArray *arrayTags = [[[SFMCSdk mp] tags] allObjects];
+
+    [self.commandDelegate
+        sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                            messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
+              callbackId:command.callbackId];
+}
+
 - (void)registerEventsChannel:(CDVInvokedUrlCommand *)command {
     self.eventsCallbackId = command.callbackId;
     if (self.notificationOpenedSubscribed) {
