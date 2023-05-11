@@ -1,79 +1,90 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin id="cordova-plugin-marketingcloudsdk" version="7.5.0"
-  xmlns="http://apache.org/cordova/ns/plugins/1.0" 
-  xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <name>MCCordovaPlugin</name>
-
-  <description>A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs</description>
-
-  <repo>https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin</repo>
-
-  <license>BSD-3-Clause</license>
-
-  <author>Salesforce Marketing Cloud</author>
-
-  <!-- cordova -->
-  <engines>
-    <engine name="cordova" version=">=9.0.0"/>
-    <engine name="cordova-android" version=">=9.0.0" />
-    <engine name="cordova-ios" version=">=6.0.0" />
-  </engines>
-
-  <!-- js -->
-  <js-module name="MCCordovaPlugin" src="www/MCCordovaPlugin.js">
-    <clobbers target="MCCordovaPlugin" />
-  </js-module>
-
-  <!-- android -->
-  <platform name="android">
-    <framework src="src/android/build/marketingcloudsdk.gradle" custom="true" type="gradleReference" />
-
-    <config-file parent="/*" target="res/xml/config.xml">
-      <feature name="MCCordovaPlugin">
-        <param name="android-package" value="com.salesforce.marketingcloud.cordova.MCCordovaPlugin" />
-      </feature>
-    </config-file>
-
-    <config-file target="config.xml" parent="/*">
-      <preference name="AndroidXEnabled" value="true" />
-      <preference name="GradlePluginGoogleServicesEnabled" value="true" />
-      <preference name="GradlePluginGoogleServicesVersion" value="4.3.10" />
-    </config-file>
-
-    <config-file parent="/manifest/application" target="AndroidManifest.xml">
-
-      <provider android:name="com.salesforce.marketingcloud.cordova.MCInitProvider" android:authorities="$PACKAGE_NAME.com.salesforce.marketingcloud.cordova.MCInitProvider" android:enabled="true" android:exported="false" />
-    </config-file>
-
-    <source-file src="src/android/MCCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
-    <source-file src="src/android/MCSdkConfig.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
-    <source-file src="src/android/MCInitProvider.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
-    <source-file src="src/android/MCSdkListener.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
-
-  </platform>
-
-  <!-- ios -->
-  <platform name="ios">
-    <config-file parent="/*" target="config.xml">
-      <feature name="MCCordovaPlugin">
-        <param name="ios-package" value="MCCordovaPlugin" />
-        <param name="onload" value="true" />
-      </feature>
-    </config-file>
-    <header-file src="src/ios/AppDelegate+MCCordovaPlugin.h" />
-    <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
-    <header-file src="src/ios/MCCordovaPlugin.h" />
-    <source-file src="src/ios/MCCordovaPlugin.m" />
-    <podspec>
-      <config>
-        <source url="https://github.com/CocoaPods/Specs.git"/>
-      </config>
-      <pods use-frameworks="true">
-        <pod name="MarketingCloudSDK" spec="~> 8.0.10" />
-      </pods>
-    </podspec>
-    <framework src="CoreLocation.framework" /> 
-
-  </platform>
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <name>MCCordovaPlugin</name>
+    
+    <description>A Cordova Plugin to access the native Salesforce Marketing Cloud MobilePush SDKs</description>
+    
+    <repo>https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin</repo>
+    
+    <license>BSD-3-Clause</license>
+    
+    <author>Salesforce Marketing Cloud</author>
+    
+    <!-- cordova -->
+    <engines>
+        <engine name="cordova" version=">=9.0.0"/>
+        <engine name="cordova-android" version=">=9.0.0" />
+        <engine name="cordova-ios" version=">=6.0.0" />
+    </engines>
+    
+    <!-- js -->
+    <js-module name="MCCordovaPlugin" src="www/MCCordovaPlugin.js">
+        <clobbers target="MCCordovaPlugin" />
+    </js-module>
+    
+    <!-- android -->
+    <platform name="android">
+        <framework src="src/android/build/marketingcloudsdk.gradle" custom="true" type="gradleReference" />
+        
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="MCCordovaPlugin">
+                <param name="android-package" value="com.salesforce.marketingcloud.cordova.MCCordovaPlugin" />
+            </feature>
+        </config-file>
+        
+        <config-file target="config.xml" parent="/*">
+            <preference name="AndroidXEnabled" value="true" />
+            <preference name="GradlePluginGoogleServicesEnabled" value="true" />
+            <preference name="GradlePluginGoogleServicesVersion" value="4.3.10" />
+        </config-file>
+        
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            
+            <provider android:name="com.salesforce.marketingcloud.cordova.MCInitProvider" android:authorities="$PACKAGE_NAME.com.salesforce.marketingcloud.cordova.MCInitProvider" android:enabled="true" android:exported="false" />
+        </config-file>
+        
+        <source-file src="src/android/MCCordovaPlugin.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
+        <source-file src="src/android/MCSdkConfig.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
+        <source-file src="src/android/MCInitProvider.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
+        <source-file src="src/android/MCSdkListener.java" target-dir="src/com/salesforce/marketingcloud/cordova" />
+        
+    </platform>
+    
+    <!-- ios -->
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="MCCordovaPlugin">
+                <param name="ios-package" value="MCCordovaPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+            <array>
+                <string>remote-notification</string>
+            </array>
+        </config-file>
+        <config-file target="*-Debug.plist" parent="aps-environment">
+            <string>development</string>
+        </config-file>
+        <config-file target="*-Release.plist" parent="aps-environment">
+            <string>production</string>
+        </config-file>
+        <header-file src="src/ios/AppDelegate+MCCordovaPlugin.h" />
+        <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
+        <header-file src="src/ios/MCCordovaPlugin.h" />
+        <source-file src="src/ios/MCCordovaPlugin.m" />
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="MarketingCloudSDK" spec="~> 8.0.13" />
+            </pods>
+        </podspec>
+        <framework src="CoreLocation.framework" /> 
+        
+    </platform>
 </plugin>
