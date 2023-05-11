@@ -116,6 +116,19 @@ var MCCordovaPlugin = {
         _exec(successCallback, errorCallback, 'getSystemToken');
     },
     /**
+     * Returns the deviceId used by the Marketing Cloud SDK.
+     * @param  {function(token)} successCallback
+     * @param  {string} successCallback.deviceId - The deviceId used by Marketing Cloud
+     *     messaging.
+     * @param  {function} [errorCallback]
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.registration/-registration-manager/get-device-id.html|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledocs/MarketingCloudSdk/8.0/Classes/PushModule.html#/c:@M@MarketingCloudSDK@objc(cs)SFMCSdkPushModule(im)deviceIdentifier|iOS Docs}
+     */
+    getDeviceId: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.getDeviceId`, arguments);
+        _exec(successCallback, errorCallback, 'getDeviceId');
+    },
+    /**
      * Returns the maps of attributes set in the registration.
      * @param  {function(attributes)} successCallback
      * @param  {Object.<string, string>} successCallback.attributes - The
@@ -246,9 +259,9 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int)|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:|iOS Docs}
      */
-    disableVerboseLogging: function(successCallback, errorCallback) {
-        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.disableVerboseLogging`, arguments);
-        _exec(successCallback, errorCallback, 'disableVerboseLogging');
+    disableLogging: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('FF', `${PLUGIN_NAME}.disableLogging`, arguments);
+        _exec(successCallback, errorCallback, 'disableLogging');
     },
     /**
      * @param {function(event)} notificationOpenedListener

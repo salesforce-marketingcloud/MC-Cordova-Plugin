@@ -240,6 +240,12 @@ const int LOG_LENGTH = 800;
                                 callbackId:command.callbackId];
 }
 
+- (void)disableLogging:(CDVInvokedUrlCommand *)command {
+    [SFMCSdk setLoggerWithLogLevel:SFMCSdkLogLevelFault logOutputter:[SFMCSdkLogOutputter new]];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
 - (void)logSdkState:(CDVInvokedUrlCommand *)command {
     [self splitLog:[SFMCSdk state]];
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
@@ -248,17 +254,34 @@ const int LOG_LENGTH = 800;
 
 - (void)getSystemToken:(CDVInvokedUrlCommand *)command {
     NSString *systemToken = [[SFMCSdk mp] deviceToken];
-    
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                              messageAsString:systemToken]
                                 callbackId:command.callbackId];
 }
 
+- (void)getDeviceId:(CDVInvokedUrlCommand *)command {
+    NSString *deviceId = [[SFMCSdk mp] deviceIdentifier];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                             messageAsString:deviceId]
+                                callbackId:command.callbackId];
+}
+
 - (void)isPushEnabled:(CDVInvokedUrlCommand *)command {
     BOOL enabled = [[SFMCSdk mp] pushEnabled];
-    
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                                 messageAsInt:(enabled) ? 1 : 0]
+                                callbackId:command.callbackId];
+}
+
+- (void)enablePush:(CDVInvokedUrlCommand *)command {
+    [[SFMCSdk mp] setPushEnabled:YES];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
+}
+
+- (void)disablePush:(CDVInvokedUrlCommand *)command {
+    [[SFMCSdk mp] setPushEnabled:NO];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
                                 callbackId:command.callbackId];
 }
 
