@@ -244,6 +244,11 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
                 callbackContext.success();
                 return true;
+            case "disableLogging":
+                SFMCSdk.Companion.setLogging(LogLevel.NONE, null);
+                MarketingCloudSdk.setLogListener(null);
+                callbackContext.success();
+                return true;
             default:
                 return false;
         }
@@ -269,6 +274,14 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return getSystemToken();
             case "logSdkState":
                 return logSdkState();
+            case "isPushEnabled":
+                return isPushEnabled();
+            case "enablePush":
+                return enabledPush();
+            case "disablePush":
+                return disablePush();
+            case "getDeviceId":
+                return getDeviceId();
             default:
                 return null;
         }
@@ -291,6 +304,48 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 SFMCSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 log("MCSDK STATE", sdk.getSdkState().toString());
                 callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler isPushEnabled() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                callbackContext.success(sdk.getPushMessageManager().isPushEnabled() ? 1 : 0);
+            }
+        };
+    }
+
+    private ActionHandler disablePush() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                sdk.getPushMessageManager().disablePush();
+                callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler enabledPush() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                sdk.getPushMessageManager().enablePush();
+                callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler getDeviceId() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                callbackContext.success(sdk.getRegistrationManager().getDeviceId());
             }
         };
     }

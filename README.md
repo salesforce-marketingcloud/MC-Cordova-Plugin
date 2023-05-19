@@ -75,10 +75,11 @@ Follow [these instructions](./ios_push.md) to enable push for iOS.
         * [.setContactKey(contactKey, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setContactKey)
         * [.getContactKey(successCallback, [errorCallback])](#module_MCCordovaPlugin.getContactKey)
         * [.enableLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.enableLogging)
-        * [.disableVerboseLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.disableVerboseLogging)
+        * [.disableLogging([successCallback], [errorCallback])](#module_MCCordovaPlugin.disableLogging)
         * [.setOnNotificationOpenedListener(notificationOpenedListener)](#module_MCCordovaPlugin.setOnNotificationOpenedListener)
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
         * [.logSdkState([successCallback], [errorCallback])](#module_MCCordovaPlugin.logSdkState)
+        * [.getDeviceId([successCallback], [errorCallback])](#module_MCCordovaPlugin.getDeviceId)
         * [.track(eventName, attributesMap)](#module_MCCordovaPlugin.track)
     * _inner_
         * [~notificationOpenedCallback](#module_MCCordovaPlugin..notificationOpenedCallback) : <code>function</code>
@@ -119,7 +120,7 @@ const togglePush = () => {
 
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.push/-push-message-manager/is-push-enabled.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_pushEnabled)
 
 
@@ -143,7 +144,7 @@ MCCordovaPlugin.enablePush();
 
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.push/-push-message-manager/enable-push.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:)
 
 
@@ -166,7 +167,7 @@ MCCordovaPlugin.disablePush();
 
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush())
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.push/-push-message-manager/disable-push.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:)
 
 
@@ -436,19 +437,19 @@ Enables verbose logging within the native Marketing Cloud SDK.
 | [successCallback] | <code>function</code> | 
 | [errorCallback] | <code>function</code> | 
 
-<a name="module_MCCordovaPlugin.disableVerboseLogging"></a>
+<a name="module_MCCordovaPlugin.disableLogging"></a>
 
-### MCCordovaPlugin.disableVerboseLogging([successCallback], [errorCallback])
+### MCCordovaPlugin.disableLogging([successCallback], [errorCallback])
 Disables verbose logging within the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
 **Example**
 ```js
- MCCordovaPlugin.enableLogging();
+ MCCordovaPlugin.disableLogging();
 ``` 
 **See**
 
-- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int))
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/trouble-shooting/loginterface.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:)
 
 
@@ -522,6 +523,27 @@ the SDK and will be requested by the Marketing Cloud support team.
 
 - [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/trouble-shooting/loginterface.html)
 - [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledocs/SFMCSdk/8.0/Classes/SFMCSdk.html#/c:@M@SFMCSDK@objc(cs)SFMCSdk(cm)setLoggerWithLogLevel:logOutputter:)
+
+
+| Param | Type |
+| --- | --- |
+| [successCallback] | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
+
+<a name="module_MCCordovaPlugin.logSdkState"></a>
+
+### MCCordovaPlugin.getDeviceId([successCallback], [errorCallback])
+Returns the deviceId used by the Marketing Cloud to send push messages to the device.
+
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**Example**
+```js
+  MCCordovaPlugin.getDeviceId();
+```  
+**See**
+
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.registration/-registration-manager/get-device-id.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledocs/MarketingCloudSdk/8.0/Classes/PushModule.html#/c:@M@MarketingCloudSDK@objc(cs)SFMCSdkPushModule(im)deviceIdentifier)
 
 
 | Param | Type |
