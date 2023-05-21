@@ -54,6 +54,7 @@ import org.json.JSONObject;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
+import com.salesforce.marketingcloud.sfmcsdk.components.identity.Identity;
 import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
 import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
@@ -223,6 +224,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                                     ((PushSDKActionHandler)handler).execute(pushModuleInterface, args, callbackContext);
                                 }
                             });
+                        } else if (handler instanceof IdentityActionHandler) {
+                            ((IdentityActionHandler) handler).execute(sfmcSdk.identity, args, callbackContext);
                         } else {
                             callbackContext.error("Marcketing Cloud SDK - Cordova Plugin: Unknown handler reference");
                         }
@@ -249,6 +252,12 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 MarketingCloudSdk.setLogListener(null);
                 callbackContext.success();
                 return true;
+            case "registerEventsChannel":
+                registerEventsChannel(callbackContext);
+                return true;
+            case "subscribe":
+                subscribe(args, callbackContext);
+                return true;
             default:
                 return false;
         }
@@ -258,6 +267,24 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         this.eventsChannel = callbackContext;
         if (notificationOpenedSubscribed) {
             sendCachedPushEvent(eventsChannel);
+        }
+    }
+
+    private void subscribe(JSONArray args, CallbackContext context) {
+        switch (args.optString(0, null)) {
+            case "notificationOpened":
+                notificationOpenedSubscribed = true;
+                if (eventsChannel != null) {
+                    sendCachedPushEvent(eventsChannel);
+                }
+                break;
+            case "urlAction":
+                // NO_OP
+                // Always send urlAction events to the JS plugin.  It will manager the listener
+                // registration.
+                break;
+            default:
+                // NO_OP
         }
     }
 
@@ -282,6 +309,22 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return disablePush();
             case "getDeviceId":
                 return getDeviceId();
+            case "getAttributes":
+                return getAttributes();
+            case "setAttribute":
+                return setAttribute();
+            case "clearAttribute":
+                return clearAttribute();
+            case "addTag":
+                return addTag();
+            case "removeTag":
+                return removeTag();
+            case "getTags":
+                return getTags();
+            case "setContactKey":
+                return setContactKey();
+            case "getContactKey":
+                return getContactKey();
             default:
                 return null;
         }
@@ -350,8 +393,100 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         };
     }
 
+    private ActionHandler getAttributes() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                try {
+                    callbackContext.success(fromMap(sdk.getRegistrationManager().getAttributes()));
+                } catch (JSONException e) {
+                    callbackContext.error(e.getMessage());
+                }
+            }
+        };
+    }
 
+    private ActionHandler setAttribute() {
+        return new IdentityActionHandler() {
+            @Override
+            public void execute(
+                Identity identity, JSONArray args, CallbackContext callbackContext) {
+                String key = args.optString(0, null);
+                String value = args.optString(1);
+                identity.setProfileAttribute(key, value);
+                callbackContext.success();
+            }
+        };
+    }
 
+    private ActionHandler clearAttribute() {
+        return new IdentityActionHandler() {
+            @Override
+            public void execute(
+                Identity identity, JSONArray args, CallbackContext callbackContext) {
+                String key = args.optString(0, null);
+                identity.clearProfileAttribute(key);
+                callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler addTag() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                String tag = args.optString(0, null);
+                boolean success = sdk.getRegistrationManager().edit().addTag(tag).commit();
+                callbackContext.success(success ? 1 : 0);
+            }
+        };
+    }
+
+    private ActionHandler removeTag() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                String tag = args.optString(0, null);
+                boolean success = sdk.getRegistrationManager().edit().removeTag(tag).commit();
+                callbackContext.success(success ? 1 : 0);
+            }
+        };
+    }
+
+    private ActionHandler getTags() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                callbackContext.success(fromCollection(sdk.getRegistrationManager().getTags()));
+            }
+        };
+    }
+
+    private ActionHandler getContactKey() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                callbackContext.success(sdk.getRegistrationManager().getContactKey());
+            }
+        };
+    }
+
+    private ActionHandler setContactKey() {
+        return new IdentityActionHandler() {
+            @Override
+            public void execute(
+                Identity identity, JSONArray args, CallbackContext callbackContext) {
+                String contactKey = args.optString(0, null);
+                identity.setProfileId(contactKey);
+                callbackContext.success();
+            }
+        };
+    }
 
     interface ActionHandler {
         
@@ -363,6 +498,10 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
 
     interface PushSDKActionHandler extends ActionHandler{
         void execute(PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext);
+    }
+
+    interface IdentityActionHandler extends ActionHandler {
+        void execute(Identity identity, JSONArray args, CallbackContext callbackContext);
     }
 
     private static int MAX_LOG_LENGTH = 4000;
