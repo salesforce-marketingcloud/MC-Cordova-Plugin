@@ -328,9 +328,9 @@ var MCCordovaPlugin = {
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/7.4/com.salesforce.marketingcloud.events/-event-manager/custom-event.html|Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/SFMCEvent.html#/c:objc(cs)SFMCEvent(cm)customEventWithName:withAttributes:|iOS Docs}
      */
-    track: function(eventName, attributesMap) {
-        argsCheck.checkArgs('soFF', `${PLUGIN_NAME}.track`, arguments);
-        _exec(undefined, undefined, 'track', [eventName, attributesMap]);
+    track: function(event) {
+        argsCheck.checkArgs('oFF', `${PLUGIN_NAME}.track`, arguments);
+        _exec(undefined, undefined, 'track', [event]);
     }
 
 };

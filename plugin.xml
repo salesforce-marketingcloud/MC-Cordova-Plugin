@@ -24,7 +24,10 @@
     <js-module name="MCCordovaPlugin" src="www/MCCordovaPlugin.js">
         <clobbers target="MCCordovaPlugin" />
     </js-module>
-    
+
+     <js-module name="SFMCEvent" src="www/event.js">
+        <clobbers target="SFMCEvent" />
+    </js-module>    
     <!-- android -->
     <platform name="android">
         <framework src="src/android/build/marketingcloudsdk.gradle" custom="true" type="gradleReference" />
@@ -76,6 +79,8 @@
         <source-file src="src/ios/AppDelegate+MCCordovaPlugin.m" />
         <header-file src="src/ios/MCCordovaPlugin.h" />
         <source-file src="src/ios/MCCordovaPlugin.m" />
+        <header-file src="src/ios/NSDictionary+SFMCEvent.h" />
+        <source-file src="src/ios/NSDictionary+SFMCEvent.m" />
         <podspec>
             <config>
                 <source url="https://github.com/CocoaPods/Specs.git"/>
