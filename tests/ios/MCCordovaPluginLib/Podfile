@@ -10,6 +10,7 @@ target 'MCCordovaPluginLib' do
   # Pods for MCCordovaPluginLib
   target 'Tests' do
     inherit! :search_paths
+    pod 'MarketingCloudSDK', '~> 8.0.13'
     pod 'OCMock', '~> 3.4.3'
 
   end
