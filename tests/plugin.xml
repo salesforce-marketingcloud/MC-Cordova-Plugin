@@ -7,13 +7,4 @@
   <js-module src="tests.js" name="tests">
   </js-module>
   
-  <config-file target="config.xml" parent="/*">
-    <!-- <preference name="AndroidInsecureFileModeEnabled" value="true" /> -->
-    <!-- the logging server is http so force the webview to also be http -->
-    <preference name="com.salesforce.marketingcloud.app_id" value="6ff36654-9d38-4199-8bb0-94b950c2f180" />
-    <preference name="com.salesforce.marketingcloud.access_token" value="zbdvfgg9keuz6egz6rkfr5wc" />
-    <preference name="com.salesforce.marketingcloud.tenant_specific_endpoint" value="https://mcgrjfgk81ckrt0h4rwlnbhmbvf4.device.marketingcloudapis.com/" />
-    <preference name="com.salesforce.marketingcloud.analytics" value="true" />
-    <!-- <preference name="localhost" value="apptest.cordova.apache.org" /> -->
-  </config-file>
 </plugin>
