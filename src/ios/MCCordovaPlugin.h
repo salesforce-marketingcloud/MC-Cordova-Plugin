@@ -33,14 +33,16 @@
 
 @interface MCCordovaPlugin : CDVPlugin <MarketingCloudSDKURLHandlingDelegate>
 
-- (void)enableVerboseLogging:(CDVInvokedUrlCommand *)command;
-- (void)disableVerboseLogging:(CDVInvokedUrlCommand *)command;
+- (void)enableLogging:(CDVInvokedUrlCommand *)command;
+- (void)disableLogging:(CDVInvokedUrlCommand *)command;
 - (void)logSdkState:(CDVInvokedUrlCommand *)command;
 
 - (void)getSystemToken:(CDVInvokedUrlCommand *)command;
 - (void)isPushEnabled:(CDVInvokedUrlCommand *)command;
 - (void)enablePush:(CDVInvokedUrlCommand *)command;
 - (void)disablePush:(CDVInvokedUrlCommand *)command;
+- (void)getDeviceId:(CDVInvokedUrlCommand *)command;
+
 
 - (void)setAttribute:(CDVInvokedUrlCommand *)command;
 - (void)clearAttribute:(CDVInvokedUrlCommand *)command;
