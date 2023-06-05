@@ -323,10 +323,9 @@ var MCCordovaPlugin = {
     /**
      * Method to track events, which could result in actions such as an InApp Message being
      * displayed.
-     * @param  {string} eventName - The name of the event to be tracked.
-     * @param  {string} attributesMap - key-value pairs of attributes associated with the Event.
+     * @param {CustomEvent | EngagementEvent | IdentityEvent | SystemEvent | CartEvent | OrderEvent | CatalogObjectEvent} event - The event to be tracked.
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/7.4/com.salesforce.marketingcloud.events/-event-manager/custom-event.html|Android Docs}
-     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/SFMCEvent.html#/c:objc(cs)SFMCEvent(cm)customEventWithName:withAttributes:|iOS Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/event-tracking/event-tracking-event-tracking.html|iOS Docs}
      */
     track: function(event) {
         argsCheck.checkArgs('oFF', `${PLUGIN_NAME}.track`, arguments);
