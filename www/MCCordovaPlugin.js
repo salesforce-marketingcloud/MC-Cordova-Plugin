@@ -72,7 +72,7 @@ var MCCordovaPlugin = {
      * @param  {function(enabled)} successCallback
      * @param  {boolean} successCallback.enabled - Whether push is enabled.
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#isPushEnabled()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.push/-push-message-manager/is-push-enabled.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_pushEnabled|iOS Docs}
      */
     isPushEnabled: function(successCallback, errorCallback = undefined) {
@@ -83,7 +83,7 @@ var MCCordovaPlugin = {
      * Enables push messaging in the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#enablePush()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.push/-push-message-manager/enable-push.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
     enablePush: function(successCallback = undefined, errorCallback = undefined) {
@@ -94,7 +94,7 @@ var MCCordovaPlugin = {
      * Disables push messaging in the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/messages/push/PushMessageManager.html#disablePush()|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/MarketingCloudSdk/8.0/com.salesforce.marketingcloud.messages.push/-push-message-manager/disable-push.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setPushEnabled:|iOS Docs}
      */
     disablePush: function(successCallback, errorCallback) {
@@ -256,7 +256,7 @@ var MCCordovaPlugin = {
      * Disables verbose logging within the native Marketing Cloud SDK.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/javadocs/6.0/reference/com/salesforce/marketingcloud/MarketingCloudSdk.html#setLogLevel(int)|Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/trouble-shooting/loginterface.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/appledoc/Classes/MarketingCloudSDK.html#//api/name/sfmc_setDebugLoggingEnabled:|iOS Docs}
      */
     disableLogging: function(successCallback, errorCallback) {

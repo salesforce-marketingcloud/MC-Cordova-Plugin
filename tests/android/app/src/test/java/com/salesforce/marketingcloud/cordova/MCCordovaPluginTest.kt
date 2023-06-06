@@ -354,6 +354,17 @@ class MCCordovaPluginTest {
     }
 
     @Test
+    fun execute_getDeviceId_success() {
+        ShadowMarketingCloudSdk.isReady(true)
+        whenever(registrationManager.deviceId).thenReturn("testDeviceId")
+
+        assertThat(plugin.execute("getDeviceId", JSONArray(), callbackContext)).isTrue()
+
+        verify(registrationManager).deviceId
+        verify(callbackContext).success("testDeviceId")
+    }
+
+    @Test
     fun pushReceived_callbackRegister_pushOpenedNotSubscribed_doesNotDeliverPushToCallback() {
         // GIVEN
         assertThat(plugin.execute("registerEventsChannel", JSONArray(), callbackContext)).isTrue()
