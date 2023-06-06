@@ -26,6 +26,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #import "MCCordovaPlugin.h"
+#import "NSDictionary+SFMCEvent.h"
 
 @implementation MCCordovaPlugin
 
@@ -353,6 +354,13 @@ const int LOG_LENGTH = 800;
         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                             messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
               callbackId:command.callbackId];
+}
+
+- (void)track:(CDVInvokedUrlCommand *)command {
+    NSDictionary *event = command.arguments[0];
+    [SFMCSdk trackWithEvent:[NSDictionary SFMCEvent:event]];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                callbackId:command.callbackId];
 }
 
 - (void)registerEventsChannel:(CDVInvokedUrlCommand *)command {

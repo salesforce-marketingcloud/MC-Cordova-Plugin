@@ -129,7 +129,7 @@ var app = {
         MCCordovaPlugin.enableLogging();
     },
     disableLogging: function() {
-        MCCordovaPlugin.disableVerboseLogging();
+        MCCordovaPlugin.disableLogging();
     },
     logSdkState: function() {
         MCCordovaPlugin.logSdkState();
@@ -142,10 +142,11 @@ var app = {
     urlActionListener: function(value) {
         var jsonString = JSON.stringify(value, null, 4);
         document.getElementById('urlActionData').textContent = jsonString;
-        window.open(JSON.parse(jsonString).url, "_blank");
+        window.open(JSON.parse(jsonString).url, '_blank');
     },
     track: function() {
-        MCCordovaPlugin.track("ScreenViewed", { "ScreenName" : "HomeScreen"});
+        var event = new CustomEvent('ScreenViewed', { 'ScreenName': 'HomeScreen'});
+        MCCordovaPlugin.track(event);
     }
 };
 

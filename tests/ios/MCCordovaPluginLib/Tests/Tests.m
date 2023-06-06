@@ -27,12 +27,15 @@
 
 #import <MarketingCloudSDK/MarketingCloudSDK.h>
 #import <OCMock/OCMock.h>
+#import <SFMCSDK/SFMCSDK.h>
 #import <XCTest/XCTest.h>
 #import "MCCordovaPlugin.h"
 
 @interface Tests : XCTestCase
 
-@property(strong, nonatomic) id sdk;
+@property(strong, nonatomic) id push;
+@property(strong, nonatomic) id sfmcIdentity;
+@property(strong, nonatomic) id sfmcSDK;
 @property(strong, nonatomic) MCCordovaPlugin *plugin;
 @property(strong, nonatomic) id<CDVCommandDelegate> commandDelegate;
 
@@ -43,14 +46,27 @@
 - (void)setUp {
     [super setUp];
 
-    _sdk = OCMClassMock([MarketingCloudSDK class]);
-    OCMStub(ClassMethod([_sdk sharedInstance])).andReturn(_sdk);
+    _push = OCMClassMock([SFMCSdkPUSH class]);
+    _sfmcIdentity = OCMClassMock([SFMCSdkIDENTITY class]);
+
+    _sfmcSDK = OCMClassMock([SFMCSdk class]);
+    OCMStub(ClassMethod([_sfmcSDK mp])).andReturn(_push);
+    OCMStub(ClassMethod([(Class)_sfmcSDK identity])).andReturn(_sfmcIdentity);
 
     _plugin = [MCCordovaPlugin alloc];
-    [_plugin pluginInitialize];
 
     _commandDelegate = OCMProtocolMock(@protocol(CDVCommandDelegate));
+    NSMutableDictionary *pluginSettings = [NSMutableDictionary dictionary];
+    pluginSettings[@"com.salesforce.marketingcloud.app_id"] =
+        @"6ff36654-9d38-4199-8bb0-94b950c2f180";
+    pluginSettings[@"com.salesforce.marketingcloud.access_token"] = @"zbdvfgg9keuz6egz6rkfr5wc";
+    pluginSettings[@"com.salesforce.marketingcloud.tenant_specific_endpoint"] =
+        @"https://mcgrjfgk81ckrt0h4rwlnbhmbvf4.device.marketingcloudapis.com/";
+    pluginSettings[@"com.salesforce.marketingcloud.analytics"] = @(YES);
+
     _plugin.commandDelegate = _commandDelegate;
+    OCMStub([_commandDelegate settings]).andReturn(pluginSettings);
+    [_plugin pluginInitialize];
 }
 
 - (void)tearDown {
@@ -59,18 +75,18 @@
     [super tearDown];
 }
 
-- (void)testEnableVerboseLogging {
+- (void)testEnableLogging {
     // GIVEN
     id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
-                                                      methodName:@"enableVerboseLogging"];
+                                                      methodName:@"enableLogging"];
 
     // WHEN
-    [_plugin enableVerboseLogging:command];
+    [_plugin enableLogging:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_setDebugLoggingEnabled:YES]);
+    OCMVerify([_sfmcSDK setLoggerWithLogLevel:SFMCSdkLogLevelDebug logOutputter:[OCMArg any]]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK;
@@ -78,18 +94,17 @@
               callbackId:@"testCallback"]);
 }
 
-- (void)testDisableVerboseLogging {
+- (void)testdisableLogging {
     // GIVEN
     id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
-                                                      methodName:@"disableVerboseLogging"];
-
+                                                      methodName:@"disableLogging"];
     // WHEN
-    [_plugin disableVerboseLogging:command];
+    [_plugin disableLogging:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_setDebugLoggingEnabled:NO]);
+    OCMVerify([_sfmcSDK setLoggerWithLogLevel:SFMCSdkLogLevelFault logOutputter:[OCMArg any]]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK;
@@ -108,7 +123,7 @@
     [_plugin logSdkState:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_getSDKState]);
+    OCMVerify([_sfmcSDK state]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK;
@@ -122,17 +137,38 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"getSystemToken"];
-    OCMStub([_sdk sfmc_deviceToken]).andReturn(@"testSystemToken");
+    OCMStub([_push deviceToken]).andReturn(@"testSystemToken");
 
     // WHEN
     [_plugin getSystemToken:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_deviceToken]);
+    OCMVerify([_push deviceToken]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK &&
                  [result.message isEqualToString:@"testSystemToken"];
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testGetDeviceId {
+    // GIVEN
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"getDeviceId"];
+    OCMStub([_push deviceIdentifier]).andReturn(@"testDeviceId");
+
+    // WHEN
+    [_plugin getDeviceId:command];
+
+    // THEN
+    OCMVerify([_push deviceIdentifier]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK &&
+                 [result.message isEqualToString:@"testDeviceId"];
         }]
               callbackId:@"testCallback"]);
 }
@@ -143,13 +179,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"isPushEnabled"];
-    OCMStub([_sdk sfmc_pushEnabled]).andReturn(NO);
+    OCMStub([_push pushEnabled]).andReturn(NO);
 
     // WHEN
     [_plugin isPushEnabled:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_pushEnabled]);
+    OCMVerify([_push pushEnabled]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 0;
@@ -163,13 +199,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"isPushEnabled"];
-    OCMStub([_sdk sfmc_pushEnabled]).andReturn(YES);
+    OCMStub([_push pushEnabled]).andReturn(YES);
 
     // WHEN
     [_plugin isPushEnabled:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_pushEnabled]);
+    OCMVerify([_push pushEnabled]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 1;
@@ -188,7 +224,7 @@
     [_plugin enablePush:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_setPushEnabled:YES]);
+    OCMVerify([_push setPushEnabled:YES]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK;
@@ -207,7 +243,7 @@
     [_plugin disablePush:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_setPushEnabled:NO]);
+    OCMVerify([_push setPushEnabled:NO]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK;
@@ -220,77 +256,41 @@
     id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @"TestKey", @"TestValue" ]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
-                                                      methodName:@"setAttribute"];
-    OCMStub([_sdk sfmc_setAttributeNamed:[OCMArg any] value:[OCMArg any]]).andReturn(YES);
+                                                      methodName:@"setProfileAttributes"];
+    OCMStub([_sfmcIdentity setProfileAttributes:[OCMArg any]]);
 
     // WHEN
     [_plugin setAttribute:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_setAttributeNamed:@"TestKey" value:@"TestValue"]);
+    OCMVerify([_sfmcIdentity setProfileAttributes:@{@"TestKey" : @"TestValue"}]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 1;
-        }]
-              callbackId:@"testCallback"]);
-}
-
-- (void)testSetAttribute_failed {
-    // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @"TestKey", @"TestValue" ]
-                                                      callbackId:@"testCallback"
-                                                       className:@"MCCordovaPlugin"
-                                                      methodName:@"setAttribute"];
-    OCMStub([_sdk sfmc_setAttributeNamed:[OCMArg any] value:[OCMArg any]]).andReturn(NO);
-
-    // WHEN
-    [_plugin setAttribute:command];
-
-    // THEN
-    OCMVerify([_sdk sfmc_setAttributeNamed:@"TestKey" value:@"TestValue"]);
-    OCMVerify([_commandDelegate
-        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-          return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 0;
         }]
               callbackId:@"testCallback"]);
 }
 
 - (void)testClearAttribute_success {
+    [SFMCSdk setLoggerWithLogLevel:SFMCSdkLogLevelDebug
+                      logOutputter:[[SFMCSdkLogOutputter alloc] init]];
     // GIVEN
     id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @"TestKey" ]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"clearAttribute"];
-    OCMStub([_sdk sfmc_clearAttributeNamed:[OCMArg any]]).andReturn(YES);
+
+    OCMStub([_sfmcIdentity clearProfileAttributeWithKey:[OCMArg any]]);
 
     // WHEN
     [_plugin clearAttribute:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_clearAttributeNamed:@"TestKey"]);
+    OCMVerify([_sfmcIdentity clearProfileAttributeWithKey:@"TestKey"]);
+
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 1;
-        }]
-              callbackId:@"testCallback"]);
-}
-
-- (void)testClearAttribute_failed {
-    // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @"TestKey" ]
-                                                      callbackId:@"testCallback"
-                                                       className:@"MCCordovaPlugin"
-                                                      methodName:@"clearAttribute"];
-    OCMStub([_sdk sfmc_clearAttributeNamed:[OCMArg any]]).andReturn(NO);
-
-    // WHEN
-    [_plugin clearAttribute:command];
-
-    // THEN
-    OCMVerify([_sdk sfmc_clearAttributeNamed:@"TestKey"]);
-    OCMVerify([_commandDelegate
-        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-          return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 0;
         }]
               callbackId:@"testCallback"]);
 }
@@ -301,13 +301,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"getAttributes"];
-    OCMStub([_sdk sfmc_attributes]).andReturn(@{@"TestKey" : @"TestVal"});
+    OCMStub([(SFMCSdkPUSH *)_push attributes]).andReturn(@{@"TestKey" : @"TestVal"});
 
     // WHEN
     [_plugin getAttributes:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_attributes]);
+    OCMVerify([(SFMCSdkPUSH *)_push attributes]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return
@@ -323,13 +323,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"getAttributes"];
-    OCMStub([_sdk sfmc_attributes]).andReturn(nil);
+    OCMStub([(SFMCSdkPUSH *)_push attributes]).andReturn(nil);
 
     // WHEN
     [_plugin getAttributes:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_attributes]);
+    OCMVerify([(SFMCSdkPUSH *)_push attributes]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && result.message != nil &&
@@ -344,13 +344,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"getContactKey"];
-    OCMStub([_sdk sfmc_contactKey]).andReturn(@"testContactKey");
+    OCMStub([_push contactKey]).andReturn(@"testContactKey");
 
     // WHEN
     [_plugin getContactKey:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_contactKey]);
+    OCMVerify([_push contactKey]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK &&
@@ -365,36 +365,16 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"setContactKey"];
-    OCMStub([_sdk sfmc_setContactKey:[OCMArg any]]).andReturn(YES);
+    OCMStub([_sfmcIdentity setProfileId:[OCMArg any]]);
 
     // WHEN
     [_plugin setContactKey:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_setContactKey:@"testContactKey"]);
+    OCMVerify([_sfmcIdentity setProfileId:@"testContactKey"]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 1;
-        }]
-              callbackId:@"testCallback"]);
-}
-
-- (void)testSetContactKey_failed {
-    // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @"testContactKey" ]
-                                                      callbackId:@"testCallback"
-                                                       className:@"MCCordovaPlugin"
-                                                      methodName:@"setContactKey"];
-    OCMStub([_sdk sfmc_setContactKey:[OCMArg any]]).andReturn(NO);
-
-    // WHEN
-    [_plugin setContactKey:command];
-
-    // THEN
-    OCMVerify([_sdk sfmc_setContactKey:@"testContactKey"]);
-    OCMVerify([_commandDelegate
-        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-          return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 0;
         }]
               callbackId:@"testCallback"]);
 }
@@ -405,13 +385,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"addTag"];
-    OCMStub([_sdk sfmc_addTag:[OCMArg any]]).andReturn(YES);
+    OCMStub([(SFMCSdkPUSH *)_push addTag:[OCMArg any]]).andReturn(YES);
 
     // WHEN
     [_plugin addTag:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_addTag:@"testTag"]);
+    OCMVerify([(SFMCSdkPUSH *)_push addTag:@"testTag"]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 1;
@@ -425,13 +405,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"addTag"];
-    OCMStub([_sdk sfmc_addTag:[OCMArg any]]).andReturn(NO);
+    OCMStub([(SFMCSdkPUSH *)_push addTag:[OCMArg any]]).andReturn(NO);
 
     // WHEN
     [_plugin addTag:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_addTag:@"testTag"]);
+    OCMVerify([(SFMCSdkPUSH *)_push addTag:@"testTag"]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 0;
@@ -445,13 +425,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"removeTag"];
-    OCMStub([_sdk sfmc_removeTag:[OCMArg any]]).andReturn(YES);
+    OCMStub([(SFMCSdkPUSH *)_push removeTag:[OCMArg any]]).andReturn(YES);
 
     // WHEN
     [_plugin removeTag:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_removeTag:@"testTag"]);
+    OCMVerify([(SFMCSdkPUSH *)_push removeTag:@"testTag"]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 1;
@@ -465,13 +445,13 @@
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"removeTag"];
-    OCMStub([_sdk sfmc_removeTag:[OCMArg any]]).andReturn(NO);
+    OCMStub([(SFMCSdkPUSH *)_push removeTag:[OCMArg any]]).andReturn(NO);
 
     // WHEN
     [_plugin removeTag:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_removeTag:@"testTag"]);
+    OCMVerify([(SFMCSdkPUSH *)_push removeTag:@"testTag"]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && [result.message intValue] == 0;
@@ -486,13 +466,13 @@
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"getTags"];
     NSArray *tags = @[ @"Tag1", @"Tag2" ];
-    OCMStub([_sdk sfmc_tags]).andReturn(tags);
+    OCMStub([(SFMCSdkPUSH *)_push tags]).andReturn(tags);
 
     // WHEN
     [_plugin getTags:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_tags]);
+    OCMVerify([(SFMCSdkPUSH *)_push tags]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           NSArray *resultTags = (NSArray *)result.message;
@@ -503,19 +483,1227 @@
               callbackId:@"testCallback"]);
 }
 
+- (void)testTrackCustomEvent {
+    // GIVEN
+    NSDictionary *customEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Purchase",
+        @"attributes" : @{@"attributeKey" : @"attributeValue"},
+        @"objType" : @"CustomEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ customEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkCustomEvent class]], @"Not SFMCSdkCustomEvent");
+          SFMCSdkCustomEvent *event = obj;
+
+          XCTAssertTrue([@"Purchase" isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+          XCTAssertTrue([customEvent[@"attributes"] isEqualToDictionary:event.attributes]);
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackSystemEvent {
+    // GIVEN
+    NSDictionary *systemEvent = @{
+        @"category" : @"system",
+        @"name" : @"eventName",
+        @"attributes" : @{@"attributeKey" : @"attributeValue"},
+        @"objType" : @"SystemEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ systemEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          NSLog(@"OCMVerify %@", obj);
+                          XCTAssertTrue([obj isKindOfClass:[SFMCSdkSystemEvent class]]);
+                          SFMCSdkSystemEvent *event = obj;
+
+                          XCTAssertTrue([@"eventName" isEqualToString:event.name]);
+                          XCTAssertEqual(SFMCSdkEventCategorySystem, [event category]);
+                          XCTAssertTrue(
+                              [systemEvent[@"attributes"] isEqualToDictionary:event.attributes]);
+                          return YES;
+                        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackIdentityEventWithAttributes {
+    // GIVEN
+    NSDictionary *identityEvent = @{
+        @"category" : @"identity",
+        @"name" : @"IdentityEvent",
+        @"attributes" : @{@"attributeKey" : @"attributeValue"},
+        @"objType" : @"IdentityEvent"
+    };
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ identityEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          NSLog(@"OCMVerify %@", obj);
+                          XCTAssertTrue([obj isKindOfClass:[SFMCSdkIdentityEvent class]]);
+                          SFMCSdkIdentityEvent *event = obj;
+                          NSLog(@"SFMCSdkIdentityEvent %@", event.name);
+
+                          XCTAssertTrue([@"IdentityEvent" isEqualToString:event.name]);
+                          XCTAssertEqual(SFMCSdkEventCategoryIdentity, [event category]);
+                          XCTAssertTrue(
+                              [identityEvent[@"attributes"] isEqualToDictionary:event.attributes]);
+                          return YES;
+                        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackIdentityEventWithProfileId {
+    // GIVEN
+    NSDictionary *identityEvent = @{
+        @"category" : @"identity",
+        @"name" : @"IdentityEvent",
+        @"profileId" : @"test@gmail.com",
+        @"objType" : @"IdentityEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ identityEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          NSLog(@"OCMVerify %@", obj);
+                          XCTAssertTrue([obj isKindOfClass:[SFMCSdkIdentityEvent class]]);
+                          SFMCSdkIdentityEvent *event = obj;
+
+                          XCTAssertTrue([@"IdentityEvent" isEqualToString:event.name]);
+                          XCTAssertEqual(SFMCSdkEventCategoryIdentity, [event category]);
+                          XCTAssertTrue(
+                              [identityEvent[@"profileId"] isEqualToString:event.profileId]);
+                          return YES;
+                        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackIdentityEventWithProfileAttributes {
+    // GIVEN
+    NSDictionary *identityEvent = @{
+        @"category" : @"identity",
+        @"name" : @"IdentityEvent",
+        @"profileAttributes" : @{@"profileAttributeKey" : @"profileAttributeValue"},
+        @"objType" : @"IdentityEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ identityEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          NSLog(@"OCMVerify %@", obj);
+                          XCTAssertTrue([obj isKindOfClass:[SFMCSdkIdentityEvent class]]);
+                          SFMCSdkIdentityEvent *event = obj;
+
+                          XCTAssertTrue([@"IdentityEvent" isEqualToString:event.name]);
+                          XCTAssertEqual(SFMCSdkEventCategoryIdentity, [event category]);
+                          XCTAssertTrue([identityEvent[@"profileAttributes"]
+                              isEqualToDictionary:event.profileAttributes]);
+                          return YES;
+                        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackAddToCartEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *cartEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Add To Cart",
+        @"lineItems" : @[ lineItem ],
+        @"objType" : @"CartEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ cartEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkAddToCartEvent class]]);
+          SFMCSdkAddToCartEvent *event = obj;
+
+          XCTAssertTrue([@"Add To Cart" isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkLineItem *item = [event.lineItems firstObject];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackRemoveFromCartEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *cartEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Remove From Cart",
+        @"lineItems" : @[ lineItem ],
+        @"objType" : @"CartEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ cartEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkRemoveFromCartEvent class]]);
+          SFMCSdkRemoveFromCartEvent *event = obj;
+
+          XCTAssertTrue([@"Remove From Cart" isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkLineItem *item = [event.lineItems firstObject];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackReplaceCartEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *cartEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Replace Cart",
+        @"lineItems" : @[ lineItem, lineItem ],
+        @"objType" : @"CartEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ cartEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkReplaceCartEvent class]]);
+          SFMCSdkReplaceCartEvent *event = obj;
+
+          XCTAssertTrue([@"Replace Cart" isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkLineItem *item = event.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          item = event.lineItems[1];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackCommentCatalogObjectEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Comment Catalog Object",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+    
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkCommentCatalogObjectEvent class]]);
+          SFMCSdkCommentCatalogObjectEvent *event = obj;
+
+          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkCatalogObject *item = event.catalogObject;
+          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+          XCTAssertTrue([catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackViewCatalogObjectDetailEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"View Catalog Object Detail",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkViewCatalogObjectDetailEvent class]]);
+          SFMCSdkViewCatalogObjectDetailEvent *event = obj;
+
+          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkCatalogObject *item = event.catalogObject;
+          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+          XCTAssertTrue([catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackFavoriteCatalogObjectDetailEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Favorite Catalog Object",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkFavoriteCatalogObjectEvent class]]);
+          SFMCSdkFavoriteCatalogObjectEvent *event = obj;
+
+          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkCatalogObject *item = event.catalogObject;
+          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+          XCTAssertTrue([catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackShareCatalogObjectDetailEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Share Catalog Object",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+    
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          NSLog(@"OCMVerify %@", obj);
+                          XCTAssertTrue([obj isKindOfClass:[SFMCSdkShareCatalogObjectEvent class]]);
+                          SFMCSdkShareCatalogObjectEvent *event = obj;
+
+                          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+                          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+                          SFMCSdkCatalogObject *item = event.catalogObject;
+                          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+                          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+                          XCTAssertTrue(
+                              [catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+                          return YES;
+                        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackReviewCatalogObjectDetailEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Review Catalog Object",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkReviewCatalogObjectEvent class]]);
+          SFMCSdkReviewCatalogObjectEvent *event = obj;
+
+          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkCatalogObject *item = event.catalogObject;
+          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+          XCTAssertTrue([catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackViewCatalogObjectEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"View Catalog Object",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                          NSLog(@"OCMVerify %@", obj);
+                          XCTAssertTrue([obj isKindOfClass:[SFMCSdkViewCatalogObjectEvent class]]);
+                          SFMCSdkViewCatalogObjectEvent *event = obj;
+                          NSLog(@"OCMVerify--> %@ %@", event.name, catalogObject[@"name"]);
+
+                          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+                          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+                          SFMCSdkCatalogObject *item = event.catalogObject;
+                          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+                          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+                          XCTAssertTrue(
+                              [catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+                          return YES;
+                        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackQuickViewCatalogObjectDetailEvent {
+    // GIVEN
+    NSDictionary *catalogObject = @{
+        @"type" : @"objectType",
+        @"id" : @"objectId",
+        @"attributes" : @{@"key" : @"value"},
+        @"relatedCatalogObjects" : @{},
+        @"objType" : @"CatalogObject"
+    };
+
+    NSDictionary *catalogObjectEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Quick View Catalog Object",
+        @"catalogObject" : catalogObject,
+        @"objType" : @"CatalogObjectEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ catalogObjectEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkQuickViewCatalogObjectEvent class]]);
+          SFMCSdkQuickViewCatalogObjectEvent *event = obj;
+
+          XCTAssertTrue([catalogObjectEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkCatalogObject *item = event.catalogObject;
+          XCTAssertTrue([catalogObject[@"type"] isEqualToString:item.type]);
+          XCTAssertTrue([catalogObject[@"id"] isEqualToString:item.id]);
+          XCTAssertTrue([catalogObject[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackPurchaseOrderEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Purchase",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkPurchaseOrderEvent class]]);
+          SFMCSdkPurchaseOrderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackPreorderOrderEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Preorder",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkPreorderEvent class]]);
+          SFMCSdkPreorderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackCancelOrderEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Cancel",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkCancelOrderEvent class]]);
+          SFMCSdkCancelOrderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackDeliverOrderEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Deliver",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkDeliverOrderEvent class]]);
+          SFMCSdkDeliverOrderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackExchangeOrderEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Exchange",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkExchangeOrderEvent class]]);
+          SFMCSdkExchangeOrderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackReturnOrderEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Return",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkReturnOrderEvent class]]);
+          SFMCSdkReturnOrderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
+- (void)testTrackReturnShipEvent {
+    // GIVEN
+    NSDictionary *lineItem = @{
+        @"catalogObjectType" : @"catalogObjectTypeValue",
+        @"catalogObjectId" : @"catalogObjectIdValue",
+        @"quantity" : @1,
+        @"price" : @100,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"LineItem"
+    };
+
+    NSDictionary *order = @{
+        @"id" : @"orderId",
+        @"lineItems" : @[ lineItem ],
+        @"totalValue" : @500,
+        @"currency" : @"USD",
+        @"attributes" : @{@"key" : @"value"},
+        @"objType" : @"Order"
+    };
+
+    NSDictionary *orderEvent = @{
+        @"category" : @"engagement",
+        @"name" : @"Ship",
+        @"order" : order,
+        @"objType" : @"OrderEvent"
+    };
+
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ orderEvent ]
+                                                      callbackId:@"testCallback"
+                                                       className:@"MCCordovaPlugin"
+                                                      methodName:@"trackEvent"];
+
+    // WHEN
+    [_plugin track:command];
+
+    // THEN
+    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+          NSLog(@"OCMVerify %@", obj);
+          XCTAssertTrue([obj isKindOfClass:[SFMCSdkShipOrderEvent class]]);
+          SFMCSdkShipOrderEvent *event = obj;
+
+          XCTAssertTrue([orderEvent[@"name"] isEqualToString:event.name]);
+          XCTAssertEqual(SFMCSdkEventCategoryEngagement, [event category]);
+
+          SFMCSdkOrder *eventOrder = event.order;
+          XCTAssertTrue([order[@"id"] isEqualToString:eventOrder.id]);
+          XCTAssertTrue([order[@"totalValue"] isEqualToNumber:eventOrder.totalValue]);
+          XCTAssertTrue([order[@"currency"] isEqualToString:eventOrder.currency]);
+          XCTAssertTrue([order[@"attributes"] isEqualToDictionary:eventOrder.attributes]);
+
+          SFMCSdkLineItem *item = event.order.lineItems[0];
+          XCTAssertTrue([lineItem[@"catalogObjectType"] isEqualToString:item.catalogObjectType]);
+          XCTAssertTrue([lineItem[@"catalogObjectId"] isEqualToString:item.catalogObjectId]);
+          XCTAssertEqual([lineItem[@"quantity"] integerValue], item.quantity);
+          XCTAssertTrue([lineItem[@"price"] isEqualToNumber:item.price]);
+          XCTAssertTrue([lineItem[@"currency"] isEqualToString:item.currency]);
+          XCTAssertTrue([lineItem[@"attributes"] isEqualToDictionary:item.attributes]);
+
+          return YES;
+        }]]);
+
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
+}
+
 - (void)testGetTags_nil {
     // GIVEN
     id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"getTags"];
-    OCMStub([_sdk sfmc_tags]).andReturn(nil);
+    OCMStub([(SFMCSdkPUSH *)_push tags]).andReturn(nil);
 
     // WHEN
     [_plugin getTags:command];
 
     // THEN
-    OCMVerify([_sdk sfmc_tags]);
+    OCMVerify([(SFMCSdkPUSH *)_push tags]);
     OCMVerify([_commandDelegate
         sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
           return [result.status intValue] == CDVCommandStatus_OK && result.message != nil &&
