@@ -51,6 +51,12 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
+import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
+import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
 
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
@@ -204,18 +210,25 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-                if (MarketingCloudSdk.isReady()) {
-                    handler.execute(MarketingCloudSdk.getInstance(), args, callbackContext);
-                } else if (MarketingCloudSdk.isInitializing()) {
-                    MarketingCloudSdk.requestSdk(new MarketingCloudSdk.WhenReadyListener() {
-                        @Override
-                        public void ready(@NonNull MarketingCloudSdk sdk) {
-                            handler.execute(sdk, args, callbackContext);
+
+                SFMCSdk.requestSdk(new SFMCSdkReadyListener() {
+                    @Override
+                    public void ready(@NonNull SFMCSdk sfmcSdk) {
+                        if(handler instanceof  SFMCActionHandler){
+                            ((SFMCActionHandler)handler).execute(sfmcSdk, args, callbackContext);
+                        }else if(handler instanceof PushSDKActionHandler){
+                            sfmcSdk.mp(new PushModuleReadyListener() {
+                                @Override
+                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
+                                    ((PushSDKActionHandler)handler).execute(pushModuleInterface, args, callbackContext);
+                                }
+                            });
+                        } else {
+                            callbackContext.error("Marcketing Cloud SDK - Cordova Plugin: Unknown handler reference");
                         }
-                    });
-                } else {
-                    callbackContext.error("MarketingCloudSdk#init has not been called");
-                }
+                        
+                    }
+                });
             }
         });
 
@@ -225,20 +238,11 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     private boolean handleStaticAction(
         String action, JSONArray args, CallbackContext callbackContext) {
         switch (action) {
-            case "enableVerboseLogging":
+            case "enableLogging":
+                SFMCSdk.Companion.setLogging(LogLevel.DEBUG, new LogListener.AndroidLogger());
                 MarketingCloudSdk.setLogLevel(MCLogListener.VERBOSE);
                 MarketingCloudSdk.setLogListener(new MCLogListener.AndroidLogListener());
                 callbackContext.success();
-                return true;
-            case "disableVerboseLogging":
-                MarketingCloudSdk.setLogListener(null);
-                callbackContext.success();
-                return true;
-            case "registerEventsChannel":
-                registerEventsChannel(callbackContext);
-                return true;
-            case "subscribe":
-                subscribe(args, callbackContext);
                 return true;
             default:
                 return false;
@@ -249,24 +253,6 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         this.eventsChannel = callbackContext;
         if (notificationOpenedSubscribed) {
             sendCachedPushEvent(eventsChannel);
-        }
-    }
-
-    private void subscribe(JSONArray args, CallbackContext context) {
-        switch (args.optString(0, null)) {
-            case "notificationOpened":
-                notificationOpenedSubscribed = true;
-                if (eventsChannel != null) {
-                    sendCachedPushEvent(eventsChannel);
-                }
-                break;
-            case "urlAction":
-                // NO_OP
-                // Always send urlAction events to the JS plugin.  It will manager the listener
-                // registration.
-                break;
-            default:
-                // NO_OP
         }
     }
 
@@ -281,207 +267,47 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         switch (action) {
             case "getSystemToken":
                 return getSystemToken();
-            case "isPushEnabled":
-                return isPushEnabled();
-            case "enablePush":
-                return enabledPush();
-            case "disablePush":
-                return disablePush();
-            case "getAttributes":
-                return getAttributes();
-            case "setAttribute":
-                return setAttribute();
-            case "clearAttribute":
-                return clearAttribute();
-            case "addTag":
-                return addTag();
-            case "removeTag":
-                return removeTag();
-            case "getTags":
-                return getTags();
-            case "setContactKey":
-                return setContactKey();
-            case "getContactKey":
-                return getContactKey();
             case "logSdkState":
                 return logSdkState();
-            case "track":
-                return track();
             default:
                 return null;
         }
     }
 
-    private ActionHandler getContactKey() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                callbackContext.success(sdk.getRegistrationManager().getContactKey());
-            }
-        };
-    }
-
-    private ActionHandler setContactKey() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                String contactKey = args.optString(0, null);
-                boolean success =
-                    sdk.getRegistrationManager().edit().setContactKey(contactKey).commit();
-                callbackContext.success(success ? 1 : 0);
-            }
-        };
-    }
-
-    private ActionHandler getTags() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                callbackContext.success(fromCollection(sdk.getRegistrationManager().getTags()));
-            }
-        };
-    }
-
-    private ActionHandler removeTag() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                String tag = args.optString(0, null);
-                boolean success = sdk.getRegistrationManager().edit().removeTag(tag).commit();
-                callbackContext.success(success ? 1 : 0);
-            }
-        };
-    }
-
-    private ActionHandler addTag() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                String tag = args.optString(0, null);
-                boolean success = sdk.getRegistrationManager().edit().addTag(tag).commit();
-                callbackContext.success(success ? 1 : 0);
-            }
-        };
-    }
-
-    private ActionHandler clearAttribute() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                String key = args.optString(0, null);
-                boolean success = sdk.getRegistrationManager().edit().clearAttribute(key).commit();
-                callbackContext.success(success ? 1 : 0);
-            }
-        };
-    }
-
-    private ActionHandler setAttribute() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                String key = args.optString(0, null);
-                String value = args.optString(1);
-                boolean success =
-                    sdk.getRegistrationManager().edit().setAttribute(key, value).commit();
-                callbackContext.success(success ? 1 : 0);
-            }
-        };
-    }
-
-    private ActionHandler getAttributes() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                try {
-                    callbackContext.success(fromMap(sdk.getRegistrationManager().getAttributes()));
-                } catch (JSONException e) {
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        };
-    }
-
-    private ActionHandler disablePush() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                sdk.getPushMessageManager().disablePush();
-                callbackContext.success();
-            }
-        };
-    }
-
-    private ActionHandler enabledPush() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                sdk.getPushMessageManager().enablePush();
-                callbackContext.success();
-            }
-        };
-    }
-
-    private ActionHandler isPushEnabled() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                callbackContext.success(sdk.getPushMessageManager().isPushEnabled() ? 1 : 0);
-            }
-        };
-    }
-
     private ActionHandler getSystemToken() {
-        return new ActionHandler() {
+        return new PushSDKActionHandler() {
             @Override
             public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getPushMessageManager().getPushToken());
             }
         };
     }
 
     private ActionHandler logSdkState() {
-        return new ActionHandler() {
+        return new SFMCActionHandler() {
             @Override
             public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
+                SFMCSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 log("MCSDK STATE", sdk.getSdkState().toString());
                 callbackContext.success();
             }
         };
     }
 
-    private ActionHandler track() {
-        return new ActionHandler() {
-            @Override
-            public void execute(
-                MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                try {
-                    sdk.getEventManager().track(
-                        EventManager.customEvent(args.getString(0), MCCordovaPlugin.toMap(args.getJSONObject(1))));
-                    callbackContext.success();
-                    // log("TRACK", "EVENT: " + args.getString(0) + ", ATTRIBUTES: " + args.get(1).toString());
-                } catch (Exception e) {
-                    // NO-OP
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        };
-    }
+
+
 
     interface ActionHandler {
-        void execute(MarketingCloudSdk sdk, JSONArray args, CallbackContext callbackContext);
+        
+    }
+
+    interface SFMCActionHandler extends ActionHandler {
+        void execute(SFMCSdk sfmcSdk, JSONArray args, CallbackContext callbackContext);
+    }
+
+    interface PushSDKActionHandler extends ActionHandler{
+        void execute(PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext);
     }
 
     private static int MAX_LOG_LENGTH = 4000;
