@@ -53,11 +53,11 @@ exports.defineAutoTests = function() {
         });
 
         it('plugin.spec.5 should contain a getSystemToken function',
-           function() {
-               expect(typeof MCCordovaPlugin.getSystemToken).toBeDefined();
-               expect(typeof MCCordovaPlugin.getSystemToken === 'function')
-                   .toBe(true);
-           });
+            function() {
+                expect(typeof MCCordovaPlugin.getSystemToken).toBeDefined();
+                expect(typeof MCCordovaPlugin.getSystemToken === 'function')
+                    .toBe(true);
+            });
 
         it('plugin.spec.6 should contain a getAttributes function', function() {
             expect(typeof MCCordovaPlugin.getAttributes).toBeDefined();
@@ -72,11 +72,11 @@ exports.defineAutoTests = function() {
         });
 
         it('plugin.spec.8 should contain a clearAttribute function',
-           function() {
-               expect(typeof MCCordovaPlugin.clearAttribute).toBeDefined();
-               expect(typeof MCCordovaPlugin.clearAttribute === 'function')
-                   .toBe(true);
-           });
+            function() {
+                expect(typeof MCCordovaPlugin.clearAttribute).toBeDefined();
+                expect(typeof MCCordovaPlugin.clearAttribute === 'function')
+                    .toBe(true);
+            });
 
         it('plugin.spec.9 should contain a addTag function', function() {
             expect(typeof MCCordovaPlugin.addTag).toBeDefined();
@@ -94,54 +94,54 @@ exports.defineAutoTests = function() {
         });
 
         it('plugin.spec.12 should contain a setContactKey function',
-           function() {
-               expect(typeof MCCordovaPlugin.setContactKey).toBeDefined();
-               expect(typeof MCCordovaPlugin.setContactKey === 'function')
-                   .toBe(true);
-           });
+            function() {
+                expect(typeof MCCordovaPlugin.setContactKey).toBeDefined();
+                expect(typeof MCCordovaPlugin.setContactKey === 'function')
+                    .toBe(true);
+            });
 
         it('plugin.spec.13 should contain a getContactKey function',
-           function() {
-               expect(typeof MCCordovaPlugin.getContactKey).toBeDefined();
-               expect(typeof MCCordovaPlugin.getContactKey === 'function')
-                   .toBe(true);
-           });
+            function() {
+                expect(typeof MCCordovaPlugin.getContactKey).toBeDefined();
+                expect(typeof MCCordovaPlugin.getContactKey === 'function')
+                    .toBe(true);
+            });
 
         it('plugin.spec.14 should contain a enableLogging function',
-           function() {
-               expect(typeof MCCordovaPlugin.enableLogging)
-                   .toBeDefined();
-               expect(
-                   typeof MCCordovaPlugin.enableLogging === 'function')
-                   .toBe(true);
-           });
+            function() {
+                expect(typeof MCCordovaPlugin.enableLogging)
+                    .toBeDefined();
+                expect(
+                    typeof MCCordovaPlugin.enableLogging === 'function')
+                    .toBe(true);
+            });
 
-        it('plugin.spec.15 should contain a disableVerboseLogging function',
-           function() {
-               expect(typeof MCCordovaPlugin.disableVerboseLogging)
-                   .toBeDefined();
-               expect(
-                   typeof MCCordovaPlugin.disableVerboseLogging === 'function')
-                   .toBe(true);
-           });
+        it('plugin.spec.15 should contain a disableLogging function',
+            function() {
+                expect(typeof MCCordovaPlugin.disableLogging)
+                    .toBeDefined();
+                expect(
+                    typeof MCCordovaPlugin.disableLogging === 'function')
+                    .toBe(true);
+            });
 
-        it('plugin.spec.16 should contain a setOnPushOpenedListener function',
-           function() {
-               expect(typeof MCCordovaPlugin.setOnPushOpenedListener)
-                   .toBeDefined();
-               expect(
-                   typeof MCCordovaPlugin.setOnPushOpenedListener ===
+        it('plugin.spec.16 should contain a setOnNotificationOpenedListener function',
+            function() {
+                expect(typeof MCCordovaPlugin.setOnNotificationOpenedListener)
+                    .toBeDefined();
+                expect(
+                    typeof MCCordovaPlugin.setOnNotificationOpenedListener ===
                    'function')
-                   .toBe(true);
-           });
+                    .toBe(true);
+            });
 
         it('plugin.spec.17 should contain a track function',
-           function() {
-               expect(typeof MCCordovaPlugin.track)
-                   .toBeDefined();
-               expect(
-                   typeof MCCordovaPlugin.track ==='function')
-                   .toBe(true);
-           });
+            function() {
+                expect(typeof MCCordovaPlugin.track)
+                    .toBeDefined();
+                expect(
+                    typeof MCCordovaPlugin.track === 'function')
+                    .toBe(true);
+            });
     });
 };

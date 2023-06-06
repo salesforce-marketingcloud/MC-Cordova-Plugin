@@ -10,8 +10,9 @@
 		3A515F7F228F359E00036F6B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A515F7E228F359E00036F6B /* libCordova.a */; };
 		3ACBFBA2228F2BC300899187 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBFBA1228F2BC300899187 /* Tests.m */; };
 		3ACBFBA4228F2BC300899187 /* libMCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ACBFB8F228F2B9D00899187 /* libMCCordovaPluginLib.a */; };
-		3ACBFBAC228F2E7600899187 /* MCCordovaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */; };
 		61B0D6D103B2450154680DFC /* libPods-MCCordovaPluginLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DC5A63310C83190D5A0E4D /* libPods-MCCordovaPluginLib.a */; };
+		C3A08D8C2A28CE53008FF580 /* MCCordovaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A08D8A2A28CE53008FF580 /* MCCordovaPlugin.m */; };
+		C3A08D8D2A28CE53008FF580 /* NSDictionary+SFMCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A08D8B2A28CE53008FF580 /* NSDictionary+SFMCEvent.m */; };
 		D252608757EF7590A5370DF4 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA1A461D053DCF774C41814 /* libPods-Tests.a */; };
 /* End PBXBuildFile section */
 
@@ -44,13 +45,15 @@
 		3ACBFB9F228F2BC300899187 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ACBFBA1228F2BC300899187 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		3ACBFBA3228F2BC300899187 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCordovaPlugin.m; path = ../../../../src/ios/MCCordovaPlugin.m; sourceTree = "<group>"; };
-		3ACBFBAB228F2E7600899187 /* MCCordovaPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCordovaPlugin.h; path = ../../../../src/ios/MCCordovaPlugin.h; sourceTree = "<group>"; };
 		4CA1A461D053DCF774C41814 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90D45726C2590366B6A9B0CC /* Pods-MCCordovaPluginLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCCordovaPluginLib.debug.xcconfig"; path = "Target Support Files/Pods-MCCordovaPluginLib/Pods-MCCordovaPluginLib.debug.xcconfig"; sourceTree = "<group>"; };
 		96DC5A63310C83190D5A0E4D /* libPods-MCCordovaPluginLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MCCordovaPluginLib.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B315E285464CAEAC040D414C /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B8286676AB8BAD6395703CF9 /* Pods-MCCordovaPluginLib.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCCordovaPluginLib.release.xcconfig"; path = "Target Support Files/Pods-MCCordovaPluginLib/Pods-MCCordovaPluginLib.release.xcconfig"; sourceTree = "<group>"; };
+		C3A08D882A28CE53008FF580 /* MCCordovaPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCordovaPlugin.h; path = ../../../../src/ios/MCCordovaPlugin.h; sourceTree = "<group>"; };
+		C3A08D892A28CE53008FF580 /* NSDictionary+SFMCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+SFMCEvent.h"; path = "../../../../src/ios/NSDictionary+SFMCEvent.h"; sourceTree = "<group>"; };
+		C3A08D8A2A28CE53008FF580 /* MCCordovaPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCordovaPlugin.m; path = ../../../../src/ios/MCCordovaPlugin.m; sourceTree = "<group>"; };
+		C3A08D8B2A28CE53008FF580 /* NSDictionary+SFMCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+SFMCEvent.m"; path = "../../../../src/ios/NSDictionary+SFMCEvent.m"; sourceTree = "<group>"; };
 		EB4189AD7C1D1AD692CA1625 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,7 +93,7 @@
 		3ACBFB86228F2B9D00899187 = {
 			isa = PBXGroup;
 			children = (
-				3ACBFB91228F2B9D00899187 /* MCCordovaPluginLib */,
+				C3A08D872A28CE3C008FF580 /* MCCordovaPluginLib */,
 				3ACBFBA0228F2BC300899187 /* Tests */,
 				3ACBFB90228F2B9D00899187 /* Products */,
 				11E39A16D2930658CE322A40 /* Pods */,
@@ -105,15 +108,6 @@
 				3ACBFB9F228F2BC300899187 /* Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		3ACBFB91228F2B9D00899187 /* MCCordovaPluginLib */ = {
-			isa = PBXGroup;
-			children = (
-				3ACBFBAB228F2E7600899187 /* MCCordovaPlugin.h */,
-				3ACBFBAA228F2E7600899187 /* MCCordovaPlugin.m */,
-			);
-			path = MCCordovaPluginLib;
 			sourceTree = "<group>";
 		};
 		3ACBFBA0228F2BC300899187 /* Tests */ = {
@@ -134,6 +128,17 @@
 				4CA1A461D053DCF774C41814 /* libPods-Tests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C3A08D872A28CE3C008FF580 /* MCCordovaPluginLib */ = {
+			isa = PBXGroup;
+			children = (
+				C3A08D882A28CE53008FF580 /* MCCordovaPlugin.h */,
+				C3A08D8A2A28CE53008FF580 /* MCCordovaPlugin.m */,
+				C3A08D892A28CE53008FF580 /* NSDictionary+SFMCEvent.h */,
+				C3A08D8B2A28CE53008FF580 /* NSDictionary+SFMCEvent.m */,
+			);
+			path = MCCordovaPluginLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +170,8 @@
 				3ACBFB9B228F2BC300899187 /* Sources */,
 				3ACBFB9C228F2BC300899187 /* Frameworks */,
 				3ACBFB9D228F2BC300899187 /* Resources */,
+				EAF1A424CF2EB22CA2A5FB29 /* [CP] Embed Pods Frameworks */,
+				59A21764166B38542F81EAF4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -221,6 +228,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		59A21764166B38542F81EAF4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B9BD4B71FCBD19B39208F6A5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -265,6 +289,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		EAF1A424CF2EB22CA2A5FB29 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -272,7 +313,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ACBFBAC228F2E7600899187 /* MCCordovaPlugin.m in Sources */,
+				C3A08D8D2A28CE53008FF580 /* NSDictionary+SFMCEvent.m in Sources */,
+				C3A08D8C2A28CE53008FF580 /* MCCordovaPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
