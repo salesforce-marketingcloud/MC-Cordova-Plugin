@@ -37,12 +37,7 @@ import com.salesforce.marketingcloud.UrlHandler;
 import com.salesforce.marketingcloud.events.EventManager;
 import com.salesforce.marketingcloud.notifications.NotificationManager;
 import com.salesforce.marketingcloud.notifications.NotificationMessage;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -58,6 +53,7 @@ import com.salesforce.marketingcloud.sfmcsdk.components.identity.Identity;
 import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
 import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
+import com.salesforce.marketingcloud.cordova.EventUtility;
 
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
@@ -66,55 +62,6 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     private CallbackContext eventsChannel = null;
     private PluginResult cachedNotificationOpenedResult = null;
     private boolean notificationOpenedSubscribed = false;
-
-    private static JSONObject fromMap(Map<String, String> map) throws JSONException {
-        JSONObject data = new JSONObject();
-        if (map != null && !map.isEmpty()) {
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                data.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return data;
-    }
-
-    private static JSONArray fromCollection(Collection<String> collection) {
-        JSONArray data = new JSONArray();
-        if (collection != null && !collection.isEmpty()) {
-            for (String s : collection) {
-                data.put(s);
-            }
-        }
-        return data;
-    }
-
-    private static Map<String, Object> toMap(JSONObject jsonobj)  throws JSONException {
-        Map<String, Object> map = new HashMap<String, Object>();
-        Iterator<String> keys = jsonobj.keys();
-        while(keys.hasNext()) {
-            String key = keys.next();
-            Object value = jsonobj.get(key);
-            if (value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            } else if (value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }   
-            map.put(key, value);
-        }   return map;
-    }
-
-    private static List<Object> toList(JSONArray array) throws JSONException {
-        List<Object> list = new ArrayList<Object>();
-        for(int i = 0; i < array.length(); i++) {
-            Object value = array.get(i);
-            if (value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            }
-            else if (value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            list.add(value);
-        }   return list;
-    }
 
     @Nullable
     @Override
@@ -325,6 +272,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return setContactKey();
             case "getContactKey":
                 return getContactKey();
+            case "track":
+                return track();
             default:
                 return null;
         }
@@ -345,7 +294,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             @Override
             public void execute(
                 SFMCSdk sdk, JSONArray args, CallbackContext callbackContext) {
-                log("MCSDK STATE", sdk.getSdkState().toString());
+                EventUtility.log("MCSDK STATE", sdk.getSdkState().toString());
                 callbackContext.success();
             }
         };
@@ -399,7 +348,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             public void execute(
                 PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 try {
-                    callbackContext.success(fromMap(sdk.getRegistrationManager().getAttributes()));
+                    callbackContext.success(EventUtility.fromMap(sdk.getRegistrationManager().getAttributes()));
                 } catch (JSONException e) {
                     callbackContext.error(e.getMessage());
                 }
@@ -461,7 +410,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             @Override
             public void execute(
                 PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
-                callbackContext.success(fromCollection(sdk.getRegistrationManager().getTags()));
+                callbackContext.success(EventUtility.fromCollection(sdk.getRegistrationManager().getTags()));
             }
         };
     }
@@ -488,6 +437,22 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         };
     }
 
+    private ActionHandler track() {
+        return new SFMCActionHandler() {
+            @Override
+            public void execute(
+                SFMCSdk sfmcSdk, JSONArray args, CallbackContext callbackContext) {
+                try {
+                    sfmcSdk.track(EventUtility.toEvent(args.getJSONObject(0)));
+                    callbackContext.success();
+                } catch (Exception e) {
+                    // NO-OP
+                    callbackContext.error(e.getMessage());
+                }
+            }
+        };
+    } 
+
     interface ActionHandler {
         
     }
@@ -504,11 +469,4 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         void execute(Identity identity, JSONArray args, CallbackContext callbackContext);
     }
 
-    private static int MAX_LOG_LENGTH = 4000;
-
-    private static void log(String tag, String msg) {
-        for (int i = 0, length = msg.length(); i < length; i += MAX_LOG_LENGTH) {
-            Log.println(Log.DEBUG, tag, msg.substring(i, Math.min(length, i + MAX_LOG_LENGTH)));
-        }
-    }
 }
