@@ -27,6 +27,11 @@
 
 #import "MCCordovaPlugin.h"
 #import "NSDictionary+SFMCEvent.h"
+#import <UserNotifications/UserNotifications.h>
+
+@interface MCCordovaPlugin()<UNUserNotificationCenterDelegate>
+@end
+
 
 @implementation MCCordovaPlugin
 
@@ -189,6 +194,7 @@ const int LOG_LENGTH = 800;
             }
         }];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupCapacitor:) name:UIApplicationDidFinishLaunchingNotification object:nil];
 }
 
 - (void)sendNotificationEvent:(NSDictionary *)notification {
@@ -387,6 +393,35 @@ const int LOG_LENGTH = 800;
     if (self.cachedNotification != nil) {
         [self sendNotificationEvent:self.cachedNotification];
         self.cachedNotification = nil;
+    }
+}
+
+- (BOOL)isCapacitor {
+    UIViewController *vc = UIApplication.sharedApplication.delegate.window.rootViewController;
+    NSString *className =  NSStringFromClass(vc.class);
+    NSString *superClassName =  NSStringFromClass(vc.superclass);
+    
+    return [className containsString:@"CAPBridgeViewController"] ||[superClassName containsString:@"CAPBridgeViewController"];
+}
+
+-(void) setupCapacitor:(NSNotification *)notification {
+    if ([self isCapacitor]) {
+       UNUserNotificationCenter.currentNotificationCenter.delegate =  self;
+    }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    // tell the MarketingCloudSDK about the notification
+    [[SFMCSdk mp] setNotificationRequest:response.notification.request];
+    
+    if (completionHandler != nil) {
+        completionHandler();
+    }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    if (completionHandler != nil) {
+        completionHandler(UNNotificationPresentationOptionAlert);
     }
 }
 
