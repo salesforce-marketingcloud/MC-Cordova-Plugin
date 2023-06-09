@@ -4,20 +4,9 @@
 
 Please follow the [ReadMe](https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin) guide for API details. Below additional steps are required to integrate capacitor/ionic apps with MarketingCloud Cordova Plugin.
 
-> These steps will need to be done each time the platform is added to your Capacitor application.
+## Modify your application's  capacitor config  to configure the plugin
 
-## 1. Enable push notifications in your target’s Capabilities settings in Xcode.
-
-Click on `+ Capability` and select `Push Notifications`
-
-
-
-![push enablement](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/assets/SDKConfigure6.png)
-
-
-## 2. Modify your application's  capacitor config  to configure the plugin
-
-**For Ionic:** Modify `capacitor.config.ts`
+**For Ionic:** Modify `capacitor.config.ts` and add prefrences under `cordova`.
 
 ```
 const config: CapacitorConfig = {
@@ -31,13 +20,14 @@ const config: CapacitorConfig = {
       "com.salesforce.marketingcloud.access_token":"{Marketing Cloud access token}",
       "com.salesforce.marketingcloud.tenant_specific_endpoint":"{URL retrieved from Marketing Cloud adminstration page}",
       "com.salesforce.marketingcloud.analytics": "{true|false}",
-      "salesforce.marketingcloud.delay_registration_until_contact_key_is_set": "{true|false}"        
+      "salesforce.marketingcloud.delay_registration_until_contact_key_is_set": "{true|false}",
+      "com.salesforce.marketingcloud.notification_small_icon": "ic_launcher_foreground"        
     }
   }
 };
 ```
 
-**For capacitor:** Modify `capacitor.config.json` and add following details
+**For capacitor:** Modify `capacitor.config.json` and add prefrences under `cordova`.
 
 ```
   {
@@ -50,19 +40,41 @@ const config: CapacitorConfig = {
       "launchShowDuration": 0
     }
   },
-  "cordova": { //Salesforce Marketing Cloud Config
-    "preferences": {
+  "cordova": { 
+    "preferences": { //Salesforce Marketing Cloud Config
       "com.salesforce.marketingcloud.app_id":"{Marketing Cloud application id}",
       "com.salesforce.marketingcloud.access_token":"{Marketing Cloud access token}",
       "com.salesforce.marketingcloud.tenant_specific_endpoint":"{URL retrieved from Marketing Cloud adminstration page}",
       "com.salesforce.marketingcloud.analytics": "{true|false}",
-      "salesforce.marketingcloud.delay_registration_until_contact_key_is_set": "{true|false}"        
+      "salesforce.marketingcloud.delay_registration_until_contact_key_is_set": "{true|false}",
+      "com.salesforce.marketingcloud.notification_small_icon": "ic_launcher_foreground"        
     }
   }
 }
 ```
 
-## 3. Enable iOS Push
+> These steps will need to be done each time the platform is added to your Capacitor application.
+
+## Android
+
+### 1. Copy the google-services.json file
+Copy the `google-services.json` file to `YOUR_APP/android/app/` directory
+
+
+
+## iOS
+
+### 1. Enable push notifications in your target’s Capabilities settings in Xcode.
+
+Click on `+ Capability` and select `Push Notifications`
+
+
+
+![push enablement](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/assets/SDKConfigure6.png)
+
+
+
+### 2. Enable iOS Push
 
 ### Add the following code in AppDelegate
 
@@ -98,4 +110,3 @@ extension AppDelegate {
     
 }
 ```
-

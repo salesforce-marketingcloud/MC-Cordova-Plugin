@@ -446,7 +446,7 @@ displayed.
 ---
 
 ### Capacitor or Ionic integaration
-Follow [Capacitor guide](./capacitor_ios.md) for integrating with Capacitor or Ionic apps.
+Follow [Capacitor guide](./capacitor_doc.md) for integrating with Capacitor or Ionic apps.
 
 
 ### 3rd Party Product Language Disclaimers
