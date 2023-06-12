@@ -110,3 +110,17 @@ extension AppDelegate {
     
 }
 ```
+
+## Usage
+If you're using typescript declare the plugin before calling the APIs. For API details  follow the [ReadMe](https://github.com/salesforce-marketingcloud/MC-Cordova-Plugin) guide.
+```
+
+//Declare the plugin.(for typescript) 
+declare let MCCordovaPlugin: any;
+declare let SFMCEvent: any;
+
+//Call plugin APIs
+MCCordovaPlugin.enableLogging();
+MCCordovaPlugin.enablePush();
+//Other APIs...
+```
