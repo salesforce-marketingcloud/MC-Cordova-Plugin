@@ -145,7 +145,7 @@ var app = {
         window.open(JSON.parse(jsonString).url, '_blank');
     },
     track: function() {
-        var event = new CustomEvent('ScreenViewed', { 'ScreenName': 'HomeScreen'});
+        var event = new SFMCEvent.CustomEvent('ScreenViewed', { 'ScreenName': 'HomeScreen'});
         MCCordovaPlugin.track(event);
     }
 };
