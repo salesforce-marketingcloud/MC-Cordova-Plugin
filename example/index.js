@@ -136,13 +136,20 @@ var app = {
         navigator.notification.alert('Check device logs for output.');
     },
     notificationOpened: function(value) {
-        document.getElementById('notificationData').textContent =
-            JSON.stringify(value, null, 4);
+        var jsonString = JSON.stringify(value, null, 4);
+        document.getElementById('notificationData').textContent = jsonString;
+        var url = JSON.parse(jsonString).values.url;
+        if (url) {
+            window.open(url, '_blank');
+        }
     },
     urlActionListener: function(value) {
         var jsonString = JSON.stringify(value, null, 4);
         document.getElementById('urlActionData').textContent = jsonString;
-        window.open(JSON.parse(jsonString).url, '_blank');
+        var url = JSON.parse(jsonString).url;
+        if (url) {
+            window.open(url, '_blank');
+        }
     },
     track: function() {
         var event = new SFMCEvent.CustomEvent('ScreenViewed', { 'ScreenName': 'HomeScreen'});

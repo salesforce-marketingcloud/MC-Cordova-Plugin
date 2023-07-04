@@ -1,12 +1,8 @@
-# Enable Push for iOS
+# Enable Rich Notifications for iOS
 
-> These steps will need to be done each time the platform is added to your Cordova application.
+> These steps will need to be done each time the platform is added to your Cordova application. Follow below steps if you need to enable Rich Notifications for iOS.
 
-1. Enable push notifications in your target’s Capabilities settings in xCode.
-
-    ![push enablement](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/assets/SDKConfigure8.png)
-
-2. **Enable Rich Notifications:** Rich notifications include images, videos, titles and subtitles from the MobilePush app, and mutable content. Mutable content can include personalization in the title, subtitle, or body of your message. 
+Rich notifications include images, videos, titles and subtitles from the MobilePush app, and mutable content. Mutable content can include personalization in the title, subtitle, or body of your message. 
     1. In Xcode, click **File**
     2. Click **New**
     3. Click **Target**
