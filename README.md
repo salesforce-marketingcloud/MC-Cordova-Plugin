@@ -53,9 +53,9 @@ To enable push support for the Android platform you will need to include the goo
 </platform>
 ```
 
-#### 4. Enable iOS Push
+#### 4. Enable Rich Notifications
 
-Follow [these instructions](./ios_push.md) to enable push for iOS.
+Follow [these instructions](./ios_push.md) to enable rich notifications for iOS.
 
 ## API Reference <a name="reference"></a>
 
