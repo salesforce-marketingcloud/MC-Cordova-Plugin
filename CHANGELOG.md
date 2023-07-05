@@ -1,5 +1,10 @@
 Change Log
 ==========
+### Version 8.0.0
+* Android 13 support.
+* Integrated with the Engagement SDK, which includes support for mobile app events.
+* Bug Fixes and Performance Improvements* -- This release includes bug fixes and SDK improvements.
+
 ### Version 7.5.0
 * 7.4+ versions of the Android and iOS Marketing Cloud SDK are used in this version
 * Adds Behavioral Triggers for InApp Message functionality, see `track()`
