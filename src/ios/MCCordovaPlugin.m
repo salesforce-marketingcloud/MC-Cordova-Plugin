@@ -95,7 +95,7 @@ const int LOG_LENGTH = 800;
     if (self.logger == nil) {
         self.logger = os_log_create("com.salesforce.marketingcloud.marketingcloudsdk", "Cordova");
     }
-    os_log_info(self.logger, "%@", msg);
+    os_log_info(self.logger, "%{public}@", msg);
 }
 
 - (void)splitLog:(NSString *)msg {
