@@ -131,9 +131,9 @@ const int LOG_LENGTH = 800;
         BOOL analytics = [pluginSettings[@"com.salesforce.marketingcloud.analytics"] boolValue];
         [configBuilder setAnalyticsEnabled:analytics];
         
-        BOOL delayRegistrationUntilContactKeyIsSet = [pluginSettings
-                                                      [@"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"]
-                                                      boolValue];
+        NSNumber *delayRegistrationUntilContactKeyIsSet = [NSNumber numberWithBool:[
+         [pluginSettings[@"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"] boolValue]]];
+
         [configBuilder
          setDelayRegistrationUntilContactKeyIsSet:delayRegistrationUntilContactKeyIsSet];
         
