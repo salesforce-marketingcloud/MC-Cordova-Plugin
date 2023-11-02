@@ -143,5 +143,26 @@ exports.defineAutoTests = function() {
                     typeof MCCordovaPlugin.track === 'function')
                     .toBe(true);
             });
+
+        it('plugin.spec.18 should contain a setAnalyticsEnabled function', function() {
+                expect(typeof MCCordovaPlugin.setAnalyticsEnabled).toBeDefined();
+                expect(typeof MCCordovaPlugin.setAnalyticsEnabled === 'function').toBe(true);
+            });
+        
+        it('plugin.spec.19 should contain a isAnalyticsEnabled function', function() {
+                expect(typeof MCCordovaPlugin.isAnalyticsEnabled).toBeDefined();
+                expect(typeof MCCordovaPlugin.isAnalyticsEnabled === 'function').toBe(true);
+            });
+        
+        it('plugin.spec.20 should contain a setPiAnalyticsEnabled function', function() {
+                expect(typeof MCCordovaPlugin.setPiAnalyticsEnabled).toBeDefined();
+                expect(typeof MCCordovaPlugin.setPiAnalyticsEnabled === 'function').toBe(true);
+            });
+        
+        it('plugin.spec.21 should contain a isPiAnalyticsEnabled function', function() {
+                expect(typeof MCCordovaPlugin.isPiAnalyticsEnabled).toBeDefined();
+                expect(typeof MCCordovaPlugin.isPiAnalyticsEnabled === 'function').toBe(true);
+            });
+        
     });
 };
