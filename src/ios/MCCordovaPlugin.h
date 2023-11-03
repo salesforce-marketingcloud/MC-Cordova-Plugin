@@ -58,6 +58,10 @@
 - (void)registerEventsChannel:(CDVInvokedUrlCommand *)command;
 - (void)subscribe:(CDVInvokedUrlCommand *)command;
 - (void)track:(CDVInvokedUrlCommand *)command;
+- (void)setAnalyticsEnabled:(CDVInvokedUrlCommand *)command;
+- (void)isAnalyticsEnabled:(CDVInvokedUrlCommand *)command;
+- (void)setPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command;
+- (void)isPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command;
 
 @property(nonatomic, copy) NSString *eventsCallbackId;
 @property(nonatomic, assign) BOOL notificationOpenedSubscribed;

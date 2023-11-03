@@ -185,7 +185,7 @@ class OrderEvent extends EngagementEvent {
     }
 
     static exchange(order) {
-        return new OrderEvent(OrderEventName.SHIP, order);
+        return new OrderEvent(OrderEventName.EXCHANGE, order);
     }
 }
 

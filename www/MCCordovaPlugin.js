@@ -334,7 +334,49 @@ var MCCordovaPlugin = {
     track: function(event) {
         argsCheck.checkArgs('oFF', `${PLUGIN_NAME}.track`, arguments);
         _exec(undefined, undefined, 'track', [event]);
-    }
+    },
+
+    /**
+     * Enables or disables analytics in the native Marketing Cloud SDK.
+     * @param  {boolean} enabled - Whether analytics should be enabled.
+     * @param  {function} [successCallback]
+     * @param  {function} [errorCallback]
+     */
+    setAnalyticsEnabled: function(enabled, successCallback, errorCallback) {
+        argsCheck.checkArgs('*FF', `${PLUGIN_NAME}.setAnalyticsEnabled`, arguments);
+        _exec(successCallback, errorCallback, 'setAnalyticsEnabled', [enabled]);
+    },
+
+    /**
+     * Checks if analytics are enabled in the native Marketing Cloud SDK.
+     * @param  {function(enabled)} successCallback
+     * @param  {function} [errorCallback]
+     */
+    isAnalyticsEnabled: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.isAnalyticsEnabled`, arguments);
+        _exec(successCallback, errorCallback, 'isAnalyticsEnabled');
+    },
+
+    /**
+     * Enables or disables PI analytics in the native Marketing Cloud SDK.
+     * @param  {boolean} enabled - Whether PI analytics should be enabled.
+     * @param  {function} [successCallback]
+     * @param  {function} [errorCallback]
+     */
+    setPiAnalyticsEnabled: function(enabled, successCallback, errorCallback) {
+        argsCheck.checkArgs('*FF', `${PLUGIN_NAME}.setPiAnalyticsEnabled`, arguments);
+        _exec(successCallback, errorCallback, 'setPiAnalyticsEnabled', [enabled]);
+    },
+
+    /**
+     * Checks if PI analytics are enabled in the native Marketing Cloud SDK.
+     * @param  {function(enabled)} successCallback
+     * @param  {function} [errorCallback]
+     */
+    isPiAnalyticsEnabled: function(successCallback, errorCallback) {
+        argsCheck.checkArgs('fF', `${PLUGIN_NAME}.isPiAnalyticsEnabled`, arguments);
+        _exec(successCallback, errorCallback, 'isPiAnalyticsEnabled');
+    },
 };
 
 module.exports = MCCordovaPlugin;

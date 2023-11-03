@@ -425,4 +425,26 @@ const int LOG_LENGTH = 800;
     }
 }
 
+- (void)setAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
+    BOOL analyticsEnabled = [command.arguments[0] boolValue];
+    [[SFMCSdk mp] setAnalyticsEnabled:analyticsEnabled];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
+- (void)isAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
+    BOOL isEnabled = [[SFMCSdk mp] isAnalyticsEnabled];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+}
+
+- (void)setPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
+    BOOL piAnalyticsEnabled = [command.arguments[0] boolValue];
+    [[SFMCSdk mp] setPiAnalyticsEnabled:piAnalyticsEnabled];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
+- (void)isPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
+    BOOL isEnabled = [[SFMCSdk mp] isPiAnalyticsEnabled];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+}
+
 @end

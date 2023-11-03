@@ -9,6 +9,8 @@ var app = {
     onDeviceReady: function() {
         document.getElementById('fetchTokenBtn')
             .addEventListener('click', app.fetchSystemToken);
+        document.getElementById('fetchDeviceIdBtn')
+            .addEventListener('click', app.fetchDeviceId);
         document.getElementById('togglePushBtn')
             .addEventListener('click', app.togglePush);
         document.getElementById('setContactKey')
@@ -33,11 +35,30 @@ var app = {
         document.getElementById('track').addEventListener('click', app.track);
         MCCordovaPlugin.setOnNotificationOpenedListener(app.notificationOpened);
         MCCordovaPlugin.setOnUrlActionListener(app.urlActionListener);
+        document.getElementById('analyticsToggle')
+            .addEventListener('change', app.updateAnalyticsState);
+        document.getElementById('piAnalyticsToggle')
+            .addEventListener('change', app.updatePiAnalyticsState);
+        MCCordovaPlugin.isAnalyticsEnabled(function(enabled) {
+            console.log('isAnalyticsEnabled: ' + enabled);
+            document.getElementById('analyticsToggle').checked = enabled;
+        });
+        MCCordovaPlugin.isPiAnalyticsEnabled(function(enabled) {
+            console.log('isAnalyticsEnabled: ' + enabled);
+            document.getElementById('piAnalyticsToggle').checked = enabled;
+        });
     },
     fetchSystemToken: function() {
         MCCordovaPlugin.getSystemToken(function(token) {
             document.getElementById('pushToken').textContent = token;
             var b = document.getElementById('fetchTokenBtn');
+            b.parentNode.removeChild(b);
+        });
+    },
+    fetchDeviceId: function() {
+        MCCordovaPlugin.getDeviceId(function(deviceId) {
+            document.getElementById('deviceId').textContent = deviceId;
+            var b = document.getElementById('fetchDeviceIdBtn');
             b.parentNode.removeChild(b);
         });
     },
@@ -152,9 +173,23 @@ var app = {
         }
     },
     track: function() {
-        var event = new SFMCEvent.CustomEvent('ScreenViewed', { 'ScreenName': 'HomeScreen'});
-        MCCordovaPlugin.track(event);
-    }
+        var event = new SFMCEvent.CustomEvent('screenViewed', {screenName: 'HomeScreen'});
+        MCCordovaPlugin.track(event);    
+    },
+    updateAnalyticsState: function() {
+        var isEnabled = document.getElementById('analyticsToggle').checked;
+        MCCordovaPlugin.setAnalyticsEnabled(isEnabled);
+        MCCordovaPlugin.isAnalyticsEnabled(function(enabled) {
+            document.getElementById('analyticsToggle').checked = enabled;
+        });
+    },
+    updatePiAnalyticsState: function() {
+        var isEnabled = document.getElementById('piAnalyticsToggle').checked;
+        MCCordovaPlugin.setPiAnalyticsEnabled(isEnabled);
+        MCCordovaPlugin.isPiAnalyticsEnabled(function(enabled) {
+            document.getElementById('piAnalyticsToggle').checked = enabled;
+        });
+    },
 };
 
 app.initialize();
