@@ -1,6 +1,6 @@
 Change Log
 ==========
-### Version 8.0.1
+### Version 8.1.0
 * Runtime Toggles – Enable/disable Analytics and PI analytics at runtime.
 * Android 14 support
 * *Bug Fixes and Performance Improvements* -- This release includes bug fixes and SDK improvements.
