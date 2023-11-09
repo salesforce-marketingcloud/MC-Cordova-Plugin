@@ -81,6 +81,10 @@ Follow [these instructions](./ios_push.md) to enable rich notifications for iOS.
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
         * [.logSdkState([successCallback], [errorCallback])](#module_MCCordovaPlugin.logSdkState)
         * [.track(event)](#module_MCCordovaPlugin.track)
+        * [.setAnalyticsEnabled(enabled, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setAnalyticsEnabled)
+        * [.isAnalyticsEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isAnalyticsEnabled)
+        * [.setPiAnalyticsEnabled(enabled, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setPiAnalyticsEnabled)
+        * [.isPiAnalyticsEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isPiAnalyticsEnabled)
     * _inner_
         * [~notificationOpenedCallback](#module_MCCordovaPlugin..notificationOpenedCallback) : <code>function</code>
         * [~urlActionCallback](#module_MCCordovaPlugin..urlActionCallback) : <code>function</code>
@@ -420,6 +424,56 @@ displayed.
 | --- | --- | --- |
 | event | [<code>CustomEvent</code>](#CustomEvent) \| [<code>EngagementEvent</code>](#EngagementEvent) \| <code>IdentityEvent</code> \| [<code>SystemEvent</code>](#SystemEvent) \| <code>CartEvent</code> \| <code>OrderEvent</code> \| <code>CatalogObjectEvent</code> | The event to be tracked. |
 
+<a name="module_MCCordovaPlugin.setAnalyticsEnabled"></a>
+
+### MCCordovaPlugin.setAnalyticsEnabled(enabled, [successCallback], [errorCallback])
+Enables or disables analytics in the native Marketing Cloud SDK.
+
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| enabled | <code>boolean</code> | Whether analytics should be enabled. |
+| [successCallback] | <code>function</code> |  |
+| [errorCallback] | <code>function</code> |  |
+
+<a name="module_MCCordovaPlugin.isAnalyticsEnabled"></a>
+
+### MCCordovaPlugin.isAnalyticsEnabled(successCallback, [errorCallback])
+Checks if analytics are enabled in the native Marketing Cloud SDK.
+
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+| Param | Type |
+| --- | --- |
+| successCallback | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
+
+<a name="module_MCCordovaPlugin.setPiAnalyticsEnabled"></a>
+
+### MCCordovaPlugin.setPiAnalyticsEnabled(enabled, [successCallback], [errorCallback])
+Enables or disables PI analytics in the native Marketing Cloud SDK.
+
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| enabled | <code>boolean</code> | Whether PI analytics should be enabled. |
+| [successCallback] | <code>function</code> |  |
+| [errorCallback] | <code>function</code> |  |
+
+<a name="module_MCCordovaPlugin.isPiAnalyticsEnabled"></a>
+
+### MCCordovaPlugin.isPiAnalyticsEnabled(successCallback, [errorCallback])
+Checks if PI analytics are enabled in the native Marketing Cloud SDK.
+
+**Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+
+| Param | Type |
+| --- | --- |
+| successCallback | <code>function</code> | 
+| [errorCallback] | <code>function</code> | 
+
 <a name="module_MCCordovaPlugin..notificationOpenedCallback"></a>
 
 ### MCCordovaPlugin~notificationOpenedCallback : <code>function</code>
@@ -444,6 +498,7 @@ displayed.
 | url | <code>string</code> | The url associated with the action taken by the user. |
 
 ---
+
 
 ### Capacitor or Ionic integaration
 Follow [Capacitor guide](./capacitor_doc.md) for integrating with Capacitor or Ionic apps.
