@@ -341,6 +341,9 @@ var MCCordovaPlugin = {
      * @param  {boolean} enabled - Whether analytics should be enabled.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
+     * 
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
     setAnalyticsEnabled: function(enabled, successCallback, errorCallback) {
         argsCheck.checkArgs('*FF', `${PLUGIN_NAME}.setAnalyticsEnabled`, arguments);
@@ -351,6 +354,9 @@ var MCCordovaPlugin = {
      * Checks if analytics are enabled in the native Marketing Cloud SDK.
      * @param  {function(enabled)} successCallback
      * @param  {function} [errorCallback]
+     * 
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
     isAnalyticsEnabled: function(successCallback, errorCallback) {
         argsCheck.checkArgs('fF', `${PLUGIN_NAME}.isAnalyticsEnabled`, arguments);
@@ -362,6 +368,9 @@ var MCCordovaPlugin = {
      * @param  {boolean} enabled - Whether PI analytics should be enabled.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
+     * 
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
     setPiAnalyticsEnabled: function(enabled, successCallback, errorCallback) {
         argsCheck.checkArgs('*FF', `${PLUGIN_NAME}.setPiAnalyticsEnabled`, arguments);
@@ -372,6 +381,9 @@ var MCCordovaPlugin = {
      * Checks if PI analytics are enabled in the native Marketing Cloud SDK.
      * @param  {function(enabled)} successCallback
      * @param  {function} [errorCallback]
+     * 
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
+     * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
     isPiAnalyticsEnabled: function(successCallback, errorCallback) {
         argsCheck.checkArgs('fF', `${PLUGIN_NAME}.isPiAnalyticsEnabled`, arguments);

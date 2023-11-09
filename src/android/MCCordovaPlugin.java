@@ -274,6 +274,14 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 return getContactKey();
             case "track":
                 return track();
+            case "setAnalyticsEnabled":
+                return setAnalyticsEnabled();
+            case "isAnalyticsEnabled":
+                return isAnalyticsEnabled();
+            case "setPiAnalyticsEnabled":
+                return setPiAnalyticsEnabled();
+            case "isPiAnalyticsEnabled":
+                return isPiAnalyticsEnabled();
             default:
                 return null;
         }
@@ -451,7 +459,61 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                 }
             }
         };
-    } 
+    }
+    
+    private ActionHandler setAnalyticsEnabled() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                boolean enable = args.optBoolean(0, true);
+                if (enable) {
+                    sdk.getAnalyticsManager().enableAnalytics();
+                } else {
+                    sdk.getAnalyticsManager().disableAnalytics();
+                }
+
+                callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler isAnalyticsEnabled() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                callbackContext.success(sdk.getAnalyticsManager().areAnalyticsEnabled() ? 1 : 0);
+            }
+        };
+    }
+
+     private ActionHandler setPiAnalyticsEnabled() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                boolean enable = args.optBoolean(0, true);
+                if (enable) {
+                    sdk.getAnalyticsManager().enablePiAnalytics();
+                } else {
+                    sdk.getAnalyticsManager().disablePiAnalytics();
+                }
+
+                callbackContext.success();
+            }
+        };
+    }
+
+    private ActionHandler isPiAnalyticsEnabled() {
+        return new PushSDKActionHandler() {
+            @Override
+            public void execute(
+                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                callbackContext.success(sdk.getAnalyticsManager().arePiAnalyticsEnabled() ? 1 : 0);
+            }
+        };
+    }
 
     interface ActionHandler {
         
