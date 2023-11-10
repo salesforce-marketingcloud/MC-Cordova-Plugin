@@ -81,11 +81,10 @@ Follow [these instructions](./ios_push.md) to enable rich notifications for iOS.
         * [.setOnUrlActionListener(urlActionListener)](#module_MCCordovaPlugin.setOnUrlActionListener)
         * [.logSdkState([successCallback], [errorCallback])](#module_MCCordovaPlugin.logSdkState)
         * [.track(event)](#module_MCCordovaPlugin.track)
-        * _Runtime Toggles_
-          * [.setAnalyticsEnabled(enabled, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setAnalyticsEnabled)
-          * [.isAnalyticsEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isAnalyticsEnabled)
-          * [.setPiAnalyticsEnabled(enabled, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setPiAnalyticsEnabled)
-          * [.isPiAnalyticsEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isPiAnalyticsEnabled)
+        * [.setAnalyticsEnabled(enabled, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setAnalyticsEnabled)
+        * [.isAnalyticsEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isAnalyticsEnabled)
+        * [.setPiAnalyticsEnabled(enabled, [successCallback], [errorCallback])](#module_MCCordovaPlugin.setPiAnalyticsEnabled)
+        * [.isPiAnalyticsEnabled(successCallback, [errorCallback])](#module_MCCordovaPlugin.isPiAnalyticsEnabled)
     * _inner_
         * [~notificationOpenedCallback](#module_MCCordovaPlugin..notificationOpenedCallback) : <code>function</code>
         * [~urlActionCallback](#module_MCCordovaPlugin..urlActionCallback) : <code>function</code>
