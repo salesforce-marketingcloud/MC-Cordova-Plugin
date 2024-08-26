@@ -47,13 +47,17 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString
                                          content:theSilentPushContent
                                          trigger:nil];
-    [[SFMCSdk mp] setNotificationRequest:theSilentPushRequest];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setNotificationRequest:theSilentPushRequest];
+    }];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // save the device token
-    [[SFMCSdk mp] setDeviceToken:deviceToken];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setDeviceToken:deviceToken];
+    }];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -62,7 +66,9 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
     // tell the MarketingCloudSDK about the notification
-    [[SFMCSdk mp] setNotificationRequest:response.notification.request];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setNotificationRequest:response.notification.request];
+    }];
     
     if (completionHandler != nil) {
         completionHandler();

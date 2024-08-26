@@ -152,9 +152,11 @@ const int LOG_LENGTH = 800;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (result == SFMCSdkOperationResultSuccess) {
                     [self setDelegate];
-                    [[SFMCSdk mp] setURLHandlingDelegate:self];
-                    [[SFMCSdk mp] addTag:@"Cordova"];
-                    [self requestPushPermission];
+                    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+                        [mp setURLHandlingDelegate:self];
+                        [mp addTag:@"Cordova"];
+                        [self requestPushPermission];
+                    }];
                 } else {
                     // SFMC sdk configuration failed.
                     NSLog(@"SFMC sdk configuration failed.");
@@ -260,36 +262,46 @@ const int LOG_LENGTH = 800;
 }
 
 - (void)getSystemToken:(CDVInvokedUrlCommand *)command {
-    NSString *systemToken = [[SFMCSdk mp] deviceToken];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                             messageAsString:systemToken]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        NSString *systemToken = [mp deviceToken];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                 messageAsString:systemToken]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)getDeviceId:(CDVInvokedUrlCommand *)command {
-    NSString *deviceId = [[SFMCSdk mp] deviceIdentifier];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                             messageAsString:deviceId]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        NSString *deviceId = [mp deviceIdentifier];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                 messageAsString:deviceId]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)isPushEnabled:(CDVInvokedUrlCommand *)command {
-    BOOL enabled = [[SFMCSdk mp] pushEnabled];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                messageAsInt:(enabled) ? 1 : 0]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        BOOL enabled = [mp pushEnabled];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                    messageAsInt:(enabled) ? 1 : 0]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)enablePush:(CDVInvokedUrlCommand *)command {
-    [[SFMCSdk mp] setPushEnabled:YES];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setPushEnabled:YES];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)disablePush:(CDVInvokedUrlCommand *)command {
-    [[SFMCSdk mp] setPushEnabled:NO];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setPushEnabled:NO];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)setAttribute:(CDVInvokedUrlCommand *)command {
@@ -312,18 +324,22 @@ const int LOG_LENGTH = 800;
 }
 
 - (void)getAttributes:(CDVInvokedUrlCommand *)command {
-    NSDictionary *attributes = [[SFMCSdk mp] attributes];
-    [self.commandDelegate
-        sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                       messageAsDictionary:(attributes != nil) ? attributes : @{}]
-              callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        NSDictionary *attributes = [mp attributes];
+        [self.commandDelegate
+         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                        messageAsDictionary:(attributes != nil) ? attributes : @{}]
+         callbackId:command.callbackId];
+    }];
 }
 
 - (void)getContactKey:(CDVInvokedUrlCommand *)command {
-    NSString *contactKey = [[SFMCSdk mp] contactKey];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                             messageAsString:contactKey]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        NSString *contactKey = [mp contactKey];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                 messageAsString:contactKey]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)setContactKey:(CDVInvokedUrlCommand *)command {
@@ -338,28 +354,33 @@ const int LOG_LENGTH = 800;
 - (void)addTag:(CDVInvokedUrlCommand *)command {
     NSString *tag = command.arguments[0];
 
-    BOOL success =  [[SFMCSdk mp] addTag:tag];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                messageAsInt:(success) ? 1 : 0]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        BOOL success =  [mp addTag:tag];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                    messageAsInt:(success) ? 1 : 0]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)removeTag:(CDVInvokedUrlCommand *)command {
     NSString *tag = command.arguments[0];
 
-    BOOL success = [[SFMCSdk mp] removeTag:tag];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                messageAsInt:(success) ? 1 : 0]
-                                callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        BOOL success = [mp removeTag:tag];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                    messageAsInt:(success) ? 1 : 0]
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (void)getTags:(CDVInvokedUrlCommand *)command {
-    NSArray *arrayTags = [[[SFMCSdk mp] tags] allObjects];
-
-    [self.commandDelegate
-        sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                            messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
-              callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        NSArray *arrayTags = [[mp tags] allObjects];
+        [self.commandDelegate
+         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                             messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
+         callbackId:command.callbackId];
+    }];
 }
 
 - (void)track:(CDVInvokedUrlCommand *)command {
@@ -412,8 +433,9 @@ const int LOG_LENGTH = 800;
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
     // tell the MarketingCloudSDK about the notification
-    [[SFMCSdk mp] setNotificationRequest:response.notification.request];
-    
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setNotificationRequest:response.notification.request];
+    }];
     if (completionHandler != nil) {
         completionHandler();
     }
@@ -427,24 +449,32 @@ const int LOG_LENGTH = 800;
 
 - (void)setAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
     BOOL analyticsEnabled = [command.arguments[0] boolValue];
-    [[SFMCSdk mp] setAnalyticsEnabled:analyticsEnabled];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setAnalyticsEnabled:analyticsEnabled];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    }];
 }
 
 - (void)isAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
-    BOOL isEnabled = [[SFMCSdk mp] isAnalyticsEnabled];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        BOOL isEnabled = [mp isAnalyticsEnabled];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+    }];
 }
 
 - (void)setPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
     BOOL piAnalyticsEnabled = [command.arguments[0] boolValue];
-    [[SFMCSdk mp] setPiAnalyticsEnabled:piAnalyticsEnabled];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        [mp setPiAnalyticsEnabled:piAnalyticsEnabled];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    }];
 }
 
 - (void)isPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
-    BOOL isEnabled = [[SFMCSdk mp] isPiAnalyticsEnabled];
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
+        BOOL isEnabled = [mp isPiAnalyticsEnabled];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+    }];
 }
 
 @end
