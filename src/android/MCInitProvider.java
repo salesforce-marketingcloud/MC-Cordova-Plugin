@@ -42,6 +42,9 @@ import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
 import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
+import com.salesforce.marketingcloud.sfmcsdk.modules.ModuleInterface;
 
 public class MCInitProvider extends ContentProvider {
     @Override
@@ -57,9 +60,23 @@ public class MCInitProvider extends ContentProvider {
                 return null;
             }), initializationStatus -> {
                 if (initializationStatus.getStatus() == InitializationStatus.SUCCESS) {
-                    // add default tag `Corodova`
-                    SFMCSdk.requestSdk(sdk -> sdk.mp(
-                            module -> module.getRegistrationManager().edit().addTag("Cordova").commit()));
+                    SFMCSdk.requestSdk(new SFMCSdkReadyListener() {
+                        @Override
+                        public void ready(@NonNull SFMCSdk sfmcSdk) {
+                            sfmcSdk.mp(new PushModuleReadyListener() {
+                                @Override
+                                public void ready(@NonNull ModuleInterface moduleInterface) {
+                                    ((PushModuleInterface) moduleInterface).getRegistrationManager().edit()
+                                            .addTag("Cordova").commit();
+                                }
+
+                                @Override
+                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
+                                    // NO-OP
+                                }
+                            });
+                        }
+                    });
                 }
                 return null;
             });

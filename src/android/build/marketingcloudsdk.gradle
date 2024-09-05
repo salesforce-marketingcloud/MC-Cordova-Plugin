@@ -17,5 +17,5 @@ repositories {
 }
 
 dependencies {
-    implementation("com.salesforce.marketingcloud:marketingcloudsdk:8.1.+")
+    implementation("com.salesforce.marketingcloud:marketingcloudsdk:8.2.+")
 }
