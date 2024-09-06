@@ -50,10 +50,11 @@ import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
 import com.salesforce.marketingcloud.sfmcsdk.components.identity.Identity;
-import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
-import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
 import com.salesforce.marketingcloud.cordova.EventUtility;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
+import com.salesforce.marketingcloud.sfmcsdk.modules.ModuleInterface;
 
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
@@ -168,7 +169,13 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                             sfmcSdk.mp(new PushModuleReadyListener() {
                                 @Override
                                 public void ready(@NonNull PushModuleInterface pushModuleInterface) {
-                                    ((PushSDKActionHandler)handler).execute(pushModuleInterface, args, callbackContext);
+                                    ((PushSDKActionHandler) handler).execute(pushModuleInterface,
+                                            args, callbackContext);
+                                }
+
+                                @Override
+                                public void ready(@NonNull ModuleInterface moduleInterface) {
+                                    this.ready((PushModuleInterface) moduleInterface);
                                 }
                             });
                         } else if (handler instanceof IdentityActionHandler) {

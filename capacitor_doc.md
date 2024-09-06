@@ -19,6 +19,7 @@ const config: CapacitorConfig = {
       "com.salesforce.marketingcloud.app_id":"{Marketing Cloud application id}",
       "com.salesforce.marketingcloud.access_token":"{Marketing Cloud access token}",
       "com.salesforce.marketingcloud.tenant_specific_endpoint":"{URL retrieved from Marketing Cloud adminstration page}",
+      "com.salesforce.marketingcloud.sender_id":"{Firebase project sender id}",
       "com.salesforce.marketingcloud.analytics": "{true|false}",
       "com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set": "{true|false}",
       "com.salesforce.marketingcloud.notification_small_icon": "ic_launcher_foreground"        
