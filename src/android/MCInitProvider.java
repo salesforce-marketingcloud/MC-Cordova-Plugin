@@ -65,14 +65,14 @@ public class MCInitProvider extends ContentProvider {
                         public void ready(@NonNull SFMCSdk sfmcSdk) {
                             sfmcSdk.mp(new PushModuleReadyListener() {
                                 @Override
-                                public void ready(@NonNull ModuleInterface moduleInterface) {
-                                    ((PushModuleInterface) moduleInterface).getRegistrationManager().edit()
+                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
+                                    pushModuleInterface.getRegistrationManager().edit()
                                             .addTag("Cordova").commit();
                                 }
 
                                 @Override
-                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
-                                    // NO-OP
+                                public void ready(@NonNull ModuleInterface moduleInterface) {
+                                    this.ready((PushModuleInterface) moduleInterface);
                                 }
                             });
                         }

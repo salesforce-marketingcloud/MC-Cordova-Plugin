@@ -168,14 +168,14 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                         }else if(handler instanceof PushSDKActionHandler){
                             sfmcSdk.mp(new PushModuleReadyListener() {
                                 @Override
-                                public void ready(@NonNull ModuleInterface moduleInterface) {
-                                    ((PushSDKActionHandler) handler).execute((PushModuleInterface) moduleInterface,
+                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
+                                    ((PushSDKActionHandler) handler).execute(pushModuleInterface,
                                             args, callbackContext);
                                 }
 
                                 @Override
-                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
-                                    // NO-OP
+                                public void ready(@NonNull ModuleInterface moduleInterface) {
+                                    this.ready((PushModuleInterface) moduleInterface);
                                 }
                             });
                         } else if (handler instanceof IdentityActionHandler) {
