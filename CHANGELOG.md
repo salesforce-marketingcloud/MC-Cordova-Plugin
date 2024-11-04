@@ -1,7 +1,8 @@
 Change Log
 ==========
 ### Version 8.1.1
-* *Bug Fixes and Performance Improvements* -- This release includes bug fixes and SDK improvements.
+* Fix for opening Open Direct link when app is in killed state for iOS.
+
 
 ### Version 8.1.0
 * Runtime Toggles – Enable/disable Analytics and PI analytics at runtime. Refer to the [API Reference](README.md#reference) for more details.
