@@ -430,6 +430,11 @@ displayed.
 Enables or disables analytics in the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**See**
+
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html)
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -443,6 +448,11 @@ Enables or disables analytics in the native Marketing Cloud SDK.
 Checks if analytics are enabled in the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**See**
+
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html)
+
 
 | Param | Type |
 | --- | --- |
@@ -455,6 +465,11 @@ Checks if analytics are enabled in the native Marketing Cloud SDK.
 Enables or disables PI analytics in the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**See**
+
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html)
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -468,6 +483,11 @@ Enables or disables PI analytics in the native Marketing Cloud SDK.
 Checks if PI analytics are enabled in the native Marketing Cloud SDK.
 
 **Kind**: static method of [<code>MCCordovaPlugin</code>](#module_MCCordovaPlugin)  
+**See**
+
+- [Android Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html)
+- [iOS Docs](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html)
+
 
 | Param | Type |
 | --- | --- |

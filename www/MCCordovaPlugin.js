@@ -327,7 +327,8 @@ var MCCordovaPlugin = {
     /**
      * Method to track events, which could result in actions such as an InApp Message being
      * displayed.
-     * @param {CustomEvent | EngagementEvent | IdentityEvent | SystemEvent | CartEvent | OrderEvent | CatalogObjectEvent} event - The event to be tracked.
+     * @param {CustomEvent | EngagementEvent | IdentityEvent | SystemEvent | CartEvent | OrderEvent
+     *     | CatalogObjectEvent} event - The event to be tracked.
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/event-tracking/event-tracking-event-tracking.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/event-tracking/event-tracking-event-tracking.html|iOS Docs}
      */
@@ -341,7 +342,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} enabled - Whether analytics should be enabled.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * 
+     *
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
@@ -354,7 +355,7 @@ var MCCordovaPlugin = {
      * Checks if analytics are enabled in the native Marketing Cloud SDK.
      * @param  {function(enabled)} successCallback
      * @param  {function} [errorCallback]
-     * 
+     *
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
@@ -368,7 +369,7 @@ var MCCordovaPlugin = {
      * @param  {boolean} enabled - Whether PI analytics should be enabled.
      * @param  {function} [successCallback]
      * @param  {function} [errorCallback]
-     * 
+     *
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
@@ -381,14 +382,14 @@ var MCCordovaPlugin = {
      * Checks if PI analytics are enabled in the native Marketing Cloud SDK.
      * @param  {function(enabled)} successCallback
      * @param  {function} [errorCallback]
-     * 
+     *
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/sdk-implementation/runtime-toggles.html |Android Docs}
      * @see  {@link https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/sdk-implementation/runtime-toggles.html |iOS Docs}
      */
     isPiAnalyticsEnabled: function(successCallback, errorCallback) {
         argsCheck.checkArgs('fF', `${PLUGIN_NAME}.isPiAnalyticsEnabled`, arguments);
         _exec(successCallback, errorCallback, 'isPiAnalyticsEnabled');
-    },
+    }
 };
 
 module.exports = MCCordovaPlugin;
