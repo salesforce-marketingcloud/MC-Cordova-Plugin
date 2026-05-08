@@ -58,7 +58,7 @@
     </platform>
     
     <!-- ios -->
-    <platform name="ios">
+    <platform name="ios" package="swift">
         <config-file parent="/*" target="config.xml">
             <feature name="MCCordovaPlugin">
                 <param name="ios-package" value="MCCordovaPlugin" />
@@ -87,7 +87,7 @@
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods use-frameworks="true">
-                <pod name="MarketingCloudSDK" spec="~> 8.1.1" />
+                <pod name="MarketingCloudSDK" spec="~> 8.1.1" nospm="true" />
             </pods>
         </podspec>
         <framework src="CoreLocation.framework" /> 
