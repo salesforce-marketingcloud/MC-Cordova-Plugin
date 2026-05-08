@@ -25,9 +25,23 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "AppDelegate.h"
+#if __has_include("AppDelegate.h")
+    #import "AppDelegate.h"
+    #define APP_DELEGATE_CLASS AppDelegate
+#else
+    #if __has_include(<Cordova/AppDelegate.h>)
+        #import <Cordova/AppDelegate.h>
+        #define APP_DELEGATE_CLASS AppDelegate
+    #else
+        #if __has_include(<Cordova/CDVAppDelegate.h>)
+            #import <Cordova/CDVAppDelegate.h>
+            #define APP_DELEGATE_CLASS CDVAppDelegate
+        #endif
+    #endif
+#endif
+
 #import "MarketingCloudSDK/MarketingCloudSDK.h"
 
-@interface AppDelegate (MCCordovaPlugin) <UNUserNotificationCenterDelegate>
+@interface APP_DELEGATE_CLASS (MCCordovaPlugin) <UNUserNotificationCenterDelegate>
 - (void)sfmc_setNotificationDelegate;
 @end

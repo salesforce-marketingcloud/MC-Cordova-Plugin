@@ -32,7 +32,7 @@
 #import <MarketingCloudSDK/MarketingCloudSDK.h>
 #import <SFMCSDK/SFMCSDK.h>
 
-@implementation AppDelegate (MCCordovaPlugin)
+@implementation APP_DELEGATE_CLASS (MCCordovaPlugin)
 
 - (void)sfmc_setNotificationDelegate {
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
