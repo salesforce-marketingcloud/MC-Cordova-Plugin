@@ -43,7 +43,6 @@
 - (void)disablePush:(CDVInvokedUrlCommand *)command;
 - (void)getDeviceId:(CDVInvokedUrlCommand *)command;
 
-
 - (void)setAttribute:(CDVInvokedUrlCommand *)command;
 - (void)clearAttribute:(CDVInvokedUrlCommand *)command;
 - (void)getAttributes:(CDVInvokedUrlCommand *)command;

@@ -34,10 +34,18 @@ import androidx.annotation.Nullable;
 import com.salesforce.marketingcloud.MCLogListener;
 import com.salesforce.marketingcloud.MarketingCloudSdk;
 import com.salesforce.marketingcloud.UrlHandler;
+import com.salesforce.marketingcloud.cordova.EventUtility;
 import com.salesforce.marketingcloud.events.EventManager;
 import com.salesforce.marketingcloud.notifications.NotificationManager;
 import com.salesforce.marketingcloud.notifications.NotificationMessage;
-
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
+import com.salesforce.marketingcloud.sfmcsdk.components.identity.Identity;
+import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
+import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
+import com.salesforce.marketingcloud.sfmcsdk.modules.ModuleInterface;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
+import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -46,15 +54,6 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
-import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
-import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
-import com.salesforce.marketingcloud.sfmcsdk.components.identity.Identity;
-import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
-import com.salesforce.marketingcloud.cordova.EventUtility;
-import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
-import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
-import com.salesforce.marketingcloud.sfmcsdk.modules.ModuleInterface;
 
 public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     static final String TAG = "~!MCCordova";
@@ -159,18 +158,18 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-
                 SFMCSdk.requestSdk(new SFMCSdkReadyListener() {
                     @Override
                     public void ready(@NonNull SFMCSdk sfmcSdk) {
-                        if(handler instanceof  SFMCActionHandler){
-                            ((SFMCActionHandler)handler).execute(sfmcSdk, args, callbackContext);
-                        }else if(handler instanceof PushSDKActionHandler){
+                        if (handler instanceof SFMCActionHandler) {
+                            ((SFMCActionHandler) handler).execute(sfmcSdk, args, callbackContext);
+                        } else if (handler instanceof PushSDKActionHandler) {
                             sfmcSdk.mp(new PushModuleReadyListener() {
                                 @Override
-                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
-                                    ((PushSDKActionHandler) handler).execute(pushModuleInterface,
-                                            args, callbackContext);
+                                public void ready(
+                                    @NonNull PushModuleInterface pushModuleInterface) {
+                                    ((PushSDKActionHandler) handler)
+                                        .execute(pushModuleInterface, args, callbackContext);
                                 }
 
                                 @Override
@@ -179,11 +178,12 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
                                 }
                             });
                         } else if (handler instanceof IdentityActionHandler) {
-                            ((IdentityActionHandler) handler).execute(sfmcSdk.identity, args, callbackContext);
+                            ((IdentityActionHandler) handler)
+                                .execute(sfmcSdk.identity, args, callbackContext);
                         } else {
-                            callbackContext.error("Marcketing Cloud SDK - Cordova Plugin: Unknown handler reference");
+                            callbackContext.error(
+                                "Marcketing Cloud SDK - Cordova Plugin: Unknown handler reference");
                         }
-                        
                     }
                 });
             }
@@ -307,8 +307,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     private ActionHandler logSdkState() {
         return new SFMCActionHandler() {
             @Override
-            public void execute(
-                SFMCSdk sdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(SFMCSdk sdk, JSONArray args, CallbackContext callbackContext) {
                 EventUtility.log("MCSDK STATE", sdk.getSdkState().toString());
                 callbackContext.success();
             }
@@ -319,7 +318,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getPushMessageManager().isPushEnabled() ? 1 : 0);
             }
         };
@@ -329,7 +328,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 sdk.getPushMessageManager().disablePush();
                 callbackContext.success();
             }
@@ -340,7 +339,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 sdk.getPushMessageManager().enablePush();
                 callbackContext.success();
             }
@@ -351,7 +350,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getRegistrationManager().getDeviceId());
             }
         };
@@ -363,7 +362,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             public void execute(
                 PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 try {
-                    callbackContext.success(EventUtility.fromMap(sdk.getRegistrationManager().getAttributes()));
+                    callbackContext.success(
+                        EventUtility.fromMap(sdk.getRegistrationManager().getAttributes()));
                 } catch (JSONException e) {
                     callbackContext.error(e.getMessage());
                 }
@@ -425,7 +425,8 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             @Override
             public void execute(
                 PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
-                callbackContext.success(EventUtility.fromCollection(sdk.getRegistrationManager().getTags()));
+                callbackContext.success(
+                    EventUtility.fromCollection(sdk.getRegistrationManager().getTags()));
             }
         };
     }
@@ -455,8 +456,7 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
     private ActionHandler track() {
         return new SFMCActionHandler() {
             @Override
-            public void execute(
-                SFMCSdk sfmcSdk, JSONArray args, CallbackContext callbackContext) {
+            public void execute(SFMCSdk sfmcSdk, JSONArray args, CallbackContext callbackContext) {
                 try {
                     sfmcSdk.track(EventUtility.toEvent(args.getJSONObject(0)));
                     callbackContext.success();
@@ -467,12 +467,12 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
             }
         };
     }
-    
+
     private ActionHandler setAnalyticsEnabled() {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 boolean enable = args.optBoolean(0, true);
                 if (enable) {
                     sdk.getAnalyticsManager().enableAnalytics();
@@ -489,17 +489,17 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getAnalyticsManager().areAnalyticsEnabled() ? 1 : 0);
             }
         };
     }
 
-     private ActionHandler setPiAnalyticsEnabled() {
+    private ActionHandler setPiAnalyticsEnabled() {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 boolean enable = args.optBoolean(0, true);
                 if (enable) {
                     sdk.getAnalyticsManager().enablePiAnalytics();
@@ -516,26 +516,23 @@ public class MCCordovaPlugin extends CordovaPlugin implements UrlHandler {
         return new PushSDKActionHandler() {
             @Override
             public void execute(
-                    PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
+                PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext) {
                 callbackContext.success(sdk.getAnalyticsManager().arePiAnalyticsEnabled() ? 1 : 0);
             }
         };
     }
 
-    interface ActionHandler {
-        
-    }
+    interface ActionHandler {}
 
     interface SFMCActionHandler extends ActionHandler {
         void execute(SFMCSdk sfmcSdk, JSONArray args, CallbackContext callbackContext);
     }
 
-    interface PushSDKActionHandler extends ActionHandler{
+    interface PushSDKActionHandler extends ActionHandler {
         void execute(PushModuleInterface sdk, JSONArray args, CallbackContext callbackContext);
     }
 
     interface IdentityActionHandler extends ActionHandler {
         void execute(Identity identity, JSONArray args, CallbackContext callbackContext);
     }
-
 }

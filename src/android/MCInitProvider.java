@@ -31,20 +31,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.salesforce.marketingcloud.MarketingCloudConfig;
+import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk;
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkModuleConfig;
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogLevel;
 import com.salesforce.marketingcloud.sfmcsdk.components.logging.LogListener;
-import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReadyListener;
-import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus;
+import com.salesforce.marketingcloud.sfmcsdk.modules.ModuleInterface;
 import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleInterface;
 import com.salesforce.marketingcloud.sfmcsdk.modules.push.PushModuleReadyListener;
-import com.salesforce.marketingcloud.sfmcsdk.modules.ModuleInterface;
 
 public class MCInitProvider extends ContentProvider {
     @Override
@@ -58,28 +56,32 @@ public class MCInitProvider extends ContentProvider {
                     builder.setPushModuleConfig(mcBuilder.build(ctx));
                 }
                 return null;
-            }), initializationStatus -> {
-                if (initializationStatus.getStatus() == InitializationStatus.SUCCESS) {
-                    SFMCSdk.requestSdk(new SFMCSdkReadyListener() {
-                        @Override
-                        public void ready(@NonNull SFMCSdk sfmcSdk) {
-                            sfmcSdk.mp(new PushModuleReadyListener() {
-                                @Override
-                                public void ready(@NonNull PushModuleInterface pushModuleInterface) {
-                                    pushModuleInterface.getRegistrationManager().edit()
-                                            .addTag("Cordova").commit();
-                                }
+            }),
+                initializationStatus -> {
+                    if (initializationStatus.getStatus() == InitializationStatus.SUCCESS) {
+                        SFMCSdk.requestSdk(new SFMCSdkReadyListener() {
+                            @Override
+                            public void ready(@NonNull SFMCSdk sfmcSdk) {
+                                sfmcSdk.mp(new PushModuleReadyListener() {
+                                    @Override
+                                    public void ready(
+                                        @NonNull PushModuleInterface pushModuleInterface) {
+                                        pushModuleInterface.getRegistrationManager()
+                                            .edit()
+                                            .addTag("Cordova")
+                                            .commit();
+                                    }
 
-                                @Override
-                                public void ready(@NonNull ModuleInterface moduleInterface) {
-                                    this.ready((PushModuleInterface) moduleInterface);
-                                }
-                            });
-                        }
-                    });
-                }
-                return null;
-            });
+                                    @Override
+                                    public void ready(@NonNull ModuleInterface moduleInterface) {
+                                        this.ready((PushModuleInterface) moduleInterface);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    return null;
+                });
         }
         return false;
     }
@@ -87,7 +89,7 @@ public class MCInitProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
-            @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         return null;
     }
 
@@ -105,13 +107,13 @@ public class MCInitProvider extends ContentProvider {
 
     @Override
     public int delete(
-            @NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        @NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection,
-            @Nullable String[] selectionArgs) {
+        @Nullable String[] selectionArgs) {
         return 0;
     }
 }

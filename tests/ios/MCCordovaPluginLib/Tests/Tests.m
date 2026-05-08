@@ -869,7 +869,7 @@
 
     // WHEN
     [_plugin track:command];
-    
+
     // THEN
     OCMVerify([_sfmcSDK
         trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -1019,7 +1019,7 @@
 
     // WHEN
     [_plugin track:command];
-    
+
     // THEN
     OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
                           NSLog(@"OCMVerify %@", obj);
@@ -1659,7 +1659,8 @@
     [_plugin track:command];
 
     // THEN
-    OCMVerify([_sfmcSDK trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+    OCMVerify([_sfmcSDK
+        trackWithEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
           NSLog(@"OCMVerify %@", obj);
           XCTAssertTrue([obj isKindOfClass:[SFMCSdkShipOrderEvent class]]);
           SFMCSdkShipOrderEvent *event = obj;
@@ -1925,7 +1926,7 @@
 
 - (void)testSetAnalyticsEnabledAsYes {
     // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[@(YES)]
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @(YES) ]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"setAnalyticsEnabled"];
@@ -1935,14 +1936,16 @@
 
     // THEN
     OCMVerify([(SFMCSdkPUSH *)_push setAnalyticsEnabled:YES]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testSetAnalyticsEnabledAsNo {
     // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[@(NO)]
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @(NO) ]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"setAnalyticsEnabled"];
@@ -1952,9 +1955,11 @@
 
     // THEN
     OCMVerify([(SFMCSdkPUSH *)_push setAnalyticsEnabled:NO]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testIsAnalyticsEnabledAsYes {
@@ -1970,10 +1975,12 @@
 
     // THEN
     OCMVerify([_push isAnalyticsEnabled]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK &&
-               [result.message boolValue] == YES;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return
+              [result.status intValue] == CDVCommandStatus_OK && [result.message boolValue] == YES;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testIsAnalyticsEnabledAsNo {
@@ -1989,15 +1996,17 @@
 
     // THEN
     OCMVerify([_push isAnalyticsEnabled]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK &&
-               [result.message boolValue] == NO;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return
+              [result.status intValue] == CDVCommandStatus_OK && [result.message boolValue] == NO;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testSetPiAnalyticsEnabledAsYes {
     // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[@(YES)]
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @(YES) ]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"setPiAnalyticsEnabled"];
@@ -2007,14 +2016,16 @@
 
     // THEN
     OCMVerify([(SFMCSdkPUSH *)_push setPiAnalyticsEnabled:YES]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testSetPiAnalyticsEnabledAsNo {
     // GIVEN
-    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[@(NO)]
+    id command = [[CDVInvokedUrlCommand alloc] initWithArguments:@[ @(NO) ]
                                                       callbackId:@"testCallback"
                                                        className:@"MCCordovaPlugin"
                                                       methodName:@"setPiAnalyticsEnabled"];
@@ -2024,9 +2035,11 @@
 
     // THEN
     OCMVerify([(SFMCSdkPUSH *)_push setPiAnalyticsEnabled:NO]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return [result.status intValue] == CDVCommandStatus_OK;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testIsPiAnalyticsEnabledAsNo {
@@ -2042,10 +2055,12 @@
 
     // THEN
     OCMVerify([_push isPiAnalyticsEnabled]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK &&
-               [result.message boolValue] == NO;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return
+              [result.status intValue] == CDVCommandStatus_OK && [result.message boolValue] == NO;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 - (void)testIsPiAnalyticsEnabledAsYes {
@@ -2061,10 +2076,12 @@
 
     // THEN
     OCMVerify([_push isPiAnalyticsEnabled]);
-    OCMVerify([_commandDelegate sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
-        return [result.status intValue] == CDVCommandStatus_OK &&
-               [result.message boolValue] == YES;
-    }] callbackId:@"testCallback"]);
+    OCMVerify([_commandDelegate
+        sendPluginResult:[OCMArg checkWithBlock:^BOOL(CDVPluginResult *result) {
+          return
+              [result.status intValue] == CDVCommandStatus_OK && [result.message boolValue] == YES;
+        }]
+              callbackId:@"testCallback"]);
 }
 
 @end

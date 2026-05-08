@@ -26,12 +26,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #import "MCCordovaPlugin.h"
-#import "NSDictionary+SFMCEvent.h"
 #import <UserNotifications/UserNotifications.h>
+#import "NSDictionary+SFMCEvent.h"
 
-@interface MCCordovaPlugin()<UNUserNotificationCenterDelegate>
+@interface MCCordovaPlugin () <UNUserNotificationCenterDelegate>
 @end
-
 
 @implementation MCCordovaPlugin
 
@@ -45,18 +44,18 @@ const int LOG_LENGTH = 800;
     NSMutableDictionary *notificationData = nil;
     if (notification.userInfo != nil) {
         UNNotificationRequest *userNotificationRequest =
-        notification.userInfo
-        [@"SFMCFoundationUNNotificationReceivedNotificationKeyUNNotificationRequest"];
+            notification.userInfo
+                [@"SFMCFoundationUNNotificationReceivedNotificationKeyUNNotificationRequest"];
         if (userNotificationRequest != nil) {
             notificationData = [userNotificationRequest.content.userInfo mutableCopy];
         }
         if (notificationData == nil) {
             NSDictionary *userNotificationUserInfo =
-            notification.userInfo[@"SFMCFoundationNotificationReceivedNotificationKeyUserInfo"];
+                notification.userInfo[@"SFMCFoundationNotificationReceivedNotificationKeyUserInfo"];
             notificationData = [userNotificationUserInfo mutableCopy];
         }
     }
-    
+
     if (notificationData != nil) {
         if ([notificationData[@"aps"] objectForKey:@"content-available"] != nil) {
             // Making the same assumption as the SDK would here.
@@ -87,7 +86,7 @@ const int LOG_LENGTH = 800;
         }
         [notificationData removeObjectForKey:@"aps"];
     }
-    
+
     return notificationData;
 }
 
@@ -109,8 +108,8 @@ const int LOG_LENGTH = 800;
 - (void)sfmc_handleURL:(NSURL *)url type:(NSString *)type {
     if ([type isEqualToString:@"action"] && self.eventsCallbackId != nil) {
         CDVPluginResult *result = [CDVPluginResult
-                                   resultWithStatus:CDVCommandStatus_OK
-                                   messageAsDictionary:@{@"type" : @"urlAction", @"url" : url.absoluteString}];
+               resultWithStatus:CDVCommandStatus_OK
+            messageAsDictionary:@{@"type" : @"urlAction", @"url" : url.absoluteString}];
         [result setKeepCallbackAsBool:YES];
         [self.commandDelegate sendPluginResult:result callbackId:self.eventsCallbackId];
     }
@@ -122,81 +121,84 @@ const int LOG_LENGTH = 800;
         os_log_error(OS_LOG_DEFAULT, "Failed to access the MarketingCloudSDK");
     } else {
         NSDictionary *pluginSettings = self.commandDelegate.settings;
-        
+
         PushConfigBuilder *configBuilder = [[PushConfigBuilder alloc]
-                                            initWithAppId:pluginSettings[@"com.salesforce.marketingcloud.app_id"]];
+            initWithAppId:pluginSettings[@"com.salesforce.marketingcloud.app_id"]];
         [configBuilder
-         setAccessToken:pluginSettings[@"com.salesforce.marketingcloud.access_token"]];
-        
+            setAccessToken:pluginSettings[@"com.salesforce.marketingcloud.access_token"]];
+
         BOOL analytics = [pluginSettings[@"com.salesforce.marketingcloud.analytics"] boolValue];
         [configBuilder setAnalyticsEnabled:analytics];
-        
+
         BOOL delayRegistrationUntilContactKeyIsSet = [pluginSettings
-                                                      [@"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"]
-                                                      boolValue];
+                [@"com.salesforce.marketingcloud.delay_registration_until_contact_key_is_set"]
+            boolValue];
         [configBuilder
-         setDelayRegistrationUntilContactKeyIsSet:delayRegistrationUntilContactKeyIsSet];
-        
+            setDelayRegistrationUntilContactKeyIsSet:delayRegistrationUntilContactKeyIsSet];
+
         NSURL *tse =
-        [NSURL URLWithString:pluginSettings
-         [@"com.salesforce.marketingcloud.tenant_specific_endpoint"]];
+            [NSURL URLWithString:pluginSettings
+                                     [@"com.salesforce.marketingcloud.tenant_specific_endpoint"]];
         if (tse != nil) {
             [configBuilder setMarketingCloudServerUrl:tse];
         }
-        
+
         NSError *configError = nil;
-        [SFMCSdk initializeSdk:
-         [[[SFMCSdkConfigBuilder new]
-           setPushWithConfig:[configBuilder build]
-           onCompletion:^(SFMCSdkOperationResult result) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (result == SFMCSdkOperationResultSuccess) {
-                    [self setDelegate];
-                    [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-                        [mp setURLHandlingDelegate:self];
-                        [mp addTag:@"Cordova"];
-                        [self requestPushPermission];
-                    }];
-                } else {
-                    // SFMC sdk configuration failed.
-                    NSLog(@"SFMC sdk configuration failed.");
-                }
-            });
-        }] build]];
-        
+        [SFMCSdk initializeSdk:[[[SFMCSdkConfigBuilder new]
+                                   setPushWithConfig:[configBuilder build]
+                                        onCompletion:^(SFMCSdkOperationResult result) {
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                            if (result == SFMCSdkOperationResultSuccess) {
+                                                [self setDelegate];
+                                                [SFMCSdk requestPushSdk:^(
+                                                             id<PushInterface> _Nonnull mp) {
+                                                  [mp setURLHandlingDelegate:self];
+                                                  [mp addTag:@"Cordova"];
+                                                  [self requestPushPermission];
+                                                }];
+                                            } else {
+                                                // SFMC sdk configuration failed.
+                                                NSLog(@"SFMC sdk configuration failed.");
+                                            }
+                                          });
+                                        }] build]];
+
         [[NSNotificationCenter defaultCenter]
-         addObserverForName:SFMCFoundationUNNotificationReceivedNotification
-         object:nil
-         queue:[NSOperationQueue mainQueue]
-         usingBlock:^(NSNotification *_Nonnull note) {
-            NSMutableDictionary *userInfo =
-            [MCCordovaPlugin dataForNotificationReceived:note];
-            if (userInfo != nil) {
-                NSString *url = nil;
-                NSString *type = nil;
-                if ((url = userInfo[@"_od"])) {
-                    type = @"openDirect";
-                } else if ((url = userInfo[@"_x"])) {
-                    type = @"cloudPage";
-                } else {
-                    type = @"other";
-                }
-                
-                if (url != nil) {
-                    [userInfo setValue:url forKey:@"url"];
-                }
-                [userInfo setValue:type forKey:@"type"];
-                
-                [self sendNotificationEvent:@{
-                    @"timeStamp" :
-                        @((long)([[NSDate date] timeIntervalSince1970] * 1000)),
-                    @"values" : userInfo,
-                    @"type" : @"notificationOpened"
-                }];
-            }
-        }];
+            addObserverForName:SFMCFoundationUNNotificationReceivedNotification
+                        object:nil
+                         queue:[NSOperationQueue mainQueue]
+                    usingBlock:^(NSNotification *_Nonnull note) {
+                      NSMutableDictionary *userInfo =
+                          [MCCordovaPlugin dataForNotificationReceived:note];
+                      if (userInfo != nil) {
+                          NSString *url = nil;
+                          NSString *type = nil;
+                          if ((url = userInfo[@"_od"])) {
+                              type = @"openDirect";
+                          } else if ((url = userInfo[@"_x"])) {
+                              type = @"cloudPage";
+                          } else {
+                              type = @"other";
+                          }
+
+                          if (url != nil) {
+                              [userInfo setValue:url forKey:@"url"];
+                          }
+                          [userInfo setValue:type forKey:@"type"];
+
+                          [self sendNotificationEvent:@{
+                              @"timeStamp" :
+                                  @((long)([[NSDate date] timeIntervalSince1970] * 1000)),
+                              @"values" : userInfo,
+                              @"type" : @"notificationOpened"
+                          }];
+                      }
+                    }];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupCapacitor:) name:UIApplicationDidFinishLaunchingNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(setupCapacitor:)
+                                                 name:UIApplicationDidFinishLaunchingNotification
+                                               object:nil];
 }
 
 - (void)sendNotificationEvent:(NSDictionary *)notification {
@@ -214,33 +216,33 @@ const int LOG_LENGTH = 800;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     if ([[UIApplication sharedApplication].delegate
-         respondsToSelector:@selector(sfmc_setNotificationDelegate)] == YES) {
+            respondsToSelector:@selector(sfmc_setNotificationDelegate)] == YES) {
         [[UIApplication sharedApplication].delegate
-         performSelector:@selector(sfmc_setNotificationDelegate)
-         withObject:nil];
+            performSelector:@selector(sfmc_setNotificationDelegate)
+                 withObject:nil];
     }
 #pragma clang diagnostic pop
 }
 
 - (void)requestPushPermission {
     [[UNUserNotificationCenter currentNotificationCenter]
-     requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionSound |
-     UNAuthorizationOptionBadge
-     completionHandler:^(BOOL granted, NSError *_Nullable error) {
-        if (granted) {
-            os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s",
-                        granted ? "YES" : "NO");
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // we are authorized to use
-                // notifications, request a device
-                // token for remote notifications
-                [[UIApplication sharedApplication] registerForRemoteNotifications];
-            });
-        } else if (error != nil) {
-            os_log_debug(OS_LOG_DEFAULT, "%@", error);
-        }
-    }];
+        requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionSound |
+                                        UNAuthorizationOptionBadge
+                      completionHandler:^(BOOL granted, NSError *_Nullable error) {
+                        if (granted) {
+                            os_log_info(OS_LOG_DEFAULT, "Authorized for notifications = %s",
+                                        granted ? "YES" : "NO");
+
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                              // we are authorized to use
+                              // notifications, request a device
+                              // token for remote notifications
+                              [[UIApplication sharedApplication] registerForRemoteNotifications];
+                            });
+                        } else if (error != nil) {
+                            os_log_debug(OS_LOG_DEFAULT, "%@", error);
+                        }
+                      }];
 }
 
 - (void)enableLogging:(CDVInvokedUrlCommand *)command {
@@ -263,44 +265,44 @@ const int LOG_LENGTH = 800;
 
 - (void)getSystemToken:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        NSString *systemToken = [mp deviceToken];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                 messageAsString:systemToken]
-                                    callbackId:command.callbackId];
+      NSString *systemToken = [mp deviceToken];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                               messageAsString:systemToken]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)getDeviceId:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        NSString *deviceId = [mp deviceIdentifier];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                 messageAsString:deviceId]
-                                    callbackId:command.callbackId];
+      NSString *deviceId = [mp deviceIdentifier];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                               messageAsString:deviceId]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)isPushEnabled:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        BOOL enabled = [mp pushEnabled];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                    messageAsInt:(enabled) ? 1 : 0]
-                                    callbackId:command.callbackId];
+      BOOL enabled = [mp pushEnabled];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                  messageAsInt:(enabled) ? 1 : 0]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)enablePush:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setPushEnabled:YES];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
-                                    callbackId:command.callbackId];
+      [mp setPushEnabled:YES];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)disablePush:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setPushEnabled:NO];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
-                                    callbackId:command.callbackId];
+      [mp setPushEnabled:NO];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                  callbackId:command.callbackId];
     }];
 }
 
@@ -308,7 +310,7 @@ const int LOG_LENGTH = 800;
     NSString *name = command.arguments[0];
     NSString *value = command.arguments[1];
 
-    [[SFMCSdk identity] setProfileAttributes:@{name: value}];
+    [[SFMCSdk identity] setProfileAttributes:@{name : value}];
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                                 messageAsInt:1]
                                 callbackId:command.callbackId];
@@ -325,20 +327,20 @@ const int LOG_LENGTH = 800;
 
 - (void)getAttributes:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        NSDictionary *attributes = [mp attributes];
-        [self.commandDelegate
-         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                        messageAsDictionary:(attributes != nil) ? attributes : @{}]
-         callbackId:command.callbackId];
+      NSDictionary *attributes = [mp attributes];
+      [self.commandDelegate
+          sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                         messageAsDictionary:(attributes != nil) ? attributes : @{}]
+                callbackId:command.callbackId];
     }];
 }
 
 - (void)getContactKey:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        NSString *contactKey = [mp contactKey];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                 messageAsString:contactKey]
-                                    callbackId:command.callbackId];
+      NSString *contactKey = [mp contactKey];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                               messageAsString:contactKey]
+                                  callbackId:command.callbackId];
     }];
 }
 
@@ -355,10 +357,10 @@ const int LOG_LENGTH = 800;
     NSString *tag = command.arguments[0];
 
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        BOOL success =  [mp addTag:tag];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                    messageAsInt:(success) ? 1 : 0]
-                                    callbackId:command.callbackId];
+      BOOL success = [mp addTag:tag];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                  messageAsInt:(success) ? 1 : 0]
+                                  callbackId:command.callbackId];
     }];
 }
 
@@ -366,20 +368,20 @@ const int LOG_LENGTH = 800;
     NSString *tag = command.arguments[0];
 
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        BOOL success = [mp removeTag:tag];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                                    messageAsInt:(success) ? 1 : 0]
-                                    callbackId:command.callbackId];
+      BOOL success = [mp removeTag:tag];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                  messageAsInt:(success) ? 1 : 0]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)getTags:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        NSArray *arrayTags = [[mp tags] allObjects];
-        [self.commandDelegate
-         sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                             messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
-         callbackId:command.callbackId];
+      NSArray *arrayTags = [[mp tags] allObjects];
+      [self.commandDelegate
+          sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                              messageAsArray:(arrayTags != nil) ? arrayTags : @[]]
+                callbackId:command.callbackId];
     }];
 }
 
@@ -400,7 +402,7 @@ const int LOG_LENGTH = 800;
 - (void)subscribe:(CDVInvokedUrlCommand *)command {
     if (command.arguments != nil && [command.arguments count] > 0) {
         NSString *eventName = command.arguments[0];
-        
+
         if ([eventName isEqualToString:@"notificationOpened"]) {
             self.notificationOpenedSubscribed = YES;
             if (self.eventsCallbackId != nil) {
@@ -419,29 +421,35 @@ const int LOG_LENGTH = 800;
 
 - (BOOL)isCapacitor {
     UIViewController *vc = UIApplication.sharedApplication.delegate.window.rootViewController;
-    NSString *className =  NSStringFromClass(vc.class);
-    NSString *superClassName =  NSStringFromClass(vc.superclass);
-    
-    return [className containsString:@"CAPBridgeViewController"] ||[superClassName containsString:@"CAPBridgeViewController"];
+    NSString *className = NSStringFromClass(vc.class);
+    NSString *superClassName = NSStringFromClass(vc.superclass);
+
+    return [className containsString:@"CAPBridgeViewController"] ||
+           [superClassName containsString:@"CAPBridgeViewController"];
 }
 
--(void) setupCapacitor:(NSNotification *)notification {
+- (void)setupCapacitor:(NSNotification *)notification {
     if ([self isCapacitor]) {
-       UNUserNotificationCenter.currentNotificationCenter.delegate =  self;
+        UNUserNotificationCenter.currentNotificationCenter.delegate = self;
     }
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+    didReceiveNotificationResponse:(UNNotificationResponse *)response
+             withCompletionHandler:(void (^)(void))completionHandler {
     // tell the MarketingCloudSDK about the notification
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setNotificationRequest:response.notification.request];
+      [mp setNotificationRequest:response.notification.request];
     }];
     if (completionHandler != nil) {
         completionHandler();
     }
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:
+             (void (^)(UNNotificationPresentationOptions options))completionHandler {
     if (completionHandler != nil) {
         completionHandler(UNNotificationPresentationOptionAlert);
     }
@@ -450,30 +458,36 @@ const int LOG_LENGTH = 800;
 - (void)setAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
     BOOL analyticsEnabled = [command.arguments[0] boolValue];
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setAnalyticsEnabled:analyticsEnabled];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+      [mp setAnalyticsEnabled:analyticsEnabled];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)isAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        BOOL isEnabled = [mp isAnalyticsEnabled];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+      BOOL isEnabled = [mp isAnalyticsEnabled];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                 messageAsBool:isEnabled]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)setPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
     BOOL piAnalyticsEnabled = [command.arguments[0] boolValue];
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setPiAnalyticsEnabled:piAnalyticsEnabled];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+      [mp setPiAnalyticsEnabled:piAnalyticsEnabled];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK]
+                                  callbackId:command.callbackId];
     }];
 }
 
 - (void)isPiAnalyticsEnabled:(CDVInvokedUrlCommand *)command {
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        BOOL isEnabled = [mp isPiAnalyticsEnabled];
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isEnabled] callbackId:command.callbackId];
+      BOOL isEnabled = [mp isPiAnalyticsEnabled];
+      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                 messageAsBool:isEnabled]
+                                  callbackId:command.callbackId];
     }];
 }
 

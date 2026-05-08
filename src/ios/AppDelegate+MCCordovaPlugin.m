@@ -38,44 +38,52 @@
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     UNMutableNotificationContent *theSilentPushContent =
-    [[UNMutableNotificationContent alloc] init];
+        [[UNMutableNotificationContent alloc] init];
     theSilentPushContent.userInfo = userInfo;
     UNNotificationRequest *theSilentPushRequest =
-    [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString
-                                         content:theSilentPushContent
-                                         trigger:nil];
+        [UNNotificationRequest requestWithIdentifier:[NSUUID UUID].UUIDString
+                                             content:theSilentPushContent
+                                             trigger:nil];
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setNotificationRequest:theSilentPushRequest];
+      [mp setNotificationRequest:theSilentPushRequest];
     }];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // save the device token
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setDeviceToken:deviceToken];
+      [mp setDeviceToken:deviceToken];
     }];
 }
 
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+- (void)application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     os_log_debug(OS_LOG_DEFAULT, "didFailToRegisterForRemoteNotificationsWithError = %@", error);
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+    didReceiveNotificationResponse:(UNNotificationResponse *)response
+             withCompletionHandler:(void (^)(void))completionHandler {
     // tell the MarketingCloudSDK about the notification
     [SFMCSdk requestPushSdk:^(id<PushInterface> _Nonnull mp) {
-        [mp setNotificationRequest:response.notification.request];
+      [mp setNotificationRequest:response.notification.request];
     }];
-    
+
     if (completionHandler != nil) {
         completionHandler();
     }
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:
+             (void (^)(UNNotificationPresentationOptions options))completionHandler {
     if (completionHandler != nil) {
         completionHandler(UNNotificationPresentationOptionAlert);
     }
@@ -88,7 +96,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
                                alertText:(NSString *)alertText {
     NSLog(@"### USERINFO: %@", userInfo);
     NSLog(@"### alertText: %@", alertText);
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"kCDVPushReceivedNotification"
                                                         object:self
                                                       userInfo:nil];
